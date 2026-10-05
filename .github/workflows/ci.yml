@@ -45,6 +45,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: bunx biome ci .
+      - run: bunx prisma generate
+        working-directory: apps/api
       - run: bun run typecheck
       - run: bunx prisma validate
         working-directory: apps/api
@@ -82,6 +84,8 @@ jobs:
         with:
           bun-version: 1.4.2
       - run: bun install
+      - run: bunx prisma generate
+        working-directory: apps/api
       - run: bunx prisma migrate deploy
         working-directory: apps/api
       - run: bun prisma/seed.ts
