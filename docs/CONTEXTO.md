@@ -24,6 +24,6 @@ corre solo en worker). TypeScript estricto punta a punta, bun full.
 
 ## Equipo y flujo
 Carlos (dataset+QA), Erik/líder (infra+pipeline), Kira (frontend),
-Emmanuel (backend). Briefs de cada tarea en el repo hermano
-`../9c/docu/docs/briefs/` con este mismo formato. Tablero Monday
-`18432808588`. Sin evidencia no hay "ya quedó".
+Emmanuel (backend). Briefs de cada tarea en `docs/briefs/` con el formato de
+`docs/plantillas/BRIEF.md`. Tablero Monday `18432808588`.
+Sin evidencia no hay "ya quedó".

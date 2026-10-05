@@ -30,7 +30,6 @@
       "AGENTS.md": "ask",
       "infra/*": "ask"
     },
-    "external_directory": { "~/projects/personal/9c/docu/**": "allow" },
     "read": {
       "*": "allow",
       "*.env": "deny",

@@ -1,0 +1,73 @@
+# Equipo, responsabilidades y propiedad de la documentación
+
+Estado: vigente. Última actualización: 2026-10-05.
+
+## Personas
+
+| Persona | Rol en DOCU | Áreas del sistema | Monday (persona) |
+|---|---|---|---|
+| Erik Alfonso Beltrán Ramírez | Líder, infra y pipeline | `auth/governance`, despliegue, CI, entorno, ADRs de infraestructura | `Erik Alfonso Beltran Ramirez` |
+| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas | `Emmanuel Valenzuela Cruz` |
+| Kira Llizara Garfias González | Frontend y UX | Angular, Tailwind, captura, bandeja, programa, búsqueda, diseño de pantallas | `Kira Llizara Garfias Gonzalez` |
+| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | `Carlos Ariel Martin Rojas` |
+
+Materia y Goodbye: **Yakko Olivo Nájera** (Desarrollo web integral) es dueño del
+producto y sus entregas viven en DOCU. **Resffa Elizabeth Fierro García**
+(Extracción de Conocimiento de BD) también. **Laura Trejo Medina**
+(Administración de Proyectos) solo aparece en el tablero de EC0935, nunca aquí.
+
+## Quién escribe qué documento
+
+Regla: si eres el dueño del tema, escribes el documento; si no, lo pides. Nadie
+edita un documento de otro sin avisar en el PR.
+
+| Documento | Dueño | Revisor mínimo |
+|---|---|---|
+| `proyecto/VISION.md` | Erik | Todo el equipo en el PR |
+| `proyecto/CASO.md` | Erik + equipo | Quien trabaje el dominio |
+| `proyecto/REQUISITOS.md` | Erik | Quien va a construir el requisito |
+| `proyecto/EQUIPO.md` | Erik | Quien cambia de rol |
+| `decisiones/ADR-*.md` | Quien decide | Erik (infra) o el dueño del módulo |
+| `ingenieria/ARQUITECTURA.md` | Erik | Emmanuel |
+| `ingenieria/MODELO-DATOS.md` | Emmanuel | Erik |
+| `ingenieria/API.md`, `ingenieria/COLAS.md` | Emmanuel | Erik |
+| `ingenieria/ENTORNO.md` | Erik | Erik (bloqueante en PR) |
+| `diseno/*.md` | Kira | Erik (coherencia de alcance) |
+| `operacion/*.md` | Erik | Quien lo vaya a sufrir |
+| `integraciones/MONDAY.md` | Erik | Erik (escrituras requieren su OK) |
+| `integraciones/DRIVE.md`, `GITHUB.md`, `MCP.md` | Erik | — |
+| `integraciones/ENGRAM.md` | Erik | — |
+| `gestion/*` | Erik | Todo el equipo en el PR |
+| `academico/ENTREGAS.md` | Erik | Responsable de la entrega |
+| `diario/AAAA-MM-DD.md` | Quien decidió | Nadie: es append |
+
+## Forma de trabajo
+
+- Ramas: `feat/<ID>-<slug>` desde `dev`; nada directo a `main`.
+- PR pequeño, un cambio lógico, 1 revisor, CI en verde, evidencia adjunta.
+- Definición de hecho: PR aprobado + pruebas del RF en verde + evidencia +
+  tarjeta etiquetada con su RF.
+- 1 tarjeta `En progreso` por persona. Bloqueo > 24 h se escala con etiqueta.
+- Sync lunes y viernes: qué moví, en qué estoy, qué me bloquea.
+- Toda delegación usa `plantillas/BRIEF.md` y vive en la tarjeta de Monday.
+
+## Sobre las credenciales
+
+Cada máquina tiene su `.env` local con `MONDAY_API_KEY` y las credenciales de
+Google. **Nunca al repositorio.** `.env.example` documenta cada variable
+existente; el líder reparte los valores. Ver `integraciones/` para qué se usa
+cada una y con qué permiso.
+
+## Project Management
+
+Monday es el centro único de operación del equipo: tablero `18432808588`
+(producto DOCU) y tablero `18432676211` (EC0935, se mantiene separado). El
+repositorio es la fuente de verdad técnica; Google Drive es el espejo
+administrativo de las entregas. Detalle del contrato de columnas en
+`integraciones/MONDAY.md`.
+
+## Referencias
+
+- Visión: `proyecto/VISION.md`
+- Plan con fechas: `gestion/PLAN-EPICAS.md`
+- Ritmo y proceso: `gestion/RITMO.md`

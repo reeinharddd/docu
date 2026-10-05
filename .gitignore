@@ -14,3 +14,9 @@ dataset/config2/*
 coverage/
 *.log
 .DS_Store
+
+# Estado local de desarrollo (logs, doctor, caches del arranque)
+.docu/
+
+# Archivos de trabajo temporales
+*.tmp

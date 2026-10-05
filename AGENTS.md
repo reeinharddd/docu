@@ -4,7 +4,8 @@
 DOCU — Repositorio de Documentación Digital. Config 1: Baja SterilPack.
 Monorepo bun: `apps/api` (NestJS 12 + Prisma 7 + BullMQ 6), `apps/web`
 (Angular 22 zoneless + Tailwind 4), `packages/*`, `infra/`, `dataset/`.
-Docs académicos y briefs: repo hermano `../9c/docu` (`docs/briefs/`).
+Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
+`docs/briefs/`. Decisiones: `docs/decisiones/`.
 
 ## Comandos (bun, nada de npm)
 - Instalar todo: `bun install` (raíz)
