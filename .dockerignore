@@ -1,0 +1,12 @@
+node_modules
+.git
+.env
+.env.local
+dataset/config1/*
+dataset/config2/*
+!dataset/config1/.gitkeep
+!dataset/config2/.gitkeep
+coverage
+*.log
+.angular
+dist

@@ -1,0 +1,12 @@
+{
+  "permission": {
+    "deny": ["rm *", "sudo *"],
+    "ask": [
+      "git push*",
+      "curl *",
+      "*compose down*",
+      "*prune*",
+      "*migrate reset*"
+    ]
+  }
+}

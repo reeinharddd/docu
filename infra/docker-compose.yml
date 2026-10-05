@@ -1,0 +1,37 @@
+# DOCU E1 — entorno base. Servicios de datos hoy; api/worker se conectan en M1/E2.
+name: docu
+services:
+  db:
+    image: pgvector/pgvector:pg18
+    container_name: docu-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: docu
+      POSTGRES_PASSWORD: docu
+      POSTGRES_DB: docu
+    ports:
+      - "${PG_PORT:-5432}:5432"
+    volumes:
+      - docu_pgdata:/var/lib/postgresql
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docu -d docu"]
+      interval: 5s
+      retries: 10
+  redis:
+    image: redis:8
+    container_name: docu-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - docu_redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+  # api:      # M1 — build: ../apps/api, puerto 3000, depende db+redis sanos
+  # worker:   # E2 — misma imagen api, comando worker (BullMQ + tesseract dentro)
+volumes:
+  docu_pgdata:
+  docu_redisdata:

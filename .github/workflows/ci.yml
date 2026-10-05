@@ -1,0 +1,46 @@
+name: ci
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - "apps/**"
+      - "packages/**"
+      - "infra/**"
+      - ".github/**"
+      - "*.json"
+      - "*.yml"
+      - "*.sh"
+      - "AGENTS.md"
+      - "biome.json"
+  pull_request:
+    paths:
+      - "apps/**"
+      - "packages/**"
+      - "infra/**"
+      - ".github/**"
+      - "*.json"
+      - "*.yml"
+      - "*.sh"
+      - "AGENTS.md"
+      - "biome.json"
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  guardas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: test ! -f .env || (echo ".env en el repo" && exit 1)
+      - uses: gitleaks/gitleaks-action@v2
+      - run: bunx biome ci .
+      - run: bun run typecheck
+      - run: bunx prisma validate
+        working-directory: apps/api
+      - run: docker compose -f infra/docker-compose.yml config

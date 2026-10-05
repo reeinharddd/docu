@@ -1,0 +1,30 @@
+name: Tarea
+description: Delegacion con BRIEF-FORMATO. Sin brief no hay tarea.
+title: "[TAREA] "
+body:
+  - type: input
+    id: monday
+    attributes: {label: ID Monday}
+    validations: {required: true}
+  - type: input
+    id: dueno
+    attributes: {label: Dueno}
+    validations: {required: true}
+  - type: input
+    id: fechas
+    attributes: {label: Fechas y Sprint}
+    validations: {required: true}
+  - type: input
+    id: rf
+    attributes: {label: Requisitos}
+  - type: input
+    id: brief
+    attributes: {label: Enlace al brief}
+    validations: {required: true}
+  - type: textarea
+    id: objetivo
+    attributes: {label: Objetivo y resultado esperado}
+    validations: {required: true}
+  - type: textarea
+    id: aceptacion
+    attributes: {label: Criterios de aceptacion}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["every weekend"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "!@angular/*",
+        "!@nestjs/*",
+        "!prisma",
+        "!@prisma/client"
+      ],
+      "groupName": "menores estables",
+      "automerge": false
+    }
+  ],
+  "lockFileMaintenance": { "enabled": true }
+}

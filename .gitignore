@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+.angular/
+.env
+.env.local
+*.local
+dataset/config1/*
+!dataset/config1/.gitkeep
+!dataset/config1/README.md
+dataset/config2/*
+!dataset/config2/.gitkeep
+!dataset/config2/README.md
+coverage/
+*.log
+.DS_Store

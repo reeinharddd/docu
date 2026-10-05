@@ -1,0 +1,5 @@
+# CODEOWNERS — activar al crear el repo (reemplazar usuarios).
+# /apps/api/ @EMMANUEL
+# /apps/web/ @KIRA
+# /dataset/ @CARLOS
+# /infra/ /prisma/ /*.json /*.yml @ERIK
