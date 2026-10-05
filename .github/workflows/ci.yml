@@ -39,6 +39,8 @@ jobs:
       - run: bun install
       - run: test ! -f .env || (echo ".env en el repo" && exit 1)
       - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: bunx biome ci .
       - run: bun run typecheck
       - run: bunx prisma validate
