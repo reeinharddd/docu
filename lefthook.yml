@@ -5,8 +5,8 @@ pre-commit:
       glob: "*.{js,ts,json,css}"
       run: bunx biome check --write --staged
     no-secretos:
-      run: noventa-secretos.sh
+      run: ./noventa-secretos.sh
 commit-msg:
   commands:
     formato:
-      run: commit-msg.sh "{1}"
+      run: ./commit-msg.sh "{1}"

@@ -19,5 +19,6 @@
     "prisma": "7.10.0",
     "typescript": "5.9.3",
     "bcryptjs": "^3.0.2"
-  }
+  },
+  "type": "module"
 }

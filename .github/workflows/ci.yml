@@ -35,7 +35,7 @@ jobs:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.4.2
       - run: bun install
       - run: test ! -f .env || (echo ".env en el repo" && exit 1)
       - uses: gitleaks/gitleaks-action@v2

@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "lint:templates": "eslint . --no-warn-ignored"
   },
   "private": true,
   "packageManager": "bun@1.4.2",
@@ -25,11 +27,13 @@
     "@angular/cli": "^22.2.1",
     "@angular/compiler-cli": "^22.2.0",
     "@tailwindcss/postcss": "^4.3.3",
+    "angular-eslint": "22.5.0",
+    "eslint": "^10.12.0",
     "jsdom": "^30.0.0",
     "postcss": "^8.5.29",
-    "prettier": "^3.8.1",
     "tailwindcss": "4.3.3",
     "typescript": "~6.0.2",
+    "typescript-eslint": "^8.71.1",
     "vitest": "^5.0.0"
   }
 }

@@ -7,9 +7,12 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "dev:web": "bun --filter web start",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "typecheck": "bun run --filter '*' typecheck"
+    "typecheck": "bun --filter '*' typecheck",
+    "postinstall": "lefthook install"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
@@ -19,5 +22,6 @@
   "devDependencies": {
     "@evilmartians/lefthook": "^2.1.17",
     "@types/pg": "^8.23.1"
-  }
+  },
+  "packageManager": "bun@1.4.2"
 }
