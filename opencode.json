@@ -1,1 +1,41 @@
-{"$schema": "https://opencode.ai/config.json", "permission": {"bash": {"*": "ask", "bun install*": "allow", "bun run typecheck*": "allow", "bunx biome check*": "allow", "bunx tsc *": "allow", "curl *": "ask", "docker ps*": "allow", "git branch*": "allow", "git clean -f*": "deny", "git diff*": "allow", "git log*": "allow", "git push *": "ask", "git reset --hard*": "deny", "git status*": "allow", "rm *": "deny", "sudo *": "deny", "*compose down*": "ask", "*prune*": "ask", "*migrate reset*": "ask"}, "edit": {"*": "ask", ".env": "deny", ".env.*": "deny", ".github/workflows/*": "ask", "AGENTS.md": "ask", "infra/*": "ask"}, "external_directory": {"~/projects/personal/9c/docu/**": "allow"}, "read": {"*": "allow", "*.env": "deny", "*.env.*": "deny", "*.env.example": "allow"}}}
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "bun install*": "allow",
+      "bun run typecheck*": "allow",
+      "bunx biome check*": "allow",
+      "bunx tsc *": "allow",
+      "curl *": "ask",
+      "docker ps*": "allow",
+      "git branch*": "allow",
+      "git clean -f*": "deny",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git push *": "ask",
+      "git reset --hard*": "deny",
+      "git status*": "allow",
+      "rm *": "deny",
+      "sudo *": "deny",
+      "*compose down*": "ask",
+      "*prune*": "ask",
+      "*migrate reset*": "ask"
+    },
+    "edit": {
+      "*": "ask",
+      ".env": "deny",
+      ".env.*": "deny",
+      ".github/workflows/*": "ask",
+      "AGENTS.md": "ask",
+      "infra/*": "ask"
+    },
+    "external_directory": { "~/projects/personal/9c/docu/**": "allow" },
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
+  }
+}
