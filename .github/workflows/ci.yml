@@ -44,3 +44,45 @@ jobs:
       - run: bunx prisma validate
         working-directory: apps/api
       - run: docker compose -f infra/docker-compose.yml config
+  smoke:
+    needs: guardas
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg18
+        env:
+          POSTGRES_USER: docu
+          POSTGRES_PASSWORD: docu
+          POSTGRES_DB: docu
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U docu -d docu"
+          --health-interval 5s
+          --health-retries 10
+      redis:
+        image: redis:8
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://docu:docu@localhost:5432/docu?schema=public
+      REDIS_URL: redis://localhost:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install
+      - run: bunx prisma migrate deploy
+        working-directory: apps/api
+      - run: bun prisma/seed.ts
+        working-directory: apps/api
+      - run: bun src/main.ts & echo $! > api.pid
+        working-directory: apps/api
+      - run: sleep 12 && curl -sf http://localhost:3000/health
+      - run: bun scripts/queue-ping.ts
+        working-directory: apps/api
