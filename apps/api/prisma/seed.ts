@@ -1,9 +1,12 @@
 // DOCU E1 — seed mínimo: catálogos, 3 usuarios demo, familias y reglas del caso.
 // Passwords demo 'docu123' (bcrypt). M1 implementa auth real sobre esto.
+
+import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
-const prisma = new PrismaClient()
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+const prisma = new PrismaClient({ adapter })
 
 async function main() {
   const empresa = await prisma.empresa.upsert({
