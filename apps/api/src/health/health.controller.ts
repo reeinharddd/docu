@@ -1,6 +1,11 @@
 import { Controller, Get } from '@nestjs/common'
 import { Redis } from 'ioredis'
-import type { PrismaService } from '../prisma.service.js'
+// NestJS resuelve la inyeccion por constructor con emitDecoratorMetadata, que
+// necesita la clase en runtime. Un `import type` se borra al compilar, la
+// dependencia llega como Object y la API no arranca. Regla general: en
+// apps/api, ningun provider inyectado por constructor se importa con `import type`.
+// biome-ignore lint/style/useImportType: NestJS necesita la clase en runtime
+import { PrismaService } from '../prisma.service.js'
 
 @Controller('health')
 export class HealthController {

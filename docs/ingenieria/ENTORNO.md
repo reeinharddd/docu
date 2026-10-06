@@ -62,8 +62,9 @@ servicio del job. Es el mismo schema, otro host.
 ## Puertas
 
 `bun run verify` encadena lint, tipos, `prisma validate`, `compose config`,
-honestidad del índice documental y pruebas web. CI corre los mismos comandos con
-las mismas versiones fijadas, así que local y remoto no pueden divergir.
+honestidad del índice documental, pruebas web y el arranque real de la API. CI
+corre los mismos scripts con las mismas versiones fijadas, así que local y
+remoto no pueden divergir.
 
 | Puerta | Comando | Estado |
 |---|---|---|
@@ -74,4 +75,5 @@ las mismas versiones fijadas, así que local y remoto no pueden divergir.
 | Índice documental | `bash scripts/doc-index.sh` | Verde |
 | Pruebas web | `bun --filter web test` | Verde: 1 archivo, 2 pruebas |
 | Pruebas api | — | **No existe. 0 archivos** |
+| Arranque de API | `bash scripts/smoke-api.sh` | Verde: espera por condición, no por tiempo fijo |
 | Secretos | Gitleaks + hook | Verde |

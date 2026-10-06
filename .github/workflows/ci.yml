@@ -97,8 +97,8 @@ jobs:
         working-directory: apps/api
       - run: bun prisma/seed.ts
         working-directory: apps/api
-      - run: bun src/main.ts & echo $! > api.pid
-        working-directory: apps/api
-      - run: sleep 12 && curl -sf http://localhost:3000/health
+      # El smoke usa el mismo script que local: espera por condicion, no por
+      # tiempo fijo, y distingue "la API no levanta" de "falta infraestructura".
+      - run: bash scripts/smoke-api.sh
       - run: bun scripts/queue-ping.ts
         working-directory: apps/api

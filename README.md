@@ -22,7 +22,7 @@ bun run dev        # compose + prisma migrate deploy + seed + api + web
 Diagnóstico y puertas de calidad:
 
 ```
-bun run verify     # lint + tipos + prisma validate + compose config + pruebas web
+bun run verify     # lint + tipos + prisma validate + compose + indice + pruebas + arranque de la API
 ```
 
 Puertos: web `4200`, API `3000`. `GET /health` debe responder `ok` con pg+redis.

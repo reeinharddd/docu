@@ -54,8 +54,8 @@ Reporta `OK` / `FALTA` / `AVISO` por pieza y cierra con el resumen. Si marca
 
 Lo que comprueba: versión de Bun contra `packageManager`, versión local de
 Biome contra el `$schema` de `biome.json`, Prisma generado, `.env` y variables
-declaradas, Docker, los tres gates ejecutables, la honestidad del índice
-documental y el estado del árbol de Git.
+declaradas, Docker, los gates ejecutables, la honestidad del índice documental
+y el estado del árbol de Git.
 
 ## Puertas de calidad
 
@@ -64,8 +64,8 @@ bun run verify
 ```
 
 Encadena, en orden: `lint` → `typecheck` → `prisma:validate` →
-`compose:check` → pruebas web. Es el mismo criterio que CI, con los mismos
-comandos, para que local y remoto no discrepen.
+`compose:check` → índice documental → pruebas web → `smoke:api`. Es el mismo
+criterio que CI, con los mismos comandos, para que local y remoto no discrepen.
 
 | Puerta | Qué es |
 |---|---|
@@ -73,7 +73,9 @@ comandos, para que local y remoto no discrepen.
 | `bun run typecheck` | TypeScript estricto en `apps/api` y `apps/web` |
 | `bun run prisma:validate` | El schema es válido |
 | `bun run compose:check` | El Compose es válido |
+| índice documental | `bash scripts/doc-index.sh` |
 | pruebas web | Vitest |
+| `bun run smoke:api` | La API arranca y `/health` responde `ok` |
 
 Un cambio se cierra con `verify` en verde más la evidencia del PR. Sin las dos
 cosas no hay "ya quedó" (`docs/REGLAS.md`).

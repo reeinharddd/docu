@@ -60,6 +60,16 @@ line "== gates ejecutables =="
 if bun run lint >/dev/null 2>&1; then ok_line "bun run lint (biome, linter recommended)"; else falta_line "bun run lint falla"; fi
 if bun run typecheck >/dev/null 2>&1; then ok_line "bun run typecheck"; else falta_line "bun run typecheck falla"; fi
 if bun run compose:check >/dev/null 2>&1; then ok_line "compose config"; else falta_line "docker compose config falla"; fi
+if bun run smoke:api >/dev/null 2>&1; then
+  ok_line "smoke:api (/health responde ok)"
+else
+  code=$?
+  if [ "$code" -eq 2 ]; then
+    aviso_line "smoke:api omitido, falta infraestructura. 'docker compose -f infra/docker-compose.yml --env-file .env up -d --wait'"
+  else
+    falta_line "smoke:api falla: la API no levanta o /health no responde. Ver bash scripts/smoke-api.sh"
+  fi
+fi
 n_web=$(find apps/web/src -name '*.spec.ts' 2>/dev/null | wc -l | tr -d ' ')
 n_api=$(find apps/api/src -name '*.spec.ts' 2>/dev/null | wc -l | tr -d ' ')
 if [ "$n_web" -gt 0 ]; then ok_line "pruebas web: $n_web archivo(s)"; else aviso_line "apps/web sin pruebas"; fi
