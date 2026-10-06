@@ -3,15 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
     "dev": "bash scripts/dev.sh",
     "dev:web": "bun --filter web start",
-    "lint": "biome check .",
+    "doctor": "bash scripts/doctor.sh",
+    "verify": "bun run lint && bun run typecheck && bun run prisma:validate && bun run compose:check && bun --filter web test",
+    "lint": "biome check --error-on-warnings .",
     "lint:fix": "biome check --write .",
     "typecheck": "bun --filter '*' typecheck",
+    "prisma:validate": "cd apps/api && bunx prisma validate",
+    "compose:check": "docker compose -f infra/docker-compose.yml config >/dev/null",
     "postinstall": "lefthook install"
   },
   "dependencies": {
@@ -20,6 +23,7 @@
     "pg": "^8.23.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.4",
     "@evilmartians/lefthook": "^2.1.17",
     "@types/pg": "^8.23.1"
   },

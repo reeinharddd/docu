@@ -18,5 +18,15 @@ coverage/
 # Estado local de desarrollo (logs, doctor, caches del arranque)
 .docu/
 
+# Estado local de agentes. La configuracion compartida SI se versiona
+# (opencode.json, .mcp.json, CLAUDE.md, AGENTS.md); lo personal no.
+.claude/
+.cursor/
+.codex/
+.opencode/
+.gemini/
+**/settings.local.json
+**/.mcp.local.json
+
 # Archivos de trabajo temporales
 *.tmp

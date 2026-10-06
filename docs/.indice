@@ -1,0 +1,42 @@
+# Indice documental de DOCU. Fuente de verdad de docs/README.md.
+# Verifica con: bash scripts/doc-index.sh
+# Regenera con: bash scripts/doc-index.sh --fix
+docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md
+docs/CONTEXTO.md
+docs/decisiones/ADR-0001-flujos-de-trabajo-del-agente.md
+docs/decisiones/ADR-0002-bun-como-runtime-y-gestor.md
+docs/decisiones/ADR-0003-angular-zoneless-sin-zone-js.md
+docs/decisiones/ADR-0004-prisma-postgresql-pgvector.md
+docs/decisiones/ADR-0005-bullmq-para-trabajo-pesado.md
+docs/decisiones/ADR-0006-ia-propone-humano-dispone.md
+docs/decisiones/ADR-0007-contrato-de-herramientas-del-agente.md
+docs/decisiones/README.md
+docs/gestion/PLAN-EPICAS.md
+docs/gestion/RITMO-SEMANAL.md
+docs/gestion/TRAZABILIDAD.md
+docs/ingenieria/API.md
+docs/ingenieria/ARQUITECTURA.md
+docs/ingenieria/COLAS.md
+docs/ingenieria/ENTORNO.md
+docs/ingenieria/IA.md
+docs/ingenieria/MODELO-DATOS.md
+docs/ingenieria/STACK.md
+docs/integraciones/ACCESOS.md
+docs/integraciones/DRIVE.md
+docs/integraciones/ENGRAM.md
+docs/integraciones/HERRAMIENTAS-AGENTE.md
+docs/integraciones/INVESTIGACION-HERRAMIENTAS.md
+docs/integraciones/MCP.md
+docs/integraciones/MONDAY.md
+docs/operacion/BOOTSTRAP.md
+docs/plantillas/ADR.md
+docs/plantillas/BRIEF.md
+docs/plantillas/CONTRATO-MODULOS.md
+docs/plantillas/EVIDENCIA.md
+docs/plantillas/RFC.md
+docs/proyecto/CASO.md
+docs/proyecto/EQUIPO.md
+docs/proyecto/REQUISITOS.md
+docs/proyecto/VISION.md
+docs/README.md
+docs/REGLAS.md

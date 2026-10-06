@@ -5,8 +5,10 @@ integrante del equipo
 
 ## Contexto
 
-El monorepo tiene tres paquetes de código (`apps/api`, `apps/web` y a futuro
-`packages/contracts`) que comparten TypeScript estricto, formato y hooks. El
+El monorepo tiene hoy dos paquetes de código (`apps/api` y `apps/web`) que
+comparten TypeScript estricto, formato y hooks; un tercero
+(`packages/contracts`) está previsto y aún no existe, por eso `workspaces` solo
+declara `apps/*`. El
 equipo tenía que elegir un runtime único para no mantener la contradicción
 Node/npm en un proyecto y Bun en el otro. Además, el CI levantaba el stack
 completo (migración, seed, API, worker de prueba) en cada push y el tiempo de

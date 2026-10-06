@@ -63,11 +63,28 @@ aunque cueste.
    como "1 reporte + 1 alerta" y no tiene dueño. Debería ser de `agent/tools`.
 2. **RF-08** aparece en la tarjeta de Configuración 2 sin la etiqueta de
    requisito.
-3. La tarjeta de E1 sigue en `En progreso` aunque el repo ya cerró E1 con CI
-   verde.
-4. Las tarjetas "Cierre de diseño", "Fin del desarrollo", "Listos para
-   presentar" y "Presentación de diciembre" no llevan requisito, lo cual es
-   correcto, pero tampoco llevan fecha límite.
+3. "Configuración 1: carga de familias de la planta" y "Dataset sintético
+   (Configuración 1 y 2) + plan y casos de prueba" tampoco llevan requisito.
+4. **La tarjeta `En progreso` no es "E1".** No existe ninguna tarjeta llamada
+   E1 en el tablero. La única en `En progreso` es "Arquitectura, modelo de datos
+   y entorno Docker Compose base", que es lo que el repo llama E1. Una versión
+   anterior de este documento afirmaba lo contrario.
+5. La columna `Depende de` está vacía en las 19 tarjetas. Las dependencias
+   reales están en `docs/gestion/PLAN-EPICAS.md` y hay que escribirlas.
+
+### Fechas que no estaban en el repositorio
+
+| Fecha | Qué | Dónde vive |
+|---|---|---|
+| **2026-10-23** | **Contrato de datos congelado para maquetas** | Monday, tablero de Subelementos. Registrado en `docs/gestion/PLAN-EPICAS.md` |
+| 2026-10-09 | Cierre de prototipos UI/UX | Monday |
+| 2026-10-16 | Cierre de diseño | Monday |
+| 2026-11-06 / 11-20 / 11-27 / 12-01 | Fin de Sprint 1, fin de desarrollo, listos para presentar, presentación | Monday |
+
+Los cuatro milestones (`Cierre de diseño`, `Fin del desarrollo`, `Listos para
+presentar`, `Presentación de diciembre`) **sí tienen fecha límite** en la columna
+`Cronograma`. Una versión anterior de este documento afirmaba lo contrario. No
+llevan requisito, y eso sí es correcto: un milestone no mapea a un RF.
 
 ## Pruebas que exige cada requisito
 

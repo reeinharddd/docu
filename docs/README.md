@@ -72,18 +72,27 @@ otra en el mismo PR.
 
 ## Índice
 
+Este índice se verifica. `docs/.indice` es la lista canónica de archivos y
+`bash scripts/doc-index.sh` falla si lo listado no existe o si queda un archivo
+sin listar. Corre en CI y en `bun run doctor`.
+
 | Ruta | Contenido | Estado |
 |---|---|---|
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
 | `decisiones/` | ADRs de ingeniería, 7 aceptadas | en progreso |
-| `ingenieria/` | Stack con lista rápida verificada, mapa de integración, estrategia de IA | en progreso |
+| `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA | en progreso |
 | `diseno/` | Experiencia de uso: modelo operativo, pantallas, flujos, identidad | pendiente |
-| `operacion/` | Bootstrap, entornos, troubleshooting | pendiente |
-| `integraciones/` | Accesos, herramientas del agente, catálogo de candidatos | en progreso |
-| `gestion/` | Plan por épicas, ritmo, riesgos, trazabilidad | pendiente |
+| `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
+| `integraciones/` | Accesos, Monday, Drive, Engram, MCP, herramientas del agente, investigación | completo |
+| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
 | `academico/` | Entregas de la materia | pendiente |
 | `briefs/` | Delegaciones con el formato obligatorio | activo |
-| `plantillas/` | BRIEF, ADR, evidencia | completo |
+| `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
+
+Los tres directorios marcados `pendiente` están vacíos a propósito: no hay
+diseño de pantallas ni entregable académico todavía. Se crean cuando la
+materia o el producto los necesiten, y hasta entonces el índice dice la verdad
+en vez de prometer archivos que no existen.
 
 ## Fuentes fuera del repositorio
 

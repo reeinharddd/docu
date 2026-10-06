@@ -3,7 +3,7 @@ pre-commit:
   commands:
     biome:
       glob: "*.{js,ts,json,css}"
-      run: bunx biome check --write --staged
+      run: biome check --write --staged
     no-secretos:
       run: ./noventa-secretos.sh
 commit-msg:

@@ -4,24 +4,28 @@ on:
     branches: [main, dev]
     paths:
       - "apps/**"
-      - "packages/**"
       - "infra/**"
+      - "docs/**"
+      - "scripts/**"
       - ".github/**"
       - "*.json"
       - "*.yml"
       - "*.sh"
       - "AGENTS.md"
+      - "CLAUDE.md"
       - "biome.json"
   pull_request:
     paths:
       - "apps/**"
-      - "packages/**"
       - "infra/**"
+      - "docs/**"
+      - "scripts/**"
       - ".github/**"
       - "*.json"
       - "*.yml"
       - "*.sh"
       - "AGENTS.md"
+      - "CLAUDE.md"
       - "biome.json"
 concurrency:
   group: ci-${{ github.ref }}
@@ -46,13 +50,14 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: bunx biome ci .
+      - run: bun run lint
       - run: bunx prisma generate
         working-directory: apps/api
       - run: bun run typecheck
-      - run: bunx prisma validate
-        working-directory: apps/api
+      - run: bun run prisma:validate
       - run: docker compose -f infra/docker-compose.yml config
+      - run: bash scripts/doc-index.sh
+      - run: bun --filter web test
   smoke:
     needs: guardas
     runs-on: ubuntu-latest

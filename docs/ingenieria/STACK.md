@@ -79,7 +79,7 @@ manifiesto permite moverse dentro del rango.
 
 | Pieza | Versión | Fijada | Sitio oficial | Repositorio |
 |---|---|---|---|---|
-| Biome | **no declarado como dependencia** | no | <https://biomejs.dev> | <https://github.com/biomejs/biome> |
+| Biome | 2.5.4 | exacta | <https://biomejs.dev> | <https://github.com/biomejs/biome> |
 | Lefthook (`@evilmartians/lefthook`) | 2.1.x | rango `^2.1.17` | <https://lefthook.dev> | <https://github.com/evilmartians/lefthook> |
 | dotenv | 18.0.5 | rango `^18.0.5` | <https://github.com/motdotla/dotenv> | mismo |
 | Gitleaks (solo CI) | v2 de la acción | por acción | <https://github.com/gitleaks/gitleaks> | mismo |
@@ -93,19 +93,25 @@ manifiesto permite moverse dentro del rango.
 | Dev Container | imagen base Ubuntu de Microsoft | <https://containers.dev> |
 | VS Code y extensiones recomendadas | sin versión fijada | <https://code.visualstudio.com> |
 
-### Remarca 1: Biome no está instalado
+### Remarca 1: Biome declarado y fijado (resuelto)
 
-`biome` no aparece en `bun.lock` ni en `node_modules/.bin`. Los scripts
-`bun run lint` y el hook de pre-commit lo invocan con `bunx`, así que **cada
-corrida descarga la última versión disponible desde el registro**. La
-configuración declara el esquema 2.5.4, y una versión más nueva puede rechazar
-esa configuración.
+**Era**: `biome` no aparecía en `bun.lock` ni en `node_modules/.bin`. Los scripts
+`bun run lint` y el hook de pre-commit lo invocaban con `bunx`, así que cada
+corrida descargaba la última versión del registro. La configuración declara el
+esquema 2.5.4 y una versión más nueva puede rechazar esa configuración. El
+resultado del lint dependía del día, no del repositorio.
 
-Consecuencias: el resultado del lint depende del día en que se corra, no del
-repositorio; y el hook depende de una descarga de red.
+**Ahora**: `@biomejs/biome@2.5.4` está declarado como dependencia de desarrollo
+con versión exacta. `bun run lint` y el hook usan el binario local. `bun run
+doctor` comprueba que la versión instalada coincide con el `$schema` de
+`biome.json`, así que la deriva vuelve a ser detectable si alguien la introduce.
 
-*Remarca, no aplicado.* La corrección evidente es declarar Biome como
-dependencia de desarrollo con versión fijada y eliminar el `bunx` del hook.
+La 2.5.4 es exacta y no un rango a propósito: el esquema de `biome.json` es
+`2.5.4`, y la última publicada al verificar (2026-10-05) era 2.5.15. Subir la
+configuración y la dependencia en el mismo PR, nunca una sin la otra.
+
+Además el linter pasó de `preset: "none"` a `preset: "recommended"` y el script
+usa `--error-on-warnings`: un aviso es fallo.
 
 ### Remarca 2: dos herramientas sin versión exacta
 
@@ -192,9 +198,13 @@ Herramientas oficiales de Prisma para agentes:
 | Recurso | Enlace |
 |---|---|
 | Repositorio oficial de skills | <https://github.com/prisma/skills> |
-| Instalación con el CLI oficial | `bunx @prisma/cli@latest agent install` |
+| Instalación con el CLI oficial | `bunx @prisma/cli@7.10.0 agent install` |
 | Instalación de una skill concreta | `bunx skills add prisma/skills --skill prisma-driver-adapter-implementation` |
-| Estado de lo instalado | `bunx @prisma/cli@latest agent status --json` |
+| Estado de lo instalado | `bunx @prisma/cli@7.10.0 agent status --json` |
+
+El CLI se fija a `7.10.0` y no a `latest`: al verificar el 2026-10-05,
+`@prisma/cli@latest` era `8.0.0-rc.20` y `prisma@latest` también. Un comando con
+`@latest` instalaría una release candidate sobre un proyecto en Prisma 7.
 
 Skills relevantes para este proyecto: `prisma-postgres-setup`,
 `prisma-driver-adapter-implementation`, `prisma-client-api`, `prisma-cli`,
@@ -245,18 +255,18 @@ cosas pasan hoy. *Remarca: añadirlas cuando se implemente la capa de pruebas.*
 
 Ninguna de estas está aplicada. Todas son propuestas para PR con revisión.
 
-| # | Remarca | Área | Impacto |
+| # | Remarca | Área | Estado |
 |---|---|---|---|
-| 1 | Declarar Biome como dependencia fijada y quitarlo del `bunx` del hook | Calidad | El lint deja de depender del día |
-| 2 | Fijar la versión de las imágenes del Compose | Infraestructura | Reproducibilidad |
-| 3 | `maxmemory-policy noeviction` en Redis | Infraestructura | Integridad de la cola |
-| 4 | `uuidv7()` en el esquema | Datos | Índices y locality en tablas que solo crecen |
-| 5 | `ValidationPipe` con `whitelist` | Backend | Base del requisito de seguridad |
-| 6 | `enableShutdownHooks()` | Backend | Cierre limpio |
-| 7 | Migrar el health check a Terminus con liveness y readiness | Backend | Contrato de salud real |
-| 8 | `OnPush` en componentes de página | Frontend | Menos detección de cambios |
-| 9 | `@defer` en bandeja y búsqueda | Frontend | Peso de la demo |
-| 10 | Señales en entradas y salidas de componentes | Frontend | Consistencia con zoneless |
-| 11 | Instalar y evaluar las skills oficiales de Angular y Prisma | Agente | Menos trabajo propio |
-| 12 | Probar el front y el lint de plantillas en CI | Calidad | Detección antes del PR |
-| 13 | Fijar el modelo de embeddings y su dimensión | Datos | La columna y el modelo deben coincidir |
+| 1 | Declarar Biome como dependencia fijada y quitarlo del `bunx` del hook | Calidad | **Aplicada.** Ver Remarca 1 |
+| 2 | Fijar la versión de las imágenes del Compose | Infraestructura | Pendiente |
+| 3 | `maxmemory-policy noeviction` en Redis | Infraestructura | Pendiente |
+| 4 | `uuidv7()` en el esquema | Datos | Pendiente |
+| 5 | `ValidationPipe` con `whitelist` | Backend | Pendiente |
+| 6 | `enableShutdownHooks()` | Backend | Pendiente |
+| 7 | Migrar el health check a Terminus con liveness y readiness | Backend | Pendiente |
+| 8 | `OnPush` en componentes de página | Frontend | Pendiente |
+| 9 | `@defer` en bandeja y búsqueda | Frontend | Pendiente |
+| 10 | Señales en entradas y salidas de componentes | Frontend | Pendiente |
+| 11 | Instalar y evaluar las skills oficiales de Angular y Prisma | Agente | Pendiente |
+| 12 | Probar el front y el lint de plantillas en CI | Calidad | **Parcial.** Las pruebas web y el índice documental ya corren en CI. El front completo, no |
+| 13 | Fijar el modelo de embeddings y su dimensión | Datos | Pendiente |

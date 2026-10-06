@@ -10,24 +10,35 @@ punta a punta. Lint: Biome (+ angular-eslint en templates).
 
 ## Arranque (E1)
 
-1. `bun install`
-2. Copia `.env.example` a `.env` y ajusta `JWT_SECRET`
-   (si los puertos 5432/6379 están ocupados, cambia `PG_PORT`/`REDIS_PORT`).
-3. `docker compose -f infra/docker-compose.yml --env-file .env up -d`
-4. `bun run --filter @docu/api db:migrate && bun run --filter @docu/api db:seed`
-5. `bun run --filter @docu/api start` → `GET /health` debe dar `ok` con pg+redis.
+Un solo comando. Crea `.env` si falta, valida, levanta PostgreSQL + pgvector +
+Redis, aplica migraciones, siembra y arranca API y web:
+
+```
+bun install
+bun run doctor     # valida entorno y dice qué falta, sin fallar
+bun run dev        # compose + prisma migrate deploy + seed + api + web
+```
+
+Diagnóstico y puertas de calidad:
+
+```
+bun run verify     # lint + tipos + prisma validate + compose config + pruebas web
+```
+
+Puertos: web `4200`, API `3000`. `GET /health` debe responder `ok` con pg+redis.
 
 ## Estructura
 
 - `apps/api` — NestJS modular (M1/M2, Emmanuel).
 - `apps/web` — Angular zoneless + Tailwind (K1/K2, Kira).
-- `packages/contracts` — contratos API compartidos (DTOs, OpenAPI).
 - `infra/` — Docker Compose + config (E1, Erik).
 - `dataset/` — datos sintéticos + ground truth (C1, Carlos).
+- `docs/` — sistema documental (ver `docs/README.md`).
+- `scripts/` — `dev.sh` (arranque) y `doctor.sh` (diagnóstico).
 
 ## Reglas
 
-Ver `docs/REGLAS.md`. Sin evidencia no hay "ya quedó".
+Ver `docs/REGLAS.md` y `AGENTS.md`. Sin evidencia no hay "ya quedó".
 
 ## Seguridad
 

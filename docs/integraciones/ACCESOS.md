@@ -36,13 +36,22 @@ detecta.
 
 ## Monday
 
-Tableros del equipo:
+Un solo tablero es fuente de verdad de DOCU:
 
 | Tablero | Identificador | Propósito |
 |---|---|---|
-| Gestión del proyecto | `18432808588` | Producto DOCU: épicas, historias, tareas, sprints |
-| Proyecto EC0935 | `18432676211` | Certificación: gantt académico, etapas de la materia |
-| Control del proyecto | `39824544` | Dashboard de avance y carga; es de lectura |
+| Gestión del proyecto | `18432808588` | **Autoridad de estado.** Producto DOCU: épicas, historias, tareas, sprints |
+
+Los demás tableros de la cuenta no son fuente de verdad del producto y no se leen
+para decidir sobre DOCU. Se inventarian en `integraciones/MONDAY.md` con el motivo
+de quedar fuera, para que no se reenabrunden por error.
+
+| Tablero | Identificador | Por qué no es autoridad |
+|---|---|---|
+| Proyecto EC0935 – RDD | `18432676211` | Gantt académico de la materia. Planeación, no ejecución |
+| Subelementos de Gestión del proyecto | `18433853431` | Desglose. Contiene la fecha de congelación del contrato |
+| Proveedores | `18433290803` | Externos. No afecta el producto |
+| ~~Control del proyecto~~ | `39824544` | **La API responde `boards: []`.** Declarado aquí antes sin estar disponible. Resolver antes de volver a contarlo |
 
 Reglas de uso, en orden de permiso:
 
@@ -54,13 +63,24 @@ Reglas de uso, en orden de permiso:
 | Archivar o cancelar | Con confirmación | Nunca borrar: el histórico es evidencia |
 | Borrar tarjetas, tableros o estructura | **Prohibido** | Sin excepción |
 
-Contrato de columnas del tablero, estados, prioridades y hechos verificados
-contra la API: `integraciones/MONDAY.md`.
+Contrato de columnas, estados, prioridades, límites reales de la API y hallazgos
+verificados: `integraciones/MONDAY.md`.
 
 ## Google Drive y Docs
 
-Carpeta de entregas del proyecto: **Desarrollo web integral**. Contiene los
-documentos de las etapas y la plantilla de formato.
+Una sola carpeta, con su identificador fijo:
+
+| Carpeta | Identificador |
+|---|---|
+| Desarrollo web integral | `1KeJaYqEfrbD4H7hKCTIZsDMEAOolUdH4` |
+
+Contiene los documentos de las etapas, la plantilla de formato y el diagrama de
+arquitectura. El árbol verificado y los 3 enlaces cruzados con Monday:
+`integraciones/DRIVE.md`.
+
+Se busca **por identificador, nunca por nombre**: Monday llama al proyecto
+"Proyecto EC0935 – REPOSITORIO DE DOCUMENTACION DIGITAL (RDD)" y la carpeta se
+llama "Desarrollo web integral". Buscar por nombre falla.
 
 Regla dura: **solo lectura y siempre en vivo**. Nunca se usa una copia local
 como fuente de verdad, porque una copia envejece y nadie se entera. Prohibido
@@ -88,13 +108,21 @@ Política de escritura: `integraciones/ENGRAM.md`.
 
 ## Servidores MCP del proyecto
 
-Se declaran en la configuración versionada del proyecto; las credenciales se
-resuelven desde el entorno de cada máquina. Detalle y criterio de selección:
-`integraciones/HERRAMIENTAS-AGENTE.md`.
+**Ninguno activo.** `.mcp.json` se versiona vacío a propósito: hoy ninguna
+candidata pasa los siete criterios de `integraciones/HERRAMIENTAS-AGENTE.md`, y
+un MCP a medias es peor que ninguno. El veredicto por herramienta, con el
+criterio que falla, está en `integraciones/MCP.md`.
+
+El día que uno entre: se declara en `.mcp.json` con revisión exacta, su credencial
+como variable de entorno en `.env.example`, y su fila en esta tabla.
 
 ## Lo que un agente puede hacer sin preguntar
 
-Leer el repositorio, leer el tablero de Monday, leer Drive, leer la memoria del
-proyecto y ejecutar las verificaciones declaradas en el repositorio.
+Leer el repositorio, leer el tablero `18432808588`, leer la carpeta de Drive,
+leer la memoria del proyecto, y ejecutar las verificaciones declaradas en el
+repositorio: `bun run lint`, `bun run typecheck`, `bun run prisma:validate`,
+`bun run compose:check`, `bun run doctor`, `bash scripts/doc-index.sh` y las
+pruebas.
 
-Todo lo demás se pregunta.
+Todo lo demás se pregunta. Incluye cualquier escritura en Monday o Drive, que
+queda prohibida, no solo confirmada.

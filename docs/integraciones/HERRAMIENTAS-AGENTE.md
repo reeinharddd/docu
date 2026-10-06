@@ -1,6 +1,8 @@
 # Herramientas del agente: catálogo, criterio de selección y reglas
 
-Estado: **propuesta**. Nada de lo que está aquí está instalado todavía.
+Estado: **vigente como política de admisión**. Los siete criterios de la sección 1
+son ejecutables: se aplican candidato por candidato y el veredicto se escribe en
+la sección 7. Instalar algo que no los cumpla está prohibido.
 
 Decisión de fondo en
 [ADR-0007](../decisiones/ADR-0007-contrato-de-herramientas-del-agente.md):
@@ -144,17 +146,23 @@ el propio agente escriba. Vienen de la práctica, no de la teoría.
 
 ## 7. Estado actual
 
-Ninguna herramienta externa está declarada en la configuración del proyecto más
-allá de lo que ya existe en el repositorio. La lista de candidatas es el punto
-de partida de la investigación descrita en
-`docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md`.
+Evaluado el 2026-10-05. La conclusión operativa está en
+[`MCP.md`](MCP.md): **cero servidores MCP activos**, porque ninguno pasa los
+siete. `.mcp.json` se versiona vacío a propósito.
 
-| Herramienta | Estado |
-|---|---|
-| Skills oficiales de Angular | Por evaluar |
-| MCP del CLI de Angular | Por evaluar |
-| Skills oficiales de Prisma | Por evaluar |
-| MCP oficial de Monday | Por evaluar |
-| Context7 | Por evaluar |
-| Engram | En uso como memoria del proyecto |
-| Harnesses externos | Por comparar |
+| Herramienta | Criterios que pasa | Veredicto |
+|---|---|---|
+| Skills oficiales de Angular | 1, 2, 3, 5, 6, 7 | **Pendiente de instalar.** Revisa `angular/skills` (commit `2051adcd10bb`) sin archivo LICENSE: la licencia no está demostrada |
+| Skills oficiales de Prisma | 1, 2, 3, 5, 6, 7 | **Pendiente de instalar.** `prisma/skills` (commit `be16a8740d013`), LICENSE MIT. Instalar con `@prisma/cli@7.10.0`, nunca `@latest` |
+| MCP del CLI de Angular | 1, 2 | **Sin verificar.** `angular.dev/ai/mcp` responde 200, pero no se confirmó que sea un servidor y no documentación |
+| MCP oficial de Monday | 1, 2, 5, 7 | **Rechazado.** Criterio 4: credencial privada obligatoria. El tablero ya se lee con GraphQL en 2 llamadas |
+| Context7 | 2, 3, 7 | **Rechazado.** Criterio 5: no es versionable, se consulta "lo actual". Rompe ADR-0007 punto 5 |
+| Engram | 1, 4, 7 | **En uso.** No es MCP del proyecto; política en [`ENGRAM.md`](ENGRAM.md) |
+| Harnesses externos | — | **No comparados.** Un harness agrupa reglas de otro equipo. Ver [`INVESTIGACION-HERRAMIENTAS.md`](INVESTIGACION-HERRAMIENTAS.md) |
+| Modelos locales (Ollama) | 7 | **Fuera de alcance hasta M1.** No hay `ValidationPipe` ni modelo que validar |
+
+### Regla aplicada
+
+Un candidato que falla un solo criterio queda fuera, y el motivo se escribe
+aquí. Repetir la evaluación cada mes sin datos nuevos solo reabre el debate:
+para reevaluar hay que aportar commit, licencia o credencial nueva.
