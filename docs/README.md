@@ -86,7 +86,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `integraciones/` | Accesos, Monday, Drive, Engram, MCP, herramientas del agente, investigación | completo |
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
 | `academico/` | Entregas de la materia | pendiente |
-| `briefs/` | Delegaciones con el formato obligatorio | activo |
+| `briefs/` | Delegaciones con el formato obligatorio, auditoría externa | activo |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
 
 Los tres directorios marcados `pendiente` están vacíos a propósito: no hay

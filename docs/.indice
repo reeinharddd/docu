@@ -1,6 +1,7 @@
 # Indice documental de DOCU. Fuente de verdad de docs/README.md.
 # Verifica con: bash scripts/doc-index.sh
 # Regenera con: bash scripts/doc-index.sh --fix
+docs/briefs/AUDITORIA-EXTERNA.md
 docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md
 docs/CONTEXTO.md
 docs/decisiones/ADR-0001-flujos-de-trabajo-del-agente.md

@@ -6,7 +6,10 @@ cd "$(dirname "$0")/.."
 INDICE=docs/.indice
 
 listar() { grep -v '^[[:space:]]*#' "$INDICE" 2>/dev/null | grep -v '^[[:space:]]*$' | sed 's/[[:space:]]*$//' | sort; }
-disco() { git ls-files 'docs/*.md' 'docs/**/*.md' | sort; }
+# Se usa find, no `git ls-files`: un documento sin stagear tambien esta en disco
+# y tambien obliga a estar listado. Con git, escribir un doc y olvidarse del
+# indice pasaba desapercibido justo en la ventana donde se cuelan los errores.
+disco() { find docs -type f -name '*.md' | sed 's|^\./||' | sort; }
 
 if [ "${1:-}" = "--fix" ]; then
   { echo "# Indice documental de DOCU. Fuente de verdad de docs/README.md."; echo "# Verifica con: bash scripts/doc-index.sh"; echo "# Regenera con: bash scripts/doc-index.sh --fix"; disco; } > "$INDICE"
