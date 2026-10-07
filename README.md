@@ -8,7 +8,17 @@ Stack: Bun + Angular 22 (zoneless, signals) + NestJS 12 + Prisma 7 +
 PostgreSQL 18 + pgvector + Redis 8 + BullMQ 6. TypeScript estricto en
 punta a punta. Lint: Biome (+ angular-eslint en templates).
 
-## Arranque (E1)
+## Primera vez
+
+```
+bash scripts/setup.sh   # instala bun, gh y opencode, inicia sesion y verifica
+opencode                # luego /connect y /inicio
+```
+
+Detalle y Windows (WSL2): `docs/operacion/BOOTSTRAP.md`. Tareas y estado:
+GitHub Issues del repo (`docs/integraciones/GITHUB-GESTION.md`).
+
+## Arranque de la app (E1)
 
 Un solo comando. Crea `.env` si falta, valida, levanta PostgreSQL + pgvector +
 Redis, aplica migraciones, siembra y arranca API y web:
@@ -34,7 +44,8 @@ Puertos: web `4200`, API `3000`. `GET /health` debe responder `ok` con pg+redis.
 - `infra/` — Docker Compose + config (E1, Erik).
 - `dataset/` — datos sintéticos + ground truth (C1, Carlos).
 - `docs/` — sistema documental (ver `docs/README.md`).
-- `scripts/` — `dev.sh` (arranque) y `doctor.sh` (diagnóstico).
+- `scripts/` — `setup.sh` (máquina nueva), `dev.sh` (arranque) y `doctor.sh` (diagnóstico).
+- `.opencode/` — comandos y skills del agente, compartidos por el equipo.
 
 ## Reglas
 

@@ -25,7 +25,34 @@
       "sudo *": "deny",
       "*compose down*": "ask",
       "*prune*": "ask",
-      "*migrate reset*": "ask"
+      "*migrate reset*": "ask",
+      "bun run setup*": "allow",
+      "bash scripts/setup.sh*": "allow",
+      "bash scripts/doc-index.sh*": "allow",
+      "gh issue list*": "allow",
+      "gh issue view*": "allow",
+      "gh pr list*": "allow",
+      "gh pr view*": "allow",
+      "gh pr checks*": "allow",
+      "gh pr diff*": "allow",
+      "gh api user*": "allow",
+      "gh repo view*": "allow",
+      "gh auth status*": "allow",
+      "gh issue create*": "ask",
+      "gh issue edit*": "ask",
+      "gh issue close*": "ask",
+      "gh issue comment*": "ask",
+      "gh issue develop*": "ask",
+      "gh pr create*": "ask",
+      "gh pr merge*": "ask",
+      "gh api *": "ask",
+      "gh issue delete*": "deny",
+      "gh label delete*": "deny",
+      "gh repo delete*": "deny",
+      "git checkout*": "ask",
+      "git switch*": "ask",
+      "git add*": "ask",
+      "git commit*": "ask"
     },
     "edit": {
       "*": "ask",
@@ -40,6 +67,9 @@
       "*.env": "deny",
       "*.env.*": "deny",
       "*.env.example": "allow"
+    },
+    "skill": {
+      "*": "allow"
     }
   }
 }

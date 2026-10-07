@@ -1,9 +1,60 @@
 # Operación: arranque y resonancia
 
-Estado: vigente. Verificado el 2026-10-05.
+Estado: vigente. Verificado el 2026-10-06.
 Este archivo reemplaza las instrucciones de arranque del `README.md`.
 
-## Requisito previo
+## Primera vez: un solo comando
+
+```
+git clone git@github.com:reeinharddd/docu.git && cd docu
+bash scripts/setup.sh
+```
+
+`scripts/setup.sh` es idempotente y no usa `sudo`. Instala lo que falte en el
+home del usuario y deja todo verificado:
+
+| Paso | Qué hace |
+|---|---|
+| Sistema | Linux, macOS o Windows con WSL2. Exige `git`, `curl`, `unzip` |
+| Git | Pide nombre y correo si faltan |
+| Bun | Instala la versión exacta de `packageManager` en `~/.bun` |
+| GitHub CLI | Instala `gh` en `~/.local/bin`, inicia sesión con el navegador y pide el scope `project` |
+| OpenCode | Instala `opencode` en `~/.opencode` |
+| Docker | Solo comprueba. En E1 únicamente lo usa el smoke de `verify` |
+| Dependencias | `bun install --frozen-lockfile` y hooks de lefthook |
+| `.env` | Lo crea desde `.env.example` si no existe |
+| PATH | Agrega las rutas al `.bashrc` o `.zshrc` |
+| Diagnóstico | Corre `bun run doctor` |
+
+**Windows**: instala WSL2 (`wsl --install` en PowerShell como administrador),
+abre la terminal de Ubuntu y clona el repositorio **dentro** de WSL, no en
+`C:\`. Docker Desktop con integración WSL activada.
+
+## Trabajar con OpenCode
+
+El repositorio trae todo lo que el agente necesita; no hay configuración
+personal que copiar:
+
+| Pieza | Archivo |
+|---|---|
+| Contrato e instrucciones | `AGENTS.md`, `docs/REGLAS.md`, `docs/decisiones/README.md` (cargados por `opencode.json`) |
+| Permisos | `opencode.json`: lectura libre, escrituras con confirmación, destructivos denegados |
+| Comandos del equipo | `.opencode/commands/` |
+| Skills del proyecto | `.opencode/skills/` |
+
+La primera vez, dentro de `opencode`: `/connect` para elegir el proveedor de
+modelos. Después:
+
+| Comando | Para qué |
+|---|---|
+| `/inicio` | Quién eres en el equipo, tus tareas, reglas y siguiente paso |
+| `/estado` | Estado del proyecto: PR, hitos, bloqueos, huecos |
+| `/tarea N` | Empezar el issue N: contexto, dependencias, rama y plan |
+| `/cerrar` | `verify`, commit convencional y PR con `Closes #N` |
+| `/brief N` | Redactar el brief de delegación del issue N |
+| `/adr <decisión>` | Proponer una ADR con la plantilla |
+
+## Requisito previo (instalación manual)
 
 | Herramienta | Versión | Verificación |
 |---|---|---|
@@ -93,7 +144,9 @@ cosas no hay "ya quedó" (`docs/REGLAS.md`).
 | Síntoma | Causa probable | Qué hacer |
 |---|---|---|
 | `bun run lint` dice que Biome no coincide con el schema | `node_modules` de otra máquina | `bun install` |
-| `.env` no existe | Primer arranque | `cp .env.example .env`, ajusta `JWT_SECRET` |
+| `.env` no existe | Primer arranque | `bun run setup` |
+| `gh` sin sesión o sin scope `project` | Token viejo | `gh auth refresh -s project` |
+| `opencode` o `bun` no se encuentran | Terminal abierta antes del setup | Abre una terminal nueva |
 | `FALTA` en las variables de Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
 | Puerto ocupado | Otro proceso | Cambia `PG_PORT` / `REDIS_PORT` / `PORT_API` en `.env` |
 | `prisma migrate deploy` falla | Compose no está arriba | `docker compose -f infra/docker-compose.yml --env-file .env up -d --wait` |

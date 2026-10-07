@@ -1,6 +1,6 @@
 # Integración: servidores MCP
 
-Estado: vigente. Verificado el 2026-10-05.
+Estado: vigente. Verificado el 2026-10-06.
 Configuración del proyecto: `.mcp.json`, versionada. Credenciales por variable de
 entorno, nunca en el archivo.
 
@@ -13,13 +13,16 @@ reproducible para el resto del equipo.
 
 | Candidato | Criterio que falla | Veredicto |
 |---|---|---|
-| Monday (tercero) | 4 — credencial privada obligatoria | Rechazado. Además el tablero ya se lee con GraphQL directo en 2 llamadas |
 | Google Drive (tercero) | 4 — credencial OAuth | Rechazado por lo mismo |
 | PostgreSQL | 1 — no es del proyecto PostgreSQL | Rechazado. La BD se consulta con `psql` |
 | BullMQ / Redis | 1 — no es del proyecto Redis | Rechazado |
 | Bull output (`@nestjs/bull`observability) | 1 — no es del proyecto BullMQ | Rechazado |
 | Angular MCP | 1 — requiere confirmar que el endpoint sea servidor y no documentación | Sin verificar |
 | Redis Docs (documentación) | No es un servidor MCP, es documentación | Fuera de alcance |
+
+GitHub no necesita MCP: el agente usa `gh`, que `scripts/setup.sh` instala y
+autentica en cada máquina, con permisos por comando en `opencode.json`. Evita
+un token extra y el costo de contexto de un servidor completo.
 
 ## Reglas para aceptar uno
 

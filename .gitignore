@@ -19,11 +19,14 @@ coverage/
 .docu/
 
 # Estado local de agentes. La configuracion compartida SI se versiona
-# (opencode.json, .mcp.json, CLAUDE.md, AGENTS.md); lo personal no.
+# (opencode.json, .opencode/commands, .opencode/skills, .mcp.json, CLAUDE.md,
+# AGENTS.md); lo personal no.
 .claude/
 .cursor/
 .codex/
-.opencode/
+.opencode/*
+!.opencode/commands/
+!.opencode/skills/
 .gemini/
 **/settings.local.json
 **/.mcp.local.json
