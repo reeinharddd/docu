@@ -1,6 +1,7 @@
 # Indice documental de DOCU. Fuente de verdad de docs/README.md.
 # Verifica con: bash scripts/doc-index.sh
 # Regenera con: bash scripts/doc-index.sh --fix
+docs/academico/EC0935.md
 docs/briefs/AUDITORIA-EXTERNA.md
 docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md
 docs/CONTEXTO.md
@@ -30,7 +31,6 @@ docs/integraciones/GITHUB-GESTION.md
 docs/integraciones/HERRAMIENTAS-AGENTE.md
 docs/integraciones/INVESTIGACION-HERRAMIENTAS.md
 docs/integraciones/MCP.md
-docs/integraciones/MONDAY.md
 docs/operacion/BOOTSTRAP.md
 docs/plantillas/ADR.md
 docs/plantillas/BRIEF.md

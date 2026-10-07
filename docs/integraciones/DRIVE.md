@@ -66,10 +66,10 @@ carpeta vacía.
 
 ## Vínculos cruzados verificados
 
-Los 3 enlaces de los hitos "Etapa" del tablero de gestión apuntan a objetos que
+Los 3 entregables "Etapa" (issues #14, #15, #16) apuntan a objetos de Drive que
 existen y son los correctos:
 
-| Hito en Monday | ID de Drive | Resuelve a |
+| Entregable | ID de Drive | Resuelve a |
 |---|---|---|
 | Etapa 0 | `1iVX0RocK85_4uzrQYUtaM4pVU-4hPYpk1fCFp6ULsBg` | `Etapa 0. Descubrimiento e Ideación` |
 | Etapa 1 | `16aVye0h5sgC5Cdc_7WDJQ8AqHxw5Q5RR` | `Etapa1. Analisis Proyecto Web.docx` |
@@ -79,7 +79,7 @@ existen y son los correctos:
 
 | Vacío | Consecuencia | Dónde se resuelve |
 |---|---|---|
-| El único diagrama es de arquitectura en capas | `RF-04` pide diagrama de casos de uso: no existe | Tarea en Monday, no documento |
-| No hay carpeta de originales ni dataset | `dataset/config1` y `config2` siguen vacíos | Tarea de C1 en Monday |
-| Monday llama al proyecto "Proyecto EC0935 – REPOSITORIO…" y la carpeta se llama "Desarrollo web integral" | Búsqueda por nombre falla | Usar el ID, nunca el nombre |
-| El SRS IEEE 830 es una tarea de Sprint 1 y la plantilla sí está aquí | El entregable académico depende de una plantilla versionada en Drive | `academico/` sigue pendiente a propósito |
+| El único diagrama es de arquitectura en capas | `RF-04` pide diagrama de casos de uso: no existe | Issue #36 |
+| No hay carpeta de originales ni dataset | `dataset/config1` y `config2` siguen vacíos | Issue #9 |
+| El plan académico llama al proyecto "Proyecto EC0935 – REPOSITORIO…" y la carpeta se llama "Desarrollo web integral" | Búsqueda por nombre falla | Usar el ID, nunca el nombre |
+| El SRS IEEE 830 es una tarea de Sprint 1 y la plantilla sí está aquí | El entregable académico depende de una plantilla versionada en Drive | `academico/EC0935.md` e issue #13 |

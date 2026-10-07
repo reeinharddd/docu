@@ -88,7 +88,7 @@ versión?
 - **PostgreSQL 18 con pgvector**: guías oficiales y herramientas de apoyo.
 - **Redis 8 y BullMQ 6**: herramientas oficiales, y requisitos operativos que
   la cola impone.
-- **Monday**: qué ofrece el MCP oficial en lectura y en escritura, con sus
+- **GitHub**: qué ofrece el MCP oficial frente a `gh` en lectura y en escritura, con sus
   límites reales.
 
 ### 4.2 Harnesses y flujos de trabajo

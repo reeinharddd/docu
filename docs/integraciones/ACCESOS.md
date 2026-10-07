@@ -26,8 +26,6 @@ detecta.
 | `JWT_SECRET` | Firma de sesión | Local; en etapas posteriores con valor compartido |
 | `IA_LOCAL_ACTIVADA` | Habilita el modelo local | Local |
 | `IA_NUBE_ACTIVADA` | Habilita modelos en nube | **Requiere autorización explícita del líder** |
-| `MONDAY_API_KEY` | Solo lectura del histórico de Monday | Opcional. El líder lo entrega si hace falta consultar el histórico |
-| `MONDAY_BOARD_ID` | Tablero histórico | Opcional, no es secreto |
 | `GOOGLE_CLIENT_ID` | Credencial OAuth del proyecto de Drive | El líder lo entrega |
 | `GOOGLE_CLIENT_SECRET` | Credencial OAuth del proyecto de Drive | El líder lo entrega |
 | `GOOGLE_REFRESH_TOKEN` | Token de refresco OAuth de Drive | El líder lo entrega |
@@ -41,10 +39,6 @@ Issues, sub-issues, milestones, etiquetas y Project del repositorio
 Credencial: la cuenta de GitHub de cada persona, colaboradora del repositorio.
 El agente usa `gh` o el servidor MCP de GitHub. Permisos y comandos:
 `integraciones/GITHUB-GESTION.md`.
-
-Monday (tablero `18432808588` y los demás de la cuenta) quedó **congelado como
-histórico** el 2026-10-06: no se escribe y no es autoridad de nada. Inventario y
-hallazgos: `integraciones/MONDAY.md`.
 
 ## Google Drive y Docs
 
@@ -104,6 +98,6 @@ repositorio: `bun run lint`, `bun run typecheck`, `bun run prisma:validate`,
 `bun run compose:check`, `bun run doctor`, `bash scripts/doc-index.sh` y las
 pruebas.
 
-Todo lo demás se pregunta. Escribir en Drive o en Monday (histórico) queda
-prohibido, no solo confirmado. Escribir issues sigue la tabla de permisos de
+Todo lo demás se pregunta. Escribir en Drive queda prohibido, no solo
+confirmado. Escribir issues sigue la tabla de permisos de
 `integraciones/GITHUB-GESTION.md`.

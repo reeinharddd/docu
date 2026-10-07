@@ -46,8 +46,6 @@ tiempo, va en `docs/` y se versiona. La memoria indexa, no reemplaza
 
 No volver a guardarlos en memoria: se consultan en el archivo.
 
-- Monday (histórico) `ItemsResponse` solo expone `cursor` e `items`; una consulta
-  con subelementos agota el presupuesto de complejidad (`integraciones/MONDAY.md`).
 - El listado de Drive exige `fields=files(...)`; el de un archivo no
   (`integraciones/DRIVE.md`).
 - `@prisma/cli@latest` es `8.0.0-rc.20` y el proyecto usa Prisma `7.10.0`

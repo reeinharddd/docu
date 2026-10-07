@@ -64,7 +64,9 @@ gh pr create --fill                               # el cuerpo lleva "Closes #12"
    `Fin`, y vistas Tablero, Tabla por épica y Roadmap. Activar los flujos
    integrados: issue añadido → `Por hacer`, PR fusionado → `Listo`.
 
-## Historial
+## Origen
 
-Hasta el 2026-10-06 el gestor fue Monday. Contrato y hallazgos de ese tablero:
-`integraciones/MONDAY.md` (histórico, solo lectura).
+Hasta el 2026-10-06 el gestor fue Monday. Todo su contenido (tarjetas,
+subelementos, comentarios con alcance y criterios, plan académico EC0935) se
+migró a issues y a `academico/EC0935.md`, y la cuenta se dio de baja
+(ADR-0008).

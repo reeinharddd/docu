@@ -81,28 +81,6 @@ driver en Prisma 7). Responsable: Emmanuel, M1.
 **Veredicto: sin verificar.** Si se confirma que expone menos de unas 10
 herramientas útiles, se reevalúa. Queda como pregunta abierta, no como descarte.
 
-### 1.4 MCP oficial de Monday
-
-- Enlace: <https://developer.monday.com/api-reference/docs/mondaycom-mcp>
-- Límites reales verificados por API el 2026-10-05: `ItemsResponse` expone
-  `cursor` e `items`. No expone `total_count` ni `items_page_items`.
-
-| # | Criterio | Respuesta |
-|---|---|---|
-| 1 | Oficialidad | Sí |
-| 2 | Mantenimiento | Sí |
-| 3 | Licencia | No confirmado |
-| 4 | Credenciales | **No.** Exige token de API privado, y el permiso de escritura habría que delegarlo |
-| 5 | Versionable | Sí |
-| 6 | Ancho de contexto | Alto |
-| 7 | Encaje | Sí |
-
-**Veredicto: descartado por el criterio 4.** El tablero se lee hoy con una
-consulta GraphQL de dos llamadas (`integraciones/MONDAY.md`). Añadir un servidor
-completo con token privado para reemplazar 20 líneas de GraphQL es peor negocio.
-El MCP de Monday solo tendría sentido el día que el equipo necesite escribir
-desde el agente sin pasar por una confirmación manual.
-
 ### 1.5 Context7
 
 - Qué es: MCP remoto de documentación de librerías, siempre "lo actual".
@@ -170,7 +148,6 @@ elegir el modelo y escribir el ADR, no instalar nada.
 | 3 | MCP del CLI de Angular | Verificar primero | No se sabe si es servidor o documentación |
 | 4 | Engram | Seguir usando | Ya está. No es MCP del proyecto |
 | 5 | Modelos locales (Ollama) | Más adelante | No hay modelo que validar ni `ValidationPipe` |
-| 6 | MCP oficial de Monday | **Descartar** | Credencial privada para reemplazar 20 líneas de GraphQL |
 | 7 | Context7 | **Descartar** | No es versionable. Contradice ADR-0007 |
 | 8 | Harnesses externos | **No usar como contrato** | No escriben en el repo y chocan con `REGLAS.md` |
 | 9 | Modelos en nube | **Fuera de alcance** | Sin autorización ni datos de costo verificados |
@@ -197,7 +174,6 @@ por estrellas es ordenar por ruido.
 
 | Descartes | Criterio | Motivo |
 |---|---|---|
-| MCP oficial de Monday | 4 | Credencial privada obligatoria para reemplazar dos llamadas GraphQL |
 | Context7 | 5 | No versionable por diseño |
 | PostgreSQL MCP | 1 | Habla de otro PostgreSQL, no del del proyecto |
 | BullMQ MCP / Redis MCP | 1 | Idem: el BullMQ y el Redis son del proyecto |
@@ -250,5 +226,4 @@ Todas consultadas el 2026-10-05:
 | <https://github.com/prisma/skills> | commit `be16a8740d013`, MIT |
 | <https://angular.dev/ai/mcp> | HTTP 200 |
 | Registro de npm | `@nestjs/observe@latest` = 0.3.6; `@prisma/cli@latest` = 8.0.0-rc.20; `prisma@prev` = 7.10.0; `skills` CLI = 1.7.0 |
-| API de Monday | `ItemsResponse` expone `cursor` e `items` |
 | Índice personal de marcadores | 196 marcadores, 0 de herramientas de agente, 12 kits de UI de Angular |

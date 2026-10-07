@@ -85,11 +85,11 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
-| `academico/` | Entregas de la materia | pendiente |
+| `academico/` | Plan académico EC0935 y entregas de la materia | en progreso |
 | `briefs/` | Delegaciones con el formato obligatorio, auditoría externa | activo |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
 
-Los tres directorios marcados `pendiente` están vacíos a propósito: no hay
+Los directorios marcados `pendiente` están vacíos a propósito: no hay
 diseño de pantallas ni entregable académico todavía. Se crean cuando la
 materia o el producto los necesiten, y hasta entonces el índice dice la verdad
 en vez de prometer archivos que no existen.
@@ -102,7 +102,6 @@ Estas rutas alimentan lo anterior; al escribir aquí se copian, no se enlazan.
 |---|---|---|
 | Especificación de la arquitectura (documento de la materia, en Drive) | Stack decidido, módulos, acuerdos de equipo | `integraciones/DRIVE.md` (solo lectura) |
 | Issues, milestones y Project de GitHub | Estado real del trabajo | `integraciones/GITHUB-GESTION.md` |
-| Monday (histórico, congelado el 2026-10-06) | Evidencia de la planeación anterior | `integraciones/MONDAY.md` |
 | Drive `/Desarrollo web integral` | Etapas 0/1/2, plantilla IEEE 830, diagramas | `integraciones/DRIVE.md` |
 | Engram | Memoria de sesión | `integraciones/ENGRAM.md` |
 

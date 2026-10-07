@@ -41,7 +41,6 @@ Estado de cada una: **a evaluar**. Este documento no declara ninguna aprobada.
 | Angular | Angular CLI MCP Server | Consultas del CLI y del proyecto desde el agente | <https://angular.dev/ai/mcp> |
 | Angular | AI Tutor y patrones de diseño | Guías de arquitectura | <https://angular.dev/ai/ai-tutor> |
 | Prisma | Repositorio oficial de skills | CLI, API de cliente, migraciones, configuración y **implementación de driver adapters** | <https://github.com/prisma/skills> |
-| Monday | Plataforma MCP oficial | Lectura y escritura de tableros, columnas y tarjetas | <https://developer.monday.com/api-reference/docs/mondaycom-mcp> |
 
 Skills concretas de Prisma que aplican a este proyecto: `prisma-cli`,
 `prisma-orm-setup`, `prisma-postgres-setup`, `prisma-driver-adapter-implementation`,
@@ -155,7 +154,6 @@ siete. `.mcp.json` se versiona vacío a propósito.
 | Skills oficiales de Angular | 1, 2, 3, 5, 6, 7 | **Pendiente de instalar.** Revisa `angular/skills` (commit `2051adcd10bb`) sin archivo LICENSE: la licencia no está demostrada |
 | Skills oficiales de Prisma | 1, 2, 3, 5, 6, 7 | **Pendiente de instalar.** `prisma/skills` (commit `be16a8740d013`), LICENSE MIT. Instalar con `@prisma/cli@7.10.0`, nunca `@latest` |
 | MCP del CLI de Angular | 1, 2 | **Sin verificar.** `angular.dev/ai/mcp` responde 200, pero no se confirmó que sea un servidor y no documentación |
-| MCP oficial de Monday | 1, 2, 5, 7 | **Rechazado.** Criterio 4: credencial privada obligatoria. El tablero ya se lee con GraphQL en 2 llamadas |
 | Context7 | 2, 3, 7 | **Rechazado.** Criterio 5: no es versionable, se consulta "lo actual". Rompe ADR-0007 punto 5 |
 | Engram | 1, 4, 7 | **En uso.** No es MCP del proyecto; política en [`ENGRAM.md`](ENGRAM.md) |
 | Harnesses externos | — | **No comparados.** Un harness agrupa reglas de otro equipo. Ver [`INVESTIGACION-HERRAMIENTAS.md`](INVESTIGACION-HERRAMIENTAS.md) |

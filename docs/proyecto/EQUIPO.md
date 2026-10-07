@@ -63,7 +63,7 @@ cada una y con qué permiso.
 GitHub es el centro único de operación del equipo: issues, milestones y Project
 del repositorio (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`). El
 repositorio es también la fuente de verdad técnica; Google Drive es el espejo
-administrativo de las entregas. Monday quedó como histórico de solo lectura.
+administrativo de las entregas. Monday se dio de baja tras migrar todo su contenido.
 Detalle en `integraciones/GITHUB-GESTION.md`.
 
 ## Referencias
