@@ -10,7 +10,7 @@ Un cambio de requisito es un issue aprobado y una línea en
 |---|---|---|---|
 | RF-01 | Subir Excel, PDF, correo o escaneado arrastrando y soltar, y clasificar por familia preservando el original intacto | Alta | Must |
 | RF-02 | Validar al entrar; mandar a cuarentena o revisión lo inválido o dudoso con motivo visible, sin borrado silencioso | Alta | Must |
-| RF-03 | Exigir confirmación humana para publicar el dato oficial (patrón repetado y responsable), con historial de origen, regla aplicada y quién confirmó | Alta | Must |
+| RF-03 | Exigir confirmación humana para publicar el dato oficial (patrón repetido y responsable), con historial de origen, regla aplicada y quién confirmó | Alta | Must |
 | RF-04 | Buscador de documentos y datos con filtros por fecha y área; consulta donde cada cifra cita su fuente y su cálculo; gráficas guardables | Alta | Must reducido |
 | RF-05 | Tablero configurable por empresa, reporte descargable y alertas (métrica, umbral, destinatarios, mensaje); reportes recurrentes que se pausan si el formato cambia | Alta | Must limitado a 1 reporte + 1 alerta |
 | RF-06 | Control de acceso por rol en servidor (empresa → departamento → rol → persona) y bitácora completa de quién subió y quién confirmó | Alta | Must |
@@ -46,11 +46,11 @@ aunque cueste.
 | RF | Módulo | Issue | Sprint |
 |---|---|---|---|
 | RF-01 | `sources/ingestión` | #12 API NestJS | Sprint 1 |
-| RF-01, RF-02 | `sources/ingestación` | #3 Pipeline de ingesta, OCR y clasificación | Sprint 2 |
+| RF-01, RF-02 | `sources/ingestión` | #3 Pipeline de ingesta, OCR y clasificación | Sprint 2 |
 | RF-03 | `canonical/lineage` | #12 API NestJS | Sprint 1 |
 | RF-03, RF-04 | `discover/mapping` + front | #4 Frontend Angular | Sprint 2 |
 | RF-04 | `agent/tools` | #4 Frontend Angular (parcial) | Sprint 2 |
-| RF-05 | `agent/tools` | **sin issue** | — |
+| RF-05 | `agent/tools` | #39 Reporte recurrente y alerta | Sprint 3 |
 | RF-06 | `auth/governance` | #10 Arquitectura y entorno base | Sprint 1 |
 | RF-06, RF-02 | `auth/governance` | #5 RBAC, bitácora y reglas declarativas | Sprint 2 |
 | RF-07 | `canonical/lineage` | sin issue (Could) | — |
