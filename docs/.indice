@@ -13,6 +13,10 @@ docs/decisiones/ADR-0005-bullmq-para-trabajo-pesado.md
 docs/decisiones/ADR-0006-ia-propone-humano-dispone.md
 docs/decisiones/ADR-0007-contrato-de-herramientas-del-agente.md
 docs/decisiones/ADR-0008-github-como-gestor-del-equipo.md
+docs/decisiones/ADR-0009-reglas-del-caso-como-datos.md
+docs/decisiones/ADR-0010-bitacora-e-historial-solo-insert.md
+docs/decisiones/ADR-0011-api-encola-worker-procesa.md
+docs/decisiones/ADR-0012-construccion-tras-design-system-y-modelo.md
 docs/decisiones/README.md
 docs/gestion/PLAN-EPICAS.md
 docs/gestion/RITMO-SEMANAL.md
