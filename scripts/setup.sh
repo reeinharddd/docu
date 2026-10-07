@@ -62,15 +62,19 @@ if ! command -v gh >/dev/null; then
   cp "$tmp"/gh_*/bin/gh "$BIN/gh"; rm -rf "$tmp"
 fi
 ok "$(gh --version | head -1)"
-if ! gh auth status >/dev/null 2>&1; then
-  [ -t 0 ] || error "gh sin sesion. Corre: gh auth login -s project"
+ghk() { env -u GITHUB_TOKEN -u GH_TOKEN gh "$@"; }
+if ! ghk auth status -h github.com >/dev/null 2>&1; then
+  [ -t 0 ] || error "gh sin sesion. Corre: gh auth login -h github.com -s project"
   echo "Inicia sesion con tu cuenta de GitHub (se abre el navegador):"
-  gh auth login -h github.com -p https -w -s project
+  ghk auth login -h github.com -p https -w -s project
 fi
-if ! gh auth status 2>&1 | grep -q "'project'"; then
-  if [ -t 0 ]; then gh auth refresh -h github.com -s project; else aviso "al token de gh le falta el scope 'project': gh auth refresh -s project"; fi
+if ! ghk auth status -h github.com 2>&1 | grep -q "'project'"; then
+  if [ -t 0 ]; then ghk auth refresh -h github.com -s project; else aviso "a la sesion de gh le falta el scope 'project': gh auth refresh -h github.com -s project"; fi
 fi
 ok "gh con sesion de $(gh api user --jq .login)"
+if [ -n "${GITHUB_TOKEN:-}${GH_TOKEN:-}" ] && ! gh api -i user 2>/dev/null | grep -i '^x-oauth-scopes:' | grep -q project; then
+  aviso "tu shell exporta GITHUB_TOKEN/GH_TOKEN sin scope 'project' y gh lo usa antes que tu sesion. Quita el export o regeneralo con: env -u GITHUB_TOKEN gh auth token"
+fi
 repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner 2>/dev/null || true)
 [ -n "$repo" ] && ok "acceso al repositorio $repo" || aviso "sin acceso al repositorio en GitHub. Pide al lider que te agregue como colaborador"
 
