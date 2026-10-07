@@ -53,16 +53,37 @@ gh pr create --fill                               # el cuerpo lleva "Closes #12"
 | Cerrar un issue | Solo vía PR fusionado o con evidencia en el comentario | Definición de Hecho (REGLAS 7) |
 | Borrar issues, etiquetas o milestones | **Prohibido** | El histórico es evidencia: se cierra como `not planned` |
 
-## Configuración pendiente (una sola vez, la hace Erik)
+## Project `DOCU`
 
-1. Dar al token de `gh` el scope de Projects (abre el navegador):
-   `gh auth refresh -s project`
-2. Invitar a los compañeros como colaboradores con su usuario de GitHub y
-   asignarles sus issues (`gh issue edit N --add-assignee <usuario>`).
-3. Crear el Project `DOCU` y vincularlo al repositorio, con los campos
-   `Estado` (`Por hacer`, `En progreso`, `En revisión`, `Listo`), `Inicio` y
-   `Fin`, y vistas Tablero, Tabla por épica y Roadmap. Activar los flujos
-   integrados: issue añadido → `Por hacer`, PR fusionado → `Listo`.
+Tablero: <https://github.com/users/reeinharddd/projects/1>, vinculado al
+repositorio. Todos los issues están dentro.
+
+| Campo | Valores |
+|---|---|
+| `Status` | `Por hacer`, `En progreso`, `En revisión`, `Listo` |
+| `Inicio`, `Fin` | Fechas del cronograma (alimentan la vista Roadmap) |
+| Nativos | Assignees, Labels, Milestone, Parent issue, Sub-issues progress, Linked pull requests |
+
+```bash
+gh project item-list 1 --owner reeinharddd --limit 100
+gh project item-add 1 --owner reeinharddd --url <url-del-issue>   # si un issue no aparece
+```
+
+Los comandos `gh project` necesitan el scope `project`. Si tu shell exporta
+`GITHUB_TOKEN`, `gh` usa ese token antes que tu sesión:
+`env -u GITHUB_TOKEN gh auth refresh -h github.com -s project`.
+
+## Pendiente de configurar en la web (la API no lo permite)
+
+La hace Erik, una sola vez, en *Settings* del Project:
+
+1. Vistas: **Tablero** (agrupado por `Status`), **Tabla** (agrupada por
+   etiqueta `epica:*`) y **Roadmap** (`Inicio` → `Fin`, marcadores de milestone).
+2. *Workflows*: `Auto-add to project` con filtro `is:issue,pr` del repositorio;
+   `Item closed` y `Pull request merged` → `Listo`; `Item reopened` →
+   `En progreso`. Revisar que apunten a las opciones en español.
+3. Invitar a los compañeros como colaboradores con rol *Write* y asignarles sus
+   issues (`gh issue edit N --add-assignee <usuario>`).
 
 ## Origen
 
