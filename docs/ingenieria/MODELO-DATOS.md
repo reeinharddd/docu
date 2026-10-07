@@ -5,7 +5,7 @@ Fuente: `apps/api/prisma/schema.prisma`. Migración base: `prisma/migrations/0_b
 
 PostgreSQL 18 con `pgvector`. La extensión la crea la migración base
 (`CREATE EXTENSION vector`), no un script de arranque: `infra/postgres/init` está
-montado pero vacío y no debe necessary cargarse a mano.
+montado pero vacío y no debe cargarse a mano.
 
 ## Capa de organización y acceso
 
@@ -46,7 +46,7 @@ publicable (`docs/decisiones/ADR-0006`).
 
 ## Bitácora
 
-`Bitacora` es **append-only**: `actorId`, `accion`, `entividad`, `entidadId`,
+`Bitacora` es **append-only**: `actorId`, `accion`, `entidad`, `entidadId`,
 `detalle` en `Json`, `creadoEn`. Nada la actualiza ni la borra. Es la evidencia de
 auditoría de RF-06.
 

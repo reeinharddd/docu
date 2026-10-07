@@ -1,4 +1,4 @@
-# Operación: arranque y resonancia
+# Operación: arranque y diagnóstico
 
 Estado: vigente. Verificado el 2026-10-06.
 Este archivo reemplaza las instrucciones de arranque del `README.md`.
