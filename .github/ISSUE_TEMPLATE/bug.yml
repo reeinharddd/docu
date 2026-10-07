@@ -1,6 +1,7 @@
 name: Bug
 description: Algo no hace lo que el brief dice.
 title: "[BUG] "
+labels: ["bug"]
 body:
   - type: textarea
     id: que

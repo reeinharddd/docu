@@ -1,0 +1,24 @@
+name: pr-issue
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  enlace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: El PR cierra un issue o lleva la etiqueta sin-issue
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          if printf '%s' "$BODY" | grep -Eiq '(closes|fixes|resolves|cierra) #[0-9]+'; then
+            echo "PR enlazado a issue."
+          elif printf '%s' "$LABELS" | grep -q 'sin-issue'; then
+            echo "::notice::PR sin issue, marcado con sin-issue."
+          else
+            echo "::error::El cuerpo del PR debe decir 'Closes #N' (REGLAS 7) o llevar la etiqueta sin-issue."
+            exit 1
+          fi
