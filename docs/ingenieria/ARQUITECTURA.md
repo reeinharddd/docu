@@ -99,4 +99,4 @@ localhost. La política de los tres entornos está en
 | `ValidationPipe` global | M1 | Sin validación de entrada, RNF-03 no se sostiene |
 | RBAC en servidor y bitácora | M2 | El front se convierte en la única "protección" |
 | Cadena de validación declarativa | M2 | Las reglas quedan embebidas en `if`, y RF-08 muere |
-| Colas de reportes y alertas | E2 | RF-05 sin dueño ni Sprint etiquetado |
+| Colas de reportes y alertas | #39 | RF-05 sin responsable asignado |

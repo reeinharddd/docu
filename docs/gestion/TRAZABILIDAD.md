@@ -20,26 +20,26 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | RF-02 | API / Permisos | Backend / Autenticación | 2 | #3, #5 |
 | RF-03 | API | Backend / Frontend | 1–2 | #12, #4 |
 | RF-04 | Documentos | Frontend | 2 | #4 |
-| **RF-05** | `agent/tools` | **sin issue** | — | **Hueco abierto** |
+| RF-05 | `agent/tools` | Backend | 3 | #39 |
 | RF-06 | Permisos / Infraestructura | Autenticación / Infraestructura | 1–2 | #10, #5 |
 | RF-07 | — | transversal (Could) | — | Sin issue, a propósito |
-| RF-08 | Infraestructura | Infraestructura | 3 | #8 (etiquetado en la migración) |
+| RF-08 | Infraestructura | Infraestructura / Base de datos | 2–3 | #7, #8 |
 | RNF-01 | — | Frontend | 1 | #11 |
 | RNF-05 | Infraestructura | Infraestructura | 1 | #10 |
 | RNF-06 | Infraestructura | Infraestructura | 1 | #10 |
-| RNF-07 | Auditoría | QA/Documentación | 4 | #6 |
+| RNF-02 | — | QA/Documentación | 1 | #9 |
+| RNF-03 | Permisos | Autenticación | 2–3 | #5, #8 |
+| RNF-07 | Auditoría | QA/Documentación | 1–4 | #6, #9, #13, #30 |
 
 ## Huecos que siguen abiertos
 
 | # | Hueco | Acción propuesta | Estado |
 |---|---|---|---|
-| 1 | `RF-05` no tiene issue | Crear el issue de "1 reporte + 1 alerta" con dueño | Abierto |
+| 1 | `RF-05` no tiene issue | — | **Cerrado**: #39 (falta responsable) |
 | 2 | `RF-08` sin etiqueta en Configuración 2 | — | **Cerrado**: #8 lleva `RF-08` |
-| 3 | #7 Configuración 1 sin requisito | Asignar requisito (candidato: `RF-08`, `RF-01`) | `req:pendiente` |
-| 4 | #9 Dataset sintético sin requisito | Asignar requisito (candidato: `RNF-07`) | `req:pendiente` |
-| 5 | #13 SRS IEEE 830 sin requisito | Es entregable académico: etiquetar `RNF-07` o retirar `req:pendiente` | `req:pendiente` |
+| 3 | #7, #9, #13, #30 sin requisito | — | **Cerrado**: `RF-08`, `RNF-02`/`RNF-07`, `RNF-07`, `RNF-07` (tomados de los criterios de cada issue) |
 | 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto |
-| 7 | Dependencias vacías | — | **Cerrado**: 8 *blocked by* nativos (ver `PLAN-EPICAS.md`) |
+| 7 | Dependencias vacías | — | **Cerrado**: 10 *blocked by* nativos (ver `PLAN-EPICAS.md`) |
 
 ## Reglas
 

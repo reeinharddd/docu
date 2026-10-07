@@ -23,11 +23,11 @@ trabaje sin depender de una sola persona.
 | Épica | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
 | Infraestructura | 1 | Erik | RF-06, RNF-05, RNF-06 | #10 (en progreso), #8 |
-| Backend | 1 → 2 | Emmanuel | RF-01, RF-02, RF-03 | #12, #3 |
+| Backend | 1 → 3 | Emmanuel | RF-01, RF-02, RF-03, RF-05 | #12, #3, #32, #39 |
 | Frontend | 1 → 2 | Kira | RNF-01 → RF-01, RF-03, RF-04 | #11, #4 |
 | QA / Documentación | 1 → 4 | Erik, Carlos | RNF-07 | #9, #13, #6 |
 | Autenticación | 2 | Emmanuel | RF-06, RF-02 | #5 |
-| Base de datos | 2 | Carlos | pendiente | #7 |
+| Base de datos | 1 → 2 | Carlos | RF-06, RF-08 | #29, #7 |
 
 ## Dependencias (nativas en GitHub, *blocked by*)
 
@@ -38,16 +38,19 @@ trabaje sin depender de una sola persona.
 | #4 Frontend | #3 Pipeline de ingesta | La API entrega el dato que la pantalla cita |
 | #3 Pipeline | #7 Configuración 1 | Ordena, lee y valida por familia |
 | #8 Configuración 2 | #7 Configuración 1 | La 2 se prueba sobre datos de la 1 |
+| #3 Pipeline | #32 Evaluación OCR | RF-02 exige ≥ 90 %: se mide antes de implementar |
+| #39 Reporte y alerta | #3 Pipeline | El reporte lee datos ya ingeridos |
 
-Sin issue todavía: **OCR evaluado** antes de RF-01/RF-02 (RF-02 exige ≥ 90 % con
-CER ≤ 10 % en escaneados reales).
+La construcción de producto espera dos puertas: design system de marca y modelo
+de datos validado (ADR-0012).
 
 ## Riesgos
 
 | Riesgo | Señal | Mitigación |
 |---|---|---|
-| OCR no alcanza el 90 % en escaneados | RF-02 en Sprint 2 sin issue de evaluación | Evaluar OCR antes de implementar |
+| OCR no alcanza el 90 % en escaneados | #32 sin resultados al 2026-10-12 | Brief `briefs/BRIEF-32-evaluacion-ocr.md` |
 | Sprint 1 termina el 16-oct y el contrato se congela el 23-oct | #10 y #13 cierran el 16 | Si el diseño se retrasa, la congelación no se cumple |
-| 3 issues con `req:pendiente` y RF-05 sin issue | `gh issue list --label req:pendiente` | `gestion/TRAZABILIDAD.md` |
+| #29 Matriz de roles vencida (30-sep) | Bloquea el contrato de datos | Brief `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
+| #39 y #36 sin responsable | `gh issue list --search no:assignee` | Asignar en el sync del lunes |
 | Prototipos UI/UX cierran el 9-oct | #11, Kira | Es la primera fecha que vence |
 | Frontend sin design system de marca | 0 dependencias de UI en `apps/web` | Playground de diseño de Kira, después de cerrar E1 |

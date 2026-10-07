@@ -1,0 +1,92 @@
+# BRIEF #11 — Prototipos UI/UX y flujo de pantallas
+
+## 0. Encabezado
+
+- Issue: #11 (incluye #28 Definición de categorías y etiquetas)
+- Dueño: Kira
+- Fechas: 2026-10-05 → **2026-10-09** · Sprint 1 · hito `Cierre de diseño` (2026-10-16)
+- Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / diseño
+- Requisitos: RNF-01 (usabilidad); alimenta RF-01, RF-03, RF-04
+- Bloqueado por: nada · Bloquea a: #4 Frontend Angular
+
+## 1. Contexto
+
+La planta pierde horas cruzando Excels de turnos, plantas hermanas y escaneados.
+DOCU recibe esos archivos, detecta su familia, manda lo dudoso a cuarentena con
+motivo y deja que una persona confirme el dato oficial (`proyecto/CASO.md`,
+ADR-0006). Las pantallas tienen que hacer ese flujo entendible en menos de 10
+minutos para un usuario piloto.
+
+## 2. Por qué importa tu parte
+
+Por ADR-0012 nadie construye pantallas hasta que exista el design system. Tus
+prototipos son la primera puerta: si se retrasan, #4 (frontend) y el Sprint 2
+arrancan tarde, y el contrato de datos del 23 de octubre se congela sin saber qué
+necesita cada pantalla. Si salen bien, el frontend se construye una sola vez.
+
+## 3. Objetivo y resultado esperado
+
+Prototipo navegable del flujo **subir → revisar → consultar** con las cuatro
+pantallas del producto.
+
+| Entregable | Evidencia |
+|---|---|
+| Flujo de pantallas (diagrama de navegación) | Imagen o enlace en `docs/diseno/FLUJO.md` |
+| Prototipo navegable de: captura, bandeja de revisión/cuarentena, Programa Oficial, búsqueda con cita de fuente | Enlace público de solo lectura (Figma, Penpot u otra) + capturas en el PR |
+| Categorías y etiquetas visibles en la interfaz (#28) | Tabla en `docs/diseno/CATEGORIAS.md`: familia, etiquetas, color/ícono |
+| Estados de error y vacío por pantalla | Una captura por estado en el PR |
+| Revisión de un par | Comentario de aprobación en el PR |
+
+## 4. Actividades específicas
+
+1. Leer `proyecto/CASO.md`, `proyecto/REQUISITOS.md` (RF-01..04, RNF-01) y
+   ADR-0006. Entregable: lista de 5–8 tareas del usuario piloto en el PR.
+2. Dibujar el flujo de navegación entre las cuatro pantallas. Terminado: cada
+   tarea del punto 1 tiene un camino.
+3. Prototipar las cuatro pantallas en baja fidelidad, en escritorio y celular
+   (RNF-01: Chrome, Edge, Android).
+4. Definir categorías y etiquetas (#28) a partir de las familias:
+   `programa_planeacion`, `recepcion_rollo`, `inventario`, `excel_turno`,
+   `correo_hermana`, `escaneado` (`ingenieria/MODELO-DATOS.md`).
+5. Diseñar los estados: cargando, vacío, error con mensaje claro, cuarentena con
+   motivo visible, dato confirmado con quién y cuándo.
+6. Pasar a una persona del equipo por el flujo y anotar dónde se trabó.
+
+## 5. Entradas y salidas
+
+- Recibe: requisitos y caso (repo), familias (`MODELO-DATOS.md`), matriz de
+  roles preliminar de Carlos (#29) para saber quién ve qué.
+- Entrega: a Erik y Emmanuel, por PR a `docs/diseno/`, el flujo y qué datos
+  muestra cada pantalla (insumo del contrato de datos #23).
+
+## 6. Referencias y caja de herramientas
+
+- `docs/proyecto/CASO.md`, `REQUISITOS.md`, `VISION.md`.
+- ADR-0006 (la confirmación humana es visible) y ADR-0012 (por qué aún no hay código).
+- Accesibilidad: criterios WCAG 2.2 AA; verificar contraste con la extensión axe.
+- La IA puede generar variantes de layout y textos de error; tú decides cuál queda.
+
+## 7. Cómo trabajar
+
+- Con OpenCode: `/tarea 11` para empezar y `/cerrar` para el PR.
+- La IA genera y varía; no decide reglas, permisos, dato oficial ni diseño final.
+- Duda de 30 min: pregunta al equipo. Bloqueo de 24 h: etiqueta `bloqueado`.
+
+## 8. Criterios de aceptación
+
+- [ ] Las cuatro pantallas existen y se navega entre ellas.
+- [ ] Cada pantalla tiene versión escritorio y celular.
+- [ ] La bandeja muestra el motivo de cuarentena y la acción de confirmar.
+- [ ] La búsqueda muestra de qué archivo y regla sale cada cifra.
+- [ ] `docs/diseno/FLUJO.md` y `docs/diseno/CATEGORIAS.md` en el PR, con `bun run verify` en verde.
+- [ ] Un par revisó y aprobó.
+
+## 9. Riesgos nombrados
+
+Es la primera fecha del proyecto (9-oct). Riesgo: pulir la estética antes de
+cerrar el flujo. Mitigación: baja fidelidad primero; la marca (colores,
+tipografía) se trabaja después en el playground de diseño.
+
+## 10. Revisión
+
+Viernes 2026-10-09 en el sync: recorrido del prototipo de 10 minutos con Erik.

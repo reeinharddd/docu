@@ -3,6 +3,9 @@
 # Regenera con: bash scripts/doc-index.sh --fix
 docs/academico/EC0935.md
 docs/briefs/AUDITORIA-EXTERNA.md
+docs/briefs/BRIEF-11-prototipos-ui-ux.md
+docs/briefs/BRIEF-29-matriz-roles-y-dataset.md
+docs/briefs/BRIEF-32-evaluacion-ocr.md
 docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md
 docs/CONTEXTO.md
 docs/decisiones/ADR-0001-flujos-de-trabajo-del-agente.md
