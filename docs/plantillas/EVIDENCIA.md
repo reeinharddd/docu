@@ -1,7 +1,7 @@
 # Plantilla de evidencia
 
 La evidencia es lo que convierte "ya quedó" en hecho (REGLAS.md 7). Se adjunta
-al PR y se referencia desde la tarjeta de Monday en la columna `Enlace`.
+al PR, y el PR cierra su issue con `Closes #N`.
 
 ```markdown
 # Evidencia — <ID de tarea o RF> — YYYY-MM-DD

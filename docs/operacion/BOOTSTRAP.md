@@ -94,9 +94,8 @@ cosas no hay "ya quedó" (`docs/REGLAS.md`).
 |---|---|---|
 | `bun run lint` dice que Biome no coincide con el schema | `node_modules` de otra máquina | `bun install` |
 | `.env` no existe | Primer arranque | `cp .env.example .env`, ajusta `JWT_SECRET` |
-| `FALTA` en las variables de Monday o Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
+| `FALTA` en las variables de Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
 | Puerto ocupado | Otro proceso | Cambia `PG_PORT` / `REDIS_PORT` / `PORT_API` en `.env` |
 | `prisma migrate deploy` falla | Compose no está arriba | `docker compose -f infra/docker-compose.yml --env-file .env up -d --wait` |
 | La API no responde en `/health` | Falta Redis o la BD | Revisa los logs de `bun run dev` |
-| Monday devuelve un tablero vacío | Se pidió `total_count` o `items_page_items` | Ver `integraciones/MONDAY.md` |
 | Drive devuelve una carpeta vacía | `fields` sin el envoltorio `files(...)`, o HTTP 400 no chequeado | Ver `integraciones/DRIVE.md` |

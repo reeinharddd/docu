@@ -1,7 +1,7 @@
 # Requisitos de DOCU
 
 Estado: vigente. Origen: Etapa 1 (Análisis), recortes de la Etapa 2 v2.
-Un cambio de requisito es un cambio aprobado en Monday y una línea en
+Un cambio de requisito es un issue aprobado y una línea en
 `diario/AAAA-MM-DD.md`.
 
 ## Requisitos funcionales
@@ -43,48 +43,26 @@ aunque cueste.
 
 ## Trazabilidad requisito → módulo → épica
 
-| RF | Módulo | Épica en Monday `18432808588` | Sprint |
+| RF | Módulo | Issue | Sprint |
 |---|---|---|---|
-| RF-01 | `sources/ingestión` | API NestJS: modelo de datos, ingesta y dato oficial | Sprint 1 |
-| RF-01, RF-02 | `sources/ingestación` | Pipeline de ingesta, OCR y clasificación + integración Front-End ↔ Back-End | Sprint 2 |
-| RF-03 | `canonical/lineage` | API NestJS: modelo de datos, ingesta y dato oficial | Sprint 1 |
-| RF-03, RF-04 | `discover/mapping` + front | Frontend Angular: captura, bandeja de revisión, Programa Oficial, búsqueda | Sprint 2 |
-| RF-04 | `agent/tools` | Frontend Angular (parcial) | Sprint 2 |
-| RF-05 | `agent/tools` | **sin épica etiquetada** | — |
-| RF-06 | `auth/governance` | Arquitectura, modelo de datos y entorno base | Sprint 1 |
-| RF-06, RF-02 | `auth/governance` | RBAC en servidor, bitácora y reglas de validación declarativas | Sprint 2 |
-| RF-07 | `canonical/lineage` | **sin épica etiquetada** (Could) | — |
-| RF-08 | `discover/mapping` | Configuración 2: segundo dominio sin cambiar código (**sin etiqueta de requisito**) | Sprint 3 |
-| RNF-07 | transversal | Ejecución de pruebas, evidencias y documentación de cierre | Sprint 4 |
+| RF-01 | `sources/ingestión` | #12 API NestJS | Sprint 1 |
+| RF-01, RF-02 | `sources/ingestación` | #3 Pipeline de ingesta, OCR y clasificación | Sprint 2 |
+| RF-03 | `canonical/lineage` | #12 API NestJS | Sprint 1 |
+| RF-03, RF-04 | `discover/mapping` + front | #4 Frontend Angular | Sprint 2 |
+| RF-04 | `agent/tools` | #4 Frontend Angular (parcial) | Sprint 2 |
+| RF-05 | `agent/tools` | **sin issue** | — |
+| RF-06 | `auth/governance` | #10 Arquitectura y entorno base | Sprint 1 |
+| RF-06, RF-02 | `auth/governance` | #5 RBAC, bitácora y reglas declarativas | Sprint 2 |
+| RF-07 | `canonical/lineage` | sin issue (Could) | — |
+| RF-08 | `discover/mapping` | #8 Configuración 2 | Sprint 3 |
+| RNF-07 | transversal | #6 Pruebas, evidencias y cierre | Sprint 4 |
 
-### Huecos a corregir en Monday (requiere escritura, pendiente de autorización)
+### Huecos y fechas
 
-1. **RF-05 no está etiquetado en ninguna tarjeta.** El recorte lo deja en Must
-   como "1 reporte + 1 alerta" y no tiene dueño. Debería ser de `agent/tools`.
-2. **RF-08** aparece en la tarjeta de Configuración 2 sin la etiqueta de
-   requisito.
-3. "Configuración 1: carga de familias de la planta" y "Dataset sintético
-   (Configuración 1 y 2) + plan y casos de prueba" tampoco llevan requisito.
-4. **La tarjeta `En progreso` no es "E1".** No existe ninguna tarjeta llamada
-   E1 en el tablero. La única en `En progreso` es "Arquitectura, modelo de datos
-   y entorno Docker Compose base", que es lo que el repo llama E1. Una versión
-   anterior de este documento afirmaba lo contrario.
-5. La columna `Depende de` está vacía en las 19 tarjetas. Las dependencias
-   reales están en `docs/gestion/PLAN-EPICAS.md` y hay que escribirlas.
-
-### Fechas que no estaban en el repositorio
-
-| Fecha | Qué | Dónde vive |
-|---|---|---|
-| **2026-10-23** | **Contrato de datos congelado para maquetas** | Monday, tablero de Subelementos. Registrado en `docs/gestion/PLAN-EPICAS.md` |
-| 2026-10-09 | Cierre de prototipos UI/UX | Monday |
-| 2026-10-16 | Cierre de diseño | Monday |
-| 2026-11-06 / 11-20 / 11-27 / 12-01 | Fin de Sprint 1, fin de desarrollo, listos para presentar, presentación | Monday |
-
-Los cuatro milestones (`Cierre de diseño`, `Fin del desarrollo`, `Listos para
-presentar`, `Presentación de diciembre`) **sí tienen fecha límite** en la columna
-`Cronograma`. Una versión anterior de este documento afirmaba lo contrario. No
-llevan requisito, y eso sí es correcto: un milestone no mapea a un RF.
+Los huecos de trazabilidad vivos están en `gestion/TRAZABILIDAD.md` y se
+consultan con `gh issue list --label req:pendiente`. Las fechas duras son
+milestones de GitHub y se listan en `gestion/RITMO-SEMANAL.md`; la más
+cercana con impacto en diseño es **2026-10-23, contrato de datos congelado**.
 
 ## Pruebas que exige cada requisito
 

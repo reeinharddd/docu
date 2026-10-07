@@ -7,4 +7,4 @@
 - [ ] Instalar app Renovate en el repo. NO crear `dependabot.yml` (duplicaria PRs).
 - [ ] Cada quien: clonar, `bun install`, `lefthook install`, copiar `.env`.
 - [ ] Verificar CI verde en el primer PR.
-- [ ] Pegar URL del repo en la tarjeta Monday de E1.
+- [ ] `gh auth refresh -s project` y crear el Project `DOCU` (`docs/integraciones/GITHUB-GESTION.md`).

@@ -1,6 +1,6 @@
 # Accesos e integraciones
 
-Estado: vigente. Última actualización: 2026-10-05.
+Estado: vigente. Última actualización: 2026-10-06.
 
 Este documento dice qué credenciales necesita el proyecto, de dónde salen, qué
 se puede hacer con cada una y quién las autoriza. No contiene valores: un
@@ -26,45 +26,25 @@ detecta.
 | `JWT_SECRET` | Firma de sesión | Local; en etapas posteriores con valor compartido |
 | `IA_LOCAL_ACTIVADA` | Habilita el modelo local | Local |
 | `IA_NUBE_ACTIVADA` | Habilita modelos en nube | **Requiere autorización explícita del líder** |
-| `MONDAY_API_KEY` | Token de la API de Monday | El líder lo entrega a quien lo necesite |
-| `MONDAY_BOARD_ID` | Identificador del tablero de producto | No es secreto |
+| `MONDAY_API_KEY` | Solo lectura del histórico de Monday | Opcional. El líder lo entrega si hace falta consultar el histórico |
+| `MONDAY_BOARD_ID` | Tablero histórico | Opcional, no es secreto |
 | `GOOGLE_CLIENT_ID` | Credencial OAuth del proyecto de Drive | El líder lo entrega |
 | `GOOGLE_CLIENT_SECRET` | Credencial OAuth del proyecto de Drive | El líder lo entrega |
 | `GOOGLE_REFRESH_TOKEN` | Token de refresco OAuth de Drive | El líder lo entrega |
 | `GOOGLE_DRIVE_FOLDER` | Carpeta de entregas en Drive | No es secreto |
 | `ENGRAM_PROYECTO` | Nombre del proyecto de memoria | No es secreto |
 
-## Monday
+## Gestión del trabajo: GitHub
 
-Un solo tablero es fuente de verdad de DOCU:
+Issues, sub-issues, milestones, etiquetas y Project del repositorio
+`reeinharddd/docu` (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
+Credencial: la cuenta de GitHub de cada persona, colaboradora del repositorio.
+El agente usa `gh` o el servidor MCP de GitHub. Permisos y comandos:
+`integraciones/GITHUB-GESTION.md`.
 
-| Tablero | Identificador | Propósito |
-|---|---|---|
-| Gestión del proyecto | `18432808588` | **Autoridad de estado.** Producto DOCU: épicas, historias, tareas, sprints |
-
-Los demás tableros de la cuenta no son fuente de verdad del producto y no se leen
-para decidir sobre DOCU. Se inventarian en `integraciones/MONDAY.md` con el motivo
-de quedar fuera, para que no se reenabrunden por error.
-
-| Tablero | Identificador | Por qué no es autoridad |
-|---|---|---|
-| Proyecto EC0935 – RDD | `18432676211` | Gantt académico de la materia. Planeación, no ejecución |
-| Subelementos de Gestión del proyecto | `18433853431` | Desglose. Contiene la fecha de congelación del contrato |
-| Proveedores | `18433290803` | Externos. No afecta el producto |
-| ~~Control del proyecto~~ | `39824544` | **La API responde `boards: []`.** Declarado aquí antes sin estar disponible. Resolver antes de volver a contarlo |
-
-Reglas de uso, en orden de permiso:
-
-| Acción | Permiso | Condición |
-|---|---|---|
-| Leer tableros, columnas, grupos y tarjetas | Automático | — |
-| Cambiar estado, responsable, fechas o sprint | Con confirmación | Petición explícita del líder en la conversación |
-| Crear tarjetas o columnas | Con confirmación | Con el formato de brief completo y registrado |
-| Archivar o cancelar | Con confirmación | Nunca borrar: el histórico es evidencia |
-| Borrar tarjetas, tableros o estructura | **Prohibido** | Sin excepción |
-
-Contrato de columnas, estados, prioridades, límites reales de la API y hallazgos
-verificados: `integraciones/MONDAY.md`.
+Monday (tablero `18432808588` y los demás de la cuenta) quedó **congelado como
+histórico** el 2026-10-06: no se escribe y no es autoridad de nada. Inventario y
+hallazgos: `integraciones/MONDAY.md`.
 
 ## Google Drive y Docs
 
@@ -75,10 +55,10 @@ Una sola carpeta, con su identificador fijo:
 | Desarrollo web integral | `1KeJaYqEfrbD4H7hKCTIZsDMEAOolUdH4` |
 
 Contiene los documentos de las etapas, la plantilla de formato y el diagrama de
-arquitectura. El árbol verificado y los 3 enlaces cruzados con Monday:
+arquitectura. El árbol verificado y los 3 enlaces cruzados con los entregables:
 `integraciones/DRIVE.md`.
 
-Se busca **por identificador, nunca por nombre**: Monday llama al proyecto
+Se busca **por identificador, nunca por nombre**: el tablero académico llama al proyecto
 "Proyecto EC0935 – REPOSITORIO DE DOCUMENTACION DIGITAL (RDD)" y la carpeta se
 llama "Desarrollo web integral". Buscar por nombre falla.
 
@@ -118,11 +98,12 @@ como variable de entorno en `.env.example`, y su fila en esta tabla.
 
 ## Lo que un agente puede hacer sin preguntar
 
-Leer el repositorio, leer el tablero `18432808588`, leer la carpeta de Drive,
+Leer el repositorio, leer issues, milestones y Project de GitHub, leer la carpeta de Drive,
 leer la memoria del proyecto, y ejecutar las verificaciones declaradas en el
 repositorio: `bun run lint`, `bun run typecheck`, `bun run prisma:validate`,
 `bun run compose:check`, `bun run doctor`, `bash scripts/doc-index.sh` y las
 pruebas.
 
-Todo lo demás se pregunta. Incluye cualquier escritura en Monday o Drive, que
-queda prohibida, no solo confirmada.
+Todo lo demás se pregunta. Escribir en Drive o en Monday (histórico) queda
+prohibido, no solo confirmado. Escribir issues sigue la tabla de permisos de
+`integraciones/GITHUB-GESTION.md`.

@@ -1,8 +1,12 @@
-# Integración: Monday
+# Integración: Monday (histórico)
 
-Estado: vigente. Verificado contra la API el 2026-10-05 (`API-Version: 2026-07`).
-Autoridad de: estado, responsable, fechas, sprint, dependencia. Nunca de código ni
-de decisiones técnicas (`docs/README.md`, capas de autoridad).
+Estado: **reemplazado** el 2026-10-06 por GitHub
+(`decisiones/ADR-0008-github-como-gestor-del-equipo.md`). El gestor vigente se
+documenta en `integraciones/GITHUB-GESTION.md`. Este archivo se conserva como
+evidencia: Monday ya no es autoridad de nada y no se escribe. Las 19 tarjetas y
+9 subelementos se migraron a los issues #3–#26.
+
+Verificado contra la API el 2026-10-05 (`API-Version: 2026-07`).
 
 ## Tablero en alcance
 

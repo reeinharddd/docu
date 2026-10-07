@@ -11,6 +11,7 @@ docs/decisiones/ADR-0004-prisma-postgresql-pgvector.md
 docs/decisiones/ADR-0005-bullmq-para-trabajo-pesado.md
 docs/decisiones/ADR-0006-ia-propone-humano-dispone.md
 docs/decisiones/ADR-0007-contrato-de-herramientas-del-agente.md
+docs/decisiones/ADR-0008-github-como-gestor-del-equipo.md
 docs/decisiones/README.md
 docs/gestion/PLAN-EPICAS.md
 docs/gestion/RITMO-SEMANAL.md
@@ -25,6 +26,7 @@ docs/ingenieria/STACK.md
 docs/integraciones/ACCESOS.md
 docs/integraciones/DRIVE.md
 docs/integraciones/ENGRAM.md
+docs/integraciones/GITHUB-GESTION.md
 docs/integraciones/HERRAMIENTAS-AGENTE.md
 docs/integraciones/INVESTIGACION-HERRAMIENTAS.md
 docs/integraciones/MCP.md

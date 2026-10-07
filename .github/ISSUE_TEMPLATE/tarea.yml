@@ -3,10 +3,6 @@ description: Delegacion con BRIEF-FORMATO. Sin brief no hay tarea.
 title: "[TAREA] "
 body:
   - type: input
-    id: monday
-    attributes: {label: ID Monday}
-    validations: {required: true}
-  - type: input
     id: dueno
     attributes: {label: Dueno}
     validations: {required: true}

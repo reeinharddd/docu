@@ -45,13 +45,9 @@ fi
 line ""
 line "== entorno =="
 if [ -f .env ]; then ok_line ".env existe (no se commitea)"; else falta_line ".env no existe. Se crea solo con 'bun run dev' o: cp .env.example .env"; fi
-for k in DATABASE_URL REDIS_URL JWT_SECRET MONDAY_API_KEY MONDAY_BOARD_ID GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROYECTO; do
+for k in DATABASE_URL REDIS_URL JWT_SECRET GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROYECTO; do
   if [ -f .env ] && grep -q "^${k}=" .env; then :; else aviso_line "variable ausente en .env: $k"; fi
 done
-if [ -f .env ]; then
-  n=$(grep -c '^MONDAY_API_KEY=.' .env 2>/dev/null || echo 0)
-  [ "$n" -gt 0 ] && ok_line "MONDAY_API_KEY con valor" || aviso_line "MONDAY_API_KEY vacia"
-fi
 
 if command -v docker >/dev/null 2>&1; then ok_line "docker $(docker --version | sed 's/.*version //;s/,.*//')"; else falta_line "docker no instalado"; fi
 

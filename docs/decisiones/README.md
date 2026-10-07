@@ -39,12 +39,12 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0005](ADR-0005-bullmq-para-trabajo-pesado.md) | BullMQ y Redis para OCR y trabajo asíncrono | Aceptada | 2026-10-05 |
 | [0006](ADR-0006-ia-propone-humano-dispone.md) | La IA propone, el humano dispone | Aceptada | 2026-09-26 |
 | [0007](ADR-0007-contrato-de-herramientas-del-agente.md) | El contrato del agente y sus herramientas viven en el repositorio | Aceptada | 2026-10-05 |
+| [0008](ADR-0008-github-como-gestor-del-equipo.md) | GitHub Issues y Projects como gestor del equipo, en lugar de Monday | Aceptada | 2026-10-06 |
 
 Pendientes de redactar, con la decisión ya tomada y verificada:
 
 | # | Decisión pendiente de documentar |
 |---|---|
-| 0008 | Monday como gestor del equipo con MCP oficial, escritura por confirmación |
 | 0009 | Las reglas del caso son datos en `ReglaValidacion`, no código |
 | 0010 | Bitácora e historial solo-insert |
 | 0011 | Arquitectura: API encola, worker procesa, la IA propone dentro del worker |

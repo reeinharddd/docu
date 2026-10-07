@@ -1,17 +1,17 @@
 # Plantilla de brief (delegación de tarea)
 
-Se copia a `docs/briefs/BRIEF-<ID>-<slug>.md` y la tarjeta de Monday lo
-enlaza en la columna `Enlace`. Sin brief no hay delegación. El mensaje de
+Se copia a `docs/briefs/BRIEF-<issue>-<slug>.md` y su issue de GitHub lo
+enlaza en la descripción. Sin brief no hay delegación. El mensaje de
 WhatsApp es solo el aviso; el brief es la fuente de verdad.
 
 ## 0. Encabezado
 
-- ID Monday / enlace:
+- Issue (`#N`) / enlace:
 - Dueño:
 - Fechas (inicio-fin) / Sprint:
 - Prioridad / Tipo / Épica / Módulo:
 - Requisitos asociados (RF-/RNF-):
-- Depende de (IDs) / Bloquea a (IDs):
+- Bloqueado por (`#N`) / Bloquea a (`#N`):
 
 ## 1. Contexto
 
@@ -68,7 +68,7 @@ El riesgo principal, su mitigación y desde qué fecha es bloqueo.
 
 Cuándo se revisa, con quién y en qué formato.
 
-## Versión corta (descripción de Monday)
+## Versión corta (descripción del issue)
 
 > [ID] Título — dueño, fechas. Objetivo en una línea. Entradas recibidas de X.
 > Entregable + evidencia. Revisión el día D. Detalle: `<enlace>`.

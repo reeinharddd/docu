@@ -90,4 +90,4 @@ Ver `gestion/RIESGOS.md` para el registro vivo con responsables y fechas.
 - Requisitos: `proyecto/REQUISITOS.md`
 - Caso de negocio: `proyecto/CASO.md`
 - Decisiones de stack: `decisiones/` e `ingenieria/ENTORNO.md`
-- Trabajo en curso: tablero Monday `18432808588`
+- Trabajo en curso: GitHub Issues y Project del repositorio (`integraciones/GITHUB-GESTION.md`)
