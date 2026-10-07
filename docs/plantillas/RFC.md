@@ -11,7 +11,7 @@ Revisor: nombre (obligatorio, `docs/REGLAS.md`)
 ## Problema
 
 Qué está mal hoy, con evidencia. No con la solución que ya trajiste en mente.
-Incluye el enlace a la tarjeta de Monday o al issue.
+Incluye el enlace al issue.
 
 ## Alcance
 

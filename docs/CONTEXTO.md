@@ -25,5 +25,6 @@ corre solo en worker). TypeScript estricto punta a punta, bun full.
 ## Equipo y flujo
 Carlos (dataset+QA), Erik/líder (infra+pipeline), Kira (frontend),
 Emmanuel (backend). Briefs de cada tarea en `docs/briefs/` con el formato de
-`docs/plantillas/BRIEF.md`. Tablero Monday `18432808588`.
+`docs/plantillas/BRIEF.md`. Estado del trabajo: GitHub Issues del repo
+(`docs/integraciones/GITHUB-GESTION.md`).
 Sin evidencia no hay "ya quedó".

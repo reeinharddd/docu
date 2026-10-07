@@ -7,7 +7,7 @@ catalogado aquí, no está documentado; si está en el lugar equivocado, está m
 
 > Si es verdad para los cuatro integrantes, puede escribirse como archivo y
 > cambia con el código, entonces **va en el repositorio**. La memoria indexa,
-> no reemplaza. Monday ejecuta el trabajo. Drive entrega.
+> no reemplaza. GitHub Issues ejecuta el trabajo. Drive entrega.
 
 Nada de conocimiento que solo viva en la cabeza de alguien, en un chat, en
 Drive o en una memoria local de una sola máquina.
@@ -21,7 +21,7 @@ documenta igual un diseño que una decisión de ingeniería.
 |---|---|---|---|---|---|
 | Visión y alcance | Qué es y qué no es DOCU | Erik | Cambia el rumbo del producto | `proyecto/VISION.md` | — |
 | Caso de negocio | Cómo es la planta real y qué duele | Erik + equipo | Cambia el dominio | `proyecto/CASO.md` | — |
-| Requisitos | Qué debe hacer el sistema | Equipo | Cambio aprobado en Monday | `proyecto/REQUISITOS.md` | — |
+| Requisitos | Qué debe hacer el sistema | Equipo | Cambio aprobado en un issue | `proyecto/REQUISITOS.md` | — |
 | Equipo | Quién hace qué | Erik | Reasignación de tarea | `proyecto/EQUIPO.md` | — |
 | **Decisión de ingeniería** | Por qué se eligió X sobre Y | Quien decide, con revisor | Nunca se reescribe: se marca `Reemplazada` | `decisiones/ADR-NNNN-*.md` | `plantillas/ADR.md` |
 | Arquitectura | Cómo está construido hoy | Backend/infra | Cada cambio estructural | `ingenieria/*.md` | — |
@@ -39,7 +39,7 @@ Regla de ubicación que evita ruido en el repositorio:
 - **En la memoria del proyecto**: lo que cambia todos los días. Bitácora de
   sesión, descubrimientos, estado de una conversación. Se consulta cuando hace
   falta y no se commitea.
-- **En Monday**: lo que está pasando ahora. Estado, responsable, fecha.
+- **En GitHub Issues/Projects**: lo que está pasando ahora. Estado, responsable, fecha.
 
 Reglas que hacen funcional la separación:
 
@@ -50,7 +50,7 @@ Reglas que hacen funcional la separación:
 3. **El diseño describe la experiencia, no el código.** Pantallas, estados,
    mensajes y flujos. Si necesita nombrar un archivo `.ts`, no es diseño.
 4. **La arquitectura describe el presente, no el deseo.** El futuro va como
-   ADR o como tarea de Monday, nunca como descripción del sistema actual.
+   ADR o como issue, nunca como descripción del sistema actual.
 5. **Requisito, épica, PR y evidencia son la misma cadena.** Se verifica con
    `gestion/TRAZABILIDAD.md`.
 6. **Nada de documento sin dueño.** Cada archivo de arriba tiene un responsable
@@ -62,9 +62,9 @@ Reglas que hacen funcional la separación:
 |---|---|---|
 | Repositorio (`docs/`) | Código, reglas, decisiones, contrato operativo | Estado de una tarea |
 | ADR (`decisiones/`) | Por qué el sistema es como es | Cómo se usa hoy |
-| Monday `18432808588` | Estado, responsable, fechas, sprint, dependencia | Código y decisiones técnicas |
+| GitHub Issues, milestones y Project | Estado, responsable, fechas, sprint, dependencia | Decisiones técnicas |
 | Drive (carpeta viva) | Entregas y documentos académicos firmados | Reglas del equipo |
-| GitHub | Historial, PR, CI, protección de `main` | Requisitos y diseño |
+| GitHub (código) | Historial, PR, CI, protección de `main` | Requisitos y diseño |
 | Engram (memoria) | Contexto de sesión, descubrimientos, índice | Nada canónico |
 
 Cuando dos fuentes discrepan, gana la de la tabla para ese tema y se corrige la
@@ -79,11 +79,11 @@ sin listar. Corre en CI y en `bun run doctor`.
 | Ruta | Contenido | Estado |
 |---|---|---|
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
-| `decisiones/` | ADRs de ingeniería, 7 aceptadas | en progreso |
+| `decisiones/` | ADRs de ingeniería, 8 aceptadas | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA | en progreso |
 | `diseno/` | Experiencia de uso: modelo operativo, pantallas, flujos, identidad | pendiente |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
-| `integraciones/` | Accesos, Monday, Drive, Engram, MCP, herramientas del agente, investigación | completo |
+| `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
 | `academico/` | Entregas de la materia | pendiente |
 | `briefs/` | Delegaciones con el formato obligatorio, auditoría externa | activo |
@@ -101,12 +101,12 @@ Estas rutas alimentan lo anterior; al escribir aquí se copian, no se enlazan.
 | Origen | Qué aporta | Cómo se lee |
 |---|---|---|
 | Especificación de la arquitectura (documento de la materia, en Drive) | Stack decidido, módulos, acuerdos de equipo | `integraciones/DRIVE.md` (solo lectura) |
-| Tablero de gestión del proyecto | Estado real del trabajo | `integraciones/MONDAY.md` |
-| Contrato de columnas y hechos verificados de la API de Monday | Lo que hace funcionar el tablero y sus automatizaciones | ya incorporado en `integraciones/MONDAY.md` |
+| Issues, milestones y Project de GitHub | Estado real del trabajo | `integraciones/GITHUB-GESTION.md` |
+| Monday (histórico, congelado el 2026-10-06) | Evidencia de la planeación anterior | `integraciones/MONDAY.md` |
 | Drive `/Desarrollo web integral` | Etapas 0/1/2, plantilla IEEE 830, diagramas | `integraciones/DRIVE.md` |
 | Engram | Memoria de sesión | `integraciones/ENGRAM.md` |
 
-Nada de esto se lee desde cache: Drive y Monday se consultan en vivo.
+Nada de esto se lee desde cache: Drive y GitHub se consultan en vivo.
 
 ## Documentos heredados que este sistema reemplaza
 
@@ -117,4 +117,5 @@ Nada de esto se lee desde cache: Drive y Monday se consultan en vivo.
 | `README.md` (arranque) | `operacion/BOOTSTRAP.md` |
 | `.opencode/PROJECT_CONTEXT.md` (documento de contexto que vivía fuera del repo) | `proyecto/EQUIPO.md` + `integraciones/MCP.md` |
 | Memoria de Engram como fuente de decisiones | `decisiones/*.md` |
+| Monday como gestor del equipo | `decisiones/ADR-0008-github-como-gestor-del-equipo.md` |
 | Herramientas de agente en configuración personal de cada máquina | `decisiones/ADR-0007-contrato-de-herramientas-del-agente.md` |

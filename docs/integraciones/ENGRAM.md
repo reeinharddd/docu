@@ -15,7 +15,7 @@ tiempo, va en `docs/` y se versiona. La memoria indexa, no reemplaza
 | Fuente | Autoridad sobre |
 |---|---|
 | `docs/` | Código, reglas, decisiones, contrato operativo |
-| Monday `18432808588` | Estado, responsable, fechas |
+| GitHub Issues y Project | Estado, responsable, fechas |
 | Engram | Contexto de sesión y descubrimientos |
 
 ## Reglas de escritura
@@ -37,17 +37,17 @@ tiempo, va en `docs/` y se versiona. La memoria indexa, no reemplaza
 |---|---|
 | Por qué se eligió X sobre Y | `docs/decisiones/ADR-NNNN-*.md` |
 | Versiones fijadas del stack | `docs/ingenieria/STACK.md` |
-| Qué hace el tablero y cómo se lee | `docs/integraciones/MONDAY.md` |
+| Cómo se gestiona el trabajo | `docs/integraciones/GITHUB-GESTION.md` |
 | Cómo se levanta el entorno | `docs/operacion/BOOTSTRAP.md` |
 | Qué herramienta se eligió y por qué | `docs/integraciones/HERRAMIENTAS-AGENTE.md` |
-| Estado de una tarea | Monday |
+| Estado de una tarea | GitHub Issues |
 
 ## Descubrimientos que ya están en el repo
 
 No volver a guardarlos en memoria: se consultan en el archivo.
 
-- Monday `ItemsResponse` solo expone `cursor` e `items`; `total_count` y
-  `items_page_items` no existen (`integraciones/MONDAY.md`).
+- Monday (histórico) `ItemsResponse` solo expone `cursor` e `items`; una consulta
+  con subelementos agota el presupuesto de complejidad (`integraciones/MONDAY.md`).
 - El listado de Drive exige `fields=files(...)`; el de un archivo no
   (`integraciones/DRIVE.md`).
 - `@prisma/cli@latest` es `8.0.0-rc.20` y el proyecto usa Prisma `7.10.0`

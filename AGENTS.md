@@ -26,7 +26,9 @@ Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
 4. TypeScript estricto en ambos proyectos. Nada de any sin justificacion escrita.
 5. `originales/` es solo lectura; nada se borra en silencio.
 6. E1 es solo configs: sin logica de negocio hasta M1/K1/C1.
-7. Drive y Docs en solo lectura en vivo. Monday solo con peticion explicita.
+7. Drive y Docs en solo lectura en vivo. Gestion en GitHub Issues: leer libre,
+   escribir segun `docs/integraciones/GITHUB-GESTION.md`. Monday es historico:
+   no se escribe.
 8. Antes de cerrar algo: `bun run verify` en verde mas evidencia. Un cambio por commit.
    La API tiene 0 pruebas: `verify` la arranca y consulta `/health` porque no
    hay otra red que tire. En `apps/api`, ningun provider inyectado por
