@@ -6,6 +6,7 @@
     "apps/*"
   ],
   "scripts": {
+    "setup": "bash scripts/setup.sh",
     "dev": "bash scripts/dev.sh",
     "dev:web": "bun --filter web start",
     "doctor": "bash scripts/doctor.sh",

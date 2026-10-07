@@ -45,7 +45,7 @@ principio y las reglas de propiedad, no el formato.
    - Prisma: <https://github.com/prisma/skills>, instalable con
      `bunx @prisma/cli@7.10.0 agent install`. **Fijado a propósito**: `@latest`
      es `8.0.0-rc.20` y el proyecto usa Prisma 7 (`bing/STACK.md`)
-   - Monday: MCP oficial de la plataforma
+   - GitHub: `gh` CLI, ya autenticado por cada persona (ADR-0008)
    - Documentación de Bun, NestJS, Redis, Ollama y PostgreSQL: links fijos en
      [ingenieria/STACK.md](../ingenieria/STACK.md)
 5. **Remoto con versión, no "última versión".** Una referencia a un remoto
@@ -90,7 +90,7 @@ principio y las reglas de propiedad, no el formato.
 | Veredicto sobre los MCP candidatos | Erik | **Hecho.** `integraciones/MCP.md`: ninguno entra todavía |
 | Instalar y evaluar Agent Skills de Angular | Kira | Pendiente. K1 |
 | Instalar y evaluar skills de Prisma | Emmanuel | Pendiente. M1 |
-| Instalar las skills propias del equipo | Todos | Pendiente. Requiere el directorio de skills, que aún no existe |
+| Instalar las skills propias del equipo | Todos | **En curso.** `.opencode/skills/` y `.opencode/commands/` versionados; `scripts/setup.sh` deja la máquina lista (2026-10-06) |
 
 ## Evidencia
 

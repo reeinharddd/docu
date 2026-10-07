@@ -22,7 +22,7 @@ line ""
 line "== herramientas fijadas =="
 schema_biome=$(sed -n 's#.*schemas/\([0-9.]*\)/schema.json.*#\1#p' biome.json)
 if [ -x node_modules/.bin/biome ]; then
-  have_biome=$(node_modules/.bin/biome --version 2>/dev/null | sed 's/^Version: //')
+  have_biome=$(bun node_modules/.bin/biome --version 2>/dev/null | sed 's/^Version: //')
   if [ "$have_biome" = "$schema_biome" ]; then ok_line "Biome $have_biome local = schema $schema_biome"; else falta_line "Biome local $have_biome != schema $schema_biome"; fi
 else
   falta_line "Biome no instalado. Corre 'bun install' (esta declarado en devDependencies)"
@@ -48,6 +48,10 @@ if [ -f .env ]; then ok_line ".env existe (no se commitea)"; else falta_line ".e
 for k in DATABASE_URL REDIS_URL JWT_SECRET GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROYECTO; do
   if [ -f .env ] && grep -q "^${k}=" .env; then :; else aviso_line "variable ausente en .env: $k"; fi
 done
+
+if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then ok_line "gh con sesion ($(gh api user --jq .login 2>/dev/null))"; else falta_line "gh sin instalar o sin sesion. Corre: bun run setup"; fi
+if command -v opencode >/dev/null 2>&1; then ok_line "opencode instalado"; else aviso_line "opencode no instalado. Corre: bun run setup"; fi
+for f in .opencode/commands/inicio.md .opencode/skills/docu-gestion/SKILL.md; do [ -f "$f" ] && ok_line "agente: $f" || falta_line "agente: falta $f"; done
 
 if command -v docker >/dev/null 2>&1; then ok_line "docker $(docker --version | sed 's/.*version //;s/,.*//')"; else falta_line "docker no instalado"; fi
 
@@ -80,7 +84,7 @@ line "== higiene git =="
 raiz=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 sucios=$(cd "$raiz" && git status --porcelain | grep -v '^?? node_modules' | wc -l | tr -d ' ')
 [ "$sucios" -eq 0 ] && ok_line "arbol limpio" || aviso_line "$sucios ruta(s) sin commitear en la rama $(cd "$raiz" && git rev-parse --abbrev-ref HEAD)"
-for p in .claude .opencode .cursor .codex; do
+for p in .claude .cursor .codex; do
   if [ -e "$raiz/$p" ]; then
     if git -C "$raiz" check-ignore -q "$p" 2>/dev/null; then aviso_line "$p/ existe localmente y esta en .gitignore (correcto)"; else falta_line "$p/ existe y NO esta en .gitignore"; fi
   fi
