@@ -32,7 +32,7 @@ con `service_started`.
 
 ## Variables
 
-14 en `.env`. Los nombres están en `.env.example`, que es la documentación de
+12 en `.env`. Los nombres están en `.env.example`, que es la documentación de
 cada una; los valores viven solo en la máquina. La política completa, incluidos
 los permisos de GitHub y Drive, está en `docs/integraciones/`.
 
@@ -40,7 +40,6 @@ los permisos de GitHub y Drive, está en `docs/integraciones/`.
 |---|---|
 | Datos | `DATABASE_URL`, `PG_PORT`, `REDIS_URL`, `REDIS_PORT` |
 | API | `PORT_API`, `JWT_SECRET` |
-| Monday (histórico, opcional) | `MONDAY_API_KEY`, `MONDAY_BOARD_ID` |
 | Drive | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GOOGLE_DRIVE_FOLDER` |
 | IA | `IA_LOCAL_ACTIVADA`, `IA_NUBE_ACTIVADA` |
 | Memoria | `ENGRAM_PROYECTO` |

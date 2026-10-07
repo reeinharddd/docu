@@ -72,3 +72,21 @@ Monday queda congelado como histórico de solo lectura. No se borra
 Que el equipo crezca a más de 12 personas con roles que no deban ver el código,
 o que la materia exija un gestor específico. En ese caso, Plane es el siguiente
 candidato.
+
+## Enmienda 2026-10-06: baja total de Monday
+
+La cuenta de Monday llegó al límite del plan gratuito y se da de baja. Cambia
+una consecuencia, no la decisión: en lugar de conservar Monday como histórico de
+solo lectura, se extrajo todo su contenido y se eliminan del repositorio el
+archivo de integración y sus variables de entorno.
+
+Qué se extrajo y a dónde fue:
+
+| En Monday | En GitHub o en el repositorio |
+|---|---|
+| 19 tarjetas de "Gestión del proyecto" | Issues #3–#17 y milestones |
+| 9 subelementos | Sub-issues #18–#26 |
+| 17 comentarios con objetivo, alcance y criterios de hecho | Sección "Alcance y criterios" de cada issue |
+| 23 actividades del plan académico EC0935 | `academico/EC0935.md` + 8 issues nuevos (#28–#35) con etiqueta `ec0935` para lo que no tenía equivalente |
+| Tablero "Proveedores" | Vacío (5 ítems de plantilla de 2025). Nada que migrar |
+| Workdocs y archivos adjuntos | Ninguno |
