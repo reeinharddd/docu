@@ -4,43 +4,84 @@ Estado: vigente desde 2026-10-06 (`decisiones/ADR-0008-github-como-gestor-del-eq
 Autoridad de: estado, responsable, fechas, sprint, dependencias. Nunca de código
 ni de decisiones técnicas (`docs/README.md`, capas de autoridad).
 
+Tablero: <https://github.com/users/reeinharddd/projects/1> (Project `DOCU`,
+vinculado al repositorio).
+
+## Regla de oro
+
+**Las etiquetas del issue son la fuente.** Los campos del Project se llenan
+solos con `scripts/project-sync.ts`, que corre en cada cambio de issue o PR y
+cada mañana de lunes a viernes (`.github/workflows/project-sync.yml`). Nadie
+mantiene dos veces el mismo dato.
+
 ## Dónde está cada cosa
 
 | Concepto | En GitHub | Ejemplo |
 |---|---|---|
-| Tarea, historia, entregable | Issue | #12 API NestJS |
-| Subtarea | Sub-issue | #18 Leer Excel con validación por familia (de #3) |
+| Épica | Issue `tipo:epica` con sub-issues; su barra de progreso es la de sus hijos | #48 Épica: Backend |
+| Tarea, historia, investigación, entregable | Issue con `tipo:*` | #12 API NestJS |
+| Subtarea | Sub-issue | #46 Worker (de #3) |
 | Hito con fecha | Milestone | `Contrato de datos congelado` (2026-10-23) |
-| Épica | Etiqueta `epica:*` | `epica:backend` |
-| Sprint | Etiqueta `sprint:N` | `sprint:1` |
-| Requisito | Etiqueta `RF-0n` / `RNF-0n` | `RF-01` |
-| Requisito sin asignar | Etiqueta `req:pendiente` | #7 Configuración 1 |
-| Prioridad | Etiqueta `prioridad:*` | `prioridad:critica` |
-| Dependencia | *Blocked by* nativo | #4 bloqueada por #3 y #23 |
+| Sprint | Etiqueta `sprint:N` → campo iteración `Sprint` | `sprint:2` |
+| Prioridad | Etiqueta `prioridad:*` → campo `Prioridad` | `prioridad:critica` |
+| Área | Etiqueta `epica:*` → campo `Épica` | `epica:diseno` |
+| Requisito | Etiqueta `RF-0n` / `RNF-0n`; si falta, `req:pendiente` | `RF-01` |
+| Plan académico | `ec0935` + `fase:N` | #32 |
+| Dependencia | *Blocked by* nativo | #4 bloqueada por #3, #23 y #41 |
 | Bloqueo > 24 h | Etiqueta `bloqueado` | — |
-| Estado y cronograma | Campos del Project | `Estado`, `Inicio`, `Fin` |
-| Evidencia | PR que cierra el issue (`Closes #N`) + adjunto | — |
+| Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-10-12 → 2026-10-23` |
+| Evidencia | PR con `Closes #N` + adjunto | — |
 
-## Hitos
+## Épicas
 
-| Milestone | Fecha |
+| Issue | Épica | Contiene |
+|---|---|---|
+| #47 | Infraestructura | Entorno, CI, arquitectura, Configuración 2, gestión del equipo, cotizaciones |
+| #48 | Backend | API, pipeline, worker, OCR, reportes y alertas |
+| #49 | Frontend | Aplicación Angular (espera la puerta de diseño, ADR-0012) |
+| #50 | Base de datos | Modelo, contrato, Configuración 1 |
+| #51 | Autenticación | RBAC, matriz de roles, bitácora, reglas |
+| #52 | QA/Documentación | Dataset, pruebas, SRS, entregas académicas |
+| #53 | Diseño | Prototipos, categorías, design system, playground |
+
+## Campos del Project
+
+| Campo | Cómo se llena |
 |---|---|
-| Cierre de diseño | 2026-10-16 |
-| **Contrato de datos congelado** | **2026-10-23** |
-| Fin del desarrollo | 2026-11-20 |
-| Listos para presentar | 2026-11-27 |
-| Presentación de diciembre | 2026-12-01 |
+| `Status` | Cerrado → `Listo`. PR abierto que lo cierra → `En revisión`. Nuevo → `Por hacer`. `En progreso` lo mueve la persona al empezar |
+| `Épica` | `epica:*` del issue o de su padre |
+| `Prioridad` | `prioridad:*` del issue o de su padre |
+| `Sprint` | `sprint:N` → iteraciones: S1 05–16 oct, S2 19 oct–6 nov, S3 9–20 nov, S4 23 nov–4 dic |
+| `Inicio`, `Fin` | Línea `Cronograma` del cuerpo, solo si el campo está vacío |
+| `Estimación (h)` | A mano, opcional |
+| Nativos | Assignees, Labels, Milestone, Parent issue, Sub-issues progress, Linked pull requests |
 
-## Comandos que usa todo el equipo
+## Flujo de una tarea
+
+1. Se crea con una plantilla (`Tarea`, `Investigación`, `Diseño`, `Entregable
+   académico`, `Bug`) y se etiqueta: `epica:*`, `sprint:N`, `prioridad:*`, `RF-0n`.
+2. Se cuelga de su épica como sub-issue y se marcan sus dependencias.
+3. Quien la toma: `/tarea N` en OpenCode o `gh issue develop N --base main --checkout`,
+   y la mueve a `En progreso`.
+4. PR con `Closes #N`. El check `pr-issue` falla si falta (salvo etiqueta
+   `sin-issue` para mantenimiento).
+5. Al abrir el PR pasa sola a `En revisión`; al fusionarlo, a `Listo`.
+
+## Comandos
 
 ```bash
 gh issue list --assignee @me                      # mis tareas
 gh issue list --milestone "Cierre de diseño"      # lo que vence en el hito
 gh issue list --label req:pendiente               # tareas sin requisito
 gh issue view 12                                  # detalle, sub-issues y dependencias
-gh issue develop 12 --name feat/12-api-modelo --checkout   # rama ligada al issue
+gh issue develop 12 --base main --checkout        # rama ligada al issue
 gh pr create --fill                               # el cuerpo lleva "Closes #12"
+GH_TOKEN=$(env -u GITHUB_TOKEN gh auth token) bun run project:sync   # sync manual
 ```
+
+Los comandos `gh project` y el sync manual necesitan el scope `project`. Si tu
+shell exporta `GITHUB_TOKEN`, `gh` usa ese token antes que tu sesión:
+`env -u GITHUB_TOKEN gh auth refresh -h github.com -s project`.
 
 ## Permisos (agente y humanos)
 
@@ -48,42 +89,30 @@ gh pr create --fill                               # el cuerpo lleva "Closes #12"
 |---|---|---|
 | Leer issues, milestones, Project | Automático | — |
 | Comentar en un issue propio | Automático | — |
-| Crear issue | Con confirmación | Formato de `plantillas/BRIEF.md` o plantilla `tarea` |
+| Crear issue | Con confirmación | Con plantilla y etiquetas completas |
 | Cambiar responsable, milestone, etiquetas de otro | Con confirmación | Petición del líder |
 | Cerrar un issue | Solo vía PR fusionado o con evidencia en el comentario | Definición de Hecho (REGLAS 7) |
 | Borrar issues, etiquetas o milestones | **Prohibido** | El histórico es evidencia: se cierra como `not planned` |
 
-## Project `DOCU`
+## Pendiente de configurar en la web (#43)
 
-Tablero: <https://github.com/users/reeinharddd/projects/1>, vinculado al
-repositorio. Todos los issues están dentro.
+La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
 
-| Campo | Valores |
-|---|---|
-| `Status` | `Por hacer`, `En progreso`, `En revisión`, `Listo` |
-| `Inicio`, `Fin` | Fechas del cronograma (alimentan la vista Roadmap) |
-| Nativos | Assignees, Labels, Milestone, Parent issue, Sub-issues progress, Linked pull requests |
-
-```bash
-gh project item-list 1 --owner reeinharddd --limit 100
-gh project item-add 1 --owner reeinharddd --url <url-del-issue>   # si un issue no aparece
-```
-
-Los comandos `gh project` necesitan el scope `project`. Si tu shell exporta
-`GITHUB_TOKEN`, `gh` usa ese token antes que tu sesión:
-`env -u GITHUB_TOKEN gh auth refresh -h github.com -s project`.
-
-## Pendiente de configurar en la web (la API no lo permite)
-
-La hace Erik, una sola vez, en *Settings* del Project:
-
-1. Vistas: **Tablero** (agrupado por `Status`), **Tabla** (agrupada por
-   etiqueta `epica:*`) y **Roadmap** (`Inicio` → `Fin`, marcadores de milestone).
-2. *Workflows*: `Auto-add to project` con filtro `is:issue,pr` del repositorio;
-   `Item closed` y `Pull request merged` → `Listo`; `Item reopened` →
-   `En progreso`. Revisar que apunten a las opciones en español.
-3. Invitar a los compañeros como colaboradores con rol *Write* y asignarles sus
-   issues (`gh issue edit N --add-assignee <usuario>`).
+1. **Secreto `PROJECT_TOKEN`**: token *fine-grained* con permiso de lectura y
+   escritura en *Projects* (cuenta) e *Issues*/*Pull requests* de lectura en el
+   repo. En el repo: *Settings → Secrets and variables → Actions → New secret*.
+   Sin él, el workflow avisa y no hace nada; el sync manual sigue funcionando.
+2. **Vistas** del Project (*New view*):
+   - **Tablero**: layout Board, agrupado por `Status`.
+   - **Por épica**: layout Table, *Group by* `Épica`, columnas Status, Assignees, Sprint, Fin.
+   - **Sprint actual**: Board con filtro `sprint:@current`.
+   - **Roadmap**: layout Roadmap con `Inicio` → `Fin`, marcadores de milestone e iteración.
+   - **Mis tareas**: Table con filtro `assignee:@me -status:Listo`.
+3. **Workflows** integrados: dejar activo `Auto-add sub-issues to project`;
+   activar `Item closed` → `Listo` y `Pull request merged` → `Listo` (el sync
+   lo hace igual; los integrados son instantáneos).
+4. **Colaboradores** con rol *Write* y asignación de issues; sus usuarios van a
+   `proyecto/EQUIPO.md` y `.github/CODEOWNERS`.
 
 ## Origen
 

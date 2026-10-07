@@ -24,10 +24,10 @@ está en su brief y el estado en su issue.
 
 | Persona | Responsable de | Próximos entregables | Fecha | Brief |
 |---|---|---|---|---|
-| Kira | Experiencia y diseño | Prototipos y flujo de pantallas (#11), categorías y etiquetas (#28) | 2026-10-09 | `briefs/BRIEF-11-prototipos-ui-ux.md` |
-| Emmanuel | Backend e ingesta | Evaluación de OCR con números (#32); después arquitectura y APIs (#12) | 2026-10-12 | `briefs/BRIEF-32-evaluacion-ocr.md` |
+| Kira | Experiencia y diseño | Prototipos y flujo de pantallas (#11), categorías y etiquetas (#28); después design system de marca (#41) | 2026-10-09 / 10-23 | `briefs/BRIEF-11-prototipos-ui-ux.md` |
+| Emmanuel | Backend e ingesta | Evaluación de OCR con números (#32); después arquitectura y APIs (#12), solo-insert (#44) y pruebas de la API (#45) | 2026-10-12 | `briefs/BRIEF-32-evaluacion-ocr.md` |
 | Carlos | Datos y calidad | Matriz de roles (#29, vencida), escaneados para #32, dataset y plan de pruebas (#9) | 2026-10-09 / 10-16 | `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
-| Erik | Liderazgo, infra y gestión | Arquitectura y entorno (#10), SRS (#13), aprobación de requisitos (#30), cotizaciones (#31, #33), revisión de todos los PR | 2026-10-16 | — |
+| Erik | Liderazgo, infra y gestión | Gestión del Project (#43), playground de diseño (#42), arquitectura y entorno (#10), SRS (#13), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-09 / 10-16 | — |
 
 Sin responsable todavía: #36 (diagrama de casos de uso) y #39 (reporte y
 alerta, RF-05). Se asignan en el sync del lunes.
