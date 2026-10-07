@@ -1,0 +1,22 @@
+name: Entregable academico
+description: Documento o evaluacion de la materia con fecha de entrega.
+title: ""
+labels: ["tipo:entregable", "epica:qa-documentacion"]
+body:
+  - type: input
+    id: responsable
+    attributes: {label: Responsable}
+    validations: {required: true}
+  - type: input
+    id: cronograma
+    attributes: {label: Cronograma, placeholder: "2026-10-12 → 2026-10-16"}
+  - type: input
+    id: materia
+    attributes: {label: Materia y docente}
+  - type: textarea
+    id: contenido
+    attributes: {label: Que pide la entrega (plantilla, secciones, formato)}
+    validations: {required: true}
+  - type: input
+    id: drive
+    attributes: {label: Donde se sube (carpeta de Drive o plataforma)}

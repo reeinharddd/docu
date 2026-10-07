@@ -1,0 +1,29 @@
+name: Diseno
+description: Pantalla, flujo, token o componente del design system.
+title: ""
+labels: ["tipo:tarea", "epica:diseno"]
+body:
+  - type: input
+    id: responsable
+    attributes: {label: Responsable}
+    validations: {required: true}
+  - type: input
+    id: cronograma
+    attributes: {label: Cronograma, placeholder: "2026-10-12 → 2026-10-16"}
+  - type: textarea
+    id: que
+    attributes: {label: Que se disena y para que tarea del usuario}
+    validations: {required: true}
+  - type: textarea
+    id: referencias
+    attributes: {label: Referencias o capturas}
+  - type: textarea
+    id: aceptacion
+    attributes:
+      label: Criterios de aceptacion
+      value: |
+        - [ ] Version escritorio y celular
+        - [ ] Contraste WCAG 2.2 AA
+        - [ ] Estados de carga, vacio y error
+        - [ ] Decision documentada en docs/diseno/
+    validations: {required: true}

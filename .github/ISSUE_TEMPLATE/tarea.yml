@@ -1,26 +1,33 @@
 name: Tarea
-description: Delegacion con BRIEF-FORMATO. Sin brief no hay tarea.
-title: "[TAREA] "
+description: Trabajo con entregable y evidencia. Al crearla, agrega etiquetas epica, sprint, prioridad y RF.
+title: ""
+labels: ["tipo:tarea"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Despues de crearla: etiquetas `epica:*`, `sprint:N`, `prioridad:*` y `RF-0n` (o `req:pendiente`), milestone y responsable. El Project se llena solo con esas etiquetas.
   - type: input
-    id: dueno
-    attributes: {label: Dueno}
+    id: responsable
+    attributes: {label: Responsable}
     validations: {required: true}
   - type: input
-    id: fechas
-    attributes: {label: Fechas y Sprint}
-    validations: {required: true}
-  - type: input
-    id: rf
-    attributes: {label: Requisitos}
-  - type: input
-    id: brief
-    attributes: {label: Enlace al brief}
-    validations: {required: true}
+    id: cronograma
+    attributes:
+      label: Cronograma
+      description: "Formato exacto, alimenta Inicio y Fin del Project"
+      placeholder: "2026-10-12 → 2026-10-23"
   - type: textarea
     id: objetivo
     attributes: {label: Objetivo y resultado esperado}
     validations: {required: true}
   - type: textarea
     id: aceptacion
-    attributes: {label: Criterios de aceptacion}
+    attributes:
+      label: Criterios de aceptacion
+      description: Casillas verificables por un tercero en 10 minutos
+      value: "- [ ] "
+    validations: {required: true}
+  - type: input
+    id: brief
+    attributes: {label: Enlace al brief (si es delegacion)}

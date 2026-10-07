@@ -1,0 +1,40 @@
+name: project-sync
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened, milestoned, demilestoned]
+  pull_request:
+    types: [opened, reopened, closed, edited]
+  schedule:
+    - cron: "0 13 * * 1-5"
+  workflow_dispatch:
+concurrency:
+  group: project-sync
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sin PROJECT_TOKEN no hay sync
+        id: token
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: |
+          if [ -z "$PROJECT_TOKEN" ]; then
+            echo "::notice::Falta el secreto PROJECT_TOKEN (docs/integraciones/GITHUB-GESTION.md). Se omite el sync."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.token.outputs.skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts/project-sync.ts
+          sparse-checkout-cone-mode: false
+      - if: steps.token.outputs.skip != 'true'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - if: steps.token.outputs.skip != 'true'
+        run: bun scripts/project-sync.ts
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}

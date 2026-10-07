@@ -17,7 +17,8 @@
     "prisma:validate": "cd apps/api && bunx prisma validate",
     "smoke:api": "bash scripts/smoke-api.sh",
     "compose:check": "docker compose -f infra/docker-compose.yml config >/dev/null",
-    "postinstall": "lefthook install"
+    "postinstall": "lefthook install",
+    "project:sync": "bun scripts/project-sync.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

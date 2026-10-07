@@ -1,0 +1,25 @@
+name: Investigacion
+description: Pregunta tecnica que se responde con evidencia medida antes de implementar.
+title: ""
+labels: ["tipo:investigacion"]
+body:
+  - type: input
+    id: responsable
+    attributes: {label: Responsable}
+    validations: {required: true}
+  - type: input
+    id: cronograma
+    attributes: {label: Cronograma, placeholder: "2026-10-12 → 2026-10-16"}
+  - type: textarea
+    id: pregunta
+    attributes: {label: Pregunta a responder}
+    validations: {required: true}
+  - type: textarea
+    id: metodo
+    attributes:
+      label: Metodo y metrica
+      description: Que se mide, con que datos y con que umbral se decide
+    validations: {required: true}
+  - type: textarea
+    id: bloquea
+    attributes: {label: Que decision o issue depende de la respuesta}
