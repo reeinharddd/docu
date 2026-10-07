@@ -20,14 +20,15 @@ trabaje sin depender de una sola persona.
 
 ## Épicas
 
-| Épica | Sprint | Responsable | Requisitos | Issues |
+| Épica (issue) | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
-| Infraestructura | 1 | Erik | RF-06, RNF-05, RNF-06 | #10 (en progreso), #8 |
-| Backend | 1 → 3 | Emmanuel | RF-01, RF-02, RF-03, RF-05 | #12, #3, #32, #39 |
-| Frontend | 1 → 2 | Kira | RNF-01 → RF-01, RF-03, RF-04 | #11, #4 |
-| QA / Documentación | 1 → 4 | Erik, Carlos | RNF-07 | #9, #13, #6 |
-| Autenticación | 2 | Emmanuel | RF-06, RF-02 | #5 |
-| Base de datos | 1 → 2 | Carlos | RF-06, RF-08 | #29, #7 |
+| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (en progreso), #43, #8, #31, #33 |
+| Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
+| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11, #28, #42, #41 |
+| Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
+| QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #36, #6, entregas |
+| Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
+| Base de datos (#50) | 2 | Carlos | RF-08 | #7 |
 
 ## Dependencias (nativas en GitHub, *blocked by*)
 
@@ -40,6 +41,8 @@ trabaje sin depender de una sola persona.
 | #8 Configuración 2 | #7 Configuración 1 | La 2 se prueba sobre datos de la 1 |
 | #3 Pipeline | #32 Evaluación OCR | RF-02 exige ≥ 90 %: se mide antes de implementar |
 | #39 Reporte y alerta | #3 Pipeline | El reporte lee datos ya ingeridos |
+| #41 Design system | #42 Playground | El design system se explora en el playground |
+| #4 Frontend | #41 Design system | Puerta 1 de ADR-0012 |
 
 La construcción de producto espera dos puertas: design system de marca y modelo
 de datos validado (ADR-0012).
@@ -53,4 +56,4 @@ de datos validado (ADR-0012).
 | #29 Matriz de roles vencida (30-sep) | Bloquea el contrato de datos | Brief `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
 | #39 y #36 sin responsable | `gh issue list --search no:assignee` | Asignar en el sync del lunes |
 | Prototipos UI/UX cierran el 9-oct | #11, Kira | Es la primera fecha que vence |
-| Frontend sin design system de marca | 0 dependencias de UI en `apps/web` | Playground de diseño de Kira, después de cerrar E1 |
+| Frontend sin design system de marca | #41 abierto al 2026-10-23 | Playground (#42) listo desde el 2026-10-12 |
