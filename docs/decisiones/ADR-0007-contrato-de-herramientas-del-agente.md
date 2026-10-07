@@ -43,7 +43,8 @@ principio y las reglas de propiedad, no el formato.
    - Angular: <https://angular.dev/ai/agent-skills> y
      <https://angular.dev/ai/mcp>
    - Prisma: <https://github.com/prisma/skills>, instalable con
-     `bunx @prisma/cli@latest agent install`
+     `bunx @prisma/cli@7.10.0 agent install`. **Fijado a propósito**: `@latest`
+     es `8.0.0-rc.20` y el proyecto usa Prisma 7 (`bing/STACK.md`)
    - Monday: MCP oficial de la plataforma
    - Documentación de Bun, NestJS, Redis, Ollama y PostgreSQL: links fijos en
      [ingenieria/STACK.md](../ingenieria/STACK.md)
@@ -79,21 +80,25 @@ principio y las reglas de propiedad, no el formato.
   multiplica el error entre las cuatro personas. Se mitiga con revisión en PR y
   con que las skills describan flujos, no impongan criterio.
 
-## Pendiente de implementación
+## Estado de implementación
 
-| Paso | Responsable | Cuándo |
+| Paso | Responsable | Estado |
 |---|---|---|
-| Definir el directorio de herramientas del agente y su índice | Erik | Antes de la primera skill propia |
-| Instalar y evaluar Agent Skills de Angular | Kira | K1 |
-| Instalar y evaluar skills de Prisma (`prisma-postgres-setup`, `prisma-driver-adapter-implementation`) | Emmanuel | M1 |
-| Declarar los MCP del proyecto en la configuración versionada | Erik | Con la capa de integraciones |
-| Regla de versionado para referencias remotas | Erik | Con el primer uso |
+| Definir dónde vive la configuración y la política | Erik | **Hecho.** `opencode.json` con `instructions`, `.mcp.json`, `CLAUDE.md` |
+| Regla de versionado para referencias remotas | Erik | **Hecho.** Esta ADR, punto 5 |
+| Criterio verificable de admisión de herramientas | Erik | **Hecho.** `integraciones/HERRAMIENTAS-AGENTE.md`, siete criterios |
+| Veredicto sobre los MCP candidatos | Erik | **Hecho.** `integraciones/MCP.md`: ninguno entra todavía |
+| Instalar y evaluar Agent Skills de Angular | Kira | Pendiente. K1 |
+| Instalar y evaluar skills de Prisma | Emmanuel | Pendiente. M1 |
+| Instalar las skills propias del equipo | Todos | Pendiente. Requiere el directorio de skills, que aún no existe |
 
 ## Evidencia
 
 - [ADR-0001](ADR-0001-flujos-de-trabajo-del-agente.md) fija los flujos; esta
   ADR fija dónde viven las herramientas que los ejecutan.
 - [ingenieria/STACK.md](../ingenieria/STACK.md) ya registra las herramientas
-  oficiales disponibles por tecnología.
-- La configuración del proyecto está versionada en `opencode.json`, y las
-  credenciales que le faltan están declaradas en `.env.example` sin valores.
+  oficiales disponibles por tecnología, con versión verificada.
+- La configuración del proyecto está versionada en `opencode.json` y
+  `.mcp.json`, sin credenciales; los nombres de variables están en `.env.example`.
+- Verificación reproducible: `bun run doctor` y `bun run verify`
+  (`operacion/BOOTSTRAP.md`).

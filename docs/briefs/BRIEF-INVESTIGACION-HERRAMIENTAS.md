@@ -46,7 +46,7 @@ Documentos que debes leer antes de empezar:
 | `docs/ingenieria/IA.md` | Estrategia de modelos, capa de designación de categorías |
 | `docs/proyecto/REQUISITOS.md` | Qué tiene que hacer el sistema, incluido el corte de alcance |
 | `docs/integraciones/HERRAMIENTAS-AGENTE.md` | Candidatas y criterio de evaluación |
-| `docs/ACCESOS.md` | Variables de entorno disponibles y política de permisos |
+| `integraciones/ACCESOS.md` | Variables de entorno disponibles y política de permisos |
 
 ## 3. Objetivo y entregables
 
@@ -138,7 +138,7 @@ proyectos por depender de versiones no fijadas.
 5. **No ejecutes instalaciones.** Esta investigación es de lectura. No modifiques
    el repositorio, no crees archivos fuera de tu informe y no hagas commits.
 6. **No busques credenciales.** Los nombres de las variables están en
-   `docs/ACCESOS.md` y en `.env.example`. Si necesitas valor para algo, lo
+   `integraciones/ACCESOS.md` y en `.env.example`. Si necesitas valor para algo, lo
    pides; no lo busques ni lo infieras.
 7. **Sin rutas personales.** Tu informe describe el proyecto, no la estructura de
    ninguna máquina.

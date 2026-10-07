@@ -3,14 +3,18 @@
 ## Proyecto
 DOCU — Repositorio de Documentación Digital. Config 1: Baja SterilPack.
 Monorepo bun: `apps/api` (NestJS 12 + Prisma 7 + BullMQ 6), `apps/web`
-(Angular 22 zoneless + Tailwind 4), `packages/*`, `infra/`, `dataset/`.
+(Angular 22 zoneless + Tailwind 4), `infra/`, `dataset/`. `packages/` no existe
+todavia; si se crea, hay que registrarlo en `workspaces`.
 Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
 `docs/briefs/`. Decisiones: `docs/decisiones/`.
 
 ## Comandos (bun, nada de npm)
 - Instalar todo: `bun install` (raíz)
 - Tipos: `bun run typecheck` (raíz, corre todos los workspaces)
-- Lint/formato: `bunx biome check .` (escribir: `--write`)
+- Lint/formato: `bun run lint` (escribir: `bun run lint:fix`). Biome esta
+  fijado como dependencia, nunca uses `bunx biome`: `bunx` trae la ultima
+  version del registro y el lint dejaria de ser reproducible
+- Todo junto: `bun run verify`. Diagnostico: `bun run doctor`
 - API: `bun --env-file ../../.env src/main.ts` desde `apps/api`
 - Migraciones: `bunx prisma migrate dev` desde `apps/api` (lee `../../.env`)
 - Web dev/build: `bun run start` / `bun run build` desde `apps/web`
@@ -23,5 +27,9 @@ Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
 5. `originales/` es solo lectura; nada se borra en silencio.
 6. E1 es solo configs: sin logica de negocio hasta M1/K1/C1.
 7. Drive y Docs en solo lectura en vivo. Monday solo con peticion explicita.
-8. Antes de cerrar algo: tipos y lint en verde mas evidencia. Un cambio por commit.
+8. Antes de cerrar algo: `bun run verify` en verde mas evidencia. Un cambio por commit.
+   La API tiene 0 pruebas: `verify` la arranca y consulta `/health` porque no
+   hay otra red que tire. En `apps/api`, ningun provider inyectado por
+   constructor se importa con `import type`: NestJS lo resuelve con
+   `emitDecoratorMetadata` y necesita la clase en runtime.
 9. Nada destructivo sin orden explicita. Main protegida, todo por PR con revisor.

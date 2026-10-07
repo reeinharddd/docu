@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/dist/**", "!**/build/**", "!**/.angular/**"]
+    "includes": ["**", "!**/dist", "!**/build", "!**/.angular"]
   },
   "formatter": {
     "enabled": true,
@@ -16,7 +16,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "preset": "none"
+      "preset": "recommended"
     }
   },
   "javascript": {
