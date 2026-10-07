@@ -44,7 +44,7 @@ principio y las reglas de propiedad, no el formato.
      <https://angular.dev/ai/mcp>
    - Prisma: <https://github.com/prisma/skills>, instalable con
      `bunx @prisma/cli@7.10.0 agent install`. **Fijado a propósito**: `@latest`
-     es `8.0.0-rc.20` y el proyecto usa Prisma 7 (`bing/STACK.md`)
+     es `8.0.0-rc.20` y el proyecto usa Prisma 7 (`ingenieria/STACK.md`)
    - GitHub: `gh` CLI, ya autenticado por cada persona (ADR-0008)
    - Documentación de Bun, NestJS, Redis, Ollama y PostgreSQL: links fijos en
      [ingenieria/STACK.md](../ingenieria/STACK.md)

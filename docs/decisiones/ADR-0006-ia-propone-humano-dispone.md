@@ -70,6 +70,6 @@ backend es una mentira de seguridad (RNF-03).
 ## Qué nos haría revertirla
 
 No se revierte: es una restricción del caso y de la seguridad, no una decisión
-técnica. Si el volumen de quarantine resultara inmanejable, la respuesta es
+técnica. Si el volumen de cuarentena resultara inmanejable, la respuesta es
 mejorar el mapa de reglas y la calidad del dataset, nunca publicar sin
 confirmación.
