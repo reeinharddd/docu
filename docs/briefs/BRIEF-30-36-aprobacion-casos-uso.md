@@ -45,7 +45,7 @@ Total estimado: 4–6 h.
 - `docs/proyecto/REQUISITOS.md` (§Pruebas que exige cada requisito), `TRAZABILIDAD.md` (sin `req:pendiente`).
 - Herramienta de diagramas a elegir una sola: Mermaid https://mermaid.js.org (texto versionable, render en GitHub) o Draw.io https://app.diagrams.net (exportar fuente `.drawio` + PNG); fuente versionada, no solo PNG.
 - `REQUISITOS.md` §Pruebas + `TRAZABILIDAD.md` para que cada caso apunte a su RF.
-- De tus bookmarks: https://excalidraw.com (boceto rápido actor→casos) y https://gitmind.com/es/ (mapa de actores) antes del diagrama final versionado.
+- Curaduría del equipo: https://excalidraw.com (boceto rápido actor→casos) y https://gitmind.com/es/ (mapa de actores) antes del diagrama final versionado.
 
 ## 7. Cómo trabajar
 

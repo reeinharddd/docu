@@ -58,7 +58,7 @@ Recursos y método (sin links externos inventados):
 | Trazabilidad | `gestion/TRAZABILIDAD.md` (RF→épica→issue→PR→evidencia) | Al armar el apéndice A |
 | Fechas reales | Milestones de GitHub (`Cierre` 23-oct, `Contrato` 30-oct) | Al armar el apéndice B (Gantt) |
 | Datos de prueba | Dataset de Carlos (#9) | Al armar el apéndice C |
-| Bocetar apéndices (de tus bookmarks) | https://excalidraw.com (Gantt/tablero antes del formato final) | Al armar el apéndice B |
+| Bocetar apéndices (curaduría del equipo) | https://excalidraw.com (Gantt/tablero antes del formato final) | Al armar el apéndice B |
 
 ## 7. Cómo trabajar
 

@@ -75,9 +75,9 @@ Recursos oficiales y curados para diseñar el flujo:
 | Patrones de usabilidad | https://www.nngroup.com (heurísticas, mensajes de error, densidad de datos) | Al diseñar bandeja/cuarentena y búsqueda con cita |
 | Marca ya elegida | Dirección ganadora de Fase 1 (`BRIEF-41`) + tokens del playground (#42) | Al pasar de baja a alta fidelidad |
 | Inspiración documental y lineage | Lista curada de `BRIEF-41` §6 (SaaSUI, DataHub/OpenMetadata, ProvenanceWidgets) | Al dibujar la cita de fuente por cifra |
-| Flujos reales de referencia | De tus bookmarks: https://pageflows.com (flujos subir→revisar→consultar), https://ui-patterns.com y https://www.uisources.com (bandejas, filtros, tablas) | Al dibujar la navegación antes de prototipar |
-| Estados vacíos/error ilustrados | De tus bookmarks: https://undraw.co y https://openpeeps.com (ilustraciones) | Al diseñar vacío, error y cuarentena sin pantallas frías |
-| Tamaños reales de pantalla | De tus bookmarks: https://screensiz.es (viewport Android + desktop) | Al cumplir RNF-01 celular + escritorio |
+| Flujos reales de referencia | Curaduría del equipo: https://pageflows.com (flujos subir→revisar→consultar), https://ui-patterns.com y https://www.uisources.com (bandejas, filtros, tablas) | Al dibujar la navegación antes de prototipar |
+| Estados vacíos/error ilustrados | Curaduría del equipo: https://undraw.co y https://openpeeps.com (ilustraciones) | Al diseñar vacío, error y cuarentena sin pantallas frías |
+| Tamaños reales de pantalla | Curaduría del equipo: https://screensiz.es (viewport Android + desktop) | Al cumplir RNF-01 celular + escritorio |
 | Diagramar el flujo | https://excalidraw.com (rápido, exportable) | Al entregar `FLUJO.md` |
 
 ## 7. Cómo trabajar

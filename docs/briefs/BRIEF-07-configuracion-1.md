@@ -56,8 +56,8 @@ Recursos oficiales para implementar:
 | Seed reproducible | https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding | Al escribir el seed de C1 (idempotente, con semilla) |
 | PostgreSQL + `vector` | https://www.postgresql.org/docs/18/ + https://github.com/pgvector/pgvector | Al cargar catálogos y validar tipos |
 | Reglas como datos | ADR-0009 + `MODELO-DATOS.md` (`ReglaValidacion`, severidad BLOQUEO/AVISO) | Al cargar R-P1..T1 sin `if` en código |
-| Probar SQL sin local | De tus bookmarks: https://postgres.new (PostgreSQL en el navegador) | Al validar el seed y los JSONB antes de migrar |
-| Ver el seed como grafo | De tus bookmarks: https://jsoncrack.com | Al depurar familias/reglas anidadas |
+| Probar SQL sin local | Curaduría del equipo: https://postgres.new (PostgreSQL en el navegador) | Al validar el seed y los JSONB antes de migrar |
+| Ver el seed como grafo | Curaduría del equipo: https://jsoncrack.com | Al depurar familias/reglas anidadas |
 
 ## 7. Cómo trabajar
 

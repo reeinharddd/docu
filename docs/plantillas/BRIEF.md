@@ -46,6 +46,10 @@ Links exactos, no "busca en Google". Documentos vivos del proyecto
 uno. Incluir la alternativa automatizable obligatoria para no hacer a mano lo
 que un script resuelve.
 
+Neutralidad (regla del repo): sin rutas de ninguna máquina, sin "tus
+bookmarks" ni contenido escrito para una sola persona. Todo brief debe bastar
+con el solo contexto del repo para que cualquier integrante lo ejecute.
+
 ## 7. Cómo trabajar
 
 - La IA genera y varía; no decide reglas, permisos, dato oficial ni diseño

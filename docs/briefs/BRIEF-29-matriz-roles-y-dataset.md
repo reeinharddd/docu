@@ -80,9 +80,9 @@ Recursos oficiales para implementar:
 | Degradado a 150/300 dpi | https://sharp.pixelplumbing.com + https://imagemagick.org (ruido, blur, rotación leve) | Al simular escaneados desde el render limpio |
 | Entender qué medirá el OCR | Tesseract https://tesseract-ocr.github.io y Docling OSS https://github.com/docling-project/docling (Linux Foundation) | Al diseñar el *ground truth* (qué campos son legibles a cada dpi) |
 | Modelo de permisos | OWASP Cheat Sheet Series https://cheatsheetseries.owasp.org (Authorization) + NIST SP 800-162 (ABAC) | Al escribir `ROLES.md` sin inventar el modelo |
-| Patrones de validación | De tus bookmarks: https://regex101.com (probar patrones de folio, medida, `rollo_id`) | Al definir qué dato es válido y al generar errores realistas |
-| Dar forma a CSV/JSON | De tus bookmarks: https://transform.tools y https://jsoncrack.com (ver el *ground truth* como grafo) | Al emitir y depurar el CSV de verdad |
-| Elegir paquetes por peso | De tus bookmarks: https://npmtrends.com y https://bundlephobia.com (`xlsx` vs `exceljs`, `pdf-lib`, `sharp`) | Al fijar dependencias del generador |
+| Patrones de validación | Curaduría del equipo: https://regex101.com (probar patrones de folio, medida, `rollo_id`) | Al definir qué dato es válido y al generar errores realistas |
+| Dar forma a CSV/JSON | Curaduría del equipo: https://transform.tools y https://jsoncrack.com (ver el *ground truth* como grafo) | Al emitir y depurar el CSV de verdad |
+| Elegir paquetes por peso | Curaduría del equipo: https://npmtrends.com y https://bundlephobia.com (`xlsx` vs `exceljs`, `pdf-lib`, `sharp`) | Al fijar dependencias del generador |
 | Referencia JS | https://devdocs.io y https://developer.mozilla.org | Al escribir `dataset/generar.ts` (seed, fechas, aleatorios) |
 
 ## 7. Cómo trabajar

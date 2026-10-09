@@ -61,8 +61,8 @@ Recursos oficiales para evaluar (verificados 2026-10-09):
 |---|---|---|
 | Motor 1: Tesseract | https://tesseract-ocr.github.io (docs) + https://github.com/naptha/tesseract.js (binding JS) o binario del sistema | Al fijar versión y DPI de prueba (150/300) |
 | Motor 2: Docling OSS | https://github.com/docling-project/docling (Linux Foundation; convierte PDF/escaneado a Markdown/JSON con layout y tablas) + https://www.ibm.com/products/docling (límites del servicio nube, solo referencia) | Al evaluar layout + tablas, no solo texto plano |
-| Modelos locales extra | https://github.com/12britz/awesome-free-models (de tus starred; lista comunitaria: verificar licencia y hardware de cada modelo antes de usar) | Solo si ambos motores fallan el 90 % |
-| Inferencia local y nube (de tus bookmarks) | https://ollama.com (probar visión local; https://ollama.com/settings/keys) y https://huggingface.co/docs/inference-providers/index (probar modelos visión por API con credencial explícita, RNF-03) | Como tercer motor opcional, con versión y costo anotados |
+| Modelos locales extra | https://github.com/12britz/awesome-free-models (starred del equipo; lista comunitaria: verificar licencia y hardware de cada modelo antes de usar) | Solo si ambos motores fallan el 90 % |
+| Inferencia local y nube (curaduría del equipo) | https://ollama.com (probar visión local; https://ollama.com/settings/keys) y https://huggingface.co/docs/inference-providers/index (probar modelos visión por API con credencial explícita, RNF-03) | Como tercer motor opcional, con versión y costo anotados |
 | Métrica CER | Distancia de Levenshtein normalizada por longitud; exactitud de campos clave = aciertos/total por campo | Al escribir el CSV (columnas: motor, dpi, campo, exactitud, CER, s/página, RAM) |
 
 ## 7. Cómo trabajar

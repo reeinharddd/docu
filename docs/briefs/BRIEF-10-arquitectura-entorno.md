@@ -66,7 +66,7 @@ Recursos oficiales para implementar (no tutoriales de agregador):
 
 Comandos del repo: `bun run verify`, `bun run doctor`, `bash scripts/doc-index.sh`.
 
-De tus bookmarks: https://devdocs.io (docs offline de TS/Docker) al escribir Compose y migraciones; https://postgres.new al validar el modelo sin levantar local.
+Curaduría del equipo: https://devdocs.io (docs offline de TS/Docker) al escribir Compose y migraciones; https://postgres.new al validar el modelo sin levantar local.
 
 ## 7. Cómo trabajar
 
@@ -84,7 +84,7 @@ De tus bookmarks: https://devdocs.io (docs offline de TS/Docker) al escribir Com
 - [ ] `bun run verify` y `doctor` en verde en la rama.
 - [ ] Un par revisó y aprobó con evidencia adjunta.
 
-No es done si: levanta solo en tu máquina; la migración se aplicó a mano sin archivo; hay lógica de negocio en `apps/`.
+No es done si: levanta solo en una máquina; la migración se aplicó a mano sin archivo; hay lógica de negocio en `apps/`.
 
 ## 9. Riesgos nombrados
 

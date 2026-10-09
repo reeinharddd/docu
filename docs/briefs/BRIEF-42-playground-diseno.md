@@ -51,17 +51,17 @@ Total estimado: 5–6 h.
 - ADR-0012 (por qué aislado), `STACK.md`, `HERRAMIENTAS-AGENTE.md` (Uizard, Stitch, Penpot MCP si Kira elige Penpot).
 - `AGENTS.md` raíz (esto es excepción documentada: exploración libre solo aquí).
 
-Recursos oficiales y de tus starred para construirlo:
+Recursos oficiales y del starred del equipo para construirlo:
 
 | Para | Recurso | Cuándo usarlo |
 |---|---|---|
 | Formato de tokens | https://www.designtokens.org (especificación DTCG, JSON con `$value`/`$type`) | Al estructurar la página de tokens para que exporte a Tailwind 4 |
 | Tailwind 4 (referencia) | https://tailwindcss.com/docs/v4-beta (CSS-first, `@theme`) | Al mapear tokens → variables que usará #4 |
-| Penpot (si Kira lo elige) | https://penpot.app + repo https://github.com/penpot/penpot (de tus starred) | Al conectar playground con tokens y componentes |
-| Kits Angular a evaluar (gap abierto: sin UI kit) | De tus bookmarks: https://primeng.org, https://material.angular.io, https://taiga-ui.dev, https://ng.ant.design, https://clarity.design; tablas densas: https://www.ag-grid.com/angular-data-grid/ | Al probar en el playground qué kit respeta los tokens (1 ganador alimenta #41) |
-| Componentes Tailwind de referencia | De tus bookmarks: https://flowbite.com, https://daisyui.com, https://ui.shadcn.com (patrones, no dependencias) | Al maquetar previews sin reinventar botón/tabla/badge |
+| Penpot (si Kira lo elige) | https://penpot.app + repo https://github.com/penpot/penpot (starred del equipo) | Al conectar playground con tokens y componentes |
+| Kits Angular a evaluar (gap abierto: sin UI kit) | Curaduría del equipo: https://primeng.org, https://material.angular.io, https://taiga-ui.dev, https://ng.ant.design, https://clarity.design; tablas densas: https://www.ag-grid.com/angular-data-grid/ | Al probar en el playground qué kit respeta los tokens (1 ganador alimenta #41) |
+| Componentes Tailwind de referencia | Curaduría del equipo: https://flowbite.com, https://daisyui.com, https://ui.shadcn.com (patrones, no dependencias) | Al maquetar previews sin reinventar botón/tabla/badge |
 | Movimiento con respeto | https://motion.dev (y `prefers-reduced-motion`) | Al animar transiciones sin romper accesibilidad |
-| Logo e inspiración (de tus starred) | https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient | Solo como chispa visual para la marca, no como dependencia |
+| Logo e inspiración (starred del equipo) | https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient | Solo como chispa visual para la marca, no como dependencia |
 
 ## 7. Cómo trabajar
 
