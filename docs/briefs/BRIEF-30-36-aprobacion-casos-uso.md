@@ -46,6 +46,7 @@ Total estimado: 4–6 h.
 - Herramienta de diagramas a elegir una sola: Mermaid https://mermaid.js.org (texto versionable, render en GitHub) o Draw.io https://app.diagrams.net (exportar fuente `.drawio` + PNG); fuente versionada, no solo PNG.
 - `REQUISITOS.md` §Pruebas + `TRAZABILIDAD.md` para que cada caso apunte a su RF.
 - Curaduría del equipo: https://excalidraw.com (boceto rápido actor→casos) y https://gitmind.com/es/ (mapa de actores) antes del diagrama final versionado.
+- Editor en vivo: https://mermaid.live (probar el diagrama antes de commitear) y guía de alcance https://c4model.com (qué nivel dibujar: contexto vs contenedor).
 
 ## 7. Cómo trabajar
 

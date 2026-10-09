@@ -59,6 +59,8 @@ Recursos y método (sin links externos inventados):
 | Fechas reales | Milestones de GitHub (`Cierre` 23-oct, `Contrato` 30-oct) | Al armar el apéndice B (Gantt) |
 | Datos de prueba | Dataset de Carlos (#9) | Al armar el apéndice C |
 | Bocetar apéndices (curaduría del equipo) | https://excalidraw.com (Gantt/tablero antes del formato final) | Al armar el apéndice B |
+| Redacción en español | https://languagetool.org (gramática y estilo, local o nube) | Al pulir el SRS antes del PDF |
+| Conversiones de formato | https://pandoc.org (Markdown↔DOCX) | Al mover tablas del repo al documento sin reescribir |
 
 ## 7. Cómo trabajar
 

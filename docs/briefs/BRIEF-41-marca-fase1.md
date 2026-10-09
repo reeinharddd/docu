@@ -58,6 +58,8 @@ Total estimado: 10–13 h concentradas.
 - Iconos: Lucide, Phosphor, Tabler, Heroicons. Tokens: W3C Design Tokens, OKLCH, Penpot MCP.
 - Mockups rápidos con IA: Uizard, Stitch. Español: Guía Impresión tendencias 2026, El Publicista.
 - Del starred del equipo (chispa visual, no dependencias): https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient para concepto de logo.
+- Parejas tipográficas y escala: https://fontpair.co (qué combina con qué) y https://type-scale.com (escala modular para display/body/mono).
+- Contraste real AA: https://coolors.co/contrast-checker (pares texto/fondo) — el mono de cifras también debe pasar.
 - Accesibilidad WCAG 2.2 AA; la IA genera variantes, tú decides cuál queda.
 
 ## 7. Cómo trabajar

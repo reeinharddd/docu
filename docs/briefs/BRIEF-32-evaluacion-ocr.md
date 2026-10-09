@@ -64,6 +64,8 @@ Recursos oficiales para evaluar (verificados 2026-10-09):
 | Modelos locales extra | https://github.com/12britz/awesome-free-models (starred del equipo; lista comunitaria: verificar licencia y hardware de cada modelo antes de usar) | Solo si ambos motores fallan el 90 % |
 | Inferencia local y nube (curaduría del equipo) | https://ollama.com (probar visión local; https://ollama.com/settings/keys) y https://huggingface.co/docs/inference-providers/index (probar modelos visión por API con credencial explícita, RNF-03) | Como tercer motor opcional, con versión y costo anotados |
 | Métrica CER | Distancia de Levenshtein normalizada por longitud; exactitud de campos clave = aciertos/total por campo | Al escribir el CSV (columnas: motor, dpi, campo, exactitud, CER, s/página, RAM) |
+| Rasterizar a DPI exactos | https://poppler.freedesktop.org (`pdftoppm -r 150/300`) y https://imagemagick.org (ruido, blur, skew para simular escáner real) | Al preparar las imágenes de evaluación desde PDFs limpios |
+| Comparar motores más allá de los dos | Curaduría del equipo: https://github.com/UB-Mannheim/tesseract/wiki (modelos `spa`) | Al fijar el modelo de idioma español de Tesseract |
 
 ## 7. Cómo trabajar
 

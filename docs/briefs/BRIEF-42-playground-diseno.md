@@ -61,6 +61,8 @@ Recursos oficiales y del starred del equipo para construirlo:
 | Kits Angular a evaluar (gap abierto: sin UI kit) | Curaduría del equipo: https://primeng.org, https://material.angular.io, https://taiga-ui.dev, https://ng.ant.design, https://clarity.design; tablas densas: https://www.ag-grid.com/angular-data-grid/ | Al probar en el playground qué kit respeta los tokens (1 ganador alimenta #41) |
 | Componentes Tailwind de referencia | Curaduría del equipo: https://flowbite.com, https://daisyui.com, https://ui.shadcn.com (patrones, no dependencias) | Al maquetar previews sin reinventar botón/tabla/badge |
 | Movimiento con respeto | https://motion.dev (y `prefers-reduced-motion`) | Al animar transiciones sin romper accesibilidad |
+| Pipeline de tokens | https://amzn.github.io/style-dictionary (tokens JSON → CSS/Tailwind) y https://tokens.studio (editar tokens con UI) | Al hacer que la página de tokens exporte de verdad |
+| Paletas del equipo | Curaduría del equipo: https://coolors.co, https://pigment.shapefactory.co, https://huemint.com, https://uicolors.app (lista Tailwind), https://oklch.com (accesibilidad real) | Al probar direcciones sin partir de cero |
 | Logo e inspiración (starred del equipo) | https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient | Solo como chispa visual para la marca, no como dependencia |
 
 ## 7. Cómo trabajar

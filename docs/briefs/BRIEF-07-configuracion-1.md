@@ -58,6 +58,8 @@ Recursos oficiales para implementar:
 | Reglas como datos | ADR-0009 + `MODELO-DATOS.md` (`ReglaValidacion`, severidad BLOQUEO/AVISO) | Al cargar R-P1..T1 sin `if` en código |
 | Probar SQL sin local | Curaduría del equipo: https://postgres.new (PostgreSQL en el navegador) | Al validar el seed y los JSONB antes de migrar |
 | Ver el seed como grafo | Curaduría del equipo: https://jsoncrack.com | Al depurar familias/reglas anidadas |
+| Explorar la BD con UI | https://www.prisma.io/docs/orm/tools/prisma-studio (ver/editar datos sin SQL) | Al comprobar la C1 cargada fila por fila |
+| CSV robusto | https://papaparse.com (parseo con errores controlados) | Al validar el CSV de corrida contra el *ground truth* |
 
 ## 7. Cómo trabajar
 

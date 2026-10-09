@@ -66,7 +66,7 @@ Recursos oficiales para implementar (no tutoriales de agregador):
 
 Comandos del repo: `bun run verify`, `bun run doctor`, `bash scripts/doc-index.sh`.
 
-Curaduría del equipo: https://devdocs.io (docs offline de TS/Docker) al escribir Compose y migraciones; https://postgres.new al validar el modelo sin levantar local.
+Curaduría del equipo: https://devdocs.io (docs offline de TS/Docker) al escribir Compose y migraciones; https://postgres.new al validar el modelo sin levantar local; https://hadolint.github.io (lint de Dockerfiles, opcional) si se agrega imagen propia.
 
 ## 7. Cómo trabajar
 

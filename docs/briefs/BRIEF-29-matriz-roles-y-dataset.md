@@ -84,6 +84,9 @@ Recursos oficiales para implementar:
 | Dar forma a CSV/JSON | Curaduría del equipo: https://transform.tools y https://jsoncrack.com (ver el *ground truth* como grafo) | Al emitir y depurar el CSV de verdad |
 | Elegir paquetes por peso | Curaduría del equipo: https://npmtrends.com y https://bundlephobia.com (`xlsx` vs `exceljs`, `pdf-lib`, `sharp`) | Al fijar dependencias del generador |
 | Referencia JS | https://devdocs.io y https://developer.mozilla.org | Al escribir `dataset/generar.ts` (seed, fechas, aleatorios) |
+| Datos falsos sin programar | https://mockaroo.com (CSV/JSON con tipos y locales, exportable) | Al prototipar el *ground truth* antes del script final |
+| Español realista | https://fakerjs.dev (locale `es`: nombres, direcciones, empresas) | Al configurar el generador para que parezca planta mexicana |
+| Modelo de autorización (solo lectura) | https://casbin.org (RBAC/ABAC como referencia, no como dependencia) | Al validar que la matriz cubre todo sin inventar el modelo |
 
 ## 7. Cómo trabajar
 

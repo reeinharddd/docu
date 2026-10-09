@@ -79,6 +79,9 @@ Recursos oficiales y curados para diseñar el flujo:
 | Estados vacíos/error ilustrados | Curaduría del equipo: https://undraw.co y https://openpeeps.com (ilustraciones) | Al diseñar vacío, error y cuarentena sin pantallas frías |
 | Tamaños reales de pantalla | Curaduría del equipo: https://screensiz.es (viewport Android + desktop) | Al cumplir RNF-01 celular + escritorio |
 | Diagramar el flujo | https://excalidraw.com (rápido, exportable) | Al entregar `FLUJO.md` |
+| Por qué funciona cada patrón | Curaduría del equipo: https://lawsofux.com (leyes: Hick, Miller, proximidad) y https://www.nngroup.com (heurísticas, densidad de datos) | Al justificar decisiones de bandeja y búsqueda |
+| Formularios que no cansan | Curaduría del equipo: https://www.frontendpractice.com (clones reales) | Al diseñar captura con validación |
+| Investigación de e-commerce aplicable | https://baymard.com (checkout, errores, confirmaciones) | Al diseñar cuarentena→confirmación como un checkout de confianza |
 
 ## 7. Cómo trabajar
 
