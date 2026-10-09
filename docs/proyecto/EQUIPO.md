@@ -1,6 +1,6 @@
 # Equipo, responsabilidades y propiedad de la documentación
 
-Estado: vigente. Última actualización: 2026-10-06.
+Estado: vigente. Última actualización: 2026-10-09. Replanificación: inicio 2026-10-05 → 2026-10-12 (+7 días); #32 pasa a Erik, #7 pasa a Emmanuel.
 
 ## Personas
 
@@ -13,8 +13,8 @@ Estado: vigente. Última actualización: 2026-10-06.
 
 Materias: **Yakko Olivo Nájera** (Desarrollo web integral) es dueño del
 producto y sus entregas viven en DOCU. **Resffa Elizabeth Fierro García**
-(Extracción de Conocimiento de BD) también. **Laura Trejo Medina**
-(Administración de Proyectos) solo aparece en el tablero de EC0935, nunca aquí.
+(Extracción de Conocimiento de BD) también. **MIGUEL ANGEL CARDONA CONTRERAS**
+(Desarrollo para Dispositivos Inteligentes).
 
 ## Responsabilidades y entregables en E1
 
@@ -24,13 +24,13 @@ está en su brief y el estado en su issue.
 
 | Persona | Responsable de | Próximos entregables | Fecha | Brief |
 |---|---|---|---|---|
-| Kira | Experiencia y diseño | Prototipos y flujo de pantallas (#11), categorías y etiquetas (#28); después design system de marca (#41) | 2026-10-09 / 10-23 | `briefs/BRIEF-11-prototipos-ui-ux.md` |
-| Emmanuel | Backend e ingesta | Evaluación de OCR con números (#32); después arquitectura y APIs (#12), solo-insert (#44) y pruebas de la API (#45) | 2026-10-12 | `briefs/BRIEF-32-evaluacion-ocr.md` |
-| Carlos | Datos y calidad | Matriz de roles (#29, vencida), escaneados para #32, dataset y plan de pruebas (#9) | 2026-10-09 / 10-16 | `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
-| Erik | Liderazgo, infra y gestión | Gestión del Project (#43), playground de diseño (#42), arquitectura y entorno (#10), SRS (#13), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-09 / 10-16 | — |
+| Kira | Experiencia y diseño | Marca Fase 1 (#41-fase1), luego prototipos y flujo (#11), categorías (#28); después design system (#41) | 2026-10-16 / 10-23 | `briefs/BRIEF-41-marca-fase1.md`, `briefs/BRIEF-11-prototipos-ui-ux.md` (incluye #28) |
+| Emmanuel | Backend y base de datos | Configuración 1 (#7); después arquitectura y APIs (#12), solo-insert (#44) y pruebas de la API (#45) | 2026-10-19 / 10-30 | `briefs/BRIEF-07-configuracion-1.md` |
+| Carlos | Datos y calidad | Matriz de roles (#29, vencida), escaneados para #32, dataset y plan de pruebas (#9) | 2026-10-16 / 10-23 | `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
+| Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), arquitectura y entorno (#10), gestión del Project (#43), playground de diseño (#42), SRS (#13), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md`, `briefs/BRIEF-30-36-aprobacion-casos-uso.md` |
 
 Sin responsable todavía: #36 (diagrama de casos de uso) y #39 (reporte y
-alerta, RF-05). Se asignan en el sync del lunes.
+alerta, RF-05). Se asignan en el sync del lunes 2026-10-12.
 
 Cómo empieza cualquiera: `bash scripts/setup.sh`, `opencode`, `/inicio`
 (`operacion/BOOTSTRAP.md`).

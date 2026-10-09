@@ -7,9 +7,11 @@ archivo.
 
 ## Fecha dura
 
-> **Contrato de datos congelado el 23 de octubre de 2026 para las maquetas.**
+> **Contrato de datos congelado el 30 de octubre de 2026 para las maquetas.**
 > Milestone `Contrato de datos congelado` e issue #23. Si se mueve, se mueve el
 > milestone y se corrige aquí en el mismo PR.
+>
+> Replanificación 2026-10-09: inicio 2026-10-05 → 2026-10-12 (+7 días).
 
 ## Etapa actual: E1, refuerzo del repositorio
 
@@ -28,7 +30,7 @@ trabaje sin depender de una sola persona.
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
 | QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #36, #6, entregas |
 | Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
-| Base de datos (#50) | 2 | Carlos | RF-08 | #7 |
+| Base de datos (#50) | 2 | Emmanuel | RF-08 | #7 |
 
 ## Dependencias (nativas en GitHub, *blocked by*)
 
@@ -51,9 +53,10 @@ de datos validado (ADR-0012).
 
 | Riesgo | Señal | Mitigación |
 |---|---|---|
-| OCR no alcanza el 90 % en escaneados | #32 sin resultados al 2026-10-12 | Brief `briefs/BRIEF-32-evaluacion-ocr.md` |
-| Sprint 1 termina el 16-oct y el contrato se congela el 23-oct | #10 y #13 cierran el 16 | Si el diseño se retrasa, la congelación no se cumple |
-| #29 Matriz de roles vencida (30-sep) | Bloquea el contrato de datos | Brief `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
-| #39 y #36 sin responsable | `gh issue list --search no:assignee` | Asignar en el sync del lunes |
-| Prototipos UI/UX cierran el 9-oct | #11, Kira | Es la primera fecha que vence |
-| Frontend sin design system de marca | #41 abierto al 2026-10-23 | Playground (#42) listo desde el 2026-10-12 |
+| OCR no alcanza el 90 % en escaneados | #32 sin resultados al 2026-10-19 (Erik) | Brief `briefs/BRIEF-32-evaluacion-ocr.md` |
+| Sprint 1 termina el 23-oct y el contrato se congela el 30-oct | #10 y #13 cierran el 23 | Si el diseño se retrasa, la congelación no se cumple |
+| #29 Matriz de roles vencida (30-sep) | Bloquea el contrato de datos, cierre antes del 2026-10-16 (Carlos) | Brief `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
+| #39 y #36 sin responsable | `gh issue list --search no:assignee` | Asignar en el sync del lunes 2026-10-12 |
+| Marca Fase 1 cierra el 16-oct | #41-fase1, Kira | Es la primera fecha que vence; bloquea #41 |
+| Prototipos UI/UX cierran el 23-oct | #11, Kira | Tras la marca, alimenta #4 y #23 |
+| Frontend sin design system de marca | #41 abierto al 2026-10-30 | Playground (#42) listo desde el 2026-10-16 |
