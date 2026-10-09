@@ -7,6 +7,7 @@
 - Fechas: #29 **ya vencida** (2026-09-30) → cerrar antes del 2026-10-16 · #9 2026-10-12 → 2026-10-23
 - Prioridad / Tipo / Épica: alta / tarea / Autenticación (#29), QA/Documentación (#9)
 - Requisitos: RF-06 (#29) · RNF-02, RNF-07 (#9)
+- Bloqueado por: `proyecto/CASO.md` (organigrama real de la planta), #7 Configuración 1 (familias a mapear)
 - Bloquea a: #5 RBAC, #23 contrato de datos (#29) · #32 OCR, #3 pipeline, #6 pruebas (#9)
 
 ## 1. Contexto
