@@ -4,12 +4,12 @@
 
 - Issue: #13
 - Dueño: Erik
-- Fechas: 2026-10-12 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
+- Fechas: 2026-10-10 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / QA-Documentación / académico
 - Requisitos: RNF-07 (verificabilidad); cubre RF-01..08 + RNF-01..07
 - Bloqueado por: REQUISITOS.md, CASO.md, Etapa-2-v2 · Bloquea a: #30 aprobación, entregas
 
-Replanificación 2026-10-09: fechas 06→16-oct a 12→23-oct.
+Replanificación 2026-10-09: fechas 06→16-oct a 10→23-oct (decisión del líder: inicia 10-oct).
 
 ## 1. Contexto
 

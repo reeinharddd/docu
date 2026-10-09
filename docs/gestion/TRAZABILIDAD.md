@@ -42,6 +42,7 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | 3 | #7, #9, #13, #30 sin requisito | — | **Cerrado**: `RF-08`, `RNF-02`/`RNF-07`, `RNF-07`, `RNF-07` (tomados de los criterios de cada issue) |
 | 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto |
 | 7 | Dependencias vacías | — | **Cerrado**: 10 *blocked by* nativos (ver `PLAN-EPICAS.md`) |
+| 8 | #18–#26 sin etiquetas propias | Heredan requisito, épica y sprint del padre (#3, #4, #5, #9, #12). Monday dado de baja total el 2026-10-09: nada vive ahí, todo se opera en GitHub | **Cerrado** |
 
 ## Reglas
 
@@ -52,3 +53,6 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 3. Un issue se cierra con un PR fusionado que lo referencie o con evidencia en
    el comentario de cierre.
 4. Esta tabla se corrige en el mismo PR en que cambian las etiquetas.
+5. Un sub-issue hereda requisito, épica y sprint de su padre salvo etiqueta
+   propia en contra. Monday no es fuente de nada: está dado de baja y solo se
+   cita como procedencia histórica.

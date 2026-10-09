@@ -8,6 +8,7 @@
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Diseño / diseño
 - Requisitos: RNF-01; sostiene ADR-0012 (puerta 1: design system)
 - Bloqueado por: marca Fase 1 (#41-fase1, qué dirección) · Bloquea a: #41 Design system
+- Decisión UI/UX: todas las decisiones de UI/UX son de Kira (decisión del líder 2026-10-09). El equipo solo provee herramientas y recursos; ella elige lo que use en propuestas, incluido el UI kit.
 
 Replanificación 2026-10-09: fechas 09→12-oct a 16→23-oct (tras la elección de marca del 16-oct).
 
