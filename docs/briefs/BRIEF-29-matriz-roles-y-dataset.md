@@ -70,6 +70,17 @@ dataset, ningún requisito se puede demostrar.
 - Automatizable: script TypeScript/Bun con semilla; plantillas versionadas;
   degradado con Sharp/ImageMagick; nunca archivos a mano ni CSV a mano.
 
+Recursos oficiales para implementar:
+
+| Para | Recurso | Cuándo usarlo |
+|---|---|---|
+| Datos sintéticos en español | https://fakerjs.dev (API + semilla; `faker.seed()`) | Al generar nombres, RFC, medidas y textos del dataset |
+| Excel realista | https://docs.sheetjs.com (lectura/escritura `xlsx`, fórmulas) | Al crear `excel_turno` y `programa_planeacion` con fórmulas |
+| PDF con layout | https://pdf-lib.js.org (crear y sellar PDFs) | Al crear recepciones y certificados |
+| Degradado a 150/300 dpi | https://sharp.pixelplumbing.com + https://imagemagick.org (ruido, blur, rotación leve) | Al simular escaneados desde el render limpio |
+| Entender qué medirá el OCR | Tesseract https://tesseract-ocr.github.io y Docling OSS https://github.com/docling-project/docling (Linux Foundation) | Al diseñar el *ground truth* (qué campos son legibles a cada dpi) |
+| Modelo de permisos | OWASP Cheat Sheet Series https://cheatsheetseries.owasp.org (Authorization) + NIST SP 800-162 (ABAC) | Al escribir `ROLES.md` sin inventar el modelo |
+
 ## 7. Cómo trabajar
 
 - `/tarea 29`, luego `/tarea 9`; `/cerrar` en cada una. Un issue en progreso a la vez.

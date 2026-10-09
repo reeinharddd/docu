@@ -51,6 +51,14 @@ Total estimado: 3–4 h. Hacer el sábado 10 o domingo 11 para que el lunes est�
 - `scripts/project-sync.ts`, `.github/workflows/project-sync.yml`.
 - Comandos: `gh issue list --assignee @me`, `gh issue develop N --base main --checkout`.
 
+Recursos oficiales para gestionar (leer antes del finde):
+
+| Para | Recurso | Cuándo usarlo |
+|---|---|---|
+| Issues y milestones | https://docs.github.com/en/issues/tracking-your-work-with-issues | Al crear/etiquetar issues con plantilla |
+| Projects (vistas, campos, workflows) | https://docs.github.com/en/issues/planning-and-tracking-with-projects | Al crear las 5 vistas y activar `Item closed → Listo` |
+| `gh` CLI | https://cli.github.com/manual (referencia de `issue edit`, `issue develop`) | Al asignar issues por terminal |
+
 ## 7. Cómo trabajar
 
 - Parte web (vistas, secreto, colaboradores) + parte repo (EQUIPO ya actualizado en este PR).

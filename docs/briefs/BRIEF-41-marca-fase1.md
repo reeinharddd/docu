@@ -57,6 +57,7 @@ Total estimado: 10–13 h concentradas.
 - Industria médica: Weill Cornell, Utah Health, Stony Brook, Respira, Medline.
 - Iconos: Lucide, Phosphor, Tabler, Heroicons. Tokens: W3C Design Tokens, OKLCH, Penpot MCP.
 - Mockups rápidos con IA: Uizard, Stitch. Español: Guía Impresión tendencias 2026, El Publicista.
+- De tus starred (chispa visual, no dependencias): https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient para concepto de logo.
 - Accesibilidad WCAG 2.2 AA; la IA genera variantes, tú decides cuál queda.
 
 ## 7. Cómo trabajar
