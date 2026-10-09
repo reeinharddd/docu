@@ -90,3 +90,6 @@ Qué se extrajo y a dónde fue:
 | 23 actividades del plan académico EC0935 | `academico/EC0935.md` + 8 issues nuevos (#28–#35) con etiqueta `ec0935` para lo que no tenía equivalente |
 | Tablero "Proveedores" | Vacío (5 ítems de plantilla de 2025). Nada que migrar |
 | Workdocs y archivos adjuntos | Ninguno |
+
+> Nota 2026-10-09: `academico/EC0935.md` se dio de baja del repo por orden del
+> líder. La tabla histórica no cambia.

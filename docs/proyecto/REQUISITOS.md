@@ -62,7 +62,8 @@ aunque cueste.
 Los huecos de trazabilidad vivos están en `gestion/TRAZABILIDAD.md` y se
 consultan con `gh issue list --label req:pendiente`. Las fechas duras son
 milestones de GitHub y se listan en `gestion/RITMO-SEMANAL.md`; la más
-cercana con impacto en diseño es **2026-10-23, contrato de datos congelado**.
+cercana con impacto en diseño es **2026-10-30, contrato de datos congelado**
+(milestone `Contrato de datos congelado`, verificado en GitHub el 2026-10-09).
 
 ## Pruebas que exige cada requisito
 

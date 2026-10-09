@@ -41,7 +41,7 @@ Total estimado: 8–10 h.
 
 ## 5. Entradas y salidas
 
-- Recibe: Etapa-2-v2, caso-bajasterilpack, Monday 18432808588 (ya migrado a `EC0935.md`), `REQUISITOS.md`, `CASO.md`.
+- Recibe: Etapa-2-v2, caso-bajasterilpack, Monday 18432808588 (migrado a GitHub; la copia académica vigente está en Drive, citar fecha), `REQUISITOS.md`, `CASO.md`.
 - Entrega: a #30 (aprobación) y a `academico/ENTREGAS.md`, PDF + URL.
 
 ## 6. Referencias y caja de herramientas

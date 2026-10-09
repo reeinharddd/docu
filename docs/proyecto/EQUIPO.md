@@ -7,7 +7,7 @@ Estado: vigente. Última actualización: 2026-10-09. Replanificación: inicio 20
 | Persona | Rol en DOCU | Áreas del sistema | Usuario GitHub |
 |---|---|---|---|
 | Erik Alfonso Beltrán Ramírez | Líder, infra y pipeline | `auth/governance`, despliegue, CI, entorno, ADRs de infraestructura | `reeinharddd` |
-| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas | pendiente |
+| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas. Configuración 1 (#7), 2026-10-19 → 10-30, alimenta el contrato de datos | pendiente |
 | Kira Llizara Garfias González | Frontend y UX | Angular, Tailwind, captura, bandeja, programa, búsqueda, diseño de pantallas | pendiente |
 | Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | pendiente |
 
