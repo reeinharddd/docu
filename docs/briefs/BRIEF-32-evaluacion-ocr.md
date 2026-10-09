@@ -3,8 +3,8 @@
 ## 0. Encabezado
 
 - Issue: #32
-- Dueño: Emmanuel
-- Fechas: 2026-10-05 → **2026-10-12** · hito `Cierre de diseño` (2026-10-16)
+- Dueño: Erik
+- Fechas: 2026-10-16 → **2026-10-23** · hito `Cierre de diseño` (2026-10-23)
 - Prioridad / Tipo / Épica / Módulo: media en el plan, **crítica en la práctica** / investigación / Backend / ingesta
 - Requisitos: RF-02 (campos clave ≥ 90 %, CER ≤ 10 %)
 - Bloqueado por: escaneados de prueba de Carlos (#9) · Bloquea a: #3 Pipeline de ingesta
@@ -19,7 +19,7 @@ campos clave con al menos 90 % de exactitud y CER ≤ 10 % en texto corrido
 ## 2. Por qué importa tu parte
 
 Es el riesgo técnico mayor del proyecto. Si se descubre en noviembre que ningún
-OCR alcanza el 90 %, el pipeline (#3, de Erik y tuyo) se rehace y RF-02 no se
+OCR alcanza el 90 %, el pipeline (#3, tuyo) se rehace y RF-02 no se
 cumple. Si la evaluación sale ahora, el diseño del worker se fija con datos.
 
 ## 3. Objetivo y resultado esperado
@@ -46,7 +46,7 @@ Recomendar un motor OCR con números medidos sobre escaneados del caso.
 ## 5. Entradas y salidas
 
 - Recibe: escaneados y *ground truth* de Carlos (#9).
-- Entrega: a Erik (pipeline #3), por PR, la recomendación y el script.
+- Entrega: al worker y pipeline #3 (propio), por PR, la recomendación y el script. Revisa Emmanuel.
 
 ## 6. Referencias y caja de herramientas
 
@@ -54,6 +54,16 @@ Recomendar un motor OCR con números medidos sobre escaneados del caso.
 - `docs/ingenieria/IA.md` y `STACK.md` (versiones del stack).
 - Documentación oficial de Tesseract y Docling (versión fija en el script).
 - Automatizable: el CER se calcula con distancia de Levenshtein; no a mano.
+
+Recursos oficiales para evaluar (verificados 2026-10-09):
+
+| Para | Recurso | Cuándo usarlo |
+|---|---|---|
+| Motor 1: Tesseract | https://tesseract-ocr.github.io (docs) + https://github.com/naptha/tesseract.js (binding JS) o binario del sistema | Al fijar versión y DPI de prueba (150/300) |
+| Motor 2: Docling OSS | https://github.com/docling-project/docling (Linux Foundation; convierte PDF/escaneado a Markdown/JSON con layout y tablas) + https://www.ibm.com/products/docling (límites del servicio nube, solo referencia) | Al evaluar layout + tablas, no solo texto plano |
+| Modelos locales extra | https://github.com/12britz/awesome-free-models (de tus starred; lista comunitaria: verificar licencia y hardware de cada modelo antes de usar) | Solo si ambos motores fallan el 90 % |
+| Inferencia local y nube (de tus bookmarks) | https://ollama.com (probar visión local; https://ollama.com/settings/keys) y https://huggingface.co/docs/inference-providers/index (probar modelos visión por API con credencial explícita, RNF-03) | Como tercer motor opcional, con versión y costo anotados |
+| Métrica CER | Distancia de Levenshtein normalizada por longitud; exactitud de campos clave = aciertos/total por campo | Al escribir el CSV (columnas: motor, dpi, campo, exactitud, CER, s/página, RAM) |
 
 ## 7. Cómo trabajar
 
@@ -72,8 +82,10 @@ Recomendar un motor OCR con números medidos sobre escaneados del caso.
 ## 9. Riesgos nombrados
 
 Que los escaneados no lleguen a tiempo. Mitigación: empezar con 10 documentos
-generados y escaneados por ti mismo; desde el 2026-10-09 sin escaneados es bloqueo.
+generados y escaneados por ti mismo; desde el 2026-10-16 sin escaneados es bloqueo con etiqueta `bloqueado`.
 
 ## 10. Revisión
 
-Lunes 2026-10-12 en el sync, con Erik.
+Replanificación 2026-10-09: dueño Emmanuel → Erik; fechas 05→12-oct a 16→23-oct.
+
+Viernes 2026-10-23 en el sync, con Emmanuel como revisor.
