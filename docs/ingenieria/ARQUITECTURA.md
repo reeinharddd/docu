@@ -87,8 +87,8 @@ Los pasos 4 a 7 son los que todavía no existen. Es el trabajo de M1 y E2.
 Un solo host en localhost con Docker Compose: base, Redis y la aplicación. Nada
 sale a la nube sin configuración explícita (RNF-03). La configuración de Redis
 en este entorno es deliberadamente simple: sin autenticación, escuchando solo en
-localhost. La política de los tres entornos está en
-[operación/ENTORNOS.md](../operacion/ENTORNOS.md).
+localhost. La política de los tres entornos está pendiente de documentar (dueño:
+Erik); los servicios actuales están en [ingeniería/ENTORNO.md](ENTORNO.md).
 
 ## 6. Qué falta para que este mapa sea verdad completa
 

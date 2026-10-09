@@ -17,6 +17,9 @@
     "prisma:validate": "cd apps/api && bunx prisma validate",
     "smoke:api": "bash scripts/smoke-api.sh",
     "compose:check": "docker compose -f infra/docker-compose.yml config >/dev/null",
+    "docs:links": "bash scripts/docs-linkcheck.sh",
+    "docs:briefs": "bash scripts/docs-briefcheck.sh",
+    "docs:trace": "bash scripts/docs-tracecheck.sh",
     "postinstall": "lefthook install",
     "project:sync": "bun scripts/project-sync.ts"
   },

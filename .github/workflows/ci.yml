@@ -57,6 +57,9 @@ jobs:
       - run: bun run prisma:validate
       - run: docker compose -f infra/docker-compose.yml config
       - run: bash scripts/doc-index.sh
+      - run: bash scripts/docs-linkcheck.sh
+      - run: bash scripts/docs-briefcheck.sh
+      - run: bash scripts/docs-tracecheck.sh
       - run: bun --filter web test
   smoke:
     needs: guardas
