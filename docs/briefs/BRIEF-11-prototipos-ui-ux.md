@@ -4,7 +4,7 @@
 
 - Issue: #11 (incluye #28 Definición de categorías y etiquetas)
 - Dueño: Kira
-- Fechas: 2026-10-05 → **2026-10-09** · Sprint 1 · hito `Cierre de diseño` (2026-10-16)
+- Fechas: 2026-10-16 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-16)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / diseño
 - Requisitos: RNF-01 (usabilidad); alimenta RF-01, RF-03, RF-04
 - Bloqueado por: nada · Bloquea a: #4 Frontend Angular
@@ -66,6 +66,23 @@ pantallas del producto.
 - Accesibilidad: criterios WCAG 2.2 AA; verificar contraste con la extensión axe.
 - La IA puede generar variantes de layout y textos de error; tú decides cuál queda.
 
+Recursos oficiales y curados para diseñar el flujo:
+
+| Para | Recurso | Cuándo usarlo |
+|---|---|---|
+| Criterios exactos AA | https://www.w3.org/WAI/WCAG22/quickref/ (contraste, foco, nombres accesibles) | Al definir cada pantalla y sus estados de error |
+| Verificación automática | https://www.deque.com/axe/ (extensión axe DevTools) | Al auditar el prototipo antes del PR |
+| Patrones de usabilidad | https://www.nngroup.com (heurísticas, mensajes de error, densidad de datos) | Al diseñar bandeja/cuarentena y búsqueda con cita |
+| Marca ya elegida | Dirección ganadora de Fase 1 (`BRIEF-41`) + tokens del playground (#42) | Al pasar de baja a alta fidelidad |
+| Inspiración documental y lineage | Lista curada de `BRIEF-41` §6 (SaaSUI, DataHub/OpenMetadata, ProvenanceWidgets) | Al dibujar la cita de fuente por cifra |
+| Flujos reales de referencia | Curaduría del equipo: https://pageflows.com (flujos subir→revisar→consultar), https://ui-patterns.com y https://www.uisources.com (bandejas, filtros, tablas) | Al dibujar la navegación antes de prototipar |
+| Estados vacíos/error ilustrados | Curaduría del equipo: https://undraw.co y https://openpeeps.com (ilustraciones) | Al diseñar vacío, error y cuarentena sin pantallas frías |
+| Tamaños reales de pantalla | Curaduría del equipo: https://screensiz.es (viewport Android + desktop) | Al cumplir RNF-01 celular + escritorio |
+| Diagramar el flujo | https://excalidraw.com (rápido, exportable) | Al entregar `FLUJO.md` |
+| Por qué funciona cada patrón | Curaduría del equipo: https://lawsofux.com (leyes: Hick, Miller, proximidad) y https://www.nngroup.com (heurísticas, densidad de datos) | Al justificar decisiones de bandeja y búsqueda |
+| Formularios que no cansan | Curaduría del equipo: https://www.frontendpractice.com (clones reales) | Al diseñar captura con validación |
+| Investigación de e-commerce aplicable | https://baymard.com (checkout, errores, confirmaciones) | Al diseñar cuarentena→confirmación como un checkout de confianza |
+
 ## 7. Cómo trabajar
 
 - Con OpenCode: `/tarea 11` para empezar y `/cerrar` para el PR.
@@ -89,4 +106,6 @@ tipografía) se trabaja después en el playground de diseño.
 
 ## 10. Revisión
 
-Viernes 2026-10-09 en el sync: recorrido del prototipo de 10 minutos con Erik.
+Viernes 2026-10-23 en el sync: recorrido del prototipo de 10 minutos con Erik.
+
+Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fase 1 (#41-fase1).

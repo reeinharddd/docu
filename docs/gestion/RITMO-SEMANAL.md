@@ -39,9 +39,9 @@ Issues y Project (`integraciones/GITHUB-GESTION.md`).
 
 | Fecha | Qué | Dónde |
 |---|---|---|
-| 2026-10-09 | Cierre de prototipos UI/UX (Kira, Sprint 1) | #11 |
-| 2026-10-16 | Cierre de diseño y fin de la arquitectura (Erik, Sprint 1) | Milestone `Cierre de diseño` |
-| **2026-10-23** | **Contrato de datos congelado para maquetas** | Milestone `Contrato de datos congelado`, #23 |
+| 2026-10-16 | Cierre de marca Fase 1 (Kira) + matriz de roles (Carlos) | #41-fase1, #29 |
+| 2026-10-23 | Cierre de diseño y fin de la arquitectura (Erik, Sprint 1) | Milestone `Cierre de diseño` |
+| **2026-10-30** | **Contrato de datos congelado para maquetas** | Milestone `Contrato de datos congelado`, #23 |
 | 2026-11-20 | Fin del desarrollo | Milestone |
 | 2026-11-27 | Listos para presentar | Milestone |
 | 2026-12-01 | Presentación de diciembre | Milestone |

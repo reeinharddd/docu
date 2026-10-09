@@ -51,7 +51,7 @@ mantiene dos veces el mismo dato.
 | `Status` | Cerrado → `Listo`. PR abierto que lo cierra → `En revisión`. Nuevo → `Por hacer`. `En progreso` lo mueve la persona al empezar |
 | `Épica` | `epica:*` del issue o de su padre |
 | `Prioridad` | `prioridad:*` del issue o de su padre |
-| `Sprint` | `sprint:N` → iteraciones: S1 05–16 oct, S2 19 oct–6 nov, S3 9–20 nov, S4 23 nov–4 dic |
+| `Sprint` | `sprint:N` → iteraciones: S1 12–23 oct (replan 2026-10-09), S2 19 oct–6 nov, S3 9–20 nov, S4 23 nov–4 dic |
 | `Inicio`, `Fin` | Línea `Cronograma` del cuerpo, solo si el campo está vacío |
 | `Estimación (h)` | A mano, opcional |
 | Nativos | Assignees, Labels, Milestone, Parent issue, Sub-issues progress, Linked pull requests |
