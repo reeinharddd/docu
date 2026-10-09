@@ -6,7 +6,8 @@ Monorepo bun: `apps/api` (NestJS 12 + Prisma 7 + BullMQ 6), `apps/web`
 (Angular 22 zoneless + Tailwind 4), `infra/`, `dataset/`. `packages/` no existe
 todavia; si se crea, hay que registrarlo en `workspaces`.
 Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
-`docs/briefs/`. Decisiones: `docs/decisiones/`.
+`docs/briefs/`. Decisiones: `docs/decisiones/`. Arranque y diagnóstico:
+`docs/operacion/BOOTSTRAP.md`. Stack y versiones: `docs/ingenieria/STACK.md`.
 
 ## Comandos (bun, nada de npm)
 - Instalar todo: `bun install` (raíz)

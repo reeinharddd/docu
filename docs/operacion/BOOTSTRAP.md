@@ -1,6 +1,9 @@
 # Operación: arranque y diagnóstico
 
-Estado: vigente. Verificado el 2026-10-06.
+Estado: vigente. Verificado el 2026-10-09: clon limpio + `cp .env.example .env`
++ `bun install --frozen-lockfile` + `prisma generate` deja `typecheck`, `lint`,
+`compose:check` e índice documental en verde. `smoke:api` exige `bun run dev`
+con Docker arriba; sin infra es fallo esperado, no defecto del repo.
 Este archivo reemplaza las instrucciones de arranque del `README.md`.
 
 ## Primera vez: un solo comando
@@ -149,6 +152,7 @@ cosas no hay "ya quedó" (`docs/REGLAS.md`).
 | `opencode` o `bun` no se encuentran | Terminal abierta antes del setup | Abre una terminal nueva |
 | `FALTA` en las variables de Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
 | Puerto ocupado | Otro proceso | Cambia `PG_PORT` / `REDIS_PORT` / `PORT_API` en `.env` |
+| `typecheck` falla con `no exported member 'PrismaClient'` en clon limpio | Falta `prisma generate` | `cd apps/api && bunx prisma generate` (lo hace `setup.sh` y `bun run dev`) |
 | `prisma migrate deploy` falla | Compose no está arriba | `docker compose -f infra/docker-compose.yml --env-file .env up -d --wait` |
 | La API no responde en `/health` | Falta Redis o la BD | Revisa los logs de `bun run dev` |
 | Drive devuelve una carpeta vacía | `fields` sin el envoltorio `files(...)`, o HTTP 400 no chequeado | Ver `integraciones/DRIVE.md` |
