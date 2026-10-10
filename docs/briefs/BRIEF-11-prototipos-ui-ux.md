@@ -109,3 +109,31 @@ tipografía) se trabaja después en el playground de diseño.
 Viernes 2026-10-23 en el sync: recorrido del prototipo de 10 minutos con Erik.
 
 Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fase 1 (#41-fase1).
+
+## 11. Insumos del agente
+
+| Insumo | Estado | Notas |
+|---|---|---|
+| DESIGN.md | Pendiente | Plantilla en `docs/plantillas/DESIGN.md` |
+| AGENTS.md | Pendiente | Plantilla en `docs/plantillas/AGENTS.md` |
+| design-system.md | Pendiente | Plantilla en `docs/plantillas/design-system.md` |
+| Visión | Pendiente | 1 párrafo |
+| Slogan | Pendiente | Frase corta |
+| Paleta | Pendiente | Hex + nombre por token |
+| Tipografías | Pendiente | Display, body, mono |
+| Iconos | Pendiente | Set elegido |
+| Imágenes | Pendiente | Logo, ilustraciones, fotos |
+| Estados | Pendiente | Cargando, vacío, error, cuarentena, confirmado |
+
+## 12. Recursos por actividad
+
+### Prototipar flujo
+- [lawsofux.com](https://lawsofux.com/) — Leyes: Hick, Miller, proximidad. **Cuándo:** necesitas justificar decisiones de UI.
+- [nngroup.com](https://www.nngroup.com/) — Heurísticas, densidad de datos. **Cuándo:** necesitas evaluar usabilidad.
+- [baymard.com](https://baymard.com/) — Checkout, errores, confirmaciones. **Cuándo:** necesitas diseñar flujos de confirmación.
+- [Frontend Practice](https://www.frontendpractice.com/) — Formularios que no cansan. **Cuándo:** necesitas diseñar formularios.
+- [unDraw](https://undraw.co/) / [Open Peeps](https://openpeeps.com/) — Ilustraciones. **Cuándo:** necesitas ilustraciones para vacío/error.
+- [screensiz.es](https://screensiz.es/) — Viewports reales. **Cuándo:** necesitas verificar tamaños de pantalla.
+- [Excalidraw](https://excalidraw.com/) — Diagramar el flujo. **Cuándo:** necesitas diagramar navegación.
+- [W3C WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/) — Criterios AA exactos. **Cuándo:** necesitas verificar accesibilidad.
+- [axe DevTools](https://www.deque.com/axe/) — Verificación automática. **Cuándo:** necesitas auditar accesibilidad.

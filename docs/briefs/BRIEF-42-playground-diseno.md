@@ -89,3 +89,33 @@ Convertir el playground en frontend real. Mitigación: sin API ni BD, solo token
 ## 10. Revisión
 
 Viernes 2026-10-23 con Kira: demo de 5 min del cambio de paleta. Después: #41 design system.
+
+## 11. Insumos del agente
+
+| Insumo | Estado | Notas |
+|---|---|---|
+| DESIGN.md | Pendiente | Plantilla en `docs/plantillas/DESIGN.md` |
+| AGENTS.md | Pendiente | Plantilla en `docs/plantillas/AGENTS.md` |
+| design-system.md | Pendiente | Plantilla en `docs/plantillas/design-system.md` |
+| Visión | Pendiente | 1 párrafo |
+| Slogan | Pendiente | Frase corta |
+| Paleta | Pendiente | Hex + nombre por token |
+| Tipografías | Pendiente | Display, body, mono |
+| Iconos | Pendiente | Set elegido |
+| Imágenes | Pendiente | Logo, ilustraciones, fotos |
+| Estados | Pendiente | Cargando, vacío, error, cuarentena, confirmado |
+
+## 12. Recursos por actividad
+
+### Explorar en playground
+- [shadcn/ui](https://ui.shadcn.com/) — Patrones de componentes. **Cuándo:** necesitas componentes de calidad.
+- [daisyUI](https://daisyui.com/) — Componentes Tailwind. **Cuándo:** necesitas componentes simples.
+- [Flowbite](https://flowbite.com/) — Componentes Tailwind. **Cuándo:** necesitas componentes completos.
+- [PrimeNG](https://primeng.org/) — UI kit Angular. **Cuándo:** necesitas componentes Angular.
+- [Angular Material](https://material.angular.io/) — UI kit Angular. **Cuándo:** necesitas Material Design.
+- [Taiga UI](https://taiga-ui.dev/) — UI kit Angular. **Cuándo:** necesitas alternativa ligera.
+- [AG Grid](https://www.ag-grid.com/angular-data-grid/) — Tablas densa. **Cuándo:** necesitas tablas con filtros, orden, paginación.
+- [motion.dev](https://motion.dev/) — Animación con respeto. **Cuándo:** necesitas animar transiciones.
+- [Animista](https://animista.net/) — Animaciones CSS. **Cuándo:** necesitas animaciones predefinidas.
+- [CSS Layout Generator](https://layout.bradwoods.io/) — Layouts CSS. **Cuándo:** necesitas generar layouts.
+- [Flexbox Froggy](https://flexboxfroggy.com/) / [Grid Garden](https://cssgridgarden.com/) — Aprender CSS jugando. **Cuándo:** necesitas practicar CSS.

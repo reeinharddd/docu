@@ -89,3 +89,42 @@ Pulir estética antes de cerrar direcciones. Mitigación: baja fidelidad primero
 ## 10. Revisión
 
 Viernes 2026-10-16 en el sync: recorrido de 10 minutos con Erik; el equipo elige una dirección. Fase 2 (mockups hi-fi 4 pantallas, tokens, design system) se calendariza tras la selección.
+
+## 11. Insumos del agente
+
+| Insumo | Estado | Notas |
+|---|---|---|
+| DESIGN.md | Pendiente | Plantilla en `docs/plantillas/DESIGN.md` |
+| AGENTS.md | Pendiente | Plantilla en `docs/plantillas/AGENTS.md` |
+| design-system.md | Pendiente | Plantilla en `docs/plantillas/design-system.md` |
+| Visión | Pendiente | 1 párrafo |
+| Slogan | Pendiente | Frase corta |
+| Paleta | Pendiente | Hex + nombre por token |
+| Tipografías | Pendiente | Display, body, mono |
+| Iconos | Pendiente | Set elegido |
+| Imágenes | Pendiente | Logo, ilustraciones, fotos |
+| Estados | Pendiente | Cargando, vacío, error, cuarentena, confirmado |
+
+## 12. Recursos por actividad
+
+### Investigar marca
+- [Awwwards](https://www.awwwards.com/) — Excelencia visual web. **Cuándo:** necesitas ver qué se considera mundo-clase.
+- [Mobbin](https://mobbin.com/) — Patrones de producto real. **Cuándo:** necesitas ver cómo otros resuelven bandejas, tablas, filtros.
+- [Land-book](https://land-book.com/) — Inspiración de landing pages. **Cuándo:** necesitas composición y jerarquía visual.
+- [Component Gallery](https://component.gallery/) — Componentes y patrones. **Cuándo:** necesitas ver variantes de un componente.
+- [Godly](https://godly.website/) — Sitios web excepcionales. **Cuándo:** necesitas referencia de alto nivel.
+- [UI Sources](https://www.uisources.com/) — UI de apps reales. **Cuándo:** necesitas ver flujos completos.
+- [Page Flows](https://pageflows.com/) — Flujos de navegación. **Cuándo:** necesitas ver cómo se conectan pantallas.
+- [UI Patterns](https://ui-patterns.com/) — Patrones de UI. **Cuándo:** necesitas soluciones probadas.
+- [Behance](https://www.behance.net/) — Branding y diseño. **Cuándo:** necesitas branding de marca.
+- [DataHub](https://datahub.com/) / [OpenMetadata](https://open-metadata.org/) — Lineage UI. **Cuándo:** necesitas mostrar procedencia de datos.
+- [SaaSUI](https://saasui.design/) — Producto documental. **Cuándo:** necesitas referencia de gestión documental.
+- [Weill Cornell](https://weill.cornell.edu/) / [Utah Health](https://healthcare.utah.edu/) / [Medline](https://www.medline.com/) — Branding médico/industrial. **Cuándo:** necesitas tono profesional de salud.
+
+### Desarrollar marca
+- [Coolors](https://coolors.co/) — Paletas + contraste AA. **Cuándo:** necesitas explorar paletas.
+- [OKLCH](https://oklch.com/) — Color con accesibilidad real. **Cuándo:** necesitas verificar contraste perceptualmente uniforme.
+- [Google Fonts](https://fonts.google.com/) — Tipografías. **Cuándo:** necesitas tipografía display/body/mono.
+- [Lucide](https://lucide.dev/) / [Phosphor](https://phosphoricons.com/) / [Tabler](https://tabler.io/icons) — Iconos. **Cuándo:** necesitas set de iconos.
+- [designtokens.org](https://www.designtokens.org/) — Especificación DTCG. **Cuándo:** necesitas estructurar tokens.
+- [tokens.studio](https://tokens.studio/) — Editar tokens con UI. **Cuándo:** necesitas editar tokens visualmente.
