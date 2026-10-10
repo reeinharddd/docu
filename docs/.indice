@@ -2,6 +2,7 @@
 # Verifica con: bash scripts/doc-index.sh
 # Regenera con: bash scripts/doc-index.sh --fix
 docs/academico/ENTREGAS.md
+docs/briefs/BRIEF-04-frontend-angular.md
 docs/briefs/BRIEF-07-configuracion-1.md
 docs/briefs/BRIEF-10-arquitectura-entorno.md
 docs/briefs/BRIEF-11-prototipos-ui-ux.md
@@ -9,6 +10,7 @@ docs/briefs/BRIEF-13-srs.md
 docs/briefs/BRIEF-29-matriz-roles-y-dataset.md
 docs/briefs/BRIEF-30-36-aprobacion-casos-uso.md
 docs/briefs/BRIEF-32-evaluacion-ocr.md
+docs/briefs/BRIEF-41-fase2-design-system.md
 docs/briefs/BRIEF-41-marca-fase1.md
 docs/briefs/BRIEF-42-playground-diseno.md
 docs/briefs/BRIEF-43-gestion-project.md
