@@ -1,7 +1,7 @@
 # Integración: Engram (memoria del proyecto)
 
 Estado: vigente. Verificado el 2026-10-05.
-Variable: `ENGRAM_PROYECTO=docu` (no es secreto).
+Variable: `ENGRAM_PROJECT=docu` (no es secreto; nombre canónico del binario, en inglés).
 
 ## Qué es y qué no es
 
@@ -30,6 +30,15 @@ tiempo, va en `docs/` y se versiona. La memoria indexa, no reemplaza
 4. **Nada de rutas personales ni de una sola máquina.** El repositorio tiene que
    funcionar en cualquier lado (`README.md`).
 5. Si una memoria contradice al repo, **gana el repo** y la memoria se corrige.
+
+## Base local y promoción a docs
+
+La base de Engram es **estrictamente local por desarrollador**: no hay sync
+entre máquinas ni con la nube. Cuando un export contenga algo valioso para
+todos, el camino es `bash scripts/memory-export.sh` (deja el JSON en `/tmp`,
+jamás se commitea: `.gitignore` lo prohíbe), revisión humana, y PR a `docs/`.
+Un export nunca se importa como verdad: como caché personal, como fuente
+oficial, nunca.
 
 ## Qué no debe pasar a memoria
 

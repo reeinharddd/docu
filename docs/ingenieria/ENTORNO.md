@@ -42,7 +42,7 @@ los permisos de GitHub y Drive, está en `docs/integraciones/`.
 | API | `PORT_API`, `JWT_SECRET` |
 | Drive | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GOOGLE_DRIVE_FOLDER` |
 | IA | `IA_LOCAL_ACTIVADA`, `IA_NUBE_ACTIVADA` |
-| Memoria | `ENGRAM_PROYECTO` |
+| Memoria | `ENGRAM_PROJECT` |
 
 La API se lanza con `bun --env-file ../../.env`, y `prisma.config.ts` carga el
 mismo archivo. No hace falta exportar nada a mano.

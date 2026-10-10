@@ -121,6 +121,11 @@ en el entorno del equipo, fuera del repositorio, y en ese papel no viola nada.
 Lo que no puede hacer es_replace el contrato del repositorio. La tensión está
 documentada aquí para que sea visible, no para discutirla de nuevo cada semana.
 
+> Evolución 2026-10-10: el equipo acordó opencode como entorno oficial y propone
+> pinearlo como plugin del proyecto (`#v6.4.2`, mismo commit) subordinado a
+> `AGENTS.md`. Ver ADR-0013 (propuesta). El veredicto de arriba queda como
+> contexto histórico; la decisión vigente, si se acepta, es la del ADR.
+
 ### 1.7 Modelos de IA
 
 Estrategia y criterios en [`docs/ingenieria/IA.md`](../ingenieria/IA.md). Lo que
@@ -204,9 +209,11 @@ Cosas que esta investigación **no** pudo confirmar. Cada una es el motivo de un
 decisión que todavía no se toma:
 
 1. ¿Licencia real de `angular/skills`? Sin eso, K1 no puede instalarlas.
-2. ¿`angular.dev/ai/mcp` es un servidor ejecutable? Define si vale la pena
-   evaluarlo.
-3. ¿`gstack` y `ECC` existen como proyectos mantenidos? No se halló fuente.
+2. ~~¿`angular.dev/ai/mcp` es un servidor ejecutable?~~ Resuelta 2026-10-10: sí,
+   `npx @angular/cli mcp` con `--read-only --local-only`; adoptado apagado (MCP.md).
+3. ~~¿`gstack` y `ECC` existen como proyectos mantenidos?~~ Resuelta 2026-10-10:
+   `garrytan/gstack` (MIT, opencode experimental) y `affaan-m/ECC` v2.2.3 (MIT,
+   plugin opencode en beta). Ver §9: ideas, no adopción.
 4. ¿Qué modelo de embeddings produce exactamente 768 dimensiones y admite
    salida estructurada? Sin esto, `DatoOficial.embedding` no se puebla.
 5. ¿Qué presupuesto de datos y de costo tendría un modelo en nube? Sin
@@ -227,3 +234,62 @@ Todas consultadas el 2026-10-05:
 | <https://angular.dev/ai/mcp> | HTTP 200 |
 | Registro de npm | `@nestjs/observe@latest` = 0.3.6; `@prisma/cli@latest` = 8.0.0-rc.20; `prisma@prev` = 7.10.0; `skills` CLI = 1.7.0 |
 | Índice personal de marcadores | 196 marcadores, 0 de herramientas de agente, 12 kits de UI de Angular |
+
+## 9. Barrido de starred (2026-10-10)
+
+64 repos revisados por metadatos (licencia, tamaño, README) y clonados los 8
+de workflow. Criterio: ¿sirve a DOCU en alguna etapa, con pin y sin romper
+el contrato del repo? Aclaración de skills: el repo trae 3 propias versionadas
+(`.opencode/skills/docu-*`); las 15 de superpowers viven en caché del plugin
+(`~/.cache/opencode`), bajo demanda. No falta ninguna.
+
+### Adoptar o ya adoptado
+
+| Repo | Licencia | Uso en DOCU |
+|---|---|---|
+| `obra/superpowers` | MIT | Plugin pineado `#v6.4.2` (ADR-0013 propuesta) |
+| `Gentleman-Programming/engram` | MIT | MCP core con `--project=docu` |
+| `tt-a1i/archify` | MIT | Skill de diagramas (RF-04 caso de uso #36, docs arquitectura). Trigger K1 |
+| `waybarrios/opencode-power-pack` | MIT | Vendorizada `pp-code-reviewer` (pin `9dccb6d`). Cantera con pin npm: `differential-review`, `code-architect`, `security-review`, `paper-summarizer`, `agents-md-improver`. Trigger S-series/K1, una por PR |
+| `Dicklesworthstone/destructive_command_guard` | custom | NO se adopta (licencia + instalador curl). Ideas ya aplicadas: denies en `opencode.json` |
+| `Tarquinen/opencode-dynamic-context-pruning` | AGPL | NO se adopta (copyleft + V2 + proyecto movido a Sleev). Ideas: comprimir por tarea, proteger patrones |
+
+### Ideas (robar el flujo, no el repo)
+
+| Repo | Qué robar |
+|---|---|
+| `garrytan/gstack` (MIT, opencode experimental) | Rigor de `/review` (checklist + calibración de severidad), gates de plan-review, `/retro`, `/ship`. Pesa demasiado para adoptarlo (binarios propios, browser, Codex como revisor) |
+| `affaan-m/ECC` v2.2.3 (MIT, plugin opencode en beta) | Vendorizadas `ecc-prisma/nestjs/angular` (pin `8384d60`, adaptadas a Prisma 7/Nest 12/Angular 22). Resto como referencia en M1/K1; `parallel-execution-optimizer` para olas; `conventional-commit-review` para commits |
+| `code-yeongyu/oh-my-openagent` (licencia de uso sostenible, NO MIT) | Solo ideas de orquestación por grafos. No vendorizable |
+| `DietrichGebert/ponytail` (MIT) | Filosofía YAGNI ya recogida en REGLAS/briefs |
+| `MaTriXy/auto-skill` (MIT) | Meta-herramienta para generar futuras `docu-*` desde flujos repetidos |
+| `Companion-Inc/feynman` (MIT) | Agente de investigación para briefs como el #32 |
+
+### Dominio DOCU por etapa
+
+| Repo | Etapa | Veredicto |
+|---|---|---|
+| `zai-org/GLM-OCR`, `bytedance/Dolphin` | Evaluación OCR (#32) | Candidatos a comparar, no a instalar |
+| `opendataloader-project/opendataloader-pdf` (Apache) | Ingesta (originales/PDF) | Trigger: ingesta real |
+| `dream-num/univer` (Apache) | Documentos Office | Referencia pesada; trigger solo si hay que generar `.docx` desde el repo |
+| `penpot/penpot` (MPL), `ZSeven-W/openpencil` | D1 design system | Trigger D1; MPL exige revisar compatibilidad antes de vendorizar |
+| `ueberdosis/tiptap` (MIT) | K1 componentes | Candidato a editor enriquecido |
+| `tirth8205/code-review-graph`, `DeusData/codebase-memory-mcp` (MIT) | Reviews en repo grande | Extras futuros (Python/C); complementan, no duplican a Engram (grafo de código vs memoria de sesión) |
+| `Egonex-AI/Understand-Anything`, `braedonsaunders/codeflow` (MIT) | Onboarding `@AMANECIDA` | Útil una vez, no permanente |
+| `herdrdev/herdr` (Apache) | Trabajo paralelo de agentes | Runtime a evaluar cuando las olas lo exijan |
+| `OrchestratorInc/agent-orchestrator` (Apache, 341 MB) | Supervisión multi-agente | Sobredimensionado hoy; trigger épicas |
+| `alibaba/page-agent` (MIT) | E2E | Playwright ya cubre; no duplicar |
+| `mvanhorn/last30days-skill`, `Nutlope/hallmark`, `nextlevelbuilder/ui-ux-pro-max-skill`, `Leonxlnx/taste-skill`, `mattpocock/skills`, `Jeffallan/claude-skills`, `addyosmani/agent-skills` (todas MIT) | Cantera de skills | Investigación (last30days), anti-slop diseño (hallmark/taste/ui-ux en K1), ingeniería (demás). Una por PR con pin |
+| `rohitg00/agentmemory` (Apache, 54 tools) | Memoria | Evaluada, pierde contra Engram (19 tools, local-first, ya operando) |
+| `JoshRob297/opencode-antigravity-auth` (MIT) | Modelos vía Antigravity | Solo con autorización explícita del líder (`IA_NUBE_ACTIVADA`): OAuth personal, no del proyecto |
+| `decolua/9router` (MIT) | Modelos gratis | Misma condición que Antigravity; política de IA, no herramienta |
+| `jamwithai/production-agentic-rag-course` | RAG (pgvector, M-series) | Referencia de aprendizaje |
+
+### Fuera de alcance
+
+Búsqueda de empleo, scraping social, video/leetcode/personal, catálogos
+awesome (solo referencia), `hyperspaceai/agi` (ruido), `floci-io/floci`,
+`chenglou/pretext`, `ruucm/shadergradient`, `collidingScopes/liquid-logo`,
+`ashemag/human-atlas`, `zubair-trabzada/geo-seo-claude` (DOCU no hace SEO),
+`win4r/ClawTeam-OpenClaw` y `czl9707/build-your-own-openclaw` (exigen OpenClaw),
+`HKUDS/ViMax`, `FujiwaraChoki/MoneyPrinterV2`, `NandhaKishorM/laya`.

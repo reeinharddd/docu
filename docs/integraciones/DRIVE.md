@@ -17,7 +17,7 @@ Una sola carpeta:
 |---|---|---|
 | Desarrollo web integral | `1KeJaYqEfrbD4H7hKCTIZsDMEAOolUdH4` | Entregas de la materia y del proyecto |
 
-Contenido real verificado (2 llamadas, 0 errores):
+Contenido real verificado (2026-10-10, `bash scripts/drive-check.sh`, 0 errores):
 
 ```
 Desarrollo web integral/
@@ -30,11 +30,17 @@ Desarrollo web integral/
 │       .docx · 685 KB · 2026-10-05
 ├── Etapa1. Analisis Proyecto Web.docx
 │       .docx · 30 KB · 2026-10-03
+├── SRS - Especificación de Requisitos de Software DOCU (RDD) IEEE 830
+│       Google Doc · nuevo desde el 2026-10-05
 └── plantilla_formato_ieee830.docx
         .docx · 281 KB · 2026-10-04
 ```
 
-Propietario único de los 5 objetos: la cuenta del líder. Nadie más escribe ahí.
+Nota 2026-10-10: el listado en vivo trae 6 objetos; hay un segundo
+`plantilla_formato_ieee830.docx` además del original del 2026-10-04. Si se
+necesita distinguirlos, leer `modifiedTime` por ID en vivo, no adivinar.
+
+Propietario único de los objetos: la cuenta del líder. Nadie más escribe ahí.
 
 ## Permisos
 
@@ -63,6 +69,16 @@ Dos trampas que ya costaron una lectura falsa:
 Chequeo mínimo: si la respuesta no es 200, lanzar. Una carpeta vacía real tiene
 `files: []` con estado 200; cualquier otra cosa es un error de lectura, no una
 carpeta vacía.
+
+## Verificación
+
+`bash scripts/drive-check.sh`: pide access token con el refresh token, lista la
+carpeta por ID y resuelve las 3 etapas por ID. Exit 0 = todo resuelve.
+Exit 2 = omitido (sin credenciales o sin red, no bloquea). Exit 1 =
+credenciales inválidas o lectura rota (sí bloquea en `doctor`). No imprime
+secretos: solo nombres y conteos. Vía agente: MCP `drive` local solo-lectura
+(bloque en `BOOTSTRAP.md`); vía shell: este script. Ambas vías leen en vivo,
+ninguna guarda copia.
 
 ## Vínculos cruzados verificados
 
