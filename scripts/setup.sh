@@ -86,6 +86,13 @@ fi
 command -v opencode >/dev/null || error "opencode no quedo en el PATH. Abre otra terminal y vuelve a correr"
 ok "opencode $(opencode --version 2>/dev/null | head -1)"
 
+paso "engram"
+if command -v engram >/dev/null; then
+  ok "engram $(engram --version 2>/dev/null | head -1)"
+else
+  aviso "engram no instalado. Es la memoria del proyecto (docs/integraciones/ENGRAM.md). Pide al lider el binario (va en ~/.local/bin); el MCP ya viene del repo"
+fi
+
 paso "docker"
 if command -v docker >/dev/null && docker info >/dev/null 2>&1; then
   ok "$(docker --version | sed 's/,.*//')"

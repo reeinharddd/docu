@@ -30,7 +30,7 @@ detecta.
 | `GOOGLE_CLIENT_SECRET` | Credencial OAuth del proyecto de Drive | El líder lo entrega |
 | `GOOGLE_REFRESH_TOKEN` | Token de refresco OAuth de Drive | El líder lo entrega |
 | `GOOGLE_DRIVE_FOLDER` | Carpeta de entregas en Drive | No es secreto |
-| `ENGRAM_PROYECTO` | Nombre del proyecto de memoria | No es secreto |
+| `ENGRAM_PROJECT` | Nombre del proyecto de memoria (canónico del binario) | No es secreto |
 
 ## Gestión del trabajo: GitHub
 

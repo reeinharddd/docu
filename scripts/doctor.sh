@@ -45,13 +45,25 @@ fi
 line ""
 line "== entorno =="
 if [ -f .env ]; then ok_line ".env existe (no se commitea)"; else falta_line ".env no existe. Se crea solo con 'bun run dev' o: cp .env.example .env"; fi
-for k in DATABASE_URL REDIS_URL JWT_SECRET GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROYECTO; do
+for k in DATABASE_URL REDIS_URL JWT_SECRET GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROJECT; do
   if [ -f .env ] && grep -q "^${k}=" .env; then :; else aviso_line "variable ausente en .env: $k"; fi
 done
 
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then ok_line "gh con sesion ($(gh api user --jq .login 2>/dev/null))"; else falta_line "gh sin instalar o sin sesion. Corre: bun run setup"; fi
 if command -v opencode >/dev/null 2>&1; then ok_line "opencode instalado"; else aviso_line "opencode no instalado. Corre: bun run setup"; fi
+if command -v engram >/dev/null 2>&1; then ok_line "engram $(engram --version 2>/dev/null | head -1)"; else aviso_line "engram no instalado. Memoria del proyecto sin CLI: ver docs/operacion/BOOTSTRAP.md"; fi
+if bash scripts/drive-check.sh >/dev/null 2>&1; then
+  ok_line "drive: carpeta + 3 etapas resuelven en vivo"
+else
+  code=$?
+  if [ "$code" -eq 2 ]; then
+    aviso_line "drive omitido (sin OAuth o sin red). Lo entrega el líder: docs/integraciones/DRIVE.md"
+  else
+    falta_line "drive con credenciales pero sin lectura. Revisa OAuth: docs/integraciones/DRIVE.md"
+  fi
+fi
 for f in .opencode/commands/inicio.md .opencode/skills/docu-gestion/SKILL.md; do [ -f "$f" ] && ok_line "agente: $f" || falta_line "agente: falta $f"; done
+if [ -f .opencode/opencode.jsonc ] || [ -f .opencode/opencode.json ]; then aviso_line ".opencode/opencode.json(c) local es legacy: opencode no lo lee, el contrato es opencode.json de la raiz"; else ok_line "sin config local de opencode (manda opencode.json)"; fi
 
 if command -v docker >/dev/null 2>&1; then ok_line "docker $(docker --version | sed 's/.*version //;s/,.*//')"; else falta_line "docker no instalado"; fi
 

@@ -21,4 +21,5 @@ Haz esto, en espanol y breve:
 2. Resume su rol, sus areas y lo que debe entregar en el hito mas cercano.
 3. Lista sus tareas abiertas en orden de fecha. Si no tiene ninguna asignada, busca las de su rol con `gh issue list --search "<su nombre>"`.
 4. Recuerda las 5 reglas que mas le aplican de @AGENTS.md y @docs/REGLAS.md.
-5. Propone el siguiente paso concreto: `/tarea <numero>` para empezar una tarea.
+5. Busca contexto previo en la memoria del proyecto (skill `docu-memoria`) para sus tareas abiertas.
+6. Propone el siguiente paso concreto: `/tarea <numero>` para empezar una tarea.

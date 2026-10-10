@@ -1,4 +1,93 @@
 {
   "$schema": "https://json.schemastore.org/mcp.json",
-  "mcpServers": {}
+  "_nota": "Catálogo del equipo, no runtime de opencode: opencode solo lee la clave mcp de opencode.json. Core = siempre activo. Extras = delimitados aquí y apagados (enabled false) hasta su disparador o tarea que los pida.",
+  "mcpServers": {
+    "engram": {
+      "alcance": "core",
+      "donde": "opencode.json del repo (pisa la entrada global) + binario por máquina",
+      "command": ["engram", "mcp", "--tools=agent", "--project=docu"],
+      "credencial": "ninguna, base local",
+      "detalle": "docs/integraciones/ENGRAM.md y docs/operacion/BOOTSTRAP.md"
+    },
+    "github": {
+      "alcance": "core",
+      "donde": "sin MCP: gh CLI por scripts/setup.sh",
+      "credencial": "cuenta de GitHub con scope project, sin token extra",
+      "detalle": "docs/integraciones/GITHUB-GESTION.md"
+    },
+    "drive": {
+      "alcance": "core",
+      "donde": "opencode.json del repo (sin secreto) + OAuth por máquina en .env",
+      "command": [
+        "npx",
+        "mcp-remote",
+        "https://drivemcp.googleapis.com/mcp/v1"
+      ],
+      "credencial": "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN en .env (las entrega el líder)",
+      "regla": "solo lectura y exportar; prohibido crear, subir o borrar",
+      "detalle": "docs/integraciones/DRIVE.md y docs/operacion/BOOTSTRAP.md"
+    },
+    "angular-cli": {
+      "alcance": "extra",
+      "enabled": false,
+      "disparador": "K1: trabajo frontend en apps/web",
+      "command": [
+        "npx",
+        "-y",
+        "@angular/cli@22.2.1",
+        "mcp",
+        "--read-only",
+        "--local-only"
+      ],
+      "cwd": "apps/web",
+      "nota": "oficial del CLI (verificado en angular.dev/ai/mcp y en el CLI 22.2.1 instalado). Solo lectura y sin red; subir el pin junto con el CLI. Opt-in igual que el resto"
+    },
+    "postgres": {
+      "alcance": "extra",
+      "enabled": false,
+      "disparador": "M1: contrato de datos",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-postgres@0.6.2",
+        "{env:DATABASE_URL}"
+      ],
+      "nota": "expone query SQL completo: aplican las reglas duras de HERRAMIENTAS-AGENTE.md §8. {env:} se resuelve contra el shell que lanza opencode: exporta antes con set -a, source .env, set +a"
+    },
+    "redis": {
+      "alcance": "extra",
+      "enabled": false,
+      "disparador": "C1: worker y colas",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/redis/mcp-redis.git@0.5.1",
+        "redis-mcp-server",
+        "--url",
+        "redis://localhost:6379/0"
+      ],
+      "nota": "oficial de Redis. Requiere uvx (Python) por máquina. Al activar, ajustar la URL a REDIS_PORT de la máquina"
+    },
+    "playwright": {
+      "alcance": "extra",
+      "enabled": false,
+      "disparador": "K1 prototipos o tarea que pida verificación visual/E2E",
+      "command": ["npx", "-y", "@playwright/mcp@0.0.83"],
+      "requisitoMaquina": "navegadores instalados (npx playwright install chromium)",
+      "uso": "viewport y selectores puntuales; evidencia para la Definición de Hecho",
+      "optIn": "enabled true en tu config global, o cambio local sin commitear"
+    },
+    "firecrawl": {
+      "alcance": "extra",
+      "enabled": false,
+      "disparador": "hito que exija recolección sistemática (dataset, comparativa OCR) con autorización del líder",
+      "url": "https://mcp.firecrawl.dev/v2/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:FIRECRAWL_API_KEY}"
+      },
+      "credencial": "FIRECRAWL_API_KEY en .env (vacía = keyless con límites)",
+      "uso": "buscar, luego raspar URLs puntuales; jamás bulk",
+      "optIn": "enabled true en tu config global, o cambio local sin commitear"
+    }
+  }
 }

@@ -41,12 +41,24 @@ personal que copiar:
 | Pieza | Archivo |
 |---|---|
 | Contrato e instrucciones | `AGENTS.md`, `docs/REGLAS.md`, `docs/decisiones/README.md` (cargados por `opencode.json`) |
+| Configuración única | `opencode.json` de la raíz: instructions, permisos, plugin superpowers y MCP (Engram, Drive, extras apagados). Es la única config; `.opencode/opencode.jsonc` es legacy local que opencode no lee (`bun run doctor` avisa) |
 | Permisos | `opencode.json`: lectura libre, escrituras con confirmación, destructivos denegados |
 | Comandos del equipo | `.opencode/commands/` |
 | Skills del proyecto | `.opencode/skills/` |
+| Memoria | MCP Engram desde el repo (`opencode.json`: `--tools=agent --project=docu`, pisa tu entrada global). Requiere: binario `engram` en el PATH (lo comprueba `setup.sh`) y `ENGRAM_PROJECT=docu` en `.env`. Uso operativo: skill `docu-memoria`. Indexa, no reemplaza: `docs/integraciones/ENGRAM.md` |
+| Drive lectura | MCP `drive` desde el repo (`opencode.json`, solo lectura). OAuth del líder (`.env`: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`). Solo leer y exportar; prohibido crear, subir o borrar: `docs/integraciones/DRIVE.md`. Prueba: `bash scripts/drive-check.sh` |
+| GitHub | `gh` instalado y autenticado por `setup.sh` (scope `project`). Permisos por comando en `opencode.json`. Gestión en `docs/integraciones/GITHUB-GESTION.md` |
+| Capacidades futuras | Angular CLI, PostgreSQL, Redis, Playwright y Firecrawl ya delimitados y apagados (`enabled false`, cero costo). Opt-in por tarea en tu config global o cambio local sin commitear. Redis exige `uvx`, Playwright exige navegadores (`npx playwright install chromium`), postgres/firecrawl leen `{env:...}` del shell que lanza opencode (exportar `.env` antes). Disparadores en `docs/integraciones/MCP.md`; nada se commitea encendido antes de su disparador |
 
 La primera vez, dentro de `opencode`: `/connect` para elegir el proveedor de
-modelos. Después:
+modelos. Proveedor base del equipo: **OpenCode Zen, capa gratis**. Cada máquina
+conecta su propia cuenta Zen (`/connect` → Zen); la key vive en tu auth local,
+nunca en el repo. Eliges modelos con `/models`: toma los `*-free` vigentes
+(rotan; no se pinean IDs sin probar). Cadena de fallback: principal gratis
+capaz → `small_model` gratis rápido (subagentes lo heredan) → tu modelo de
+pago en config personal si lo necesitas. Si un free deja de rendir, se cambia
+en el acto y se avisa al equipo. Si vas a activar un extra que usa `{env:...}` (postgres, firecrawl),
+lanza opencode con el entorno exportado: `set -a; source .env; set +a`. Después:
 
 | Comando | Para qué |
 |---|---|

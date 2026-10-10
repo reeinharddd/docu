@@ -27,9 +27,14 @@ coverage/
 .opencode/*
 !.opencode/commands/
 !.opencode/skills/
+!.opencode/agents/
 .gemini/
 **/settings.local.json
 **/.mcp.local.json
 
 # Archivos de trabajo temporales
 *.tmp
+
+# Exports de memoria: revisión personal en /tmp, jamás al repo
+engram-export.json
+memory-review-*.json
