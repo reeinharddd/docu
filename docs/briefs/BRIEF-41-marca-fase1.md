@@ -48,7 +48,7 @@ Presentar 3 direcciones de marca; el equipo selecciona una para desarrollar en F
 
 ## 4. Actividades específicas
 
-1. Investigar con los recursos de §12, foco en marcas que hacen entendibles conceptos complejos + data lineage. Terminado: lista de referencias usadas.
+1. Investigar con los recursos de §11, foco en marcas que hacen entendibles conceptos complejos + data lineage. Terminado: lista de referencias usadas.
 2. Explorar 3 direcciones radicalmente diferentes. Terminado: slogan, paleta, tipografías (display, body, mono — el mono es crítico), concepto de logo por dirección.
 3. Armar moodboards: 5–10 imágenes por dirección. Terminado: qué se siente en 3–5 palabras.
 4. Dibujar 1 preview por dirección en pantalla clave. Terminado: demuestra que la marca funciona en producto, no solo en abstracto.
@@ -59,15 +59,7 @@ Presentar 3 direcciones de marca; el equipo selecciona una para desarrollar en F
 - Recibe: caso y requisitos (`CASO.md`, `REQUISITOS.md` RF-01..04, RNF-01), ADR-0006 y ADR-0012; matriz preliminar de Carlos (#29) si existe.
 - Entrega: al equipo por PR, PDF/presentación con las 3 direcciones; insumo de #41 y del contrato #23.
 
-## 6. Referencias
-
-> Lista rápida. El detalle con URLs y cuándo usar cada recurso está en §12.
-
-- Documentos del proyecto: `docs/proyecto/CASO.md`, `REQUISITOS.md`, `VISION.md`; ADR-0006, ADR-0012.
-- Del starred del equipo (chispa visual, no dependencias): https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient para concepto de logo.
-- Accesibilidad: WCAG 2.2 AA. Contraste real AA en https://coolors.co/contrast-checker — el mono de cifras también debe pasar.
-
-## 7. Cómo trabajar
+## 6. Cómo trabajar
 
 - Esta tarea es creativa: usa las herramientas que prefieras (a mano, Figma, Penpot, IA, o la que sea). Si usas OpenCode: `/tarea 41` para empezar y `/cerrar` para el PR.
 - Si usas IA: genera y varía, pero tú decides cuál queda. La IA no decide reglas, permisos, dato oficial ni diseño final.
@@ -75,7 +67,7 @@ Presentar 3 direcciones de marca; el equipo selecciona una para desarrollar en F
 - Duda de 30 min: preguntar al equipo. Bloqueo de 24 h: etiqueta `bloqueado`.
 - Español, Chrome/Edge y celular. Audiencia universal: desde jóvenes hasta adultos mayores, con mínima fricción y pocos clics. Tono profesional, no lúdico.
 
-## 8. Criterios de aceptación
+## 7. Criterios de aceptación
 
 - [ ] 3 direcciones existen y son radicalmente diferentes entre sí.
 - [ ] Cada dirección tiene slogan, paleta con hex, tipografías con nombres, logo (concepto o imagen), estilo (palabras + moodboard 5–10).
@@ -87,15 +79,15 @@ Presentar 3 direcciones de marca; el equipo selecciona una para desarrollar en F
 
 No es done si: se ven iguales con distintos colores; falta el porqué; no hay preview; no se entiende sin Kira.
 
-## 9. Riesgos nombrados
+## 8. Riesgos nombrados
 
 Pulir estética antes de cerrar direcciones. Mitigación: baja fidelidad primero; tokens y pulido van en Fase 2. Desde el 2026-10-14 sin entrega es bloqueo.
 
-## 10. Revisión
+## 9. Revisión
 
 Martes 2026-10-14 presencial: kira presenta las 3 direcciones a todo el equipo; el equipo elige una dirección. Fase 2 (design system, tokens) se calendariza tras la selección.
 
-## 11. Insumos del agente
+## 10. Insumos del agente
 
 | Insumo | Estado | Notas |
 |---|---|---|
@@ -110,7 +102,12 @@ Martes 2026-10-14 presencial: kira presenta las 3 direcciones a todo el equipo; 
 | Imágenes | Pendiente | Logo, ilustraciones, fotos |
 | Estados | Pendiente | Cargando, vacío, error, cuarentena, confirmado |
 
-## 12. Recursos por actividad
+## 11. Recursos por actividad
+
+### Documentos y referencias base
+- Documentos del proyecto: `docs/proyecto/CASO.md`, `REQUISITOS.md`, `VISION.md`; ADR-0006, ADR-0012.
+- Del starred del equipo (chispa visual, no dependencias): https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient para concepto de logo.
+- Accesibilidad: WCAG 2.2 AA. Contraste real AA en https://coolors.co/contrast-checker — el mono de cifras también debe pasar.
 
 ### Investigar marca
 - [Awwwards](https://www.awwwards.com/) — Excelencia visual web. **Cuándo:** necesitas ver qué se considera mundo-clase.
