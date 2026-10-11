@@ -106,27 +106,78 @@ Martes 2026-10-14 presencial: kira presenta las 3 direcciones a todo el equipo; 
 
 ### Documentos y referencias base
 - Documentos del proyecto: `docs/proyecto/CASO.md`, `REQUISITOS.md`, `VISION.md`; ADR-0006, ADR-0012.
-- Del starred del equipo (chispa visual, no dependencias): https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient para concepto de logo.
 - Accesibilidad: WCAG 2.2 AA. Contraste real AA en https://coolors.co/contrast-checker — el mono de cifras también debe pasar.
 
-### Investigar marca
-- [Awwwards](https://www.awwwards.com/) — Excelencia visual web. **Cuándo:** necesitas ver qué se considera mundo-clase.
-- [Mobbin](https://mobbin.com/) — Patrones de producto real. **Cuándo:** necesitas ver cómo otros resuelven bandejas, tablas, filtros.
-- [Land-book](https://land-book.com/) — Inspiración de landing pages. **Cuándo:** necesitas composición y jerarquía visual.
-- [Component Gallery](https://component.gallery/) — Componentes y patrones. **Cuándo:** necesitas ver variantes de un componente.
-- [Godly](https://godly.website/) — Sitios web excepcionales. **Cuándo:** necesitas referencia de alto nivel.
-- [UI Sources](https://www.uisources.com/) — UI de apps reales. **Cuándo:** necesitas ver flujos completos.
-- [Page Flows](https://pageflows.com/) — Flujos de navegación. **Cuándo:** necesitas ver cómo se conectan pantallas.
-- [UI Patterns](https://ui-patterns.com/) — Patrones de UI. **Cuándo:** necesitas soluciones probadas.
-- [Behance](https://www.behance.net/) — Branding y diseño. **Cuándo:** necesitas branding de marca.
-- [DataHub](https://datahub.com/) / [OpenMetadata](https://open-metadata.org/) — Lineage UI. **Cuándo:** necesitas mostrar procedencia de datos.
-- [SaaSUI](https://saasui.design/) — Producto documental. **Cuándo:** necesitas referencia de gestión documental.
-- [Weill Cornell](https://weill.cornell.edu/) / [Utah Health](https://healthcare.utah.edu/) / [Medline](https://www.medline.com/) — Branding médico/industrial. **Cuándo:** necesitas tono profesional de salud.
+### Inspiración visual (ideas, estilos, conceptos)
+- [Awwwards](https://www.awwwards.com/) — Excelencia visual web. **Cuándo:** ver qué se considera mundo-clase.
+- [Mobbin](https://mobbin.com/) — Patrones de producto real. **Cuándo:** ver cómo otros resuelven bandejas, tablas, filtros.
+- [Land-book](https://land-book.com/) — Landing pages curadas. **Cuándo:** composición y jerarquía visual.
+- [Component Gallery](https://component.gallery/) — Design systems desarmados. **Cuándo:** ver variantes de un componente.
+- [Godly](https://godly.website/) — Sitios excepcionales. **Cuándo:** referencia de alto nivel para moodboards.
+- [UI Sources](https://www.uisources.com/) — UI de apps reales. **Cuándo:** ver flujos completos.
+- [Page Flows](https://pageflows.com/) — Flujos de navegación. **Cuándo:** ver cómo se conectan pantallas.
+- [UI Patterns](https://ui-patterns.com/) — Patrones de UI. **Cuándo:** soluciones probadas.
+- [One Page Love](https://onepagelove.com/) — One page sites. **Cuándo:** inspiración de una sola página.
+- [Behance](https://www.behance.net/) — Portafolios de marca. **Cuándo:** ver qué hacen otros diseñadores.
+- [Dribbble](https://dribbble.com/) — Shots de diseño. **Cuándo:** inspiración rápida de estilos.
+- [DataHub](https://datahub.com/) / [OpenMetadata](https://open-metadata.org/) — Lineage UI. **Cuándo:** mostrar procedencia de datos (diferenciador DOCU).
+- [SaaSUI](https://saasui.design/) — Gestión documental. **Cuándo:** referencia de producto documental real.
 
-### Desarrollar marca
-- [Coolors](https://coolors.co/) — Paletas + contraste AA. **Cuándo:** necesitas explorar paletas.
-- [OKLCH](https://oklch.com/) — Color con accesibilidad real. **Cuándo:** necesitas verificar contraste perceptualmente uniforme.
-- [Google Fonts](https://fonts.google.com/) — Tipografías. **Cuándo:** necesitas tipografía display/body/mono.
-- [Lucide](https://lucide.dev/) / [Phosphor](https://phosphoricons.com/) / [Tabler](https://tabler.io/icons) — Iconos. **Cuándo:** necesitas set de iconos.
-- [designtokens.org](https://www.designtokens.org/) — Especificación DTCG. **Cuándo:** necesitas estructurar tokens.
-- [tokens.studio](https://tokens.studio/) — Editar tokens con UI. **Cuándo:** necesitas editar tokens visualmente.
+### Color y paletas (dónde ver y crear)
+- [Coolors](https://coolors.co/) — Generador rápido + contraste AA. **Cuándo:** explorar paletas.
+- [Adobe Color](https://color.adobe.com/) — Rueda de color + WCAG checker + daltonismo. **Cuándo:** paletas profesionales.
+- [Colormind](https://colormind.io/) — Paletas por IA. **Cuándo:** inspiración automática.
+- [Khroma](https://www.khroma.co/) — IA que aprende tus gustos. **Cuándo:** paletas personalizadas.
+- [Pigment](https://pigment.shapefactory.co/) — Paletas con ajuste fino. **Cuándo:** refinar una elección.
+- [Huemint](https://huemint.com/) — Paletas por IA para branding. **Cuándo:** armonía automática.
+- [Muz.li Colors](https://colors.muz.li/) — Paletas curadas. **Cuándo:** inspiración de la comunidad.
+- [UI Colors](https://uicolors.app/) — Paletas listas para Tailwind. **Cuándo:** ya hay dirección elegida.
+- [OKLCH](https://oklch.com/) — Color perceptualmente uniforme. **Cuándo:** accesibilidad real.
+
+### Tipografía (dónde ver fuentes y parejas)
+- [Google Fonts](https://fonts.google.com/) — 1,700+ familias gratis. **Cuándo:** elegir display/body/mono.
+- [Adobe Fonts](https://fonts.adobe.com/) — 30,000+ fuentes profesionales. **Cuándo:** tipografía premium.
+- [Font Squirrel](https://www.fontsquirrel.com/) — Fuentes licenciadas. **Cuándo:** algo más exclusivo.
+- [Beautiful Web Type](https://beautifulwebtype.com/) — Guía de tipografía web. **Cuándo:** ver fuentes en contexto.
+- [Fontjoy](https://fontjoy.com/) — Parejas por IA. **Cuándo:** saber qué combina con qué.
+- [fontpair.co](https://fontpair.co/) — Qué combina con qué. **Cuándo:** parejas tipográficas.
+- [type-scale.com](https://type-scale.com/) — Escala modular. **Cuándo:** jerarquía display/body/mono.
+- [WhatFont](https://www.whatfont.com/) — Identifica fuentes en webs. **Cuándo:** ver qué usa un sitio que te gusta.
+
+### Logo y concepto (cómo crear la marca)
+- [liquid-logo](https://github.com/collidingScopes/liquid-logo) (starred) — Chispa visual para concepto de logo. **Cuándo:** explorar formas orgánicas.
+- [shadergradient](https://github.com/ruucm/shadergradient) (starred) — Gradientes 3D. **Cuándo:** chispa visual para marca.
+- [hallmark](https://github.com/Nutlope/hallmark) (starred) — Skill anti-diseño-genérico. **Cuándo:** evitar que la marca se vea como "hecha por IA".
+- [Looka](https://looka.com/) — Generador de logos. **Cuándo:** explorar conceptos rápido.
+- [Brandmark](https://brandmark.io/) — Logo + paleta + tipografía. **Cuándo:** ver sistema completo de un vistazo.
+
+### Iconos (qué set usar)
+- [Lucide](https://lucide.dev/) — Open-source, consistentes. **Cuándo:** base sólida para sistema de iconos.
+- [Phosphor](https://phosphoricons.com/) — Flexibles en peso. **Cuándo:** explorar densidades visuales.
+- [Tabler](https://tabler.io/icons/) — Open-source, estilo distinto. **Cuándo:** alternativa a Lucide.
+- [Heroicons](https://heroicons.com/) — Limpios y minimalistas. **Cuándo:** estilo simple.
+- [Material Symbols](https://fonts.google.com/icons) — Set de Google. **Cuándo:** consistencia con Material.
+- [Feather](https://feathericons.com/) — Minimalistas. **Cuándo:** iconos simples.
+
+### Herramientas de diseño (dónde crear)
+- [Figma](https://figma.com/) — Colaborativo, estándar. **Cuándo:** trabajar en equipo, componentes reutilizables.
+- [Penpot](https://penpot.app/) (starred) — Open-source, con MCP para agentes. **Cuándo:** alternativa libre a Figma.
+- [Canva](https://canva.com/) — Fácil, con Brand Kit. **Cuándo:** no eres diseñadora, armar rápido.
+- [Sketch](https://sketch.com/) — Mac, tipografía precisa. **Cuándo:** eres usuaria Mac profesional.
+- [OpenPencil](https://github.com/ZSeven-W/openpencil) (starred) — Vectorial con IA. **Cuándo:** alternativa open-source con agentes.
+- [Glyph](https://glyph.software/) — Identidad completa por IA. **Cuándo:** ver sistema completo (logo, colores, tipo) de un vistazo.
+- [Excalidraw](https://excalidraw.com/) — Diagramas rápidos. **Cuándo:** diagramar flujo o conceptos.
+
+### Mockups rápidos con IA
+- [Uizard](https://uizard.io/) — Screenshots a mockups editables. **Cuándo:** crear pantallas rápido.
+- [Stitch](https://stitch.withgoogle.com/) — Google Labs, UI desde texto. **Cuándo:** iterar rápido y exportar a Figma.
+
+### Design tokens y estándares
+- [designtokens.org](https://www.designtokens.org/) — Especificación DTCG 2025.10. **Cuándo:** estructurar tokens.
+- [tokens.studio](https://tokens.studio/) — Editar tokens con UI. **Cuándo:** editar visualmente.
+- [style-dictionary](https://amzn.github.io/style-dictionary) — Tokens JSON → CSS/Tailwind. **Cuándo:** exportar tokens.
+- [W3C Design Tokens](https://www.w3.org/community/design-tokens/) — Estándar. **Cuándo:** entender la estructura correcta.
+
+### Recursos en español
+- [Guía Impresión Tendencias 2026](https://guiaimpresion.com/las-10-tendencias-de-diseno-grafico-que-marcaran-2026) — Tendencias en español. **Cuándo:** contexto local.
+- [El Publicista](https://www.elpublicista.es/diseno-y-branding) — Industria del branding en español. **Cuándo:** estar al día en hispanohablante.
