@@ -100,6 +100,19 @@ Total estimado: 15–20 h.
 - Design system no aprobado. Mitigación: usar tokens de Fase 1 como base.
 - Retraso por pruebas e2e. Mitigación: priorizar flujo crítico (subir → confirmar → consultar).
 
+## 9.1. Nota de alcance futuro (obligatorio para entrega final)
+
+Las 4 pantallas (captura, bandeja, Programa Oficial, búsqueda) son la **fase inicial**, no el alcance total. Para entregar un producto completo y demostrable en vivo, es **obligatorio** añadir:
+
+- Login y registro
+- Gestión de usuarios
+- Roles y permisos (RBAC)
+- Bitácora/auditoría
+- Configuración de empresa (Configuración 2)
+- Dashboard/home
+
+Estas pantallas se agregarán como fases posteriores dentro de este brief, con sus propios entregables y criterios. No se delimitan ahora porque dependen del backend y datos reales. Se revisarán cuando haya más información.
+
 ## 10. Revisión
 
 Sprint 2 cierra 2026-11-20. Revisión de avances en syncs de lunes y viernes.

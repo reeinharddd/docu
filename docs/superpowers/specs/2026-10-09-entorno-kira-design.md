@@ -18,6 +18,18 @@ Configurar el entorno de trabajo de kira para **todas** sus tareas de diseño, d
 
 **Por ahora:** preparar el entorno desde cero (plantillas, recursos, briefs autocontenidos). No implementar las tareas de kira aún.
 
+## 1.1. Ciclo completo de kira — 5 briefs, 5 issues
+
+| # | Issue | Brief | Sprint | Estado |
+|---|---|---|---|---|
+| 41-fase1 | Investigación marca | BRIEF-41-marca-fase1.md | 1 | ✅ |
+| 42 | Playground | BRIEF-42-playground-diseno.md | 1 | ✅ |
+| 11 | Prototipos UI/UX | BRIEF-11-prototipos-ui-ux.md | 1 | ✅ |
+| 41-fase2 | Design system | BRIEF-41-fase2-design-system.md | 2 | ✅ |
+| 4 | Frontend Angular | BRIEF-04-frontend-angular.md | 2 | ✅ |
+
+**Flujo:** investigación → playground → prototipos → design system → frontend.
+
 ---
 
 ## 2. Restracciones
