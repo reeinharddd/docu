@@ -1,0 +1,11 @@
+{
+  "name": "@docu/playground",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Playground de diseño de kira — prototipo navegable Angular 22 + Tailwind 4. Rama que nunca se fusiona a main.",
+  "scripts": {
+    "start": "echo 'TODO: ng serve cuando el prototipo exista'",
+    "build": "echo 'TODO: ng build cuando el prototipo exista'",
+    "capture": "echo 'TODO: snapmcp capture cuando haya pantallas'"
+  }
+}
