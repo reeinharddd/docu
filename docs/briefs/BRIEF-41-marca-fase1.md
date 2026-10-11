@@ -4,7 +4,7 @@
 
 - Issue: #41 (fase 1 de `Design system de marca`) / enlace: issue #41
 - Dueño: Kira
-- Fechas: 2026-10-12 → **2026-10-16** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
+- Fechas: 2026-10-11 → **2026-10-13** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Diseño / diseño
 - Requisitos: RNF-01 (usabilidad); alimenta RF-01, RF-03, RF-04
 - Bloqueado por: nada · Bloquea a: #41 Design system, #4 Frontend Angular
@@ -84,11 +84,11 @@ No es done si: se ven iguales con distintos colores; falta el porqué; no hay pr
 
 ## 9. Riesgos nombrados
 
-Pulir estética antes de cerrar direcciones. Mitigación: baja fidelidad primero; tokens y pulido van en Fase 2. Desde el 2026-10-16 sin entrega es bloqueo.
+Pulir estética antes de cerrar direcciones. Mitigación: baja fidelidad primero; tokens y pulido van en Fase 2. Desde el 2026-10-14 sin entrega es bloqueo.
 
 ## 10. Revisión
 
-Viernes 2026-10-16 en el sync: recorrido de 10 minutos con Erik; el equipo elige una dirección. Fase 2 (mockups hi-fi 4 pantallas, tokens, design system) se calendariza tras la selección.
+Martes 2026-10-14 presencial: kira presenta las 3 direcciones a todo el equipo; el equipo elige una dirección. Fase 2 (design system, tokens) se calendariza tras la selección.
 
 ## 11. Insumos del agente
 
