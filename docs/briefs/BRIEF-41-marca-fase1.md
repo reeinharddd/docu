@@ -23,52 +23,57 @@ Por ADR-0012 nadie construye pantallas hasta el design system. Estas 3 direccion
 
 Presentar 3 direcciones de marca; el equipo selecciona una para desarrollar en Fase 2.
 
+**Formato del entregable:** un solo archivo PDF o presentación (Google Slides, PowerPoint, Figma exportado, o el que prefieras). Mínimo 15 páginas/slides: portada + 4–5 por dirección + cierre comparativo.
+
+**Por cada una de las 3 direcciones, incluir (en este orden):**
+
+1. **Inspiración** (1 página): de dónde salió la idea, qué la inspiró, 2–3 referencias visuales.
+2. **Concepto** (1 página): la dirección en 3–5 palabras. Qué se siente. Ejemplo: "Precisión clínica, confianza industrial" o "Transparencia moderna, calidez humana".
+3. **Extracción** (1–2 páginas):
+   - Slogan: 1–2 opciones de tagline.
+   - Paleta: primario, secundario, acento, semánticos (éxito, advertencia, error) con códigos hex. Debe funcionar en UI, no solo en print.
+   - Tipografía: Display (títulos), Body (texto), Mono (datos/cifras) con nombres de fuentes. El mono es crítico: DOCU muestra cifras.
+   - Logo: concepto o imagen + variaciones si aplica (horizontal, icono, mono).
+   - Razonamiento: 3–5 líneas por decisión conectando con el diferenciador (lineage, confianza, verificación). Por qué estos colores, por qué esta tipografía.
+4. **Moodboard** (1 página): 5–10 imágenes de referencia que transmitan el estilo.
+5. **Pantalla preview** (1 página): 1 mockup de pantalla clave aplicando la marca, en baja fidelidad, versión escritorio y celular. Demuestra que la marca funciona en producto real.
+
+**Cierre comparativo** (1 página): tabla lado a lado de las 3 direcciones con slogan, paleta (muestras de color), tipografías y sensación en 3 palabras. Para que el equipo compare de un vistazo.
+
 | Entregable | Evidencia |
 |---|---|
-| 3 direcciones radicalmente diferentes | PDF o presentación con narrativa por dirección |
-| Por dirección: slogan, paleta (hex), tipografía, logo, estilo + moodboard | Sección completa con códigos y nombres |
-| Razonamiento conectado al diferenciador (lineage, confianza, verificación) | 3–5 líneas por decisión |
-| 1 pantalla preview por dirección aplicando la marca | Mockup en baja fidelidad, escritorio y celular |
-| Encaje con el caso médico/industrial en español, equipo no-técnico | 2–3 líneas por dirección |
+| 3 direcciones radicalmente diferentes | PDF/presentación con las 5 secciones por dirección + cierre comparativo |
+| Razonamiento conectado al diferenciador | 3–5 líneas por decisión, en la sección de extracción |
+| Usable para todo público | 2–3 líneas por dirección: cómo la marca hace entendibles conceptos complejos con pocos clics |
 
 ## 4. Actividades específicas
 
-1. Investigar (2–3 h) con los recursos curados (§6), foco en branding médico/industrial + data lineage. Terminado: lista de referencias usadas.
-2. Explorar (3–4 h) 3 direcciones radicalmente diferentes. Terminado: slogan, paleta, tipografías (display, body, mono — el mono es crítico), concepto de logo por dirección.
-3. Armar moodboards (2 h): 5–10 imágenes por dirección. Terminado: qué se siente en 3–5 palabras.
+1. Investigar con los recursos de §12, foco en marcas que hacen entendibles conceptos complejos + data lineage. Terminado: lista de referencias usadas.
+2. Explorar 3 direcciones radicalmente diferentes. Terminado: slogan, paleta, tipografías (display, body, mono — el mono es crítico), concepto de logo por dirección.
+3. Armar moodboards: 5–10 imágenes por dirección. Terminado: qué se siente en 3–5 palabras.
 4. Dibujar 1 preview por dirección en pantalla clave. Terminado: demuestra que la marca funciona en producto, no solo en abstracto.
-5. Armar presentación (1–2 h) con narrativa fija: inspiración → concepto → extracción → moodboard → pantalla final. Terminado: evaluable sin explicación adicional.
-
-Total estimado: 10–13 h concentradas.
+5. Armar presentación con narrativa fija: inspiración → concepto → extracción → moodboard → pantalla final. Terminado: evaluable sin explicación adicional.
 
 ## 5. Entradas y salidas
 
 - Recibe: caso y requisitos (`CASO.md`, `REQUISITOS.md` RF-01..04, RNF-01), ADR-0006 y ADR-0012; matriz preliminar de Carlos (#29) si existe.
 - Entrega: al equipo por PR, PDF/presentación con las 3 direcciones; insumo de #41 y del contrato #23.
 
-## 6. Referencias y caja de herramientas
+## 6. Referencias
 
-- `docs/proyecto/CASO.md`, `REQUISITOS.md`, `VISION.md`; ADR-0006, ADR-0012.
-- Color: Coolors, Pigment, Huemint, Muz.li Colors, UI Colors, Magnt por industria.
-- Tipografía: Google Fonts, Font Squirrel, Beautiful Web Type.
-- Inspiración: Awwwards, Mobbin, Component Gallery, Godly, Land-book, Behance branding 2026.
-- Producto documental: SaaSUI Document Management.
-- Lineage: DataHub Lineage UI, OpenMetadata Lineage, paper ProvenanceWidgets.
-- Industria médica: Weill Cornell, Utah Health, Stony Brook, Respira, Medline.
-- Iconos: Lucide, Phosphor, Tabler, Heroicons. Tokens: W3C Design Tokens, OKLCH, Penpot MCP.
-- Mockups rápidos con IA: Uizard, Stitch. Español: Guía Impresión tendencias 2026, El Publicista.
+> Lista rápida. El detalle con URLs y cuándo usar cada recurso está en §12.
+
+- Documentos del proyecto: `docs/proyecto/CASO.md`, `REQUISITOS.md`, `VISION.md`; ADR-0006, ADR-0012.
 - Del starred del equipo (chispa visual, no dependencias): https://github.com/collidingScopes/liquid-logo y https://github.com/ruucm/shadergradient para concepto de logo.
-- Parejas tipográficas y escala: https://fontpair.co (qué combina con qué) y https://type-scale.com (escala modular para display/body/mono).
-- Contraste real AA: https://coolors.co/contrast-checker (pares texto/fondo) — el mono de cifras también debe pasar.
-- Accesibilidad WCAG 2.2 AA; la IA genera variantes, tú decides cuál queda.
+- Accesibilidad: WCAG 2.2 AA. Contraste real AA en https://coolors.co/contrast-checker — el mono de cifras también debe pasar.
 
 ## 7. Cómo trabajar
 
-- Con OpenCode: `/tarea 41` para empezar y `/cerrar` para el PR.
-- La IA genera y varía; no decide reglas, permisos, dato oficial ni diseño final.
+- Esta tarea es creativa: usa las herramientas que prefieras (a mano, Figma, Penpot, IA, o la que sea). Si usas OpenCode: `/tarea 41` para empezar y `/cerrar` para el PR.
+- Si usas IA: genera y varía, pero tú decides cuál queda. La IA no decide reglas, permisos, dato oficial ni diseño final.
 - No escribir código ni tocar `apps/web/`. No usar el nombre real de la planta.
 - Duda de 30 min: preguntar al equipo. Bloqueo de 24 h: etiqueta `bloqueado`.
-- Español, Chrome/Edge y celular; contexto médico/industrial profesional, no lúdico.
+- Español, Chrome/Edge y celular. Audiencia universal: desde jóvenes hasta adultos mayores, con mínima fricción y pocos clics. Tono profesional, no lúdico.
 
 ## 8. Criterios de aceptación
 
