@@ -12,10 +12,10 @@ Un cambio de requisito es un issue aprobado y una línea en
 | RF-02 | Validar al entrar; mandar a cuarentena o revisión lo inválido o dudoso con motivo visible, sin borrado silencioso | Alta | Must |
 | RF-03 | Exigir confirmación humana para publicar el dato oficial (patrón repetido y responsable), con historial de origen, regla aplicada y quién confirmó | Alta | Must |
 | RF-04 | Buscador de documentos y datos con filtros por fecha y área; consulta donde cada cifra cita su fuente y su cálculo; gráficas guardables | Alta | Must reducido |
-| RF-05 | Tablero configurable por empresa, reporte descargable y alertas (métrica, umbral, destinatarios, mensaje); reportes recurrentes que se pausan si el formato cambia | Alta | Must limitado a 1 reporte + 1 alerta |
-| RF-06 | Control de acceso por rol en servidor (empresa → departamento → rol → persona) y bitácora completa de quién subió y quién confirmó | Alta | Must |
+| RF-05 | Tablero configurable por planta, reporte descargable y alertas (métrica, umbral, destinatarios, mensaje); reportes recurrentes que se pausan si el formato cambia | Alta | Must limitado a 1 reporte + 1 alerta |
+| RF-06 | Control de acceso por rol en servidor (planta → departamento → rol → persona) y bitácora completa de quién subió y quién confirmó | Alta | Must |
 | RF-07 | Documentos: ver, editar metadatos, versionar; derivados o vistas según familia | Media | Could |
-| RF-08 | Parametrización por empresa sin cambiar código: catálogos, familias, roles, umbrales, tableros, alertas | Media | Must mínimo + Configuración 2 |
+| RF-08 | Parametrización por planta sin cambiar código: catálogos, familias, roles, umbrales, tableros, alertas | Media | Must mínimo + Configuración 2 |
 
 ## Requisitos no funcionales
 

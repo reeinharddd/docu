@@ -8,15 +8,15 @@
 - Nota: trabaja en paralelo con Emmanuel (#7). La matriz se integra como datos cuando esté lista, sin bloquear el arranque.
 - Prioridad / Tipo / Épica: alta / tarea / Autenticación (#29), QA/Documentación (#9)
 - Requisitos: RF-06 (#29) · RNF-02, RNF-07 (#9)
-- Bloqueado por: `proyecto/CASO.md` (organigrama real de la planta), #7 Configuración 1 (familias a mapear)
+- Bloqueado por: `proyecto/CASO.md` (organigrama de la planta), #7 Configuración 1 (familias a mapear)
 - Bloquea a: #5 RBAC, #23 contrato de datos (#29) · #32 OCR, #3 pipeline, #6 pruebas (#9)
 
 ## 1. Contexto
 
-DOCU decide en servidor quién ve y confirma qué: empresa → departamento → rol →
-persona (RF-06, ADR-0006). Los roles de la planta (su organigrama real) no son
-los roles del sistema: cada empresa mapea los suyos a los roles base como datos
-(RF-08), sin crear roles nuevos en código. Y todo se prueba con datos sintéticos
+DOCU decide en servidor quién ve y confirma qué: planta → departamento → rol →
+persona (RF-06, ADR-0006). Los puestos de la planta (organigrama de `CASO.md`)
+no son los roles del sistema: cada planta mapea los suyos a los roles base como
+datos (RF-08), sin crear roles nuevos en código. Y todo se prueba con datos sintéticos
 de la planta Baja SterilPack, porque no hay datos reales (`proyecto/CASO.md`).
 
 ## 2. Por qué importa tu parte
@@ -30,7 +30,7 @@ dataset, ningún requisito se puede demostrar.
 
 | Entregable | Evidencia |
 |---|---|
-| Matriz de roles y permisos | `docs/proyecto/ROLES.md`: distinción planta/sistema, catálogo base, receta de mapeo para C2 y tabla rol × acción (ver, subir, confirmar, configurar) × alcance (propio, departamento, empresa) |
+| Matriz de roles y permisos | `docs/proyecto/ROLES.md`: distinción planta/sistema, catálogo base, receta de mapeo para C2 y tabla rol × acción (ver, subir, confirmar, configurar) × alcance (propio, departamento, planta) |
 | Usuarios demo | 3 usuarios de roles distintos descritos en `ROLES.md` |
 | Primer lote de escaneados para #32 | 10 escaneados + CSV de *ground truth*, entregados a Erik antes del 2026-10-16 |
 | Dataset Configuración 1 | ~200 archivos (5 familias × 40: 100 válidos, 60 con error, 40 escaneados) generados por `bun dataset/generar.ts --seed 42`; C2 reutiliza el generador con otra config |
@@ -41,7 +41,7 @@ dataset, ningún requisito se puede demostrar.
 1. Fijar la regla planta/sistema: el código solo conoce 4 acciones × 3
    alcances (cerrado); roles y mapeo organigrama→rol son datos (RF-08,
    ADR-0009). Si un puesto no encaja, cae al rol base más restrictivo + aviso;
-   jamás se crea un rol en código por una empresa. Terminado: principio escrito
+   jamás se crea un rol en código por una planta. Terminado: principio escrito
    en `ROLES.md` con ejemplo de mapeo para Configuración 2.
 2. Escribir la matriz desde los roles base (`admin`, `planeacion`, `calidad`,
    `almacen`, `ingenieria/MODELO-DATOS.md`) y las reglas R-Q1 (solo calidad

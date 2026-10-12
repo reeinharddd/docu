@@ -108,10 +108,10 @@ Las 4 pantallas (captura, bandeja, Programa Oficial, búsqueda) son la **fase in
 - Gestión de usuarios
 - Roles y permisos (RBAC)
 - Bitácora/auditoría
-- Configuración de empresa (Configuración 2)
+- Configuración de planta (Configuración 2: segunda planta)
 - Dashboard/home
 
-Estas pantallas se agregarán como fases posteriores dentro de este brief, con sus propios entregables y criterios. No se delimitan ahora porque dependen del backend y datos reales. Se revisarán cuando haya más información.
+Estas pantallas se agregarán como fases posteriores dentro de este brief, con sus propios entregables y criterios. No se delimitan ahora porque dependen del backend y del dataset sintético. Se revisarán cuando haya más información.
 
 ## 10. Revisión
 

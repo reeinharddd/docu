@@ -2,8 +2,11 @@
 
 Estado: vigente como Configuración 1. Última actualización: 2026-10-05.
 
-Planta **ficticia** de empaque médico flexible. El nombre real de la planta de
-referencia nunca aparece en entregas ni en el repositorio.
+Planta **sintética** de empaque médico flexible: no existe, no hay
+levantamiento real ni entrevistas. El caso se define en este archivo y Carlos
+genera el dataset en paralelo (#9). Despliegue por compañía: una empresa corre
+su propio sistema y en él pueden convivir sus plantas. El nombre real de
+cualquier planta de referencia nunca aparece en entregas ni en el repositorio.
 
 ## Empresa
 
@@ -93,10 +96,10 @@ códigos.
 
 ## Configuración 2
 
-Segundo dominio mínimo, cargado solo con datos. Debe demostrar que un usuario
-de Configuración 2 no ve datos de Configuración 1, y que un reporte de
-Configuración 2 sale sin tocar código. Evidencia: `git diff` de código vacío más
-la salida del reporte.
+Segunda planta mínima de la misma compañía, cargada solo con datos. Debe
+demostrar que un usuario de la planta 2 no ve datos de la planta 1 (aislamiento
+por planta), y que un reporte de Configuración 2 sale sin tocar código.
+Evidencia: `git diff` de código vacío más la salida del reporte.
 
 ## Referencias
 

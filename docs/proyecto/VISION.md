@@ -36,8 +36,8 @@ Dentro:
 - Dato oficial con historial de origen, regla aplicada y quién confirmó.
 - Búsqueda y consulta donde **cada cifra cita su fuente y su cálculo**.
 - Control de acceso por rol **en servidor** y bitácora de quién hizo qué.
-- Parametrización por empresa: la segunda configuración se carga con datos, sin
-  cambiar código.
+- Parametrización por planta: la segunda configuración (segunda planta de la
+  misma compañía) se carga con datos, sin cambiar código.
 - Agente de IA que responde y alerta citando procedencia. Propone, no decide.
 
 Fuera de alcance del MVP (MoSCoW `Could`/`Won't`): voz, agentes
@@ -69,10 +69,11 @@ guardables como producto completo.
 
 ## Configuración 1 y 2
 
-Configuración 1 es la planta de empaque médico ficticio **Baja SterilPack**
-(ver `CASO.md`). Configuración 2 es un segundo dominio mínimo que debe cargar
-sin una línea de código nueva. La prueba de generalidad es la evidencia central
-del proyecto (RNF-07).
+Configuración 1 es la planta sintética de empaque médico **Baja SterilPack**
+(ver `CASO.md`): no existe, no hay levantamiento real; su dataset se genera en
+paralelo (#9). Configuración 2 es una segunda planta mínima de la misma
+compañía que debe cargar sin una línea de código nueva. La prueba de
+generalidad es la evidencia central del proyecto (RNF-07).
 
 ## Risgos de alcance que ya están identificados
 

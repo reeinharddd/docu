@@ -1,7 +1,9 @@
 # Ingeniería: modelo de datos
 
-Estado: vigente. Describe el presente, no el deseo.
-Fuente: `apps/api/prisma/schema.prisma`. Migración base: `prisma/migrations/0_baseline`.
+Estado: en revisión 2026-10-12. `apps/api/prisma/schema.prisma` es un
+placeholder agregado sin validación y no tiene validez como fuente. El diagrama
+v1 del BRIEF-07 lo reemplaza; este documento se reescribe desde el diagrama
+aprobado. Lo que sigue es contexto histórico, no verdad.
 
 PostgreSQL 18 con `pgvector`. La extensión la crea la migración base
 (`CREATE EXTENSION vector`), no un script de arranque: `infra/postgres/init` está
@@ -9,11 +11,12 @@ montado pero vacío y no debe cargarse a mano.
 
 ## Capa de organización y acceso
 
-`Empresa` → `Departamento` → `Usuario`, con `Rol` en tabla puente
-(`UsuarioRol`). Cuatro códigos de rol: `admin`, `planeacion`, `calidad`, `almacen`.
+`Planta` → `Departamento` → `Usuario`, con `Rol` en tabla puente
+(`UsuarioRol`). Raíz `Planta`: un despliegue sirve a una compañía y en él
+conviven sus plantas; nunca se mezclan compañías. Cuatro códigos de rol: `admin`, `planeacion`, `calidad`, `almacen`.
 
 `Usuario.departamentoId` es opcional a propósito: un administrador no pertenece
-a un departamento. `Empresa` + `Departamento` + `nombre` es único.
+a un departamento. `Planta` + `Departamento` + `nombre` es único.
 
 ## Ingesta
 
