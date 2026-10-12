@@ -30,8 +30,9 @@ C1 cargada solo con datos, con 1 reporte funcionando.
 
 ## 4. Actividades específicas
 
-1. Recibir de Erik (#10) entorno + migración. La BD ya tiene 18 modelos base (Empresa, Usuario, Rol, DatoOficial, etc.). Terminado: checklist de insumos.
-2. Arrancar con tablas obvias en paralelo a Carlos: usuarios base, roles del sistema, estructura de empresas/departamentos. No esperar la matriz completa — el sistema debe abarcar todos los casos, no solo BajaSteril. Terminado: seed base funcional.
+1. Diagramar la BD primero (dbdiagram.io o diagrams.net): modelo ER completo con los 18 modelos base + relaciones. Terminado: diagrama versionado en `docs/ingenieria/` que el equipo revisa y aprueba antes de tocar Prisma. Si lo de Carlos afecta, se ajusta el diagrama, no el código.
+2. Recibir de Erik (#10) entorno + migración. La BD ya tiene 18 modelos base (Empresa, Usuario, Rol, DatoOficial, etc.). Terminado: checklist de insumos.
+3. Arrancar con tablas obvias en paralelo a Carlos: usuarios base, roles del sistema, estructura de empresas/departamentos. No esperar la matriz completa — el sistema debe abarcar todos los casos, no solo BajaSteril. Terminado: seed base funcional.
 3. Cargar familias y reglas como datos: esquemas por familia, `ReglaValidacion` con severidad BLOQUEO/AVISO, roles y umbrales. Terminado: seed reproducible con semilla.
 4. Probar cadena: ingesta → validación en cadena → cuarentena o dato oficial. Terminado: CSV de corrida + 1 caso por regla R-P1..T1.
 5. Sacar 1 reporte: el reporte mínimo de C1. Terminado: salida adjunta al PR.
