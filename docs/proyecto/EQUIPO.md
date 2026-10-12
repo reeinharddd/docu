@@ -25,12 +25,14 @@ está en su brief y el estado en su issue.
 | Persona | Responsable de | Próximos entregables | Fecha | Brief |
 |---|---|---|---|---|
 | Kira | Experiencia y diseño | Marca Fase 1 (#41-fase1), luego prototipos y flujo (#11), categorías (#28); después design system (#41) | 2026-10-16 / 10-23 | `briefs/BRIEF-41-marca-fase1.md`, `briefs/BRIEF-11-prototipos-ui-ux.md` (incluye #28) |
-| Emmanuel | Backend y base de datos | Configuración 1 (#7); después arquitectura y APIs (#12), solo-insert (#44) y pruebas de la API (#45) | 2026-10-19 / 10-30 | `briefs/BRIEF-07-configuracion-1.md` |
+| Emmanuel | Backend y base de datos | Configuración 1 (#7); después arquitectura y APIs (#12), solo-insert (#44), pruebas de la API (#45) y reporte y alerta (#39) | 2026-10-19 / 10-30 | `briefs/BRIEF-07-configuracion-1.md` |
 | Carlos | Datos y calidad | Matriz de roles (#29, vencida), escaneados para #32, dataset y plan de pruebas (#9) | 2026-10-16 / 10-23 | `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
-| Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), arquitectura y entorno (#10), gestión del Project (#43), playground de diseño (#42), SRS (#13), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md`, `briefs/BRIEF-30-36-aprobacion-casos-uso.md` |
+| Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), arquitectura y entorno (#10), gestión del Project (#43), playground de diseño (#42), SRS (#13), diagrama de casos de uso (#36), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md`, `briefs/BRIEF-30-36-aprobacion-casos-uso.md` |
 
-Sin responsable todavía: #36 (diagrama de casos de uso) y #39 (reporte y
-alerta, RF-05). Se asignan en el sync del lunes 2026-10-12.
+#36 → Erik (diagrama de casos de uso, con SRS #13) y #39 → Emmanuel (reporte y
+alerta, RF-05, tras #7). Asignados en el sync del lunes 2026-10-12. En GitHub
+quedan sin assignee hasta que existan las cuentas del equipo; mientras tanto
+manda el dueño nominal de este archivo.
 
 Cómo empieza cualquiera: `bash scripts/setup.sh`, `opencode`, `/inicio`
 (`operacion/BOOTSTRAP.md`).
@@ -58,7 +60,9 @@ edita un documento de otro sin avisar en el PR.
 | `integraciones/ENGRAM.md` | Erik | — |
 | `gestion/*` | Erik | Todo el equipo en el PR |
 | `academico/ENTREGAS.md` | Erik | Responsable de la entrega |
-| `diario/AAAA-MM-DD.md` | Quien decidió | Nadie: es append |
+
+La memoria de sesión (bitácora, descubrimientos, contexto de conversación) vive
+en Engram, no se commitea (`docu-memoria`, `integraciones/ENGRAM.md`).
 
 ## Forma de trabajo
 

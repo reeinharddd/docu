@@ -32,8 +32,9 @@ Issues y Project (`integraciones/GITHUB-GESTION.md`).
 - Se revisan los issues del sprint que quedaron abiertos: re-planifican
   (cambia `sprint:N`) o se cierran como `not planned` con motivo. Nunca se
   borran (`docs/REGLAS.md`).
-- Se escribe el resumen en `docs/diario/` cuando haya una decisión que otro
-  necesite entender en tres meses.
+- Las decisiones que otro necesite entender en tres meses se guardan en Engram
+  (`docu-memoria`) y, si son de ingeniería, en su ADR o documento canónico.
+  Nada de memoria de sesión se commitea.
 
 ## Fechas fijadas
 
@@ -41,7 +42,7 @@ Issues y Project (`integraciones/GITHUB-GESTION.md`).
 |---|---|---|
 | 2026-10-16 | Cierre de marca Fase 1 (Kira) + matriz de roles (Carlos) | #41-fase1, #29 |
 | 2026-10-23 | Cierre de diseño y fin de la arquitectura (Erik, Sprint 1) | Milestone `Cierre de diseño` |
-| **2026-10-30** | **Contrato de datos congelado para maquetas** | Milestone `Contrato de datos congelado`, #23 |
+| **2026-10-30** | **Contrato de datos para maquetas (objetivo flexible)** | Milestone `Contrato de datos congelado`, #23 |
 | 2026-11-20 | Fin del desarrollo | Milestone |
 | 2026-11-27 | Listos para presentar | Milestone |
 | 2026-12-01 | Presentación de diciembre | Milestone |

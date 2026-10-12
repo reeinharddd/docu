@@ -82,24 +82,24 @@ Las reglas son **datos** en `ReglaValidacion`, no código. Bloquean o avisan.
 | R-A1 | BLOQUEO | Paro mayor a 30 min exige motivo |
 | R-T1 | BLOQUEO | Stock mínimo de film o Tyvek bloquea la orden |
 
-### Pendiente de cerrar con el equipo: identificadores de reglas
+### Decisión 2026-10-12 del líder: identificadores de reglas
 
-El documento de caso histórico usa otra nomenclatura para las dos últimas reglas
-(`R-S1` = stock mínimo, `R-T1` = paro > 30 min) y le da a `R-P1` un alcance más
-amplio ("sin certificado **o** medida distinta a BOM"). Este repositorio, su
-seed y `docs/CONTEXTO.md` usan la tabla de arriba.
-
-**Decisión pendiente de equipo antes de M1** (afecta la validación en cadena y
-los datos ya sembrados): ¿se conservan los códigos de arriba o se adopta la
-nomenclatura del documento de caso? Ninguna regla debe quedar duplicada bajo dos
-códigos.
+El documento de caso histórico usa otra nomenclatura (`R-S1` = stock mínimo,
+`R-T1` = paro > 30 min) y le da a `R-P1` un alcance más amplio ("sin
+certificado **o** medida distinta a BOM"). **Se descarta**: valen los códigos de
+la tabla de arriba, con `R-P1` = solo certificado y `R-P2` = medida distinta.
+Ninguna regla existe bajo dos códigos. Seed, dataset y validación usan estos.
 
 ## Configuración 2
 
 Segunda planta mínima de la misma compañía, cargada solo con datos. Debe
 demostrar que un usuario de la planta 2 no ve datos de la planta 1 (aislamiento
 por planta), y que un reporte de Configuración 2 sale sin tocar código.
-Evidencia: `git diff` de código vacío más la salida del reporte.
+Evidencia mínima (decisión del líder 2026-10-12): prueba con 2 usuarios de
+distintas plantas intentando lecturas, escrituras y reportes cruzados — todo lo
+de la otra planta debe fallar — más `git diff` de código vacío y la salida del
+reporte, todo adjunto al PR de #8. Sin reintroducir `Empresa` multi-tenant: el
+despliegue ya es por compañía, el aislamiento es por planta en el servidor.
 
 ## Referencias
 

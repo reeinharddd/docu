@@ -1,8 +1,8 @@
 # Requisitos de DOCU
 
 Estado: vigente. Origen: Etapa 1 (Análisis), recortes de la Etapa 2 v2.
-Un cambio de requisito es un issue aprobado y una línea en
-`diario/AAAA-MM-DD.md`.
+Un cambio de requisito es un issue aprobado y su reflejo en
+`gestion/TRAZABILIDAD.md` en el mismo PR.
 
 ## Requisitos funcionales
 
@@ -53,7 +53,7 @@ aunque cueste.
 | RF-05 | `agent/tools` | #39 Reporte recurrente y alerta | Sprint 3 |
 | RF-06 | `auth/governance` | #10 Arquitectura y entorno base | Sprint 1 |
 | RF-06, RF-02 | `auth/governance` | #5 RBAC, bitácora y reglas declarativas | Sprint 2 |
-| RF-07 | `canonical/lineage` | sin issue (Could) | — |
+| RF-07 | `canonical/lineage` | transversal (Could), diferido fuera de la entrega actual por decisión del líder 2026-10-12 | — |
 | RF-08 | `discover/mapping` | #8 Configuración 2 | Sprint 3 |
 | RNF-07 | transversal | #6 Pruebas, evidencias y cierre | Sprint 4 |
 

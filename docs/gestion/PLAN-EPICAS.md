@@ -3,13 +3,14 @@
 Estado: vigente. Fuente de verdad del **estado**: GitHub Issues y Project
 (`integraciones/GITHUB-GESTION.md`). Este archivo es la **vista de
 planificación**, no el estado. Si discrepan, gana GitHub y se corrige este
-archivo.
+archivo. Reconciliación: cada lunes (`RITMO-SEMANAL.md` §Lunes) se compara
+este plan con GitHub y se corrige aquí.
 
-## Fecha dura
+## Fecha objetivo (flexible por decisión del líder 2026-10-12)
 
-> **Contrato de datos congelado el 30 de octubre de 2026 para las maquetas.**
+> **Contrato de datos: objetivo 30 de octubre de 2026 para las maquetas.**
 > Milestone `Contrato de datos congelado` e issue #23. Si se mueve, se mueve el
-> milestone y se corrige aquí en el mismo PR.
+> milestone y se corrige aquí en el mismo PR, con anuncio en el sync.
 >
 > Replanificación 2026-10-09: inicio 2026-10-05 → 2026-10-12 (+7 días).
 
@@ -56,7 +57,7 @@ de datos validado (ADR-0012).
 | OCR no alcanza el 90 % en escaneados | #32 sin resultados al 2026-10-19 (Erik) | Brief `briefs/BRIEF-32-evaluacion-ocr.md` |
 | Sprint 1 termina el 23-oct y el contrato se congela el 30-oct | #10 y #13 cierran el 23 | Si el diseño se retrasa, la congelación no se cumple |
 | #29 Matriz de roles vencida (30-sep) | Bloquea el contrato de datos, cierre antes del 2026-10-16 (Carlos) | Brief `briefs/BRIEF-29-matriz-roles-y-dataset.md` |
-| #39 y #36 sin responsable | `gh issue list --search no:assignee` | Asignar en el sync del lunes 2026-10-12 |
+| #39 y #36 sin responsable | `gh issue list --search no:assignee` | **Cerrado 2026-10-12**: #36 → Erik, #39 → Emmanuel (sync lunes; assignee en GitHub pendiente a que existan las cuentas) |
 | Marca Fase 1 cierra el 16-oct | #41-fase1, Kira | Es la primera fecha que vence; bloquea #41 |
 | Prototipos UI/UX cierran el 23-oct | #11, Kira | Tras la marca, alimenta #4 y #23 |
 | Frontend sin design system de marca | #41 abierto al 2026-10-30 | Playground (#42) listo desde el 2026-10-16 |
