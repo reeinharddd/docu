@@ -4,10 +4,10 @@
 
 - Issue: #7
 - Dueño: Emmanuel (replanificación 2026-10-09: Carlos → Emmanuel)
-- Fechas: 2026-10-19 → **2026-10-30** · Sprint 2 · hito `Contrato de datos congelado` (2026-10-30)
+- Fechas: 2026-10-13 → **2026-10-30** · Sprint 2 · hito `Contrato de datos congelado` (2026-10-30)
 - Prioridad / Tipo / Épica / Módulo: media / historia / Base de datos / base de datos
 - Requisitos: RF-08 (parametrización sin código)
-- Bloqueado por: #10 entorno, #29 matriz, #9 dataset · Bloquea a: #8 Configuración 2, #3 Pipeline
+- Bloqueado por: #10 entorno · Trabaja en paralelo con: #29 matriz, #9 dataset (Carlos) · Bloquea a: #8 Configuración 2, #3 Pipeline
 
 ## 1. Contexto
 
@@ -30,13 +30,13 @@ C1 cargada solo con datos, con 1 reporte funcionando.
 
 ## 4. Actividades específicas
 
-1. Recibir de Erik (#10) entorno + migración y de Carlos (#29/#9) matriz + dataset (2 h). Terminado: checklist de insumos.
-2. Cargar familias y reglas como datos (6 h): esquemas por familia, `ReglaValidacion` con severidad BLOQUEO/AVISO, roles y umbrales. Terminado: seed reproducible con semilla.
-3. Probar cadena (3 h): ingesta → validación en cadena → cuarentena o dato oficial. Terminado: CSV de corrida + 1 caso por regla R-P1..T1.
-4. Sacar 1 reporte (3 h): el reporte mínimo de C1. Terminado: salida adjunta al PR.
-5. Documentar qué es dato y qué sería código (1 h). Terminado: nota para #8.
-
-Total estimado: 14–16 h.
+1. Recibir de Erik (#10) entorno + migración. La BD ya tiene 18 modelos base (Empresa, Usuario, Rol, DatoOficial, etc.). Terminado: checklist de insumos.
+2. Arrancar con tablas obvias en paralelo a Carlos: usuarios base, roles del sistema, estructura de empresas/departamentos. No esperar la matriz completa — el sistema debe abarcar todos los casos, no solo BajaSteril. Terminado: seed base funcional.
+3. Cargar familias y reglas como datos: esquemas por familia, `ReglaValidacion` con severidad BLOQUEO/AVISO, roles y umbrales. Terminado: seed reproducible con semilla.
+4. Probar cadena: ingesta → validación en cadena → cuarentena o dato oficial. Terminado: CSV de corrida + 1 caso por regla R-P1..T1.
+5. Sacar 1 reporte: el reporte mínimo de C1. Terminado: salida adjunta al PR.
+6. Documentar qué es dato y qué sería código. Terminado: nota para #8.
+7. Integrar matriz de Carlos (#29) cuando esté lista: mapear roles de planta a roles base sin cambiar código. Terminado: matriz aplicada como datos.
 
 ## 5. Entradas y salidas
 

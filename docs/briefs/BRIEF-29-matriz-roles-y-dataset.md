@@ -4,7 +4,8 @@
 
 - Issues: #29 Matriz roles, permisos · #9 Dataset sintético (Configuración 1 y 2)
 - Dueño: Carlos
-- Fechas: #29 **ya vencida** (2026-09-30) → cerrar antes del 2026-10-16 · #9 2026-10-12 → 2026-10-23
+- Fechas: #29 2026-10-13 → 2026-10-16 · #9 2026-10-13 → 2026-10-23
+- Nota: trabaja en paralelo con Emmanuel (#7). La matriz se integra como datos cuando esté lista, sin bloquear el arranque.
 - Prioridad / Tipo / Épica: alta / tarea / Autenticación (#29), QA/Documentación (#9)
 - Requisitos: RF-06 (#29) · RNF-02, RNF-07 (#9)
 - Bloqueado por: `proyecto/CASO.md` (organigrama real de la planta), #7 Configuración 1 (familias a mapear)
@@ -37,7 +38,7 @@ dataset, ningún requisito se puede demostrar.
 
 ## 4. Actividades específicas
 
-1. Fijar la regla planta/sistema (2 h): el código solo conoce 4 acciones × 3
+1. Fijar la regla planta/sistema: el código solo conoce 4 acciones × 3
    alcances (cerrado); roles y mapeo organigrama→rol son datos (RF-08,
    ADR-0009). Si un puesto no encaja, cae al rol base más restrictivo + aviso;
    jamás se crea un rol en código por una empresa. Terminado: principio escrito
@@ -48,7 +49,7 @@ dataset, ningún requisito se puede demostrar.
    tiene un rol responsable.
 3. Revisar la matriz con Kira (qué ve cada rol en pantalla) y Emmanuel (#5)
    antes del 2026-10-15. Terminado: objeciones resueltas o anotadas.
-4. Escribir el generador `dataset/generar.ts` con semilla fija (6 h):
+4. Escribir el generador `dataset/generar.ts` con semilla fija:
    plantillas por familia en `dataset/plantillas/` (Excel con `xlsx`, PDF con
    `pdf-lib`, correos `.eml`, escaneados por render + degradado 150/300 dpi con
    Sharp/ImageMagick). El script emite también el CSV de *ground truth*.
