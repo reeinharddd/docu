@@ -43,7 +43,7 @@ los comandos funcionen desde cualquier subcarpeta sin exportar variables a mano.
 |---|---|
 | Autenticación y forma del token | `RF-06` define roles. Cambiarlo después rompe sesiones y datos |
 | Versionado de la ruta | Sin `/v1` desde el primer día, no hay vuelta atrás |
-| Formato de error único | RF-07 y los códigos de regla se muestran en pantalla |
+| Formato de error único | RF-02 y los códigos de regla se muestran en pantalla |
 | Paginación y filtrado de la bandeja | La bandeja crece sin límite |
 | Contrato de ingesta y su idempotencia | `sha256` ya da la clave; falta el contrato HTTP |
 | OpenAPI como artefacto | El SRS IEEE 830 lo exige como entregable |

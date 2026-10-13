@@ -4,7 +4,7 @@
 
 - Issue: #41 (fase 2 de `Design system de marca`)
 - Dueño: Kira
-- Fechas: 2026-10-12 → 2026-10-23 · Sprint 2
+- Fechas: 2026-10-12 → 2026-10-23 · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / Diseño / diseño
 - Requisitos: RNF-01; alimenta RF-01, RF-03, RF-04
 - Bloqueado por: marca Fase 1 (#41-fase1, dirección elegida) · Bloquea a: #4 Frontend Angular
@@ -90,7 +90,7 @@ Total estimado: 4–6 h.
 
 ## 10. Revisión
 
-Tras la elección de marca del 16-oct: revisión de tokens con Erik. Sprint 2 cierra 23-oct.
+Tras la elección de marca del martes 13-oct: flujo unificado con #11 (tokens + mockups de flujo en el playground, una sola corriente 13→23); revisión de tokens con Erik. Cierre 23-oct.
 
 ## 11. Insumos del agente
 

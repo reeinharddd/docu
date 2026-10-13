@@ -21,7 +21,7 @@ mantiene dos veces el mismo dato.
 | Épica | Issue `tipo:epica` con sub-issues; su barra de progreso es la de sus hijos | #48 Épica: Backend |
 | Tarea, historia, investigación, entregable | Issue con `tipo:*` | #12 API NestJS |
 | Subtarea | Sub-issue | #46 Worker (de #3) |
-| Hito con fecha | Milestone | `Contrato de datos congelado` (2026-10-23) |
+| Hito con fecha | Milestone | `Contrato de datos congelado` (2026-10-30) |
 | Sprint | Etiqueta `sprint:N` → campo iteración `Sprint` | `sprint:2` |
 | Prioridad | Etiqueta `prioridad:*` → campo `Prioridad` | `prioridad:critica` |
 | Área | Etiqueta `epica:*` → campo `Épica` | `epica:diseno` |

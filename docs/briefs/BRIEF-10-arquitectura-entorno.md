@@ -1,95 +1,73 @@
-# BRIEF #10 — Arquitectura, modelo de datos y entorno base
+# BRIEF #10 — Conocimiento experto por tarea + entorno y CI
 
 ## 0. Encabezado
 
 - Issue: #10
-- Dueño: Erik
-- Fechas: 2026-10-12 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
-- Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / infraestructura
-- Requisitos: RF-06, RNF-05, RNF-06 (bloquea M1; desbloquea #12, #3, #5, #7)
-- Bloqueado por: nada · Bloquea a: #12 API, #3 Pipeline, #5 RBAC, #7 Configuración 1
-
-Replanificación 2026-10-09: inicio 2026-10-05 → 2026-10-12 (+7 días).
+- Dueño: Erik.
+- Fechas: 2026-10-12 → 2026-10-13 · Sprint 1
+- Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / entorno.
+- Requisitos: RF-06, RNF-05, RNF-06
+- Bloqueado por: nada · Bloquea a: todo el equipo
+- Nota: arquitectura y modelo documentados viven en #60 (→16-oct) y #62 (→23-oct).
 
 ## 1. Contexto
 
-DOCU es un monolito modular (NestJS + worker BullMQ/Redis, PostgreSQL 18 + pgvector). Sin base técnica común, cada integrante inventa su entorno y nada es reproducible. Esta tarea deja el suelo: arquitectura en capas, modelo de datos y `docker compose up` con un comando.
+Cada tarea exige su conocimiento experto, y el agente debe traerlo puesto. Cuando Emmanuel diagrama, su opencode ya sabe normalización (1FN–3FN), buenas prácticas de Postgres, tipos PG18 y las decisiones del repo: eso lo hace experto sin configurar nada. Cuando Carlos escribe en el repo, el agente ya trae los estándares de Markdown, plantillas y validación con herramientas. Igual Kira y cada quien. Y sobre todo: si algo se construye de una manera, todo lo igual o relevante se sigue construyendo de la misma manera siempre — los paquetes fijan el patrón, no la memoria de cada quien. Este brief deja esos paquetes para las tareas de esta semana, más entorno y CI.
 
 ## 2. Por qué importa tu parte
 
-Es la raíz del grafo (`PLAN-EPICAS.md` dependencias): sin `pgvector` no hay `vector`, sin BD no hay ingesta. Si #10 se retrasa, Emmanuel (#7, #12) y el pipeline (#3) no arrancan y el contrato del 30-oct se congela en el aire. Si sale bien, todos levantan lo mismo en su laptop.
+Sin paquetes, cada persona enseña a mano a su agente y cada entrega sale con otro estilo. Si sale bien, pedir la tarea en texto normal basta: el agente responde como experto alineado al repo, y lo construido una vez marca cómo se construye siempre.
 
 ## 3. Objetivo y resultado esperado
 
-Base técnica levantable con un comando y migración inicial aplicada.
-
 | Entregable | Evidencia |
 |---|---|
-| Arquitectura en capas documentada | `docs/ingenieria/ARQUITECTURA.md` actualizado: app + worker + OCR en Compose |
-| Modelo de datos inicial | `docs/ingenieria/MODELO-DATOS.md` + migración Prisma aplicada: `archivo_original`, dato oficial, historial, bitácora solo-INSERT, catálogos, tablas de configuración |
-| Entorno reproducible | `docker compose up` limpio en laptop del equipo; `infra/docker-compose.yml` con PostgreSQL 18 + pgvector, Redis 8, app, worker |
-| CI con pruebas por PR | Workflow corriendo `verify` por PR; `.env` fuera del repo (`.env.example` documenta cada variable) |
-| Revisión de un par | PR aprobado con capturas de `compose up` + `/health ok` |
+| Pack Emmanuel (diagramar #58) | Normalización, tipos PG18, naming, ADR-0009/0010, brief #58 y memorias cargados al pedir en texto normal |
+| Pack Carlos (matriz #29) | CASO/RF-06, estándares MD del repo, plantilla ROLES, validación con herramientas |
+| Pack Kira (playground) | Skills de diseño, tokens, WCAG, regla de no-merge |
+| Pack Erik (tablero/SRS) | Comandos `gh`, reglas de gestión, Drive solo-lectura |
+| Regla de consistencia | Escrito: lo construido de una manera se sigue construyendo igual; el patrón vive en STACK/plantillas, con ejemplo |
+| Entorno + CI | `compose up` limpio + `/health` ok + `guardas`/`smoke` verdes (local/offline) |
 
 ## 4. Actividades específicas
 
-1. Fijar arquitectura (4 h): capas, qué corre en API vs worker (OCR nunca en API, ADR-0011), puertos y volúmenes. Terminado: `ARQUITECTURA.md` §3 coherente con `STACK.md`.
-2. Modelar datos (6 h): entidades, `vector`, solo-INSERT (ADR-0010), reglas como datos (ADR-0009). Terminado: migración inicial `prisma migrate` en verde.
-3. Componer entorno (4 h): `infra/docker-compose.yml` + `scripts/dev.sh` como única entrada. Terminado: `compose config` + `compose up` limpio.
-4. Cerrar CI (2 h): `verify` = lint + typecheck + tests web + `smoke-api.sh` (`/health` por condición, no `sleep` fijo). Terminado: PR verde.
-5. Probar en otra máquina o rama limpia (1 h): `bash scripts/setup.sh` desde cero. Terminado: un par confirma que levanta.
-
-Total estimado: 15–18 h.
+1. Entorno (2 h): `infra/docker-compose.yml` + `scripts/dev.sh`. Terminado: `compose up` limpio el 13-oct.
+2. Pack por persona (4 h): por cada tarea activa, fijar skills + reglas + estándares + ejemplos del repo que el agente debe traer. Terminado: prueba en vivo con cada uno el 13-oct (piden en texto normal, el agente responde como experto).
+3. Regla de consistencia (1 h): escribirla con ejemplo (ej. naming de tablas, formato de briefs). Terminado: párrafo en §7 + referencia en `STACK.md` o plantillas.
+4. Cuentas, reglas y CI (2 h): invitaciones GitHub (o motivo), `REGLAS.md`/`AGENTS.md`/`EQUIPO.md` al día, workflows + lefthook. Terminado: push corre guardas.
 
 ## 5. Entradas y salidas
 
-- Recibe: ADRs 0002/0004/0005/0009/0010/0011, `ingenieria/STACK.md`, `CASO.md` (familias y reglas R-P1..T1).
-- Entrega: a Emmanuel (#7, #12) y al pipeline (#3), por PR, entorno + migración + docs. Avisa en #3 y #7 cuando mergee.
+- Recibe: `STACK.md`, briefs activos de la semana, decisiones en Engram.
+- Entrega: al equipo, packs verificados en vivo el 13-oct. Comenta en #58, #29 y #43.
 
 ## 6. Referencias y caja de herramientas
 
-Repo (leer primero): `ingenieria/ARQUITECTURA.md`, `MODELO-DATOS.md`, `ENTORNO.md`,
-`STACK.md`, `operacion/BOOTSTRAP.md`; ADR-0002 (Bun), ADR-0004 (Prisma + pgvector),
-ADR-0005 (BullMQ), ADR-0009/0010/0011.
+- `BOOTSTRAP.md` (receta verificada 12-oct en clon limpio), `STACK.md` (`bun.lock` manda), `opencode.json`, `.opencode/`, `.github/workflows/`, `lefthook.yml`.
 
-Recursos oficiales para implementar (no tutoriales de agregador):
+## 7. Cómo trabajar (incluye consistencia y re-enfoque)
 
-| Para | Recurso | Cuándo usarlo |
-|---|---|---|
-| API NestJS | https://docs.nestjs.com (guards, DI, `emitDecoratorMetadata`) | Al cablear providers y guards de #10 |
-| Prisma + driver adapters | https://www.prisma.io/docs (migraciones, `prisma.config.ts`) | Al crear la migración inicial |
-| PostgreSQL 18 | https://www.postgresql.org/docs/18/ | Al fijar tipos y extensiones |
-| pgvector | https://github.com/pgvector/pgvector (columna `vector`, índices) | Al modelar el campo vectorial |
-| BullMQ 6 + Redis 8 | https://docs.bullmq.io + https://redis.io/docs | Al separar API vs worker (ADR-0011) |
-| Docker Compose | https://docs.docker.com/compose/ (healthcheck por condición) | Al escribir `infra/docker-compose.yml` |
-| Bun 1.4.2 | https://bun.com/docs | Al fijar scripts y shebangs |
-
-Comandos del repo: `bun run verify`, `bun run doctor`, `bash scripts/doc-index.sh`.
-
-Curaduría del equipo: https://devdocs.io (docs offline de TS/Docker) al escribir Compose y migraciones; https://postgres.new al validar el modelo sin levantar local; https://hadolint.github.io (lint de Dockerfiles, opcional) si se agrega imagen propia.
-
-## 7. Cómo trabajar
-
-- `/tarea 10` y `/cerrar` en OpenCode; rama `feat/10-<slug>` desde `main`.
-- Nada de lógica de negocio (E1 = solo configs, regla 6). Solo capas, esquema y entorno.
-- En `apps/api`, ningún provider inyectado por constructor se importa con `import type` (incidente `health.controller.ts` + `emitDecoratorMetadata`).
-- TypeScript estricto, sin `any` sin justificación. `.env` nunca al repo.
-- Bloqueo >24 h: etiqueta `bloqueado` y escala el mismo día.
+- Todo reproducible en local/offline; versiones fijadas; prohibido `@latest`.
+- **Consistencia:** lo construido de una manera se sigue construyendo igual siempre; el patrón vive en el repo (STACK, plantillas, skills), no en la cabeza de nadie.
+- **Re-enfoque semanal:** cuando un brief cierra o cambia de fase, se revisan los packs de esa persona y se ajustan en el mismo PR del cambio (ej. Emmanuel pasa de diagramar a convertir a Prisma).
 
 ## 8. Criterios de aceptación
 
-- [ ] `docker compose up` limpio y `/health` responde `ok` (smoke por condición).
-- [ ] Migración inicial aplicada; `prisma validate` en verde.
-- [ ] `ARQUITECTURA.md` y `MODELO-DATOS.md` describen lo que hay, no el deseo.
-- [ ] `bun run verify` y `doctor` en verde en la rama.
-- [ ] Un par revisó y aprobó con evidencia adjunta.
+- [ ] `compose up` + `/health` ok + `doctor` sin FALTA el 13-oct.
+- [ ] Prueba en vivo 13-oct por persona: texto normal → respuesta experta alineada.
+- [ ] Regla de consistencia escrita con ejemplo.
+- [ ] Cuentas invitadas o motivo; CI verde.
 
-No es done si: levanta solo en una máquina; la migración se aplicó a mano sin archivo; hay lógica de negocio en `apps/`.
+No es done si: alguien configura a mano lo que el pack debió traer; dos entregas iguales usan patrones distintos.
 
 ## 9. Riesgos nombrados
 
-`pgvector` o Redis rompen el `up` en otra laptop. Mitigación: probar desde `setup.sh` limpio; desde el 2026-10-19 sin `up` reproducible es bloqueo (frena #7 y #12).
+Puertos ocupados o Docker ausente. Mitigación: `PG_PORT`/`REDIS_PORT` en `.env`; `doctor` lo detecta. Sin entorno el 13-oct es bloqueo del equipo.
 
 ## 10. Revisión
 
-Viernes 2026-10-23 en el sync, con Emmanuel (su #7 depende de esto). Después: #12 y #3 arrancan.
+Martes 13-oct en el sync: prueba en vivo con los 4. Después: #60 documenta; los packs se re-enfocan por semana.
+
+## Versión corta (descripción del issue)
+
+> [10] Packs experto 13-oct — Erik. Conocimiento por tarea + consistencia + entorno + CI, verificados en vivo. Arquitectura en #60. Detalle: `docs/briefs/BRIEF-10-arquitectura-entorno.md`.

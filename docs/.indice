@@ -2,18 +2,26 @@
 # Verifica con: bash scripts/doc-index.sh
 # Regenera con: bash scripts/doc-index.sh --fix
 docs/academico/ENTREGAS.md
+docs/briefs/BRIEF-03-pipeline-ingesta.md
 docs/briefs/BRIEF-04-frontend-angular.md
+docs/briefs/BRIEF-05-rbac-bitacora.md
 docs/briefs/BRIEF-07-configuracion-1.md
+docs/briefs/BRIEF-09-dataset-pruebas.md
 docs/briefs/BRIEF-10-arquitectura-entorno.md
 docs/briefs/BRIEF-11-prototipos-ui-ux.md
+docs/briefs/BRIEF-12-api-nestjs.md
 docs/briefs/BRIEF-13-srs.md
 docs/briefs/BRIEF-29-matriz-roles-y-dataset.md
-docs/briefs/BRIEF-30-36-aprobacion-casos-uso.md
 docs/briefs/BRIEF-32-evaluacion-ocr.md
 docs/briefs/BRIEF-41-fase2-design-system.md
 docs/briefs/BRIEF-41-marca-fase1.md
 docs/briefs/BRIEF-42-playground-diseno.md
 docs/briefs/BRIEF-43-gestion-project.md
+docs/briefs/BRIEF-58-diagrama-v0.md
+docs/briefs/BRIEF-59-diagrama-v1-seed.md
+docs/briefs/BRIEF-60-arquitectura-modelo.md
+docs/briefs/BRIEF-61-generador-dataset.md
+docs/briefs/BRIEF-62-modelo-datos.md
 docs/CONTEXTO.md
 docs/decisiones/ADR-0001-flujos-de-trabajo-del-agente.md
 docs/decisiones/ADR-0002-bun-como-runtime-y-gestor.md
@@ -28,6 +36,7 @@ docs/decisiones/ADR-0010-bitacora-e-historial-solo-insert.md
 docs/decisiones/ADR-0011-api-encola-worker-procesa.md
 docs/decisiones/ADR-0012-construccion-tras-design-system-y-modelo.md
 docs/decisiones/ADR-0013-opencode-oficial-superpowers-engram.md
+docs/decisiones/ADR-0014-planta-single-company.md
 docs/decisiones/README.md
 docs/gestion/PLAN-EPICAS.md
 docs/gestion/RIESGOS.md

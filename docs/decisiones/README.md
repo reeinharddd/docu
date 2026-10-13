@@ -45,6 +45,7 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0011](ADR-0011-api-encola-worker-procesa.md) | La API encola, el worker procesa y la IA propone dentro del worker | Aceptada | 2026-10-06 |
 | [0012](ADR-0012-construccion-tras-design-system-y-modelo.md) | No se construye producto hasta tener design system y modelo de datos validado | Aceptada | 2026-10-06 |
 | [0013](ADR-0013-opencode-oficial-superpowers-engram.md) | OpenCode es el entorno oficial, con superpowers pineado y Engram como memoria | Propuesta | 2026-10-10 |
+| [0014](ADR-0014-planta-single-company.md) | Planta como raíz single-company; alcance por planta | Propuesta | 2026-10-13 |
 
 ## Reglas de esta carpeta
 

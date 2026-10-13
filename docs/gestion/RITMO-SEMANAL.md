@@ -38,9 +38,12 @@ Issues y Project (`integraciones/GITHUB-GESTION.md`).
 
 ## Fechas fijadas
 
+Sprints (`GITHUB-GESTION.md`, no se redefinen): S1 diseño 12–23 oct, S2 19 oct–6 nov, S3 9–20 nov, S4 23 nov–4 dic. S1/S2 se solapan 19–23 oct por replan aprobado. Semanas de lunes a domingo (12→18, 19→25…): un brief puede durar días o varias semanas; mandan sus fechas, la semana solo marca el ritmo de syncs.
+
 | Fecha | Qué | Dónde |
 |---|---|---|
-| 2026-10-16 | Cierre de marca Fase 1 (Kira) + matriz de roles (Carlos) | #41-fase1, #29 |
+| 2026-10-13 | Elección de marca + firma SRS + entorno y tablero listos; arrancan v0 y matriz | #41-fase1, #13/#30/#36, #10, #43, #58, #29 |
+| 2026-10-16 | Matriz (Carlos), diagrama v0 (Emmanuel) | #29, #58 |
 | 2026-10-23 | Cierre de diseño y fin de la arquitectura (Erik, Sprint 1) | Milestone `Cierre de diseño` |
 | **2026-10-30** | **Contrato de datos para maquetas (objetivo flexible)** | Milestone `Contrato de datos congelado`, #23 |
 | 2026-11-20 | Fin del desarrollo | Milestone |

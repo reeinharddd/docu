@@ -80,7 +80,8 @@ Un servidor que solo pasa 1–4 y falla 5 no entra: se rompe sin avisar.
 ```
 
 Se versiona el archivo, no el estado de la máquina. Lo local
-(`.mcp.local.json`, `.claude/`, `.opencode/`) está en `.gitignore`.
+(`.mcp.local.json`, `.claude/`) está en `.gitignore`; de `.opencode/` solo se
+versionan agentes, comandos y skills.
 
 ## Procedimiento de alta
 

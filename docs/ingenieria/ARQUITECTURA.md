@@ -95,8 +95,8 @@ Erik); los servicios actuales están en [ingeniería/ENTORNO.md](ENTORNO.md).
 | Pieza | Épica | Riesgo si se pospone |
 |---|---|---|
 | Proceso `worker` real | E2 | El pipeline de ingesta no existe; es el riesgo técnico mayor |
-| Módulos de Nest por dominio | M1 | La API crece como un archivo |
-| `ValidationPipe` global | M1 | Sin validación de entrada, RNF-03 no se sostiene |
-| RBAC en servidor y bitácora | M2 | El front se convierte en la única "protección" |
-| Cadena de validación declarativa | M2 | Las reglas quedan embebidas en `if`, y RF-08 muere |
-| Colas de reportes y alertas | #39 | RF-05 sin responsable asignado |
+| Módulos de Nest por dominio | #12-A (S2) | La API crece como un archivo |
+| `ValidationPipe` global | #12-A (S2) | Sin validación de entrada, RNF-03 no se sostiene |
+| RBAC en servidor y bitácora | #5 (S2) | El front se convierte en la única "protección" |
+| Cadena de validación declarativa | #3 (S2) | Las reglas quedan embebidas en `if`, y RF-08 muere |
+| Colas de reportes y alertas | #39 (S3, Emmanuel) | RF-05 sin demo |

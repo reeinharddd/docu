@@ -7,8 +7,8 @@ fórmulas; plantas hermanas mandan mal o tarde; cada turno lleva su Excel.
 DOCU consume esas fuentes, detecta familias, propone la versión oficial y
 todo lo dudoso va a cuarentena con motivo. IA propone, humano dispone.
 Nada se publica sin confirmación humana. Permisos en servidor (el front
-solo oculta). Bitácora e historial solo crecen. Config 2 (segundo dominio
-mínimo) debe cargarse sin cambiar código.
+solo oculta). Bitácora e historial solo crecen. Config 2 (segunda planta de la
+misma compañía) debe cargarse sin cambiar código.
 
 ## Reglas del caso (datos, no código)
 R-P1 sin certificado no se programa. R-P2 medida distinta no se programa.
@@ -23,8 +23,8 @@ oficial). PostgreSQL 18 + pgvector + JSONB, Redis 8 + BullMQ 6 (el OCR
 corre solo en worker). TypeScript estricto punta a punta, bun full.
 
 ## Equipo y flujo
-Carlos (dataset+QA), Erik/líder (infra+pipeline), Kira (frontend),
-Emmanuel (backend). Briefs de cada tarea en `docs/briefs/` con el formato de
+Carlos (datos+QA), Erik/líder (infra+pipeline+gestión+SRS), Kira (diseño+frontend),
+Emmanuel (backend+BD). Briefs de cada tarea en `docs/briefs/` con el formato de
 `docs/plantillas/BRIEF.md`. Estado del trabajo: GitHub Issues del repo
 (`docs/integraciones/GITHUB-GESTION.md`).
 Sin evidencia no hay "ya quedó".

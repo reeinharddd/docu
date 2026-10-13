@@ -29,6 +29,8 @@ Aplicación Angular + Tailwind funcional con las 4 pantallas, navegación, consu
 | Tokens de design system aplicados | `@theme` en `styles.css` |
 | Pruebas e2e (Playwright) | Flujo completo contra API real |
 | Lighthouse/axe en pantallas clave | Reporte sin errores AA |
+| F2: login, registro, usuarios, RBAC por rol, bitácora visible | Cada rol ve lo suyo (permite #5) |
+| F3: config de planta (C2), dashboard, alertas | Tablero + alertas con datos de prueba |
 
 ## 4. Actividades específicas
 
@@ -41,8 +43,11 @@ Aplicación Angular + Tailwind funcional con las 4 pantallas, navegación, consu
 7. Conectar servicios a API M1/E2. Terminado: httpResource con datos reales.
 8. Escribir pruebas e2e (Playwright) del flujo completo. Terminado: flujo subir → revisar → consultar contra API real.
 9. Ejecutar Lighthouse/axe en pantallas clave. Terminado: sin errores AA.
+10. Construir F2 (login, registro, gestión de usuarios, vistas por rol, bitácora visible). Terminado: cada rol ve lo suyo.
+11. Construir F3 (config de planta, dashboard, alertas con datos de prueba). Terminado: tablero + alertas funcionando.
+12. Extender e2e al producto completo. Terminado: verde.
 
-Total estimado: 15–20 h.
+Total estimado: F1 15–20 h; F2/F3 15–20 h.
 
 ## 5. Entradas y salidas
 
@@ -91,6 +96,9 @@ Total estimado: 15–20 h.
 - [ ] Tokens de design system aplicados (@theme en styles.css)
 - [ ] Pruebas e2e (Playwright) del flujo completo en verde
 - [ ] Lighthouse/axe sin errores AA en pantallas clave
+- [ ] F2 completo (login, usuarios, RBAC, bitácora)
+- [ ] F3 completo (config planta, dashboard, alertas)
+- [ ] e2e del producto completo en verde
 - [ ] Escritorio y celular (RNF-01)
 - [ ] Español
 
@@ -100,18 +108,13 @@ Total estimado: 15–20 h.
 - Design system no aprobado. Mitigación: usar tokens de Fase 1 como base.
 - Retraso por pruebas e2e. Mitigación: priorizar flujo crítico (subir → confirmar → consultar).
 
-## 9.1. Nota de alcance futuro (obligatorio para entrega final)
+## 9.1. Alcance completo (el producto, no solo MVP)
 
-Las 4 pantallas (captura, bandeja, Programa Oficial, búsqueda) son la **fase inicial**, no el alcance total. Para entregar un producto completo y demostrable en vivo, es **obligatorio** añadir:
+Los datos son de prueba, contenidos y sin falla real: el producto se entrega completo el 20-nov.
 
-- Login y registro
-- Gestión de usuarios
-- Roles y permisos (RBAC)
-- Bitácora/auditoría
-- Configuración de planta (Configuración 2: segunda planta)
-- Dashboard/home
-
-Estas pantallas se agregarán como fases posteriores dentro de este brief, con sus propios entregables y criterios. No se delimitan ahora porque dependen del backend y del dataset sintético. Se revisarán cuando haya más información.
+- F1 (§3–§8): 4 pantallas + e2e del flujo subir → confirmar → consultar.
+- F2: login, registro, gestión de usuarios, RBAC por rol, bitácora visible (usa #5 cuando exista; mientras tanto, mocks con la forma del contrato).
+- F3: config de planta (C2), dashboard, alertas con datos de prueba.
 
 ## 10. Revisión
 

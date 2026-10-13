@@ -32,7 +32,7 @@ con `service_started`.
 
 ## Variables
 
-12 en `.env`. Los nombres están en `.env.example`, que es la documentación de
+14 en `.env`. Los nombres están en `.env.example`, que es la documentación de
 cada una; los valores viven solo en la máquina. La política completa, incluidos
 los permisos de GitHub y Drive, está en `docs/integraciones/`.
 
@@ -43,6 +43,7 @@ los permisos de GitHub y Drive, está en `docs/integraciones/`.
 | Drive | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GOOGLE_DRIVE_FOLDER` |
 | IA | `IA_LOCAL_ACTIVADA`, `IA_NUBE_ACTIVADA` |
 | Memoria | `ENGRAM_PROJECT` |
+| Extra (apagado) | `FIRECRAWL_API_KEY` |
 
 La API se lanza con `bun --env-file ../../.env`, y `prisma.config.ts` carga el
 mismo archivo. No hace falta exportar nada a mano.

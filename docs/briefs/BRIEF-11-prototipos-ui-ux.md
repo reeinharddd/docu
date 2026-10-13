@@ -21,7 +21,7 @@ minutos para un usuario piloto.
 
 Por ADR-0012 nadie construye pantallas hasta que exista el design system. Tus
 prototipos son la primera puerta: si se retrasan, #4 (frontend) y el Sprint 2
-arrancan tarde, y el contrato de datos del 23 de octubre se congela sin saber qué
+arrancan tarde, y el contrato de datos del 30 de octubre se congela sin saber qué
 necesita cada pantalla. Si salen bien, el frontend se construye una sola vez.
 
 ## 3. Objetivo y resultado esperado
@@ -106,7 +106,7 @@ tipografía) se trabaja después en el playground de diseño.
 
 ## 10. Revisión
 
-Viernes 2026-10-23 en el sync: recorrido del prototipo de 10 minutos con Erik.
+Viernes 2026-10-23 en el sync: recorrido del prototipo de 10 minutos con Erik. Flujo unificado con fase2 desde el martes 13-oct: tokens y mockups se trabajan juntos en el playground (una sola corriente 13→23, sin pasos duplicados).
 
 Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fase 1 (#41-fase1).
 

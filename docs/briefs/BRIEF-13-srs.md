@@ -1,86 +1,74 @@
-# BRIEF #13 — SRS DOCU IEEE 830: redacción, validación y PDF
+# BRIEF #13 + #30 + #36 — SRS completo, diagrama y firma
 
 ## 0. Encabezado
 
-- Issue: #13
-- Dueño: Erik
-- Fechas: 2026-10-10 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
-- Prioridad / Tipo / Épica / Módulo: alta / tarea / QA-Documentación / académico
-- Requisitos: RNF-07 (verificabilidad); cubre RF-01..08 + RNF-01..07
-- Bloqueado por: REQUISITOS.md, CASO.md, Etapa-2-v2 · Bloquea a: #30 aprobación, entregas
-
-Replanificación 2026-10-09: fechas 06→16-oct a 10→23-oct (decisión del líder: inicia 10-oct).
+- Issues: #13 (SRS), #30 (aprobación), #36 (diagrama).
+- Dueño: Erik.
+- Fechas: 2026-10-12 → **2026-10-13** · Sprint 1 · firma con profesores el martes 13-oct.
+- Prioridad / Tipo / Épica: crítica / tarea / QA-Documentación.
+- Requisitos: RNF-07; cubre RF-01..08 + RNF-01..07.
+- Bloqueado por: REQUISITOS.md, CASO.md · Bloquea a: entregas.
+- Un solo entregable: SRS firmado con diagrama incluido. (Antes en dos briefs; se unifican aquí.)
 
 ## 1. Contexto
 
-La materia exige SRS IEEE 830 firmado. Hay base (Etapa-2-v2, caso, Monday migrado) y un `.docx` local con 7 `[[FALTA]]` heredados. Sin SRS validado no hay aprobación (#30) ni entregas.
+La materia exige SRS IEEE 830 firmado. Hay base (Etapa-2-v2, caso, Monday migrado), plantilla en Drive y un `.docx` local con 7 `[[FALTA]]`. El SRS pide el diagrama de casos de uso y en Drive no existe: se dibuja aquí mismo, vía rápida en Mermaid. Sin firma no hay alcance cerrado.
 
 ## 2. Por qué importa tu parte
 
-El SRS es el contrato académico del alcance: si dice algo que el repo no sostiene, la auditoría lo caza (precedente: 5 afirmaciones refutadas). Si sale bien, #30 se firma en minutos y el cierre tiene PDF + URL en Drive.
+Si el SRS dice algo que el repo no sostiene, la auditoría lo caza. Si sale bien mañana, el alcance queda firmado y E1 respira.
 
 ## 3. Objetivo y resultado esperado
 
-SRS validado, exportado y enlazado.
-
 | Entregable | Evidencia |
 |---|---|
-| Portada + §1–§3 validados contra RF-01..08/RNF-01..07 | `.docx` local sin `[[FALTA]]` pendientes salvo declarados |
-| 7 faltantes resueltos | h/sem, RAM, fecha 2.º parcial, festivos, escáner, Kanban, nube — cada uno con valor o "no aplica" motivado |
-| Apéndices A (RF→prueba), B (Gantt/tablero), C (dataset) | Tablas coherentes con `TRAZABILIDAD.md` y `PLAN-EPICAS.md` |
-| PDF en Drive | URL pegada en columna Enlace + comentario en #13 |
+| Plantilla Drive completa | Portada + §1–§3 + apéndices A/B/C; 0 `[[FALTA]]` sin motivo (7 faltantes: h/sem, RAM, fecha 2.º parcial, festivos, escáner, Kanban, nube) |
+| Diagrama de casos de uso | Mermaid versionado en el repo + exportado al SRS; tabla actor→casos→RF |
+| Firma 13-oct | Comentario firmado en #30 (quién aprobó, cuándo, contra qué commit de `REQUISITOS.md`) + PDF con URL en Drive |
 
 ## 4. Actividades específicas
 
-1. Validar portada + §1–§3 contra `REQUISITOS.md` y `CASO.md` (3 h). Terminado: matriz de cobertura RF→sección.
-2. Resolver los 7 `[[FALTA]]` (3 h): dato o descarte motivado, nunca suposición. Terminado: 0 `[[FALTA]]` sin motivo.
-3. Armar apéndices (2 h): A desde `TRAZABILIDAD.md`, B desde milestones 23/30-oct, C desde dataset #9. Terminado: apéndices cruzados.
-4. Exportar PDF + subir a Drive + pegar URL (1 h). Terminado: enlace verificable por un tercero.
-
-Total estimado: 8–10 h.
+1. Validar portada + §1–§3 contra `REQUISITOS.md` y `CASO.md`. Terminado: matriz RF→sección.
+2. Resolver los 7 `[[FALTA]]`: dato o descarte motivado, nunca suposición. Terminado: 0 pendientes sin motivo.
+3. Dibujar casos de uso en Mermaid desde RF-01..06 + actores (3 h). Terminado: diagrama + tabla el 13-oct.
+4. Armar apéndices A (desde `TRAZABILIDAD.md`), B (milestones 23/30-oct), C (dataset #9/#61: lo que haya + supuestos fechados). Terminado: apéndices cruzados.
+5. Circular `REQUISITOS.md` al equipo hoy: objeciones o "aprobado". Terminado: lista cerrada.
+6. Exportar PDF + subir a Drive + firmar mañana con profesores. Terminado: URL verificable + #30 cerrado con evidencia.
 
 ## 5. Entradas y salidas
 
-- Recibe: Etapa-2-v2, caso-bajasterilpack, Monday 18432808588 (migrado a GitHub; la copia académica vigente está en Drive, citar fecha), `REQUISITOS.md`, `CASO.md`.
-- Entrega: a #30 (aprobación) y a `academico/ENTREGAS.md`, PDF + URL.
+- Recibe: Etapa-2-v2, caso, Monday migrado (copia vigente en Drive, citar fecha), `REQUISITOS.md`, `CASO.md`.
+- Entrega: PDF + URL + firma en #30; se registra en `academico/ENTREGAS.md`.
 
 ## 6. Referencias y caja de herramientas
 
-- `docs/proyecto/REQUISITOS.md`, `CASO.md`, `VISION.md`, `integraciones/DRIVE.md` (dónde subir, solo lectura en vivo lo demás).
-- Plantilla IEEE 830 del Drive (Etapa 0/1/2): portada + §1 introducción, §2 descripción general, §3 requisitos específicos + apéndices A/B/C.
-- Nota: `academico/EC0935.md` se dio de baja del repo por orden del líder; si el SRS la cita, conseguir la copia vigente en Drive y citar fecha.
-
-Recursos y método (sin links externos inventados):
-
-| Para | Recurso | Cuándo usarlo |
-|---|---|---|
-| Estructura IEEE 830 | La plantilla del Drive manda; cada § del SRS referencia su RF/RNF de `REQUISITOS.md` | Al validar portada + §1–§3 |
-| Trazabilidad | `gestion/TRAZABILIDAD.md` (RF→épica→issue→PR→evidencia) | Al armar el apéndice A |
-| Fechas reales | Milestones de GitHub (`Cierre` 23-oct, `Contrato` 30-oct) | Al armar el apéndice B (Gantt) |
-| Datos de prueba | Dataset de Carlos (#9) | Al armar el apéndice C |
-| Bocetar apéndices (curaduría del equipo) | https://excalidraw.com (Gantt/tablero antes del formato final) | Al armar el apéndice B |
-| Redacción en español | https://languagetool.org (gramática y estilo, local o nube) | Al pulir el SRS antes del PDF |
-| Conversiones de formato | https://pandoc.org (Markdown↔DOCX) | Al mover tablas del repo al documento sin reescribir |
+- Plantilla IEEE 830 del Drive; `REQUISITOS.md`, `CASO.md`, `VISION.md`, `TRAZABILIDAD.md`; `DRIVE.md` (dónde subir; §Vacíos como lista explícita).
+- https://mermaid.js.org + https://mermaid.live (diagrama versionable) · https://languagetool.org (redacción) · https://pandoc.org (tablas al DOCX).
+- Nota: `academico/EC0935.md` se dio de baja; si el SRS la cita, copia vigente en Drive con fecha.
 
 ## 7. Cómo trabajar
 
-- ERIK NO DEBE: afirmar en el SRS lo que el repo no sostiene; subir secretos; escribir en Drive más allá del PDF acordado.
-- ERIK SÍ DEBE: cada afirmación con fuente (archivo + línea o issue); versiones = `package.json` reales; español, sin emojis.
+- ERIK NO DEBE: afirmar lo que el repo no sostiene; subir secretos; escribir en Drive más allá del PDF.
+- ERIK SÍ DEBE: cada afirmación con fuente; versiones = `package.json` reales; español, sin emojis.
 - Duda de alcance = issue, no suposición.
 
 ## 8. Criterios de aceptación
 
-- [ ] 0 `[[FALTA]]` sin motivo; cada faltante tiene valor o descarte.
-- [ ] Apéndice A cubre RF-01..08 con su prueba (cruza con `TRAZABILIDAD.md`).
-- [ ] PDF en Drive con URL verificable en #13.
+- [ ] 0 `[[FALTA]]` sin motivo; apéndices A/B/C cruzados.
+- [ ] Diagrama versionado y referenciado desde el SRS.
+- [ ] PDF en Drive con URL en #13; #30 con quién/cuándo/contra-qué-commit.
 - [ ] `bun run verify` en verde (si tocó repo).
 
-No es done si: el SRS promete fechas que GitHub no tiene; hay versiones recordadas en vez de confirmadas.
+No es done si: el SRS promete fechas que GitHub no tiene; hay versiones recordadas.
 
 ## 9. Riesgos nombrados
 
-Drive con plantilla vieja o vacíos de arquitectura. Mitigación: `DRIVE.md` §Vacíos como lista explícita; desde el 2026-10-19 sin base es bloqueo.
+Drive sin base hoy es bloqueo hoy. Mitigación: supuestos fechados, nunca invento. `CASO.md` (nomenclatura R-P1..T1 decidida 12-oct) es la versión contra la que se firma.
 
 ## 10. Revisión
 
-Viernes 2026-10-23 con el equipo: lectura de 15 min + firma de #30. Después: entregas.
+Martes 13-oct: firma con profesores (Resffa, Mike, Yakko). Después: entregas.
+
+## Versión corta
+
+> [13+30+36] SRS firmado — Erik, 12→13-oct. Plantilla completa + diagrama Mermaid + firma profesores. Detalle: `docs/briefs/BRIEF-13-srs.md` (absorbe al brief de #30/#36, por borrar).

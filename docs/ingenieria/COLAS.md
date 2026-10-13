@@ -12,13 +12,13 @@ inmediata o es un error.
 
 | Pieza | Versión | Estado |
 |---|---|---|
-| `bullmq` | `6.3.11` exacta, igual a la última publicada | Declarado |
-| `ioredis` | `6.0.0` exacta, igual a la última publicada | Declarado |
+| `bullmq` | `6.3.11` exacta fijada en `bun.lock` | Declarado |
+| `ioredis` | `6.0.0` exacta fijada en `bun.lock` | Declarado |
 | Redis 8 | Imagen `redis:8` | En Compose, vivo |
 
 ## Estado actual: cola declarada, worker inexistente
 
-No hayBullMQ en el código. Hoy Redis se usa en un solo lugar: el `PING` de
+No hay BullMQ en el código. Hoy Redis se usa en un solo lugar: el `PING` de
 `/health`. `infra/docker-compose.yml` tiene comentados los servicios `api` y
 `worker`, que llegan en M1 y E2.
 
@@ -40,5 +40,5 @@ así que la decisión no necesita revisiting.
 
 El `worker` comparte imagen con la `api`. Eso significa que un trabajo pesado
 puede agotar la memoria de la instancia que también sirve el tráfico. Cuando se
-escriba, los límites de memoria y de concurrencia del worker se fijan de
-explicitado, no se heredan del proceso de la API.
+escriba, los límites de memoria y de concurrencia del worker se fijan
+explícitamente, no se heredan del proceso de la API.

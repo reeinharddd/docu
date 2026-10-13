@@ -7,14 +7,15 @@
 - Fechas: 2026-10-16 → **2026-10-23** · hito `Cierre de diseño` (2026-10-23)
 - Prioridad / Tipo / Épica / Módulo: media en el plan, **crítica en la práctica** / investigación / Backend / ingesta
 - Requisitos: RF-02 (campos clave ≥ 90 %, CER ≤ 10 %)
-- Bloqueado por: escaneados de prueba de Carlos (#9) · Bloquea a: #3 Pipeline de ingesta
+- Bloqueado por: nada para fase 1 (documentos genéricos en español); scans del caso (#61) para fase 2 · Bloquea a: #3 Pipeline de ingesta
 
 ## 1. Contexto
 
 Parte de los documentos de la planta llegan escaneados. RF-02 exige leer sus
 campos clave con al menos 90 % de exactitud y CER ≤ 10 % en texto corrido
 (`proyecto/REQUISITOS.md`). El OCR corre en el worker, nunca en la API
-(ADR-0011).
+(ADR-0011). Fase 1 con documentos genéricos en español (sin esperar scans);
+fase 2 confirma con scans del caso (#61).
 
 ## 2. Por qué importa tu parte
 
@@ -24,19 +25,20 @@ cumple. Si la evaluación sale ahora, el diseño del worker se fija con datos.
 
 ## 3. Objetivo y resultado esperado
 
-Recomendar un motor OCR con números medidos sobre escaneados del caso.
+Recomendar rápido si el OCR sirve para nuestro español y formatos, y cómo funciona. Sin rigor de proyecto todavía: es un spike con números, no una certificación.
 
 | Entregable | Evidencia |
 |---|---|
 | Script reproducible de evaluación | `dataset/ocr-eval/` con comando único y semilla/versiones fijadas |
-| Resultados por motor y resolución (150 y 300 dpi) | CSV con exactitud de campos clave, CER y tiempo por página |
-| Recomendación | `docs/ingenieria/OCR.md`: motor elegido, por qué, límites |
+| Resultados fase 1 (genéricos) | CSV: exactitud de campos, CER y tiempo por página, 2 motores × 150/300 dpi |
+| Recomendación + límites | `docs/ingenieria/OCR.md`: ¿sirve para nuestro español y formatos? ¿cómo funciona? ¿qué no alcanza? |
 | Si el motor elegido no corre en Bun/Node | Borrador de ADR (`/adr`) según el criterio de reversión de ADR-0011 |
 
 ## 4. Actividades específicas
 
-1. Acordar con Carlos 10 escaneados de prueba como mínimo (de los 50 de #9),
-   con su *ground truth* de campos clave. Terminado: archivos y CSV de verdad.
+1. Evaluar fase 1 con documentos genéricos en español (Tesseract modelo `spa`, Docling):
+   exactitud de campos y CER por resolución. Terminado: CSV fase 1. Los scans
+   del caso (#61) confirman en fase 2.
 2. Evaluar al menos dos motores: Tesseract (con `tesseract.js` o binario) y
    Docling. Opcional un tercero si ambos fallan.
 3. Medir por motor y resolución: exactitud de campos clave, CER, tiempo y RAM.
@@ -45,7 +47,7 @@ Recomendar un motor OCR con números medidos sobre escaneados del caso.
 
 ## 5. Entradas y salidas
 
-- Recibe: escaneados y *ground truth* de Carlos (#9).
+- Recibe: documentos genéricos en español (fase 1); scans del caso (#61) para fase 2.
 - Entrega: al worker y pipeline #3 (propio), por PR, la recomendación y el script. Revisa Emmanuel.
 
 ## 6. Referencias y caja de herramientas

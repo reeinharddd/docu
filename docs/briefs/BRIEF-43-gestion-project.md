@@ -4,7 +4,7 @@
 
 - Issue: #43
 - Dueño: Erik
-- Fechas: 2026-10-12 → **2026-10-16** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
+- Fechas: 2026-10-12 → **2026-10-13** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / gestión
 - Requisitos: ninguno directo; sostiene ADR-0008 (GitHub como gestor)
 - Bloqueado por: nada · Bloquea a: todo el seguimiento (sin esto nadie sabe en qué está)
@@ -34,11 +34,11 @@ Project operable con gente, vistas y sync automático.
 ## 4. Actividades específicas
 
 1. Invitar (1 h, web, la API no puede): colaboradores Write, secreto `PROJECT_TOKEN` (fine-grained: Projects RW cuenta + Issues/PR lectura repo), vistas según `GITHUB-GESTION.md` §Pendiente. Terminado: captura por vista.
-2. Asignar (1 h): `gh issue edit N --add-assignee <user>` por cada issue E1; mover a `En progreso` lo que arranque el 12. Terminado: `gh issue list` sin huérfanos E1 salvo #36/#39 (se asignan en sync). Si los usuarios de Emmanuel/Kira/Carlos siguen `pendiente` en `EQUIPO.md`, asignar el lunes en el sync y dejar constancia en #43.
+2. Asignar (1 h): `gh issue edit N --add-assignee <user>` por cada issue E1; mover a `En progreso` lo que arranque el 13. Terminado: `gh issue list` sin huérfanos E1 (#36 → Erik y #39 → Emmanuel asignados en sync 12-oct; assignee en GitHub pendiente a cuentas).
 3. Verificar sync (1 h): `GH_TOKEN=$(env -u GITHUB_TOKEN gh auth token) bun run project:sync`; abrir/cerrar un PR de prueba si hace falta. Terminado: campos Status/Épica/Sprint/Fin se llenan solos.
 4. Documentar desvíos (30 min): si algo no se pudo en web, anotarlo en #43 con captura. Terminado: #43 cierra con evidencia.
 
-Total estimado: 3–4 h. Hacer el sábado 10 o domingo 11 para que el lunes esté listo.
+Total estimado: 3–4 h. Hacer el lunes 12 para que el equipo arranque con el tablero listo.
 
 ## 5. Entradas y salidas
 
@@ -82,4 +82,4 @@ El scope `project` del token (`gh auth refresh -s project`) o `GITHUB_TOKEN` exp
 
 ## 10. Revisión
 
-Viernes 2026-10-16 en el sync: tablero en vivo, 5 min. Después: ritmo semanal solo (`RITMO-SEMANAL.md`).
+Martes 2026-10-13 en el sync: tablero en vivo, 5 min. Después: ritmo semanal solo (`RITMO-SEMANAL.md`).

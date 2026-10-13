@@ -85,7 +85,7 @@ Pulir estética antes de cerrar direcciones. Mitigación: baja fidelidad primero
 
 ## 9. Revisión
 
-Martes 2026-10-14 presencial: kira presenta las 3 direcciones a todo el equipo; el equipo elige una dirección. Fase 2 (design system, tokens) se calendariza tras la selección.
+Martes 2026-10-13 presencial: Kira presenta las 3 direcciones a todo el equipo; el equipo elige una dirección. Fase 2 (design system, tokens) se calendariza tras la selección.
 
 ## 10. Insumos del agente
 

@@ -36,8 +36,9 @@ Documentación: <https://docs.ollama.com/capabilities/structured-outputs> ·
 <https://docs.ollama.com/api/chat> · <https://docs.ollama.com/api/embed>
 
 Consecuencia de diseño: **el contrato de clasificación vive en el repositorio
-como esquema Zod junto a la familia**, no dentro del prompt. Cambiar la
-clasificación de una familia es un PR con migración, no un cambio de texto.
+como esquema Zod junto a la familia**, no dentro del prompt. Cambiar ese mapa
+es un PR con migración. Las reglas de negocio, en cambio, siguen siendo datos
+(ADR-0009): el mapa es contrato técnico, no regla.
 
 ## 3. La capa de selección y designación de categorías
 
@@ -189,7 +190,7 @@ del modelo; el embedding es **Should**. Orden correcto: primero `tsvector`
 | Precisión de clasificación | ≥ 80% sobre 200 archivos sintéticos | Script de C1 con salida CSV por corrida |
 | Cobertura de cuarentena con motivo | 100% de lo dudoso | Cada fila de `Cuarentena` tiene `motivo` y `reglaCodigo` |
 | Determinismo | Corridas repetidas dan el mismo resultado | `temperature: 0`, `seed` fijo, versión del modelo registrada |
-| Exactitud de OCR | ≥ 90% de campos clave, CER ≤ 10% | 50 escaneados de prueba contra ground truth |
+| Exactitud de OCR | ≥ 90% de campos clave, CER ≤ 10% | Fase 1 con genéricos + fase 2 con 40 escaneados sintéticos contra ground truth |
 
 La evidencia de cada corrida registra **modelo, versión, temperatura, seed y
 esquema usado**. Sin eso, una medición no es reproducible y no sirve para el
@@ -200,7 +201,7 @@ cierre (RNF-07).
 | Riesgo | Mitigación |
 |---|---|
 | El proveedor de nube cambia el modelo y la evidencia deja de servir | Usar local para todo lo que se evidencie; la nube es exploración |
-| El dataset no representa los documentos reales | C1 genera casos con error, duplicados y contradicciones; medir también con los escaneados reales |
+| El dataset no representa los documentos reales | C1 genera casos con error, duplicados y contradicciones; medir también con los escaneados sintéticos degradados |
 | Alucinación de fuentes | Obligación estructural: la respuesta cita identificadores existentes en la base; si no existe, no hay respuesta |
 | Prompt como configuración oculta | El esquema vive en el repo; el prompt es texto, no lógica |
 

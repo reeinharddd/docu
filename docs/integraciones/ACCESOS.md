@@ -37,7 +37,7 @@ detecta.
 Issues, sub-issues, milestones, etiquetas y Project del repositorio
 `reeinharddd/docu` (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
 Credencial: la cuenta de GitHub de cada persona, colaboradora del repositorio.
-El agente usa `gh` o el servidor MCP de GitHub. Permisos y comandos:
+El agente usa `gh` (no hay MCP de GitHub). Permisos y comandos:
 `integraciones/GITHUB-GESTION.md`.
 
 ## Google Drive y Docs

@@ -4,7 +4,7 @@
 
 - Issue: #42
 - Dueño: Erik (lo usa Kira)
-- Fechas: 2026-10-16 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
+- Fechas: 2026-10-12 → **2026-10-13** · Sprint 1 (usable el 13-oct para tokens y flujos de Kira; es su capacidad de trabajo del #10)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Diseño / diseño
 - Requisitos: RNF-01; sostiene ADR-0012 (puerta 1: design system)
 - Bloqueado por: marca Fase 1 (#41-fase1, qué dirección) · Bloquea a: #41 Design system
@@ -88,7 +88,7 @@ Convertir el playground en frontend real. Mitigación: sin API ni BD, solo token
 
 ## 10. Revisión
 
-Viernes 2026-10-23 con Kira: demo de 5 min del cambio de paleta. Después: #41 design system.
+Viernes 2026-10-23 con Kira: demo de 5 min del cambio de paleta. **Usable desde el martes 13-oct** (rama + 1 comando + no-merge escrito); el resto (capturas auto, plantilla) cierra el 23-oct. Después: #41 design system.
 
 ## 11. Insumos del agente
 
