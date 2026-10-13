@@ -46,4 +46,4 @@ design/kira-playground/      ← Solo esto existe en la rama. Nada de main.
 
 ## Estado
 
-🟡 Esqueleto listo (2026-10-11). Esperando a que kira termine Fase 1 (marca, presenta martes 14-oct) para llenar DESIGN.md y empezar a iterar.
+🟢 Usable 13-oct: `bun run start` sirve la página de tokens + previews; paleta temporal hasta Fase 1. Angular real, capturas auto y pipeline de tokens el 23-oct.

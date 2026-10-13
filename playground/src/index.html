@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground — tokens DOCU (temporal)</title>
+<link rel="stylesheet" href="../tokens/tokens.css">
+<style>
+  body { background: var(--color-fondo); color: var(--color-texto);
+    font-family: var(--font-body); margin: 0; padding: calc(var(--espacio-base) * 3); }
+  h1, h2 { font-family: var(--font-display); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--espacio-base); }
+  .swatch { background: var(--color-superficie); border-radius: var(--radio-base);
+    padding: var(--espacio-base); border: 1px solid var(--color-texto); }
+  .chip { height: 48px; border-radius: var(--radio-base); }
+  .btn { border: 0; border-radius: var(--radio-base); padding: 10px 18px;
+    font-family: var(--font-body); cursor: pointer; margin-right: var(--espacio-base); }
+  .btn-p { background: var(--color-primario); color: white; }
+  .btn-s { background: var(--color-secundario); color: black; }
+  .campo { padding: 10px; border-radius: var(--radio-base); border: 1px solid var(--color-texto);
+    background: var(--color-superficie); color: var(--color-texto); width: 260px; }
+  table { border-collapse: collapse; background: var(--color-superficie); }
+  th, td { border: 1px solid var(--color-texto); padding: 8px 12px; text-align: left; }
+  th { background: var(--color-primario); color: white; }
+  .mono { font-family: var(--font-mono); }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; color: white; margin-right: 8px; }
+  .b-cuarentena { background: var(--color-cuarentena); }
+  .b-pendiente { background: var(--color-advertencia); color: black; }
+  .b-oficial { background: var(--color-exito); }
+  .alerta { border-radius: var(--radio-base); padding: 12px 16px; margin: 8px 0;
+    background: var(--color-superficie); border-left: 6px solid var(--color-advertencia); }
+  section { margin-bottom: calc(var(--espacio-base) * 4); }
+  .nota { opacity: .75; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>Tokens DOCU <span class="nota">(paleta temporal — Fase 1 la reemplaza)</span></h1>
+<p><button class="btn btn-s" onclick="document.documentElement.dataset.theme =
+  document.documentElement.dataset.theme === 'oscuro' ? 'claro' : 'oscuro'">Claro / oscuro</button></p>
+
+<section><h2>Paleta</h2><div class="grid">
+  <div class="swatch"><div class="chip" style="background:var(--color-primario)"></div><p>primario</p></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-secundario)"></div><p>secundario</p></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-acento)"></div><p>acento</p></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-exito)"></div><p>éxito</p></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-error)"></div><p>error</p></div>
+  <div class="swatch"><div class="chip" style="background:var(--color-advertencia)"></div><p>advertencia</p></div>
+</div></section>
+
+<section><h2>Componentes</h2>
+  <p><button class="btn btn-p">Primario</button><button class="btn btn-s">Secundario</button></p>
+  <p><input class="campo" placeholder="Campo de captura (Folio-R-…)"></p>
+  <p><span class="badge b-cuarentena">cuarentena</span><span class="badge b-pendiente">pendiente</span><span class="badge b-oficial">oficial</span></p>
+  <div class="alerta">Alerta de ejemplo: umbral superado en turno T1.</div>
+  <table><tr><th>Folio</th><th>Familia</th><th class="mono">Medida</th></tr>
+  <tr><td>R-001</td><td>recepción</td><td class="mono">1,250 kg</td></tr>
+  <tr><td>Q-014</td><td>calidad</td><td class="mono">98.2 %</td></tr></table>
+</section>
+
+<section><h2>Tipografía</h2>
+  <p style="font-size:32px">Display — Aa Ee Rr Qq 123</p>
+  <p>Body — El dato oficial cita su fuente. Aa Ee 123.</p>
+  <p class="mono">Mono — cifras: 1,250 kg · 98.2 % · T1</p>
+</section>
+
+<p class="nota">Cómo probar una paleta: edita <span class="mono">tokens/tokens.css</span> (:root), guarda y recarga. Nada más.</p>
+</body>
+</html>

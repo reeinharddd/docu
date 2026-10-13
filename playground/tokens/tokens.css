@@ -1,0 +1,32 @@
+/* Tokens del playground — paleta TEMPORAL (Fase 1 la reemplaza).
+ * Para probar una paleta nueva: cambia los valores de :root, guarda,
+ * recarga el navegador. Nada más. <5 min.
+ * Estándar: DTCG (ver tokens.json), color en OKLCH, WCAG 2.2 AA:
+ * cada par texto/fondo debe pasar ≥ 4.5:1 (verificar en
+ * https://coolors.co/contrast-checker cuando haya red). */
+
+:root {
+  --font-display: "Segoe UI", system-ui, sans-serif;
+  --font-body: "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", Consolas, monospace;
+
+  --color-primario: oklch(0.55 0.16 250);   /* #3b82c4 aprox */
+  --color-secundario: oklch(0.7 0.12 180);  /* #4cc3a5 aprox */
+  --color-acento: oklch(0.65 0.18 40);      /* #d97a2b aprox */
+  --color-fondo: oklch(0.97 0.005 250);
+  --color-superficie: oklch(1 0 0);
+  --color-texto: oklch(0.25 0.02 250);
+  --color-exito: oklch(0.6 0.16 150);
+  --color-error: oklch(0.55 0.2 25);
+  --color-advertencia: oklch(0.7 0.16 80);
+  --color-cuarentena: oklch(0.65 0.17 320);
+
+  --espacio-base: 8px;
+  --radio-base: 8px;
+}
+
+[data-theme="oscuro"] {
+  --color-fondo: oklch(0.22 0.02 250);
+  --color-superficie: oklch(0.28 0.02 250);
+  --color-texto: oklch(0.93 0.01 250);
+}
