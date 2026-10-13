@@ -26,14 +26,14 @@
 - Sesión: `/inicio` (quién eres y qué sigue), `/tarea N` (empezar un issue)
 - Marca: `/fijar-marca` (dirección elegida → DESIGN + tokens + brand kit)
 - Pantalla: `/nueva-pantalla <nombre>` (contrato ruta/componentes/redirecciones)
-- Captura: snapmcp/playwright contra http://localhost:4200, antes/después por iteración
+- Captura: playwright MCP contra http://localhost:4200, antes/después por iteración (snapmcp bloquea localhost)
 - Verificación: `bun run verify` (en main, no aquí)
 
 ## Herramientas (solo esta rama, ver `FLUJO.md` para cuándo usar cada una)
 - Skills diseño: `brand` (marca/brand kit), `design-system` (tokens), `design` (pantallas), `ui-ux-pro-max` (revisión UX), `ui-styling` (estilos), `frontend-ui-engineering` + `hallmark` (acabado producción, anti-genérico).
 - Skill código: `ecc-angular-developer` (Angular 22 zoneless, signals, ARIA, Tailwind).
 - Subagentes: `explorador` (investiga antes de construir), `revisor` (revisa antes de promover).
-- MCPs globales: `snapmcp`/`playwright` (capturas realtime), `context7` (docs oficiales), `engram` (memoria).
+- MCPs globales: `playwright` (capturas realtime; snapmcp no abre localhost), `context7` (docs oficiales), `engram` (memoria).
 - Memoria (skill `docu-memoria`): busca decisiones/gustos afirmados al empezar; guarda lo que costó averiguar al cerrar. Drive en vivo es solo lectura.
 - Consistencia obligatoria: `playground/CONSISTENCIA.md` (tokens → componentes → pantallas, cero hardcodeados).
 - Origen skills: `.opencode/skills/ORIGEN.md` (MIT).

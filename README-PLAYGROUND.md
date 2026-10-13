@@ -50,8 +50,9 @@ opencode                                        # /inicio para orientarte
 ¿Cómo sabe opencode que están aquí? Los descubre en `.opencode/skills/` y
 los activa por coincidencia con su descripción. Refuerzo: `/tarea`,
 `/nueva-pantalla` y `FLUJO.md` nombran explícitamente cuál usar por fase;
-`AGENTS.md` los lista. MCPs globales (`snapmcp`/`playwright` capturas,
-`context7` docs, `engram` memoria) funcionan en cualquier rama.
+`AGENTS.md` los lista. MCPs globales (`playwright` capturas —snapmcp
+bloquea localhost—, `context7` docs, `engram` memoria) funcionan en
+cualquier rama.
 
 ## Reglas
 

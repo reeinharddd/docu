@@ -19,9 +19,10 @@
    - `frontend-ui-engineering` → acabado producción (que no parezca IA).
    - `ecc-angular-developer` → código Angular 22 zoneless + Tailwind.
    - `ui-styling` → estilos y detalles visuales.
-3. **Ver en tiempo real**: tras cada cambio, captura con `snapmcp` o
-   `playwright` contra http://localhost:4200. Compara antes/después.
-   Ojo humano de Kira decide; el agente propone y varía.
+3. **Ver en tiempo real**: tras cada cambio, captura con `playwright` MCP
+   contra http://localhost:4200 (`snapmcp` bloquea localhost por SSRF, no
+   sirve aquí). Compara antes/después. Ojo humano de Kira decide; el agente
+   propone y varía.
 4. **Revisar**: antes de promover, delega al subagente `revisor`
    (rigurosa contra `CONSISTENCIA.md`: cero hardcodeados, flujo <10 min).
 5. **Promover**: checklist `PROMOCION.md`, por PR a `docs/diseno/` en `main`.

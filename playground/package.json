@@ -6,6 +6,6 @@
   "scripts": {
     "start": "bun --cwd ng run start",
     "build": "bun --cwd ng run build",
-    "capture": "echo 'Captura con snapmcp contra http://localhost:4200 (ver README)'"
+    "capture": "echo 'Captura con playwright MCP contra http://localhost:4200 (snapmcp bloquea localhost; ver FLUJO.md)'"
   }
 }

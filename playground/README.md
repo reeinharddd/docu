@@ -42,8 +42,8 @@ browser en tiempo real con capturas, subagentes `explorador`/`revisor`.
 ## Capturas
 
 Cada iteración se captura contra el servidor local (comparar antes/después)
-con `snapmcp` o `playwright`. Flujo automático el 23-oct; mientras tanto,
-captura manual y adjunta al PR.
+con `playwright` MCP (`snapmcp` bloquea localhost). Flujo automático el
+23-oct; mientras tanto, captura y adjunta al PR.
 
 ## Reglas
 
