@@ -53,8 +53,45 @@ Tú propones las tablas. La revisión del 16-oct las afirma o las devuelve con m
 
 ## 6. Caja de herramientas (tú eliges cuáles usar)
 
-- `ecc-prisma-patterns` (patrones y trampas), `docu-documentar`, `docu-memoria`.
-- https://dbdiagram.io o https://app.diagrams.net · https://www.postgresql.org/docs/18/ · https://github.com/pgvector/pgvector · `STACK.md` §2.4.
+Principio: este brief te da contexto y restricciones duras, no el diseño.
+Tú propones las tablas con tu criterio; la revisión del 16-oct las afirma
+o las devuelve con motivos. Nada se cierra antes de que propongas.
+
+Para decidir solo, sin depender de nadie:
+
+- `docs/proyecto/CASO.md` — tu materia prima: 6 familias, 7 reglas
+  R-P1..T1, organigrama (Planeación/Calidad/Almacén/Admin), 5 máquinas,
+  flujo programa→recepción→inventario→turno con confirmación humana (R-Q1).
+  Cada tabla que propongas debe rastrearse a algo de aquí.
+- `docs/proyecto/REQUISITOS.md` — RF-08 (qué familias debe sostener el
+  modelo) y RF-06 (qué alcance por planta/departamento/rol debe impedir
+  lecturas cruzadas). Si el requisito no te dice el tipo, tú lo propones.
+- ADR-0009 (`docs/decisiones/ADR-0009-reglas-del-caso-como-datos.md`) —
+  reglas, familias, roles y umbrales como datos, nunca como `if`.
+- ADR-0010 (`docs/decisiones/ADR-0010-bitacora-e-historial-solo-insert.md`) —
+  bitácora, historial y originales son solo-insert: tu diseño debe impedir
+  reescrituras.
+- ADR-0011 (`docs/decisiones/ADR-0011-api-encola-worker-procesa.md`) —
+  la API encola y el worker procesa: no diseñes para un monolito síncrono.
+- ADR-0014 (`docs/decisiones/ADR-0014-planta-single-company.md`, propuesta) —
+  raíz Planta single-company: sin tabla `Empresa` multi-tenant.
+- `docs/ingenieria/STACK.md` §2.4 — tipos permitidos (`uuid`, `text`,
+  `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`), uniques, índices,
+  `CHECK`. PostgreSQL 18 + pgvector: https://www.postgresql.org/docs/18/ ·
+  https://github.com/pgvector/pgvector.
+- Dibujo y prueba: https://dbdiagram.io o https://app.diagrams.net para el
+  `.dbml`; núcleo ejecutable en https://postgres.new; JSON anidados en
+  https://jsoncrack.com. Capturas de los tres van al PR como evidencia.
+- Patrones y trampas (solo lectura): skill `ecc-prisma-patterns`; memoria
+  del equipo en Engram (búscala con `/inicio` antes de decidir); guía de
+  docs con `docu-documentar`.
+- `docs/gestion/PLAN-EPICAS.md` orden 6 — qué espera #59 de ti: un v0
+  afirmado sobre el que iterar, no un modelo perfecto.
+
+Lo que NO te limitamos: nombres de tablas, cuántas son, cómo agrupas lo
+fijo/dinámico/manual, orden del registro. Lo que sí se devuelve con
+motivos: tabla sin porqué escrito, `Empresa` multi-tenant, PNG que no sale
+del `.dbml`, o tocar `apps/api/prisma/*` (el placeholder no se usa).
 
 ## 7. Cómo trabajar
 

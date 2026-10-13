@@ -41,11 +41,42 @@ Siguiente paso → #9 (no lo desarrolles aquí): con estos perfiles y resultados
 - Recibe: organigrama y reglas (`CASO.md`), familias (v0 #58), RF-06.
 - Entrega: matriz a Emmanuel (#5) y Kira; perfiles a #9. Todo por PR desde `feat/29-matriz`.
 
-## 6. Referencias y caja de herramientas
+## 6. Referencias y caja de herramientas (tú eliges cuáles usar)
 
-- `CASO.md`, `REQUISITOS.md` (RF-06, RF-08), ADR-0006/0009.
-- Modelo de permisos (solo lectura): OWASP Authorization Cheat Sheet + NIST SP 800-162; referencia: https://casbin.org (no dependencia).
-- Patrones de folio/medida: https://regex101.com.
+Principio: este brief te da contexto y criterio, no soluciones. Tú decides
+los roles, los alcances y el mapeo con tu criterio; la revisión del 16-oct
+afirma o devuelve con motivos. Nada se cierra antes de que propongas.
+
+Para decidir sola, sin depender de nadie:
+
+- `docs/proyecto/CASO.md` — organigrama y responsabilidades. Tu materia
+  prima: extrae los puestos de aquí (Planeación, Calidad, Almacén, Admin).
+  No inventes departamentos que el caso no tiene.
+- `docs/proyecto/REQUISITOS.md` — RF-06 (qué debe poder hacer cada rol:
+  ver, subir, confirmar, configurar) y RF-08 (qué familias toca cada
+  perfil). Si un requisito no te dice el alcance, tú lo propones y lo
+  justificas en una línea.
+- ADR-0009 (`docs/decisiones/ADR-0009-reglas-del-caso-como-datos.md`) —
+  las reglas viven como datos, nunca como `if` en código. Tu tabla debe
+  poder leerse como datos.
+- ADR-0006 (`docs/decisiones/ADR-0006-ia-propone-humano-dispone.md`) —
+  tus perfiles son propuesta experta que el equipo afirma; documenta por
+  qué elegiste cada mapeo.
+- `docs/gestion/PLAN-EPICAS.md` orden 5 — qué esperan #5 (RBAC) y #9
+  (dataset) de ti: matriz + 3 usuarios demo con resultado esperado.
+- Modelo de permisos (solo lectura, sin instalar nada): OWASP
+  Authorization Cheat Sheet
+  (https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
+  + NIST SP 800-162 (https://csrc.nist.gov/pubs/sp/800/162/upd2/final).
+  Referencia de motor, no dependencia: https://casbin.org.
+- Patrones de folio y medida para tus ejemplos: https://regex101.com.
+- Redacción: español claro, como lo explicarías en el sync. Sin formato
+  impuesto para los perfiles.
+
+Lo que NO te limitamos: nombres de los perfiles ficticios, si son 3 o 5,
+redacción de responsabilidades, orden de la tabla. Lo que sí se devuelve
+con motivos (no se cierra en falso): rol inventado en código, puesto del
+organigrama sin mapear, o documentos generados (eso es #9).
 
 ## 7. Cómo trabajar
 
