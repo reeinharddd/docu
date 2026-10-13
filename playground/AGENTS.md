@@ -21,6 +21,12 @@
 - Usar el nombre real de la planta
 
 ## Comandos
-- Arranque: `cd playground && bun install && bun run start`
-- Captura: `bun run capture` (snapmcp)
+- Arranque: `cd playground && bun run start` (sin dependencias, :4200)
+- Sesión: `/inicio` (quién eres y qué sigue), `/tarea N` (empezar un issue)
+- Captura: snapmcp contra http://localhost:4200, antes/después por iteración
 - Verificación: `bun run verify` (en main, no aquí)
+
+## Herramientas (ya disponibles en esta rama)
+- Skill `ecc-angular-developer`: código Angular 22 zoneless, signals, formularios, ARIA, Tailwind. Úsala al construir pantallas o componentes.
+- MCPs globales: `snapmcp`/`playwright` (capturas), `context7` (docs oficiales), `engram` (memoria del proyecto).
+- Consistencia obligatoria: `playground/CONSISTENCIA.md` (tokens → componentes → pantallas, cero hardcodeados).
