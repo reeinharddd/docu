@@ -4,9 +4,12 @@
 
 ## Ciclo por tarea (`/tarea N`)
 
+0. **Fijar marca**: `/fijar-marca` con la dirección elegida llena `DESIGN.md`
+   + tokens + brand kit. Sin esto no hay pantallas finales, solo exploración.
 1. **Plan**: `/tarea N` carga issue + `CONSISTENCIA.md` + `DESIGN.md`. Si la
    tarea toca pantallas nuevas, delega primero al subagente `explorador`
-   (investiga patrones, no construye).
+   (investiga patrones, no construye). Pantalla suelta: `/nueva-pantalla`
+   (contrato ruta/componentes/redirecciones antes de codificar).
 2. **Construir**: `ng serve` corriendo (watch). Cada cambio se ve en el
    browser en segundos. Skills por fase:
    - `brand` → marca y brand kit (paleta, tipografías, logo, voz).

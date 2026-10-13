@@ -23,11 +23,13 @@
 ## Comandos
 - Arranque: `cd playground && bun install && bun run start` (Angular espejo, :4200)
 - Sesión: `/inicio` (quién eres y qué sigue), `/tarea N` (empezar un issue)
+- Marca: `/fijar-marca` (dirección elegida → DESIGN + tokens + brand kit)
+- Pantalla: `/nueva-pantalla <nombre>` (contrato ruta/componentes/redirecciones)
 - Captura: snapmcp/playwright contra http://localhost:4200, antes/después por iteración
 - Verificación: `bun run verify` (en main, no aquí)
 
 ## Herramientas (solo esta rama, ver `FLUJO.md` para cuándo usar cada una)
-- Skills diseño: `brand` (marca/brand kit), `design-system` (tokens), `design` (pantallas), `ui-ux-pro-max` (revisión UX), `ui-styling` (estilos), `frontend-ui-engineering` (acabado producción).
+- Skills diseño: `brand` (marca/brand kit), `design-system` (tokens), `design` (pantallas), `ui-ux-pro-max` (revisión UX), `ui-styling` (estilos), `frontend-ui-engineering` + `hallmark` (acabado producción, anti-genérico).
 - Skill código: `ecc-angular-developer` (Angular 22 zoneless, signals, ARIA, Tailwind).
 - Subagentes: `explorador` (investiga antes de construir), `revisor` (revisa antes de promover).
 - MCPs globales: `snapmcp`/`playwright` (capturas realtime), `context7` (docs oficiales), `engram` (memoria).
