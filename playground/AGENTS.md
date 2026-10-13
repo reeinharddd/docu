@@ -1,7 +1,8 @@
 # AGENTS.md — Reglas del playground
 
-> Plantilla universal. Copiar a `playground/AGENTS.md` y adaptar.
-> Mismo estándar para playground y main.
+> Taller de la rama `design/kira-playground`: convertir la marca elegida en
+> design system + pantallas del flujo hasta afirmación (ver `CADENA.md`).
+> Motivo y reglas raíz en `AGENTS.md` de la raíz de la rama.
 
 ## Qué puedo hacer sin pedir permiso
 - Cambiar paleta, tipografía, espaciado
@@ -33,5 +34,6 @@
 - Skill código: `ecc-angular-developer` (Angular 22 zoneless, signals, ARIA, Tailwind).
 - Subagentes: `explorador` (investiga antes de construir), `revisor` (revisa antes de promover).
 - MCPs globales: `snapmcp`/`playwright` (capturas realtime), `context7` (docs oficiales), `engram` (memoria).
+- Memoria (skill `docu-memoria`): busca decisiones/gustos afirmados al empezar; guarda lo que costó averiguar al cerrar. Drive en vivo es solo lectura.
 - Consistencia obligatoria: `playground/CONSISTENCIA.md` (tokens → componentes → pantallas, cero hardcodeados).
 - Origen skills: `.opencode/skills/ORIGEN.md` (MIT).

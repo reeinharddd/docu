@@ -3,3 +3,4 @@
 - frontend-ui-engineering: https://github.com/addyosmani/agent-skills (MIT)
 - hallmark (anti-diseño-genérico): https://github.com/Nutlope/hallmark (MIT)
 - ecc-angular-developer: ver main .opencode/skills/vendor (ECC, MIT)
+- docu-memoria: ver main .opencode/skills (protocolo Engram del repo)

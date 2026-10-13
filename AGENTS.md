@@ -4,6 +4,20 @@
 > a `docs/diseno/` por PR desde `main`. Si abres opencode aquí, estas reglas
 > mandan; dentro de `playground/`, suma `playground/AGENTS.md`.
 
+## Propósito (por qué existe esta rama y qué harás en cada sesión)
+
+ADR-0012 prohíbe construir frontend sin design system afirmado. Esta rama es
+el taller donde Kira, con IA, convierte la marca elegida (Fase 1) en design
+system + pantallas del flujo (captura → bandeja → programa → búsqueda) hasta
+que el equipo los afirma y viajan a `main`. En TODAS las sesiones el agente:
+
+1. Recorre `playground/CADENA.md` (anterior → entrega → tarea actual → siguiente).
+2. Busca memoria del proyecto (skill `docu-memoria`: decisiones y gustos
+   ya afirmados) antes de proponer.
+3. Diseña con las skills de la rama, muestra en browser realtime con capturas.
+4. Guarda en memoria lo que costó averiguar (gustos afirmados, decisiones
+   con motivo). Estado de tareas: en GitHub Issues, nunca en memoria.
+
 ## Qué hay dónde
 
 | Ruta | Qué es |
@@ -15,9 +29,10 @@
 | `playground/FLUJO.md` | Técnica de trabajo (ciclo, skills por fase, realtime, delegación) |
 | `playground/PROMOCION.md` | Checklist para llevar decisiones a `docs/diseno/` |
 | `playground/README.md` | Arranque en 1 comando |
-| `.opencode/skills/` | Skills solo-rama (ver `ORIGEN.md`): diseño + Angular |
+| `.opencode/skills/` | Skills solo-rama (ver `ORIGEN.md`): diseño + Angular + `docu-memoria` |
 | `.opencode/commands/` | `/inicio`, `/tarea`, `/fijar-marca`, `/nueva-pantalla` |
 | `.opencode/agents/` | `explorador` (investiga), `revisor` (revisa) |
+| `playground/CADENA.md` | Cadena anterior→entrega→tarea→siguiente + insumos cruzados |
 
 ## Flujos (en este orden)
 
