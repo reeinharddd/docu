@@ -1,0 +1,22 @@
+<!-- Arranque del playground: preview vivo de tokens (paleta temporal, Fase 1 la reemplaza).
+  Kira construye aquí las pantallas del flujo: captura → bandeja → programa → búsqueda. -->
+<main class="p-8" [style.background]="'var(--color-fondo)'" [style.color]="'var(--color-texto)'">
+  <h1 class="text-3xl font-bold">Tokens DOCU <span class="text-sm font-normal">(paleta temporal)</span></h1>
+  <p class="mt-2">Edita <code>tokens/tokens.css</code>, guarda y mira. Nada más.</p>
+
+  <section class="mt-6 flex gap-2 flex-wrap">
+    <span class="px-4 py-2 rounded text-white" [style.background]="'var(--color-primario)'">primario</span>
+    <span class="px-4 py-2 rounded" [style.background]="'var(--color-secundario)'">secundario</span>
+    <span class="px-4 py-2 rounded text-white" [style.background]="'var(--color-acento)'">acento</span>
+    <span class="px-4 py-2 rounded-full text-white" [style.background]="'var(--color-cuarentena)'">cuarentena</span>
+    <span class="px-4 py-2 rounded-full" [style.background]="'var(--color-advertencia)'">pendiente</span>
+    <span class="px-4 py-2 rounded-full text-white" [style.background]="'var(--color-exito)'">oficial</span>
+  </section>
+
+  <section class="mt-6">
+    <button class="px-5 py-2 rounded text-white" [style.background]="'var(--color-primario)'">Primario</button>
+    <input class="ml-2 px-3 py-2 rounded border" placeholder="Folio-R-…" />
+  </section>
+
+  <router-outlet />
+</main>

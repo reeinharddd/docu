@@ -1,0 +1,4 @@
+/* Espejo de apps/web: Tailwind 4 primero, luego tokens vivos del playground.
+ * Las pantallas solo usan var(--token); nada hardcodeado (CONSISTENCIA.md). */
+@import "tailwindcss";
+@import "../../tokens/tokens.css";

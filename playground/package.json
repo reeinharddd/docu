@@ -2,9 +2,10 @@
   "name": "@docu/playground",
   "version": "0.1.0",
   "private": true,
-  "description": "Playground de diseño de Kira — página de tokens + previews. Rama que nunca se fusiona a main.",
+  "description": "Playground de diseño de Kira — app Angular espejo de apps/web. Rama que nunca se fusiona a main.",
   "scripts": {
-    "start": "bun server.ts",
-    "capture": "echo 'Captura con snapmcp contra http://localhost:${PLAYGROUND_PORT:-4200} (ver README)'"
+    "start": "bun --cwd ng run start",
+    "build": "bun --cwd ng run build",
+    "capture": "echo 'Captura con snapmcp contra http://localhost:4200 (ver README)'"
   }
 }

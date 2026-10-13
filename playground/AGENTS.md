@@ -21,12 +21,15 @@
 - Usar el nombre real de la planta
 
 ## Comandos
-- Arranque: `cd playground && bun run start` (sin dependencias, :4200)
+- Arranque: `cd playground && bun install && bun run start` (Angular espejo, :4200)
 - Sesión: `/inicio` (quién eres y qué sigue), `/tarea N` (empezar un issue)
-- Captura: snapmcp contra http://localhost:4200, antes/después por iteración
+- Captura: snapmcp/playwright contra http://localhost:4200, antes/después por iteración
 - Verificación: `bun run verify` (en main, no aquí)
 
-## Herramientas (ya disponibles en esta rama)
-- Skill `ecc-angular-developer`: código Angular 22 zoneless, signals, formularios, ARIA, Tailwind. Úsala al construir pantallas o componentes.
-- MCPs globales: `snapmcp`/`playwright` (capturas), `context7` (docs oficiales), `engram` (memoria del proyecto).
+## Herramientas (solo esta rama, ver `FLUJO.md` para cuándo usar cada una)
+- Skills diseño: `brand` (marca/brand kit), `design-system` (tokens), `design` (pantallas), `ui-ux-pro-max` (revisión UX), `ui-styling` (estilos), `frontend-ui-engineering` (acabado producción).
+- Skill código: `ecc-angular-developer` (Angular 22 zoneless, signals, ARIA, Tailwind).
+- Subagentes: `explorador` (investiga antes de construir), `revisor` (revisa antes de promover).
+- MCPs globales: `snapmcp`/`playwright` (capturas realtime), `context7` (docs oficiales), `engram` (memoria).
 - Consistencia obligatoria: `playground/CONSISTENCIA.md` (tokens → componentes → pantallas, cero hardcodeados).
+- Origen skills: `.opencode/skills/ORIGEN.md` (MIT).

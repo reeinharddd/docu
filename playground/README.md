@@ -5,16 +5,17 @@
 ## Arranque (1 comando)
 
 ```bash
-cd playground && bun run start
+cd playground && bun install && bun run start
 ```
 
-Abre http://localhost:4200 (`PLAYGROUND_PORT` para cambiarlo). Sin dependencias:
-`funciona offline`, `bun install` no descarga nada.
+Abre http://localhost:4200. App Angular 22 zoneless + Tailwind 4, espejo de
+`apps/web` (mismas versiones, mismos configs). Primera vez descarga
+dependencias; después funciona offline.
 
 ## Probar una paleta en <5 min
 
 1. Edita `tokens/tokens.css` (`:root`).
-2. Guarda y recarga el navegador.
+2. Guarda y mira el browser (watch recarga solo).
 3. Nada más. Si tardaste más, avisa en #42: es bug del playground.
 
 `tokens/tokens.json` es la fuente DTCG; `tokens.css` se mantiene a mano
@@ -24,18 +25,25 @@ desde ahí hasta que haya pipeline (23-oct).
 
 ```
 playground/
-├── src/index.html   ← Página de tokens + previews (paleta, componentes, tipografía)
+├── ng/              ← App Angular espejo (serve :4200, build verificado)
 ├── tokens/          ← tokens.css (vivo) + tokens.json (fuente DTCG)
-├── server.ts        ← Servidor estático Bun, cero dependencias
 ├── DESIGN.md        ← Insumos de Kira (se llena en Fase 1)
 ├── AGENTS.md        ← Reglas de exploración libre
+├── CONSISTENCIA.md  ← Cadena tokens→componentes→pantallas (obligatoria)
+├── FLUJO.md         ← Técnica de trabajo (ciclo, skills, realtime, delegación)
 └── PROMOCION.md     ← Checklist para llevar decisiones a docs/diseno/
 ```
 
+## Técnica de trabajo
+
+Ver `FLUJO.md`: ciclo proponer → ver → comparar → afirmar, skills por fase,
+browser en tiempo real con capturas, subagentes `explorador`/`revisor`.
+
 ## Capturas
 
-Cada iteración se captura contra el servidor local (comparar antes/después).
-Flujo automático el 23-oct; mientras tanto, captura manual y adjunta al PR.
+Cada iteración se captura contra el servidor local (comparar antes/después)
+con `snapmcp` o `playwright`. Flujo automático el 23-oct; mientras tanto,
+captura manual y adjunta al PR.
 
 ## Reglas
 
@@ -46,5 +54,5 @@ Flujo automático el 23-oct; mientras tanto, captura manual y adjunta al PR.
 
 ## Estado
 
-🟢 Usable 13-oct: 1 comando + página de tokens + no-merge. Angular real tras
-la marca elegida (Fase 1); capturas auto y pipeline de tokens el 23-oct.
+🟢 Usable 13-oct: Angular espejo + tokens + no-merge + opencode equipado.
+Capturas auto y pipeline de tokens el 23-oct.
