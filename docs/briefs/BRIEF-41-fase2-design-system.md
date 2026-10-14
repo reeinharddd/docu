@@ -81,6 +81,8 @@ Total estimado: 4–6 h.
 - [ ] Tokens exportados a `tokens.json` y mapeados a Tailwind 4 @theme
 - [ ] Aplicado a prototipos de #11 con capturas
 - [ ] `docs/diseno/DESIGN-SYSTEM.md` existe y está verificado
+- [ ] `docs/diseno/DESIGN-SYSTEM.md` registra la dirección elegida en la Fase 1,
+      el motivo y las dos descartadas, con enlace al PDF de exploración
 
 ## 9. Riesgos nombrados
 
@@ -90,7 +92,7 @@ Total estimado: 4–6 h.
 
 ## 10. Revisión
 
-Tras la elección de marca del martes 13-oct: flujo unificado con #11 (tokens + mockups de flujo en el playground, una sola corriente 13→23); revisión de tokens con Erik. Cierre 23-oct.
+La dirección de marca quedó **elegida** en la Fase 1 (martes 13-oct; el acta, en el issue #41). Esta fase la desarrolla en tokens y **no la vuelve a abrir**: si aparece una objeción, se registra en #41 y no se cambia el token por debajo. Flujo unificado con #11 (tokens + mockups de flujo en el playground, una sola corriente 13→23); revisión de tokens con Erik. Cierre 23-oct.
 
 ## 11. Insumos del agente
 
@@ -100,11 +102,11 @@ Tras la elección de marca del martes 13-oct: flujo unificado con #11 (tokens + 
 | AGENTS.md | Pendiente | Plantilla en `docs/plantillas/AGENTS.md` |
 | design-system.md | Pendiente | Plantilla en `docs/plantillas/design-system.md` |
 | Visión | Pendiente | 1 párrafo |
-| Slogan | Pendiente | Frase corta |
-| Paleta | Pendiente | OKLCH + hex + contraste AA |
-| Tipografías | Pendiente | Display, body, mono con escala modular |
+| Slogan | Entregado | 3 slogans + alternativa en el PDF; el que gane |
+| Paleta | Parcial | Hex + modo oscuro en el PDF, contraste AA verificado 2026-10-13; falta OKLCH |
+| Tipografías | Parcial | 3 familias nombradas en el PDF; falta fijar la escala modular |
 | Iconos | Pendiente | Set elegido |
-| Imágenes | Pendiente | Logo, ilustraciones, fotos |
+| Imágenes | Parcial | Concepto de logo por dirección; faltan las variaciones horizontal, ícono y mono |
 | Estados | Pendiente | Cargando, vacío, error, cuarentena, confirmado |
 
 ## 12. Recursos por actividad
