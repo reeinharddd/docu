@@ -37,10 +37,33 @@ Sin generador, cada prueba futura pide documentos a mano. Si sale bien, cualquie
 - Recibe: fichas aprobadas (#9), perfiles (#29).
 - Entrega: dataset y plan a todo el equipo (sirven a #32 resto, #3, #6), por PR desde `feat/61-generador`. C2 reutiliza el generador con otra config.
 
-## 6. Referencias y caja de herramientas
+## 6. Referencias y caja de herramientas (tú eliges cuáles usar)
 
-- https://fakerjs.dev (`faker.seed()`, locale `es`) · https://docs.sheetjs.com · https://pdf-lib.js.org · https://sharp.pixelplumbing.com + https://imagemagick.org · https://poppler.freedesktop.org (`pdftoppm -r 150/300`).
+Principio: este brief te da contexto y criterio, no el generador hecho. Tú
+decides plantillas, volúmenes y casos; la revisión del 23-oct los afirma o
+los devuelve con motivos. Nada se cierra antes de que propongas. Sin fichas
+aprobadas (#9) no se genera nada.
+
+Para decidir solo, sin depender de nadie:
+
+- Skill `docu-dominio` (obligatoria primero: flujo, glosario, generadores,
+  simulación de turnos).
+- Fichas aprobadas (#9, tuyas también) + perfiles (#29): de ahí sale todo
+  — plantillas, conteos, ground truth. Ficha cerrada el 17-oct, sin cambios
+después salvo issue.
+- `docs/proyecto/CASO.md` + `REQUISITOS.md` (RNF-02, RNF-07): 1 caso por RF
+  en `PRUEBAS.md`.
+- Generación con semilla (todo reproducible, nada a mano):
+  https://fakerjs.dev (`faker.seed()`, locale `es`) · https://docs.sheetjs.com ·
+  https://pdf-lib.js.org · https://sharp.pixelplumbing.com +
+  https://imagemagick.org · https://poppler.freedesktop.org (`pdftoppm -r 150/300`).
 - Automatizable obligatorio: script con semilla; nunca archivos ni CSV a mano.
+- Binarios al `.gitignore`; sin nombres reales de planta; `bun run verify`.
+
+Lo que NO te limitamos: estructura interna del script, orden de
+generación, formato del plan. Lo que sí se devuelve con motivos: archivos
+o CSV a mano, conteos que no cuadran con las fichas, regeneración no
+idéntica con `--seed 42`.
 
 ## 7. Cómo trabajar
 

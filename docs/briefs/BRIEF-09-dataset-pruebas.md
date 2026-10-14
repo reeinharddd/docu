@@ -38,11 +38,38 @@ Siguiente paso → #61 (no lo desarrolles aquí): con fichas aprobadas, #61 cons
 - Recibe: perfiles y mapeo (#29), familias (v0 #58), reglas R-P1..T1.
 - Entrega: fichas a #61. Todo por PR desde `feat/9-diseno-documentos`.
 
-## 6. Referencias y caja de herramientas
+## 6. Referencias y caja de herramientas (tú eliges cuáles usar)
 
-- `CASO.md`, `REQUISITOS.md` (RNF-02, RF-02), ADR-0009.
-- Medir después: https://tesseract-ocr.github.io, https://github.com/docling-project/docling.
-- Patrones de folio/medida: https://regex101.com. Ground truth como grafo: https://jsoncrack.com.
+Principio: este brief te da contexto y criterio, no las fichas hechas. Tú
+decides formatos, marcos y ground truth; la revisión del 17-oct los afirma
+o los devuelve con motivos. Nada se cierra antes de que propongas.
+
+Para decidir sola, sin depender de nadie:
+
+- Skill `docu-dominio` (obligatoria primero: flujo de planta, glosario,
+  ideas, generadores, simulación) + `docu-documentar` (tablas/JSON
+  versionados, estándares MD del repo).
+- Plantilla `docs/plantillas/FICHA.md` — una por familia, con marcos de
+  error y volumen para #61.
+- Perfiles y mapeo (#29, tuyo también): cada ficha dice qué perfiles la
+  usan y qué resultado esperan — sin esto la ficha no sirve a #61.
+- Familias del v0 (#58): 6 familias base; tus fichas las refinan, no las
+  inventan de cero.
+- `docs/proyecto/CASO.md` — formatos reales, fuentes (sistema, correo,
+  escáner, mano), reglas R-P1..T1 para los marcos de error.
+- `docs/proyecto/REQUISITOS.md` — RNF-02 (qué exigen los datos de prueba),
+  RF-02 (lenguaje/español).
+- ADR-0009 (reglas como datos: cada marco de error apunta a su regla).
+- Skill `docu-documentar` (tablas/JSON versionados, estándares MD del repo).
+- Medir después (solo referencia, no construyas): https://tesseract-ocr.github.io ·
+  https://github.com/docling-project/docling.
+- Patrones de folio/medida: https://regex101.com. Ground truth como
+  grafo: https://jsoncrack.com.
+
+Lo que NO te limitamos: formato de ficha (tabla o JSON), redacción,
+cuántos documentos pedirá cada una. Lo que sí se devuelve con motivos:
+empezar el generador (eso es #61), ficha en prosa sin esquema, marco de
+error sin regla, muestras manuales.
 
 ## 7. Cómo trabajar
 

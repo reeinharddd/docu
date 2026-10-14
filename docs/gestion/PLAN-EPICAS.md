@@ -63,7 +63,7 @@ trabaje sin depender de una sola persona.
 |---|---|---|---|---|
 | Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (en progreso), #60, #43, #8, #31, #33 |
 | Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
-| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11, #28, #42, #41 |
+| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (absorbió #28 el 13-oct), #42, #41 |
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
 | QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #36, #6, entregas |
 | Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |

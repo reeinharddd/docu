@@ -2,7 +2,7 @@
 
 ## 0. Encabezado
 
-- Issue: #11 (incluye #28 Definición de categorías y etiquetas)
+- Issue: #11 (absorbió #28: categorías se definen aquí; #28 cerrado not planned 13-oct)
 - Dueño: Kira
 - Fechas: 2026-10-16 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-16)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / diseño
@@ -33,7 +33,7 @@ pantallas del producto.
 |---|---|
 | Flujo de pantallas (diagrama de navegación) | Imagen o enlace en `docs/diseno/FLUJO.md` |
 | Prototipo navegable de: captura, bandeja de revisión/cuarentena, Programa Oficial, búsqueda con cita de fuente | Enlace público de solo lectura (Figma, Penpot u otra) + capturas en el PR |
-| Categorías y etiquetas visibles en la interfaz (#28) | Tabla en `docs/diseno/CATEGORIAS.md`: familia, etiquetas, color/ícono |
+| Categorías y etiquetas visibles en la interfaz (ex-#28, parte de #11) | Tabla en `docs/diseno/CATEGORIAS.md`: familia, etiquetas, color/ícono |
 | Estados de error y vacío por pantalla | Una captura por estado en el PR |
 | Revisión de un par | Comentario de aprobación en el PR |
 
@@ -45,7 +45,7 @@ pantallas del producto.
    tarea del punto 1 tiene un camino.
 3. Prototipar las cuatro pantallas en baja fidelidad, en escritorio y celular
    (RNF-01: Chrome, Edge, Android).
-4. Definir categorías y etiquetas (#28) a partir de las familias:
+4. Definir categorías y etiquetas (ex-#28, absorbido aquí) a partir de las familias:
    `programa_planeacion`, `recepcion_rollo`, `inventario`, `excel_turno`,
    `correo_hermana`, `escaneado` (`ingenieria/MODELO-DATOS.md`).
 5. Diseñar los estados: cargando, vacío, error con mensaje claro, cuarentena con

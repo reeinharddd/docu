@@ -43,11 +43,32 @@ Es la prueba de RF-08: si C1 carga con `git diff` de código vacío, C2 (#8) es 
 - Recibe: v1 + seed (#59), entorno (#10), dataset (#9), matriz (#29).
 - Entrega: a #8, #3 y #23, por PR desde `feat/7-carga`, C1 + reporte. Comenta en #3, #8 y #23.
 
-## 6. Referencias y caja de herramientas
+## 6. Referencias y caja de herramientas (tú eliges cuáles usar)
 
-- `CASO.md`, `REQUISITOS.md` (RF-02/08), ADR-0009/0010, `ecc-prisma-patterns`.
-- https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding · https://papaparse.com (CSV).
+Principio: este brief te da contexto y criterio, no las respuestas. Tú
+decides el script, la corrida y el veredicto; la revisión del 30-oct lo
+afirma o lo devuelve con motivos. Nada se cierra antes de que propongas.
+Si algo falla, se devuelve a #59 con motivos: nunca se parcha aquí.
+
+Para decidir solo, sin depender de nadie:
+
+- v1 + seed afirmados (#59) — tu materia prima; sin v1 afirmado no se
+  carga (bloqueo, no parche).
+- Dataset crudo y fichas de Carlos (#9) + matriz (#29): de ahí salen los
+  datos y el mapeo puesto→rol como datos.
+- `docs/proyecto/CASO.md` — organigrama, 6 familias, 7 reglas R-P1..T1.
+- `docs/proyecto/REQUISITOS.md` — RF-08 (qué probar), RF-02 (OCR/lenguaje),
+  RNF-05/06 (offline, recursos mínimos).
+- ADR-0009 (reglas como datos), ADR-0010 (solo-insert: lo inválido va a
+  cuarentena con motivo, jamás se borra en silencio).
+- Skill `docu-basedatos` (mecanismos y estándares) + `ecc-prisma-patterns` (trampas de Prisma/transacciones).
+- Carga y CSV: https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding ·
+  https://papaparse.com (CSV de corrida).
 - Comandos: `bunx prisma migrate dev` desde `apps/api`, `bun run verify`.
+
+Lo que NO te limitamos: forma del script, formato del reporte, orden de
+la corrida. Lo que sí se devuelve con motivos: parche de código por una
+familia (viola RF-08), inválido borrado en silencio, `.env` al repo.
 
 ## 7. Cómo trabajar
 

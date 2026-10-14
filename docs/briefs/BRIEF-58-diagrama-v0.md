@@ -3,7 +3,9 @@
 ## 0. Encabezado
 
 - Issue: #58
-- Dueño: Emmanuel Valenzuela Cruz (Backend).
+- Dueño: Emmanuel Valenzuela Cruz (Backend). En pair con Erik (líder): Erik
+  escribe el Bloque A de gobierno y configuración; Emmanuel el Bloque B de
+  flujo operativo. Una sola rama, un solo PR.
 - Fechas: 2026-10-13 → 2026-10-16 · Sprint 1
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
@@ -59,6 +61,10 @@ o las devuelve con motivos. Nada se cierra antes de que propongas.
 
 Para decidir solo, sin depender de nadie:
 
+- Skill `docu-basedatos` (obligatoria primero: mecanismos, normalización,
+  índices, views/triggers) + `ecc-prisma-patterns` (trampas) +
+  `prisma-orm-setup` y `prisma-driver-adapter-implementation` (estándar
+  oficial del stack) + `docu-memoria` (decisiones del equipo).
 - `docs/proyecto/CASO.md` — tu materia prima: 6 familias, 7 reglas
   R-P1..T1, organigrama (Planeación/Calidad/Almacén/Admin), 5 máquinas,
   flujo programa→recepción→inventario→turno con confirmación humana (R-Q1).
@@ -95,7 +101,22 @@ del `.dbml`, o tocar `apps/api/prisma/*` (el placeholder no se usa).
 
 ## 7. Cómo trabajar
 
-- `bash scripts/setup.sh`, `opencode`, `/inicio`, `/tarea 58`. Rama `feat/58-diagrama-v0`.
+- `bash scripts/setup.sh`, `opencode`, `/inicio`, `/tarea 58`. Rama
+  `feat/58-diagrama-v0` (ya existe en el remoto, creada por Erik).
+- **Se diseña en pair sobre una sola rama.** El archivo es
+  `docs/ingenieria/DIAGRAMA-BD-v0.dbml` y trae dos secciones marcadas:
+  `BLOQUE A — Gobierno y configuración` (Erik) y `BLOQUE B — Flujo operativo`
+  (Emmanuel). Solo edita tu sección; el archivo se abrió con los dos
+  encabezados y nada más, para que nadie espere al otro.
+- **Cada tabla abre con su comentario y nada más:**
+  `// clase: fija | dinámica | manual · regla: R-P1 · por qué: una frase`.
+  Ese comentario ES el registro de decisiones y la matriz de clases que pide
+  el brief: no hay documento paralelo.
+- **Antes de cada push: `git pull --rebase`.** Se escribe en paralelo, pero dos
+  pushes simultáneos sobre la misma rama se rechazan. Nada de ramas separadas.
+- Ritmo: 14-oct ambos bloques entregados; 15-oct revisión cruzada (Emmanuel
+  valida el Bloque A contra su flujo, Erik valida el Bloque B contra R-Q1,
+  cuarentena y solo-insert); 16-oct afirmación en el sync y PR a `main`.
 - EMMANUEL NO DEBE: copiar el placeholder; inventar datos de planta; simular entrevistas; tocar `apps/api/prisma/*`.
 - EMMANUEL SÍ DEBE: decidir y justificar por escrito; `.env` fuera del repo.
 - Duda 30 min en el issue; bloqueo >24 h con `bloqueado`. 1 issue En progreso.

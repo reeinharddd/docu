@@ -17,6 +17,7 @@ docs/briefs/BRIEF-41-fase2-design-system.md
 docs/briefs/BRIEF-41-marca-fase1.md
 docs/briefs/BRIEF-42-playground-diseno.md
 docs/briefs/BRIEF-43-gestion-project.md
+docs/briefs/BRIEF-46-worker-bullmq.md
 docs/briefs/BRIEF-58-diagrama-v0.md
 docs/briefs/BRIEF-59-diagrama-v1-seed.md
 docs/briefs/BRIEF-60-arquitectura-modelo.md
@@ -64,7 +65,9 @@ docs/plantillas/CONTRATO-MODULOS.md
 docs/plantillas/DESIGN.md
 docs/plantillas/design-system.md
 docs/plantillas/EVIDENCIA.md
+docs/plantillas/FICHA.md
 docs/plantillas/RFC.md
+docs/plantillas/ROLES.md
 docs/proyecto/CASO.md
 docs/proyecto/EQUIPO.md
 docs/proyecto/REQUISITOS.md

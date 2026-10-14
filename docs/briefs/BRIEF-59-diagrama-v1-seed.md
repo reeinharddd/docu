@@ -36,11 +36,34 @@ Sin v1, el seed carga a ciegas y el contrato del 30-oct se congela en el aire. S
 - Recibe: v0 afirmado (#58), dataset (#61), fichas (#9), entorno (#10).
 - Entrega: a #7 (carga) y a #60 (modelo final), por PR desde `feat/59-diagrama-v1-seed`.
 
-## 6. Referencias y caja de herramientas
+## 6. Referencias y caja de herramientas (tú eliges cuáles usar)
 
-- `ecc-prisma-patterns` (obligatoria), v0, `CASO.md`, ADR-0009/0010.
-- https://dbdiagram.io · https://postgres.new · https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding (seed idempotente).
+Principio: este brief te da contexto y criterio, no el diseño final. Tú
+decides cómo refinar el v1 y el seed; la revisión del 23-oct los afirma o
+los devuelve con motivos. Nada se cierra antes de que propongas.
+
+Para decidir solo, sin depender de nadie:
+
+- v0 afirmado (#58, `DIAGRAMA-BD-v0.dbml`) — tu punto de partida; la nota
+  de cambios vs v0 es entregable, no adorno.
+- Dataset y fichas de Carlos (#61, #9): cada error real que el v0 no atrapa
+  se vuelve constraint. Syncs 16 y 23-oct para pedir lo que falte.
+- `docs/proyecto/CASO.md` — 6 familias, 7 reglas R-P1..T1, flujo con
+  confirmación humana (R-Q1).
+- `docs/proyecto/REQUISITOS.md` — RF-08 (qué debe sostener) y RF-06
+  (alcances que impiden lecturas cruzadas).
+- ADR-0009 (reglas como datos), ADR-0010 (solo-insert),
+  ADR-0011 (API encola, worker procesa), ADR-0014 (raíz Planta, sin `Empresa`).
+- Skill `docu-basedatos` (mecanismos y estándares) + `ecc-prisma-patterns` (obligatoria: trampas de Prisma antes de escribir).
+- Dibujo y prueba: https://dbdiagram.io · núcleo en https://postgres.new ·
+  seed idempotente: https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding.
 - Comandos: `bunx prisma migrate dev` desde `apps/api`, `bun run verify`.
+  Entorno listo en #10; si el entorno falla, es bloqueo, no tu bug.
+
+Lo que NO te limitamos: cómo agrupas los refinamientos, orden del seed,
+formato de la nota de cambios. Lo que sí se devuelve con motivos: cambiar
+la raíz `Planta`, familias con código, migraciones antes de afirmar v1,
+`Empresa` multi-tenant.
 
 ## 7. Cómo trabajar
 
