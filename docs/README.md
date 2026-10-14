@@ -81,7 +81,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
 | `decisiones/` | ADRs de ingeniería, 12 aceptadas | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA | en progreso |
-| `diseno/` | Experiencia de uso: modelo operativo, pantallas, flujos, identidad | pendiente |
+| `diseno/` | Identidad de marca; en construcción, design system, pantallas y flujos | en progreso |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
@@ -89,10 +89,10 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `briefs/` | Delegaciones con el formato obligatorio, auditoría externa | activo |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
 
-Los directorios marcados `pendiente` están vacíos a propósito: no hay
-diseño de pantallas ni entregable académico todavía. Se crean cuando la
-materia o el producto los necesiten, y hasta entonces el índice dice la verdad
-en vez de prometer archivos que no existen.
+Ningún directorio queda `pendiente`. `diseno/` nació con la exploración de
+marca de #41 y sigue en construcción; `academico/` tiene el plan de la materia
+pero todavía ninguna entrega firmada. Cuando una carpeta esté vacía, el índice lo
+dice, en vez de prometer archivos que no existen.
 
 ## Fuentes fuera del repositorio
 
