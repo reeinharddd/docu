@@ -1,0 +1,23 @@
+// DIAGRAMA BD v0 — DOCU (raíz Planta, single-company)
+// Issue #58 · brief: docs/briefs/BRIEF-58-diagrama-v0.md
+// ADR: 0009 (reglas como datos) · 0010 (bitácora e historial solo-insert) · 0014 (raíz Planta)
+//
+// CONVENCIÓN DE CASA — cada tabla abre con este comentario y nada más:
+//   // clase: fija | dinámica | manual · regla: R-P1 · por qué: una frase
+//
+// Este comentario ES el registro de decisiones y la matriz de clases del brief.
+// Cero tablas "porque sí": si no hay comentario, la tabla no entra.
+//
+// PARETO — se trabaja en paralelo, un dueño por sección.
+// Solo edita tu propia sección. Antes de cada push: git pull --rebase.
+
+// ============================================================
+// BLOQUE A — Gobierno y configuración · dueño: Erik
+// Responde: qué es verdad en esta planta.
+// ============================================================
+
+
+// ============================================================
+// BLOQUE B — Flujo operativo · dueño: Emmanuel
+// Responde: qué pasó.
+// ============================================================
