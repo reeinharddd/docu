@@ -16,3 +16,7 @@
 8. Commits convencionales (`feat:`, `fix:`, `docs:`, `chore:`), sin
    atribución a AI.
 9. Sync lunes y viernes, 15 min: qué moví, en qué estoy, qué me bloquea.
+10. Nada de commit ni push sin verificación previa del usuario: tras cada
+    cambio se revisa todo con el usuario y solo con su satisfacción
+    explícita se pregunta si commitear; lo mismo para push. Sin ese sí,
+    no hay commit ni push.
