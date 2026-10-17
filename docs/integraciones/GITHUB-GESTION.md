@@ -111,7 +111,8 @@ el motivo anotado aquí.
 
 Estado 2026-10-17: **colaboradores ya con `Write`** (`Agent3835` = Emmanuel,
 `kirxllix` = Kira) y sus issues asignados; `.github/CODEOWNERS` con usuarios
-reales. Faltan el secreto `PROJECT_TOKEN` y las vistas (pasos 1–3).
+reales y el secreto `PROJECT_TOKEN` activo (el workflow `project-sync` corre en
+verde, con cron de lunes a viernes). Falta el paso 2: las 5 vistas.
 
 La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
 
