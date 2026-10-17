@@ -580,4 +580,4 @@ así cuando el motor exista. Marcarlos no ejecuta nada en el repo.
   caso), `REQUISITOS.md` (RF-06, RF-08)
 - ADR-0009 reglas como datos, ADR-0006 IA propone humano dispone
 - Fichas de documentos: `../ingenieria/fichas/` (#9)
-- Brief: `../briefs/BRIEF-29-matriz-roles-y-dataset.md`
+- Brief: `../briefs/historico/BRIEF-29-matriz-roles-y-dataset.md`

@@ -179,4 +179,4 @@ reinventa.
 
 - `../../proyecto/CASO.md` (identificadores de reglas 2026-10-12),
   `../../proyecto/REQUISITOS.md`, `../../proyecto/ROLES.md` (rama #29)
-- Brief: `../../briefs/BRIEF-09-dataset-pruebas.md`
+- Brief: `../../briefs/historico/BRIEF-09-dataset-pruebas.md`

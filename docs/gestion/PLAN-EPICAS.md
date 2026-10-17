@@ -61,7 +61,7 @@ trabaje sin depender de una sola persona.
 
 | Épica (issue) | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
-| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (en progreso), #60, #43, #8, #31, #33 |
+| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (en progreso), #60, #8 |
 | Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
 | Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11, #28, #42, #41 |
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |

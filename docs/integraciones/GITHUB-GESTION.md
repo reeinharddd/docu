@@ -36,7 +36,7 @@ mantiene dos veces el mismo dato.
 
 | Issue | Épica | Contiene |
 |---|---|---|
-| #47 | Infraestructura | Entorno, CI, arquitectura, Configuración 2, gestión del equipo, cotizaciones |
+| #47 | Infraestructura | Entorno, CI, arquitectura, Configuración 2, gestión del equipo |
 | #48 | Backend | API, pipeline, worker, OCR, reportes y alertas |
 | #49 | Frontend | Aplicación Angular (espera la puerta de diseño, ADR-0012) |
 | #50 | Base de datos | Modelo, contrato, Configuración 1 |

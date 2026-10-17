@@ -9,7 +9,9 @@ listar() { grep -v '^[[:space:]]*#' "$INDICE" 2>/dev/null | grep -v '^[[:space:]
 # Se usa find, no `git ls-files`: un documento sin stagear tambien esta en disco
 # y tambien obliga a estar listado. Con git, escribir un doc y olvidarse del
 # indice pasaba desapercibido justo en la ventana donde se cuelan los errores.
-disco() { find docs -type f -name '*.md' | sed 's|^\./||' | sort; }
+# Los briefs de issues ya cerrados se archivan en docs/briefs/historico/ y NO
+# entran al indice central (docs/README.md §Briefs): son historial, no vigentes.
+disco() { find docs -type f -name '*.md' -not -path 'docs/briefs/historico/*' | sed 's|^\./||' | sort; }
 
 if [ "${1:-}" = "--fix" ]; then
   { echo "# Indice documental de DOCU. Fuente de verdad de docs/README.md."; echo "# Verifica con: bash scripts/doc-index.sh"; echo "# Regenera con: bash scripts/doc-index.sh --fix"; disco; } > "$INDICE"
