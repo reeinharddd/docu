@@ -86,7 +86,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
 | `academico/` | Plan académico EC0935 y entregas de la materia | en progreso |
-| `briefs/` | Delegaciones con el formato obligatorio, auditoría externa | activo |
+| `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
 | `superpowers/` | Olas, planes y specs del flujo de trabajo | histórico |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
