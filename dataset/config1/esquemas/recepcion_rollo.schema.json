@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docu.local/config1/esquemas/recepcion_rollo.schema.json",
+  "title": "recepcion_rollo",
+  "description": "Lo que llega a almacen: rollo, procedencia, dimensiones, certificado y condicion. Forma de maquina de la ficha homonima.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recepcion_id",
+    "rollo_id",
+    "material_id",
+    "rollo_origen",
+    "fecha_recepcion",
+    "medida_ancho",
+    "certificado_presente",
+    "condicion_recepcion",
+    "cantidad_recibida",
+    "registrado_por"
+  ],
+  "properties": {
+    "recepcion_id": { "type": "string", "minLength": 1 },
+    "rollo_id": { "type": "string", "pattern": "^R-[0-9]{3}$" },
+    "material_id": { "type": "string", "minLength": 1 },
+    "rollo_origen": { "type": "string", "minLength": 1 },
+    "orden_compra_id": { "type": ["string", "null"] },
+    "fecha_recepcion": { "type": "string", "format": "date-time" },
+    "medida_ancho": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valor", "unidad"],
+      "properties": {
+        "valor": { "type": "number", "exclusiveMinimum": 0 },
+        "unidad": { "type": "string", "enum": ["mm", "in"] }
+      }
+    },
+    "certificado_referencia": { "type": ["string", "null"] },
+    "certificado_presente": { "type": "boolean" },
+    "condicion_recepcion": {
+      "type": "string",
+      "enum": ["conforme", "danado", "pendiente_revision"]
+    },
+    "cantidad_recibida": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valor", "unidad"],
+      "properties": {
+        "valor": { "type": "number", "exclusiveMinimum": 0 },
+        "unidad": { "type": "string", "enum": ["rollo", "kg", "m"] }
+      }
+    },
+    "ubicacion": { "type": ["string", "null"] },
+    "registrado_por": { "type": "string", "minLength": 1 },
+    "archivo_evidencia_id": { "type": ["string", "null"] }
+  }
+}

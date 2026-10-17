@@ -22,7 +22,6 @@ docs/briefs/BRIEF-59-diagrama-v1-seed.md
 docs/briefs/BRIEF-60-arquitectura-modelo.md
 docs/briefs/BRIEF-61-generador-dataset.md
 docs/briefs/BRIEF-62-modelo-datos.md
-docs/CONTEXTO.md
 docs/decisiones/ADR-0001-flujos-de-trabajo-del-agente.md
 docs/decisiones/ADR-0002-bun-como-runtime-y-gestor.md
 docs/decisiones/ADR-0003-angular-zoneless-sin-zone-js.md
@@ -42,10 +41,18 @@ docs/gestion/PLAN-EPICAS.md
 docs/gestion/RIESGOS.md
 docs/gestion/RITMO-SEMANAL.md
 docs/gestion/TRAZABILIDAD.md
+docs/ingenieria/ALCANCE-SOLUCION.md
 docs/ingenieria/API.md
 docs/ingenieria/ARQUITECTURA.md
 docs/ingenieria/COLAS.md
 docs/ingenieria/ENTORNO.md
+docs/ingenieria/fichas/CONTRATO.md
+docs/ingenieria/fichas/FICHA-CORREO-HERMANA.md
+docs/ingenieria/fichas/FICHA-ESCANEADO.md
+docs/ingenieria/fichas/FICHA-EXCEL-TURNO.md
+docs/ingenieria/fichas/FICHA-INVENTARIO.md
+docs/ingenieria/fichas/FICHA-PROGRAMA-PLANEACION.md
+docs/ingenieria/fichas/FICHA-RECEPCION-ROLLO.md
 docs/ingenieria/IA.md
 docs/ingenieria/MODELO-DATOS.md
 docs/ingenieria/STACK.md
@@ -68,6 +75,7 @@ docs/plantillas/RFC.md
 docs/proyecto/CASO.md
 docs/proyecto/EQUIPO.md
 docs/proyecto/REQUISITOS.md
+docs/proyecto/ROLES.md
 docs/proyecto/VISION.md
 docs/README.md
 docs/recursos/INDEX.md

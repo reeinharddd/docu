@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docu.local/config1/esquemas/excel_turno.schema.json",
+  "title": "excel_turno",
+  "description": "Lo que de verdad paso en el piso por maquina y turno: buenas, merma y paros con motivo.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "turno_id",
+    "planta_id",
+    "linea_id",
+    "fecha",
+    "turno",
+    "operador",
+    "cantidad_buena",
+    "merma",
+    "paro_min"
+  ],
+  "properties": {
+    "turno_id": { "type": "string", "minLength": 1 },
+    "planta_id": { "type": "string", "minLength": 1 },
+    "linea_id": { "type": "string", "pattern": "^T[BP]-[0-9]{2}$" },
+    "fecha": { "type": "string", "format": "date" },
+    "turno": { "type": "string", "enum": ["T1", "T2", "T3"] },
+    "operador": { "type": "string", "minLength": 1 },
+    "orden_id": { "type": ["string", "null"] },
+    "rollo_id": { "type": ["string", "null"], "pattern": "^R-[0-9]{3}$" },
+    "cantidad_buena": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valor", "unidad"],
+      "properties": {
+        "valor": { "type": "number", "minimum": 0 },
+        "unidad": { "type": "string", "enum": ["kg", "m", "pza"] }
+      }
+    },
+    "merma": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valor", "unidad"],
+      "properties": {
+        "valor": { "type": "number", "minimum": 0 },
+        "unidad": { "type": "string", "enum": ["kg", "m", "pza"] }
+      }
+    },
+    "paro_min": { "type": "number", "minimum": 0 },
+    "paro_motivo": { "type": ["string", "null"] },
+    "hora_paro": { "type": ["string", "null"] },
+    "observaciones": { "type": ["string", "null"] },
+    "archivo_evidencia_id": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "paro_min": { "exclusiveMinimum": 30 } },
+        "required": ["paro_min"]
+      },
+      "then": {
+        "required": ["paro_motivo"],
+        "properties": { "paro_motivo": { "type": "string", "minLength": 1 } }
+      }
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docu.local/config1/esquemas/programa_planeacion.schema.json",
+  "title": "programa_planeacion",
+  "description": "El plan: que linea corre cuando y con que material. Se versiona; no se edita en silencio.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "programa_id",
+    "semana",
+    "planta_id",
+    "linea_id",
+    "turno",
+    "orden_id",
+    "material_id",
+    "cantidad_planeada",
+    "fecha_planeada",
+    "fuente_stock",
+    "revision",
+    "creado_por"
+  ],
+  "properties": {
+    "programa_id": { "type": "string", "minLength": 1 },
+    "semana": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inicio", "fin"],
+      "properties": {
+        "inicio": { "type": "string", "format": "date" },
+        "fin": { "type": "string", "format": "date" }
+      }
+    },
+    "planta_id": { "type": "string", "minLength": 1 },
+    "linea_id": { "type": "string", "pattern": "^T[BP]-[0-9]{2}$" },
+    "turno": { "type": "string", "enum": ["T1", "T2", "T3"] },
+    "orden_id": { "type": "string", "minLength": 1 },
+    "material_id": { "type": "string", "minLength": 1 },
+    "rollo_id": { "type": ["string", "null"], "pattern": "^R-[0-9]{3}$" },
+    "cantidad_planeada": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valor", "unidad"],
+      "properties": {
+        "valor": { "type": "number", "exclusiveMinimum": 0 },
+        "unidad": { "type": "string", "enum": ["kg", "m", "pza"] }
+      }
+    },
+    "fecha_planeada": { "type": "string", "format": "date-time" },
+    "fecha_promesa": { "type": ["string", "null"], "format": "date" },
+    "fuente_stock": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 1 },
+    "creado_por": { "type": "string", "minLength": 1 },
+    "aprobado_por": { "type": ["string", "null"] },
+    "archivo_evidencia_id": { "type": ["string", "null"] }
+  }
+}

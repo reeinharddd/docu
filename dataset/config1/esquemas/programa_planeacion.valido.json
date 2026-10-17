@@ -1,0 +1,18 @@
+{
+  "programa_id": "PROG-C1-2026-W43",
+  "semana": { "inicio": "2026-10-26", "fin": "2026-10-30" },
+  "planta_id": "C1",
+  "linea_id": "TP-01",
+  "turno": "T1",
+  "orden_id": "ORD-2026-0042",
+  "material_id": "MAT-TYV-01",
+  "rollo_id": "R-017",
+  "cantidad_planeada": { "valor": 1800, "unidad": "m" },
+  "fecha_planeada": "2026-10-26T06:00:00-06:00",
+  "fecha_promesa": "2026-10-28",
+  "fuente_stock": "sap-2026-10-23",
+  "revision": 3,
+  "creado_por": "ana",
+  "aprobado_por": "andres",
+  "archivo_evidencia_id": "ARCH-0021"
+}

@@ -51,6 +51,8 @@ edita un documento de otro sin avisar en el PR.
 | `decisiones/ADR-*.md` | Quien decide | Erik (infra) o el dueño del módulo |
 | `ingenieria/ARQUITECTURA.md` | Erik | Emmanuel |
 | `ingenieria/MODELO-DATOS.md` | Emmanuel | Erik |
+| `ingenieria/ALCANCE-SOLUCION.md` | Erik | Emmanuel |
+| `ingenieria/fichas/*.md` (contrato de documentos, #9) | Carlos | Emmanuel |
 | `ingenieria/API.md`, `ingenieria/COLAS.md` | Emmanuel | Erik |
 | `ingenieria/ENTORNO.md` | Erik | Erik (bloqueante en PR) |
 | `diseno/*.md` | Kira | Erik (coherencia de alcance) |

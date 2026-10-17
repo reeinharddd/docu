@@ -1,0 +1,10 @@
+{
+  "correo_id": "MAIL-2026-10-24-015",
+  "de": "planning@hermana-us.example",
+  "para": [],
+  "fecha": "sabado 24 de octubre",
+  "asunto": "Cambio de lote",
+  "tipo": "cambio_fecha",
+  "requiere_accion": true,
+  "idioma": "esp"
+}

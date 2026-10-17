@@ -1,0 +1,14 @@
+{
+  "inventario_id": "INV-C1-2026-10-23-01",
+  "planta_id": "C1",
+  "material_id": "MAT-TYV-01",
+  "rollo_id": "R-017",
+  "lote": "US-TYV-88213",
+  "cantidad": 0,
+  "unidad": "rollo",
+  "ubicacion": "ALM-C1-A3",
+  "estado": "cuarentena",
+  "fecha_conteo": "2026-10-23T17:40:00-06:00",
+  "fuente": "conteo_fisico",
+  "registrado_por": "pedro"
+}

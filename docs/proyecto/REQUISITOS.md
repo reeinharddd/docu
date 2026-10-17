@@ -78,9 +78,10 @@ cercana con impacto en diseño es **2026-10-30, contrato de datos congelado**
 | RF-07 | Versión nueva de metadatos sin perder la anterior |
 | RF-08 | Configuración 2 cargada con `git diff` de código vacío y reporte propio |
 
-Métricas fijadas para las pruebas de clasificación y OCR: 200 archivos sintéticos
-(5 familias × 40) con precisión de clasificación ≥ 80%; 50 escaneados de prueba
-con exactitud de campos clave ≥ 90% y CER ≤ 10% en texto corrido.
+Métricas fijadas para las pruebas de clasificación y OCR sobre el dataset de C1
+(composición y conteos en `ingenieria/fichas/CONTRATO.md` §8): precisión de
+clasificación ≥ 80%; exactitud de campos clave ≥ 90% y CER ≤ 10% en texto corrido
+sobre los escaneados del mismo dataset.
 
 ## Referencias
 

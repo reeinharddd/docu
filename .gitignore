@@ -8,6 +8,9 @@ build/
 dataset/config1/*
 !dataset/config1/.gitkeep
 !dataset/config1/README.md
+# Los esquemas del contrato (#9) SI se versionan: son diseno, no dataset generado
+!dataset/config1/esquemas/
+!dataset/config1/esquemas/**
 dataset/config2/*
 !dataset/config2/.gitkeep
 !dataset/config2/README.md

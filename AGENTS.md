@@ -35,3 +35,7 @@ Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
    constructor se importa con `import type`: NestJS lo resuelve con
    `emitDecoratorMetadata` y necesita la clase en runtime.
 9. Nada destructivo sin orden explicita. Main protegida, todo por PR con revisor.
+10. Nada de commit ni push sin verificacion previa del usuario: tras cada
+    cambio se revisa todo con el usuario y solo con su satisfaccion
+    explicita se pregunta si commitear; lo mismo para push. Sin ese si,
+    no hay commit ni push.
