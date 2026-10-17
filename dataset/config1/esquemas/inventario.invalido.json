@@ -1,0 +1,11 @@
+{
+  "inventario_id": "INV-C1-2026-10-23-02",
+  "planta_id": "C1",
+  "material_id": "MAT-TYV-01",
+  "cantidad": -1,
+  "unidad": "piezas",
+  "estado": "agotado",
+  "fecha_conteo": "23/10/2026",
+  "fuente": "excel",
+  "registrado_por": "pedro"
+}

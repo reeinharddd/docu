@@ -163,7 +163,11 @@ grant y deja su evidencia (actor, versión del dato, regla, estado).
 ## 5. Organigrama-matriz de Baja SterilPack (ficticio, sintético)
 
 Fuente: `CASO.md` (planta sintética, ~140 personas, 5 máquinas,
-3 turnos Lun–Vie). Nombres ficticios.
+3 turnos Lun–Vie). Nombres ficticios. El elenco que vive el incidente
+"el rollo fantasma" (`CASO.md`) son 8 activos —Ana, Sergio, Pedro,
+Luis, Marta, Jorge, Carmen y Miguel— más Andrés como jefe. El resto
+(Roberto, Laura, Juan, Sofía, Elena, Pablo, Ricardo) es contexto:
+corporativo, RH, Contaduría y Seguridad.
 
 | # | Nombre | Puesto | Depto | Reporta a | Rol sistema | Responsabilidades | Problemas que vive |
 |---|---|---|---|---|---|---|---|
@@ -572,6 +576,8 @@ así cuando el motor exista. Marcarlos no ejecuta nada en el repo.
 
 ## Referencias
 
-- `proyecto/CASO.md`, `proyecto/REQUISITOS.md` (RF-06, RF-08)
+- `CASO.md` (incluye el incidente "el rollo fantasma" y el alcance del
+  caso), `REQUISITOS.md` (RF-06, RF-08)
 - ADR-0009 reglas como datos, ADR-0006 IA propone humano dispone
-- Brief: `briefs/BRIEF-29-matriz-roles-y-dataset.md`
+- Fichas de documentos: `../ingenieria/fichas/` (#9)
+- Brief: `../briefs/BRIEF-29-matriz-roles-y-dataset.md`

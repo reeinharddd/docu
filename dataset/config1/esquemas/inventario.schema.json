@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docu.local/config1/esquemas/inventario.schema.json",
+  "title": "inventario",
+  "description": "Que hay, donde y si es asignable. Existente no es lo mismo que disponible.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "inventario_id",
+    "planta_id",
+    "material_id",
+    "cantidad",
+    "unidad",
+    "estado",
+    "fecha_conteo",
+    "fuente",
+    "registrado_por"
+  ],
+  "properties": {
+    "inventario_id": { "type": "string", "minLength": 1 },
+    "planta_id": { "type": "string", "minLength": 1 },
+    "material_id": { "type": "string", "minLength": 1 },
+    "rollo_id": { "type": ["string", "null"], "pattern": "^R-[0-9]{3}$" },
+    "lote": { "type": ["string", "null"] },
+    "cantidad": { "type": "number", "minimum": 0 },
+    "unidad": { "type": "string", "enum": ["kg", "m", "rollo", "pza"] },
+    "ubicacion": { "type": ["string", "null"] },
+    "estado": {
+      "type": "string",
+      "enum": ["disponible", "comprometido", "cuarentena"]
+    },
+    "fecha_conteo": { "type": "string", "format": "date-time" },
+    "fuente": {
+      "type": "string",
+      "enum": ["sap", "conteo_fisico", "recepcion"]
+    },
+    "registrado_por": { "type": "string", "minLength": 1 }
+  }
+}

@@ -22,7 +22,7 @@ El generador (#61) solo ejecuta fichas: si la ficha está mal, miles de document
 
 | Entregable | Evidencia |
 |---|---|
-| 1 ficha por familia (5–6 fichas) | Tablas/JSON/esquemas: campos, conteos, fuentes, distinciones, marcos de error, forma del *ground truth* (aprobadas 17-oct) |
+| 6 fichas + `CONTRATO.md` | Tablas/JSON/esquemas: campos, conteos, fuentes, distinciones, cruces, marcos de error, forma del *ground truth* (aprobadas 17-oct) |
 
 Cada ficha responde: ¿qué documentos de este formato existen? ¿qué campo lleva cada uno? ¿de qué fuentes sale (sistema, correo, escáner, mano)? ¿cómo se distingue de los demás? ¿qué errores realistas admite (por regla R-P1..T1)? ¿qué *ground truth* lo acompaña?
 
@@ -36,7 +36,7 @@ Siguiente paso → #61 (no lo desarrolles aquí): con fichas aprobadas, #61 cons
 ## 5. Entradas y salidas
 
 - Recibe: perfiles y mapeo (#29), familias (v0 #58), reglas R-P1..T1.
-- Entrega: fichas a #61. Todo por PR desde `feat/9-diseno-documentos`.
+- Entrega: fichas en `docs/ingenieria/fichas/` y esquemas en `dataset/config1/esquemas/` a #61. Todo por PR desde `feat/29-9-matriz-dataset`.
 
 ## 6. Referencias y caja de herramientas
 
