@@ -92,9 +92,26 @@ shell exporta `GITHUB_TOKEN`, `gh` usa ese token antes que tu sesión:
 | Crear issue | Con confirmación | Con plantilla y etiquetas completas |
 | Cambiar responsable, milestone, etiquetas de otro | Con confirmación | Petición del líder |
 | Cerrar un issue | Solo vía PR fusionado o con evidencia en el comentario | Definición de Hecho (REGLAS 7) |
-| Borrar issues, etiquetas o milestones | **Prohibido** | El histórico es evidencia: se cierra como `not planned` |
+| Borrar issues o milestones | **Prohibido** | El histórico es evidencia: se cierra como `not planned` |
+| Borrar una etiqueta | Con confirmación | Solo si no la usa ninguna plantilla ni issue, y queda registrado el motivo (§Limpieza de etiquetas) |
+
+## Limpieza de etiquetas
+
+Las etiquetas del sistema son la taxonomía de `proyecto/REQUISITOS.md` y
+`PLAN-EPICAS.md` (más `bloqueado`, `req:pendiente`, `sin-issue` y `bug`). Las
+etiquetas por defecto de GitHub que nadie usa se retiran para no confundir, con
+el motivo anotado aquí.
+
+- **2026-10-17**: retiradas 9 etiquetas por defecto sin un solo issue
+  (`accessibility`, `documentation`, `duplicate`, `enhancement`, `invalid`,
+  `question`, `wontfix`, `good first issue`, `help wanted`). Se conservó `bug`
+  porque la plantilla `bug.yml` la asigna al crear el issue.
 
 ## Pendiente de configurar en la web (#43)
+
+Estado 2026-10-17: **colaboradores ya con `Write`** (`Agent3835` = Emmanuel,
+`kirxllix` = Kira) y sus issues asignados; `.github/CODEOWNERS` con usuarios
+reales. Faltan el secreto `PROJECT_TOKEN` y las vistas (pasos 1–3).
 
 La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
 
@@ -111,8 +128,9 @@ La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
 3. **Workflows** integrados: dejar activo `Auto-add sub-issues to project`;
    activar `Item closed` → `Listo` y `Pull request merged` → `Listo` (el sync
    lo hace igual; los integrados son instantáneos).
-4. **Colaboradores** con rol *Write* y asignación de issues; sus usuarios van a
-   `proyecto/EQUIPO.md` y `.github/CODEOWNERS`.
+4. **Colaboradores** rol *Write* y asignación de issues: **hecho 2026-10-17**
+   (`Agent3835`, `kirxllix`); sus usuarios van a `proyecto/EQUIPO.md` y
+   `.github/CODEOWNERS`. Carlos sigue sin cuenta.
 
 ## Origen
 

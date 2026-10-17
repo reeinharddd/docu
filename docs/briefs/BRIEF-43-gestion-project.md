@@ -34,7 +34,7 @@ Project operable con gente, vistas y sync automático.
 ## 4. Actividades específicas
 
 1. Invitar (1 h, web, la API no puede): colaboradores Write, secreto `PROJECT_TOKEN` (fine-grained: Projects RW cuenta + Issues/PR lectura repo), vistas según `GITHUB-GESTION.md` §Pendiente. Terminado: captura por vista.
-2. Asignar (1 h): `gh issue edit N --add-assignee <user>` por cada issue E1; mover a `En progreso` lo que arranque el 13. Terminado: `gh issue list` sin huérfanos E1 (#36 → Erik y #39 → Emmanuel asignados en sync 12-oct; assignee en GitHub pendiente a cuentas).
+2. Asignar (1 h): `gh issue edit N --add-assignee <user>` por cada issue E1; mover a `En progreso` lo que arranque el 13. Terminado: `gh issue list` sin huérfanos E1 (#39 → Emmanuel, ya asignado como `Agent3835`; #36 cerrado como no planificado; Carlos sin cuenta, manda su dueño nominal).
 3. Verificar sync (1 h): `GH_TOKEN=$(env -u GITHUB_TOKEN gh auth token) bun run project:sync`; abrir/cerrar un PR de prueba si hace falta. Terminado: campos Status/Épica/Sprint/Fin se llenan solos.
 4. Documentar desvíos (30 min): si algo no se pudo en web, anotarlo en #43 con captura. Terminado: #43 cierra con evidencia.
 
@@ -63,7 +63,7 @@ Recursos oficiales para gestionar (leer antes del finde):
 ## 7. Cómo trabajar
 
 - Parte web (vistas, secreto, colaboradores) + parte repo (EQUIPO ya actualizado en este PR).
-- ERIK NO DEBE: borrar issues/etiquetas/milestones (prohibido, se cierran como `not planned`); editar campos del Project a mano salvo `Status = En progreso`.
+- ERIK NO DEBE: borrar issues o milestones (prohibido: se cierran como `not planned`); borrar etiquetas salvo que no las use nadie y quede el motivo anotado; editar campos del Project a mano salvo `Status = En progreso`.
 - ERIK SÍ DEBE: pedir confirmación del líder antes de cambiar responsable de otro (aquí ya está dada para #32→Erik y #7→Emmanuel).
 - Cambiar responsable/hito de otro sin esa confirmación está prohibido.
 
@@ -72,7 +72,7 @@ Recursos oficiales para gestionar (leer antes del finde):
 - [ ] Los 4 tienen sus issues E1 asignados y 1 solo `En progreso` el lunes.
 - [ ] Las 5 vistas existen (captura en #43).
 - [ ] `project-sync` corre sin aviso de secreto faltante.
-- [ ] #36 y #39 se asignan en el sync del 12 (consta en comentario).
+- [ ] #39 ya asignado (`Agent3835`); #36 cerrado como no planificado.
 
 No es done si: el sync sigue manual por máquina; hay issues E1 sin assignee y sin motivo.
 

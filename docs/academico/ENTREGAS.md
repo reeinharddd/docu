@@ -6,7 +6,7 @@ Estado: vigente. Responsable: Erik. Revisor: responsable de cada entrega.
 |---|---|---|---|
 | SRS DOCU IEEE 830 (PDF) + firma | 2026-10-13 | #13 | en progreso |
 | Aprobación de requerimientos | 2026-10-13 | #30 | pendiente |
-| Diagrama de casos de uso | 2026-10-13 | #36 | Erik |
-| Reporte y alerta RF-05 | Sprint 3 | #39 | Emmanuel |
+| Diagrama de casos de uso | — | #36 | no planificado (cerrado) |
+| Reporte y alerta RF-05 | Sprint 3 | #39 | pendiente (Emmanuel) |
 | Demo + video + evidencias por RF | 2026-11-27 | #6 | pendiente |
 | Presentación diciembre | 2026-12-01 | milestone | pendiente |

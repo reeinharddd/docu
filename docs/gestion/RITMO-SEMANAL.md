@@ -42,7 +42,7 @@ Sprints (`GITHUB-GESTION.md`, no se redefinen): S1 diseño 12–23 oct, S2 19 oc
 
 | Fecha | Qué | Dónde |
 |---|---|---|
-| 2026-10-13 | Elección de marca + firma SRS + entorno y tablero listos; arrancan v0 y matriz | #41-fase1, #13/#30/#36, #10, #43, #58, #29 |
+| 2026-10-13 | Elección de marca + firma SRS + entorno y tablero listos; arrancan v0 y matriz | #41-fase1, #13/#30, #10, #43, #58, #29 |
 | 2026-10-16 | Matriz (Carlos), diagrama v0 (Emmanuel) | #29, #58 |
 | 2026-10-23 | Cierre de diseño y fin de la arquitectura (Erik, Sprint 1) | Milestone `Cierre de diseño` |
 | **2026-10-30** | **Contrato de datos para maquetas (objetivo flexible)** | Milestone `Contrato de datos congelado`, #23 |

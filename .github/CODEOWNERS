@@ -1,5 +1,5 @@
-# CODEOWNERS — activar al crear el repo (reemplazar usuarios).
-# /apps/api/ @EMMANUEL
-# /apps/web/ @KIRA
-# /dataset/ @CARLOS
-# /infra/ /prisma/ /*.json /*.yml @ERIK
+# CODEOWNERS — propiedad por carpeta (ADR-0008 / integraciones/GITHUB-GESTION.md).
+/apps/api/ @Agent3835
+/apps/web/ @kirxllix
+/infra/ /prisma/ /*.json /*.yml @reeinharddd
+# /dataset/ @<Carlos> — pendiente: sin cuenta GitHub (ver proyecto/EQUIPO.md).
