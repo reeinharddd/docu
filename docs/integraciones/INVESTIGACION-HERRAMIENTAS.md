@@ -1,7 +1,7 @@
 # Investigación de herramientas para agentes y modelos
 
-Resultado de la investigación de herramientas (brief retirado del repo; ver
-`git log -- docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md`).
+Resultado de la investigación de herramientas (brief retirado del repo; ver su
+historial: `git log -- docs/integraciones/INVESTIGACION-HERRAMIENTAS.md`).
 Consultado el 2026-10-05. Toda afirmación lleva fuente y fecha. Lo que no se pudo
 confirmar dice **no confirmado** y no se rellena por suposición (regla 3 del brief).
 

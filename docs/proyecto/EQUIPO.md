@@ -1,15 +1,15 @@
 # Equipo, responsabilidades y propiedad de la documentación
 
-Estado: vigente. Última actualización: 2026-10-09. Replanificación: inicio 2026-10-05 → 2026-10-12 (+7 días); #32 pasa a Erik, #7 pasa a Emmanuel.
+Estado: vigente. Última actualización: 2026-10-17. Replanificación: inicio 2026-10-05 → 2026-10-12 (+7 días); #32 pasa a Erik, #7 pasa a Emmanuel.
 
 ## Personas
 
 | Persona | Rol en DOCU | Áreas del sistema | Usuario GitHub |
 |---|---|---|---|
 | Erik Alfonso Beltrán Ramírez | Líder, infra y pipeline | `auth/governance`, despliegue, CI, entorno, ADRs de infraestructura | `reeinharddd` |
-| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas. Configuración 1 (#7), 2026-10-19 → 10-30, alimenta el contrato de datos | pendiente |
-| Kira Llizara Garfias González | Frontend y UX | Angular, Tailwind, captura, bandeja, programa, búsqueda, diseño de pantallas | pendiente |
-| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | pendiente |
+| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas. Configuración 1 (#7), 2026-10-19 → 10-30, alimenta el contrato de datos | `Agent3835` |
+| Kira Llizara Garfias González | Frontend y UX | Angular, Tailwind, captura, bandeja, programa, búsqueda, diseño de pantallas | `kirxllix` |
+| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | pendiente (sin cuenta) |
 
 Materias: **Yakko Olivo Nájera** (Desarrollo web integral) es dueño del
 producto y sus entregas viven en DOCU. **Resffa Elizabeth Fierro García**
@@ -27,12 +27,12 @@ está en su brief y el estado en su issue.
 | Kira | Experiencia y diseño | Marca Fase 1 (#41-fase1), luego prototipos y flujo (#11), categorías (#28); después design system (#41) | 2026-10-16 / 10-23 | `briefs/BRIEF-41-marca-fase1.md`, `briefs/BRIEF-11-prototipos-ui-ux.md` (incluye #28) |
 | Emmanuel | Backend y base de datos | Diagrama v0 (#58) y v1+seed (#59); carga C1 (#7); después APIs (#12), solo-insert (#44), pruebas API (#45) y reporte (#39) | 2026-10-19 / 10-30 | `briefs/BRIEF-07-configuracion-1.md` |
 | Carlos | Datos y calidad | Matriz y perfiles (#29), diseño de documentos (#9), generador y dataset (#61) | 2026-10-16 / 10-23 | `briefs/BRIEF-29-matriz-roles-y-dataset.md`, `BRIEF-09-*`, `BRIEF-61-*` |
-| Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), pipeline de ingesta (#3), esenciales y entorno (#10), arquitectura (#60), modelo (#62), gestión del Project (#43), playground de diseño (#42), SRS (#13), diagrama de casos de uso (#36), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md`, `briefs/BRIEF-30-36-aprobacion-casos-uso.md` |
+| Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), pipeline de ingesta (#3), esenciales y entorno (#10), arquitectura (#60), modelo (#62), gestión del Project (#43), playground de diseño (#42), SRS (#13), aprobación de requisitos (#30), cotizaciones (#31, #33), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md` |
 
-#36 → Erik (diagrama de casos de uso, con SRS #13) y #39 → Emmanuel (reporte y
-alerta, RF-05, tras #7). Asignados en el sync del lunes 2026-10-12. En GitHub
-quedan sin assignee hasta que existan las cuentas del equipo; mientras tanto
-manda el dueño nominal de este archivo.
+#39 → Emmanuel (reporte y alerta, RF-05, tras #7), ya asignado en GitHub
+(`Agent3835`). Kira (`kirxllix`) también tiene sus issues asignados. #36 se
+cerró como no planificado (el diagrama de casos de uso no se hará). Carlos sigue
+sin cuenta de GitHub: mientras tanto manda el dueño nominal de este archivo.
 
 Cómo empieza cualquiera: `bash scripts/setup.sh`, `opencode`, `/inicio`
 (`operacion/BOOTSTRAP.md`).

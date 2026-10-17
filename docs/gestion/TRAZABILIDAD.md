@@ -1,6 +1,6 @@
 # Gestión: trazabilidad requisito → épica → issue → PR → evidencia
 
-Estado: vigente. Verificado contra GitHub el 2026-10-09 (46 issues, 5 milestones:
+Estado: vigente. Verificado contra GitHub el 2026-10-17 (53 issues, 5 milestones:
 Cierre de diseño 23-oct, Contrato de datos 30-oct, Fin del desarrollo 20-nov,
 Listos 27-nov, Presentación 1-dic), tras la migración desde
 Monday (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
@@ -37,7 +37,7 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 
 | # | Hueco | Acción propuesta | Estado |
 |---|---|---|---|
-| 1 | `RF-05` no tiene issue | — | **Cerrado**: #39 (falta responsable) |
+| 1 | `RF-05` no tiene issue | — | **Cerrado**: #39 (Emmanuel, `Agent3835`) |
 | 2 | `RF-08` sin etiqueta en Configuración 2 | — | **Cerrado**: #8 lleva `RF-08` |
 | 3 | #7, #9, #13, #30 sin requisito | — | **Cerrado**: `RF-08`, `RNF-02`/`RNF-07`, `RNF-07`, `RNF-07` (tomados de los criterios de cada issue) |
 | 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto |
