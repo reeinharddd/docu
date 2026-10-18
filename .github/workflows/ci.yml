@@ -54,6 +54,7 @@ jobs:
       - run: bun run typecheck
       - run: docker compose -f infra/docker-compose.yml config
       - run: bash scripts/doc-index.sh
+      - run: bun run harness:check
       - run: bash scripts/docs-linkcheck.sh
       - run: bash scripts/docs-briefcheck.sh
       - run: bash scripts/docs-tracecheck.sh

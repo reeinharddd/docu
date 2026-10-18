@@ -86,6 +86,10 @@ line "== indice documental =="
 if bash scripts/doc-index.sh >/dev/null 2>&1; then ok_line "indice de docs honesto (docs/.indice)"; else falta_line "docs/.indice no coincide con el disco. Corre: bash scripts/doc-index.sh --fix"; fi
 
 line ""
+line "== harness =="
+if bash scripts/harness-check.sh >/dev/null 2>&1; then ok_line "harness: metadata y catalogo en verde"; else falta_line "harness-check falla: revisa dueno/disparador/proposito o CAPACIDADES.md"; fi
+
+line ""
 line "== higiene git =="
 raiz=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 sucios=$(cd "$raiz" && git status --porcelain | grep -v '^?? node_modules' | wc -l | tr -d ' ')
