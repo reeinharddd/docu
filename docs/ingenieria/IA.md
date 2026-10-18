@@ -184,10 +184,12 @@ La dimensión **tiene que coincidir con la del modelo de embeddings elegido**.
 Ollama permite pedir una dimensión concreta en `/api/embed` (por ejemplo, 128
 para un modelo reducido), y un modelo distinto producirá una dimensión distinta.
 
-Decisión pendiente de M1: fijar el modelo de embeddings y su dimensión, y hacer
-que la migración y el tipo del schema coincidan. Si el modelo elegido entrega
-384 o 128 dimensiones, la columna nace como `vector(384)` o `vector(128)`, porque
-todavía no hay esquema ni datos de producción.
+Propuesta vigente en [EMBEDDINGS.md](EMBEDDINGS.md): **Qwen3-Embedding-0.6B**
+(Apache 2.0, salida MRL a 768, contexto 32 K) o **EmbeddingGemma 308M** (768
+nativas, CPU); alternativas en [EMBEDDINGS-MERCADO.md](EMBEDDINGS-MERCADO.md).
+Se **congela en M1** con medición propia (recall@k) y pasa a **ADR-0015**. Si el modelo elegido entrega 384 o 128
+dimensiones, la columna nace como `vector(384)` o `vector(128)`, porque todavía no
+hay esquema ni datos de producción.
 
 La búsqueda textual completa con `tsvector` es el camino **Must** y no depende
 del modelo; el embedding es **Should**. Orden correcto: primero `tsvector`
