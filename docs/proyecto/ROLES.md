@@ -27,7 +27,7 @@ siguen valiendo porque nunca dijeron "el de hasta arriba", solo
 
 ## 2. Roles fijos (no saben de negocios)
 
-Cuatro códigos en inglés, válidos para cualquier empresa o instalación.
+Cuatro códigos en inglés, válidos para cualquier compañía o instalación.
 Ninguno menciona departamentos, máquinas ni industrias.
 
 | Rol | Significa | Regla |
@@ -335,7 +335,7 @@ flowchart LR
 
 ## 11. Valores semilla para la BD (Configuración 1)
 
-Lo genérico es el mecanismo; los valores son de la empresa y se
+Lo genérico es el mecanismo; los valores son de la compañía y se
 cargan como datos. Columnas según `MODELO-DATOS.md`: `Instalacion` →
 `Departamento` → `Usuario`, con `UsuarioRol` puente y
 `Usuario.departamentoId` opcional (corporativo sin departamento).
@@ -406,33 +406,33 @@ el diagrama v0 ya tiene qué sostener.
 ## 12. Bundle del usuario (todo lo que posiciona a alguien en la instalación)
 
 Cada usuario necesita estos datos; sin ellos el sistema no sabe
-dónde colgarlo ni qué dejarle ver. Tres orígenes: la empresa los da,
+dónde colgarlo ni qué dejarle ver. Tres orígenes: la compañía los da,
 el jefe los confirma, o el sistema los infiere.
 
 | Campo | Para qué posiciona | Origen | Obligatorio |
 |---|---|---|---|
 | `id` | Identidad interna estable; sobrevive a cambios de instalación, depto o login y conserva historial | sistema | sí |
-| `nombre` | Identidad ficticia | empresa | sí |
+| `nombre` | Identidad ficticia | compañía | sí |
 | `usuario` | Login legible (`c1.mantenimiento.juan`); puede cambiar sin crear persona nueva | sistema | sí |
-| `tipo_relacion` | `interno` o `externo`. Ricardo es interno de solo-lectura; un proveedor es externo con vigencia obligatoria | empresa | sí |
-| `puesto` | Qué hace (texto libre, sin catálogo) | empresa | sí |
-| `instalacion` | Instalación donde opera (adscripción, no jefatura) | empresa | sí |
+| `tipo_relacion` | `interno` o `externo`. Ricardo es interno de solo-lectura; un proveedor es externo con vigencia obligatoria | compañía | sí |
+| `puesto` | Qué hace (texto libre, sin catálogo) | compañía | sí |
+| `instalacion` | Instalación donde opera (adscripción, no jefatura) | compañía | sí |
 | `instalacion_activa` | Instalación en sesión (si trabaja en dos instalaciones) | usuario elige | no |
-| `departamento` | En qué área (código del §11.2) | empresa | sí, salvo corporativo |
-| `reporta_a` | Jerarquía (su rama del árbol; texto si es externo al sistema) | empresa | sí |
+| `departamento` | En qué área (código del §11.2) | compañía | sí, salvo corporativo |
+| `reporta_a` | Jerarquía (su rama del árbol; texto si es externo al sistema) | compañía | sí |
 | `rol` | `admin`, `manager`, `member`, `guest` | sistema propone, jefe confirma | sí |
 | `alcance` | `organizacion`, `instalacion`, `departamento`, `propio` | sistema propone, jefe confirma | sí |
 | `dominios` | Secciones que ve (del §11.3, varios posibles) | sistema propone, jefe confirma | sí, salvo `admin` |
 | `grants` | Capacidades explícitas (`release_lot`, `quarantine_lot`, `confirm`…), cada una con alcance, dominios, vigencia, motivo y otorgante | jefe otorga | no (defecto: ninguno) |
-| `turno` | T1, T2, T3 (realismo del dataset) | empresa | no |
-| `maquinas` | TP-01..TB-03 que opera (realismo del dataset) | empresa | no |
+| `turno` | T1, T2, T3 (realismo del dataset) | compañía | no |
+| `maquinas` | TP-01..TB-03 que opera (realismo del dataset) | compañía | no |
 | `vigencia_hasta` | Solo externos e invitados | jefe pone | no |
 | `estado` | `activo`, `suspendido`, `baja` | jefe cambia | sí (defecto: `activo`) |
 | `contexto_activo` | Dominio y turno de la sesión (si tiene varios) | usuario elige al entrar | no |
 | `modificado_por` | Quién tocó el bundle por última vez | sistema | sí |
 | `fecha_modificacion` | Cuándo (trazabilidad ISO 13485 / 21 CFR Part 11) | sistema | sí |
 
-Lo mínimo que la empresa entrega por persona: nombre, puesto,
+Lo mínimo que la compañía entrega por persona: nombre, puesto,
 instalación, departamento y a quién reporta. Con eso el sistema propone
 rol, alcance y dominios (§2); el jefe confirma en 1 clic y el bundle
 queda completo. Nada más se configura a mano.
