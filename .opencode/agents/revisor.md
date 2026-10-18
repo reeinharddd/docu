@@ -1,5 +1,8 @@
 ---
 description: Revisión solo-lectura de un diff contra su base (rigurosa, calibrada). Usar antes de /cerrar o de aprobar un PR.
+dueno: reeinharddd
+disparador: antes de /cerrar o de aprobar un PR
+proposito: Revision solo-lectura y calibrada de un diff contra su base
 mode: subagent
 permission:
   edit:

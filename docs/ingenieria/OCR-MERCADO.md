@@ -136,7 +136,7 @@ Todos disponibles en **Ollama** (`ollama pull glm-ocr`, `qwen2.5vl`, `minicpm-v`
 3. **Arquitectura**: todo-en-uno (un VLM) vs pipeline por etapas (layout + OCR + tabla) vs
    híbrido (OCR barato para lo limpio + VLM solo para lo difícil).
 4. **Infra y restricciones**: offline (RNF-03), CPU/GPU, RAM, tamaño del modelo, Docker.
-5. **Idioma y dominio**: español; los formatos reales de la planta (las 6 familias).
+5. **Idioma y dominio**: español; los formatos reales de la instalación (las 6 familias).
 6. **Métrica objetivo**: RF-02 (campos ≥ 90 %, CER ≤ 10 %) — condiciona la elección.
 7. **Integración**: corre en el **worker**, nunca en la API (ADR-0011); en Docker.
 8. **Licencia y mantenimiento**: Apache / MIT / AGPL / solo-investigación; cuántas piezas

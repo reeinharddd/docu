@@ -1,5 +1,8 @@
 ---
 description: Redactar el brief de delegacion de un issue con la plantilla oficial
+dueno: reeinharddd
+disparador: al delegar un issue a una persona
+proposito: Redacta el brief de delegacion con la plantilla oficial
 ---
 
 Issue: #$1

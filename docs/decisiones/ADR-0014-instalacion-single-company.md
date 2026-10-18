@@ -36,7 +36,9 @@ ningún término atado a un tipo de dominio. Los docs ya se corrigieron a
 - **A favor**: un modelo, una regla de aislamiento, una prueba.
 - **A favor**: C2 es segunda instalación sin código nuevo (RF-08 demostrable).
 - **En contra**: hay que migrar el placeholder (`schema.prisma`, seed, migración base) a `Instalacion` en #59; nada de lo viejo se reutiliza tal cual.
-- **En contra**: ADR-0009 pasa a `Reemplazada por ADR-0014` al aprobarse esta.
+- **En contra**: ADR-0009 queda con su alcance actualizado por esta ADR ("por
+  empresa" → "por instalación"); el resto de ADR-0009 (las reglas son datos)
+  sigue vigente.
 
 ## Reversión
 

@@ -9,11 +9,11 @@ caso, en `../ingenieria/ALCANCE-SOLUCION.md`.
 
 Planta **sintética** de empaque médico flexible: no existe, no hay
 levantamiento real ni entrevistas. El caso se define en este archivo y Carlos
-genera el dataset en paralelo (#9). Despliegue por compañía: una empresa corre
+genera el dataset en paralelo (#9). Despliegue por compañía: una compañía corre
 su propio sistema y en él pueden convivir sus plantas. El nombre real de
 cualquier planta de referencia nunca aparece en entregas ni en el repositorio.
 
-## Empresa
+## Compañía
 
 Empaque flexible médico: *pouches* peelables (Tyvek-film, film-film) y *header
 bags* para dispositivo médico, compatibles con EtO, radiación y e-beam.
@@ -268,7 +268,7 @@ DOCU entra como un integrante más: **ingiere, no reemplaza**. Al inicio nada se
 elimina; la planta sigue funcionando igual sin DOCU. Todo se va cargando —
 arrastrando archivos o desde fuentes, al principio simuladas— y solo cuando un
 dato ya llega solo y verificado, ese artefacto manual queda candidato a retiro.
-La decisión de dejar de usar un sistema viejo es de la empresa, no de DOCU.
+La decisión de dejar de usar un sistema viejo es de la compañía, no de DOCU.
 
 El original nunca se borra (ADR-0010). Migración progresiva y opcional.
 
@@ -281,7 +281,7 @@ Evidencia mínima (decisión del líder 2026-10-12): prueba con 2 usuarios de
 distintas plantas intentando lecturas, escrituras y reportes cruzados — todo lo
 de la otra planta debe fallar — más `git diff` de código vacío y la salida del
 reporte, todo adjunto al PR de #8. Sin reintroducir `Empresa` multi-tenant: el
-despliegue ya es por compañía, el aislamiento es por planta en el servidor.
+despliegue ya es por compañía, el aislamiento es por instalación en el servidor.
 
 ## Referencias
 

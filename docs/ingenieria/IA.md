@@ -131,7 +131,7 @@ defecto.
 | Costo | Cero, corre en la laptop del equipo | Costo por token, requiere clave y control de cuota |
 | Operación | Instalar pesos en 4 máquinas | Nada que instalar |
 
-**Regla**: la clasificación de documentos de la planta, que incluye correos y
+**Regla**: la clasificación de documentos de la instalación, que incluye correos y
 escrituras de proveedor, se hace **local**. La consulta en lenguaje natural
 puede considerar nube si el líder lo autoriza por tarea, sin datos sensibles, y
 dejando registro de qué se envió.
@@ -161,8 +161,8 @@ worker con **Laya** (ONNX), detallado en [OCR.md](OCR.md) §6.
 
 | Proveedor | Uso previsto | Condición |
 |---|---|---|
-| **Gemini** (Google) | Consulta larga, documentos extensos, buen soporte multimodal | Clave propia, sin datos de la planta |
-| **Claude** (Anthropic) | Consulta y redacción, contexto largo | Clave propia, sin datos de la planta |
+| **Gemini** (Google) | Consulta larga, documentos extensos, buen soporte multimodal | Clave propia, sin datos de la instalación |
+| **Claude** (Anthropic) | Consulta y redacción, contexto largo | Clave propia, sin datos de la instalación |
 
 No hay una razón técnica para elegir un proveedor de nube sobre otro: la
 diferencia está en la clave, el costo y la política del equipo. Si la decisión

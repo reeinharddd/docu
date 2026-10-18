@@ -1,6 +1,9 @@
 ---
 name: docu-memoria
 description: Como usar Engram (memoria del proyecto) en DOCU - cuando buscar, cuando guardar y que nunca va a memoria. Usar al empezar (/inicio, /tarea) y al cerrar trabajo.
+dueno: reeinharddd
+disparador: al empezar (/inicio, /tarea) y al cerrar trabajo
+proposito: Como usar Engram, la memoria del proyecto
 ---
 
 # Memoria del proyecto en DOCU

@@ -11,7 +11,7 @@
 
 ## 1. Contexto
 
-Parte de los documentos de la planta llegan escaneados. RF-02 exige leer sus
+Parte de los documentos de la instalación llegan escaneados. RF-02 exige leer sus
 campos clave con al menos 90 % de exactitud y CER ≤ 10 % en texto corrido
 (`proyecto/REQUISITOS.md`). El OCR corre en el worker, nunca en la API
 (ADR-0011).

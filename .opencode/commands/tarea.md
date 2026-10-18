@@ -1,5 +1,8 @@
 ---
 description: Empezar a trabajar un issue - lee contexto, crea la rama y propone plan
+dueno: reeinharddd
+disparador: al empezar a trabajar un issue
+proposito: Lee contexto, crea la rama y propone plan
 ---
 
 Issue a trabajar: #$1

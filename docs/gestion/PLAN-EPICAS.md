@@ -54,7 +54,7 @@ trabaje sin depender de una sola persona.
 | E2 | Worker y pipeline en serio | #3, worker real |
 | M1 | Backend/modelo: API, Prisma, validación | #12, #59 |
 | K1 | Frontend en construcción | #4, #41 |
-| C1/C2 | Configuración 1 (Baja SterilPack) / Configuración 2 (segunda planta) | #7, #8 |
+| C1/C2 | Configuración 1 (Baja SterilPack) / Configuración 2 (segunda instalación) | #7, #8 |
 | S1–S4 | Sprints del calendario canónico | `GITHUB-GESTION.md` |
 
 ## Épicas

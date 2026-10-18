@@ -78,7 +78,7 @@ registro en español). El sistema no puede asumir un solo idioma.
 Lo de `ARQUITECTURA.md` §5, aplicado al caso: un solo host con Docker Compose
 (base, Redis y la app), **sin nube** salvo configuración explícita (RNF-03). El
 modelo IA puede ser local (Ollama) o API, siempre con salida forzada a JSON
-Schema. La planta opera **sin conexión a internet garantizada**: el sistema debe
+Schema. La instalación opera **sin conexión a internet garantizada**: el sistema debe
 funcionar offline y con recursos mínimos.
 
 ## 6. Lo que queda fuera y por qué

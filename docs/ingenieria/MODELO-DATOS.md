@@ -12,7 +12,7 @@ está montado pero vacío y no debe cargarse a mano.
 
 `Instalacion` → `Departamento` → `Usuario`, con `Rol` en tabla puente
 (`UsuarioRol`). Raíz `Instalacion`: un despliegue sirve a una compañía y en él
-conviven sus instalaciones; nunca se mezclan compañías. Cuatro códigos de rol: `admin`, `planeacion`, `calidad`, `almacen`.
+conviven sus instalaciones; nunca se mezclan compañías. Cuatro códigos de rol: `admin`, `manager`, `member`, `guest` (`proyecto/ROLES.md`).
 
 `Usuario.departamentoId` es opcional a propósito: un administrador no pertenece
 a un departamento. `Instalacion` + `Departamento` + `nombre` es único.

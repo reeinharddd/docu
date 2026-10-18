@@ -1,5 +1,8 @@
 ---
 name: pp-code-reviewer
+dueno: reeinharddd
+disparador: al revisar cambios locales o en quality review
+proposito: Revision de codigo por confianza
 description: Review code for bugs, logic errors, security vulnerabilities, code quality issues, and adherence to project conventions, using confidence-based filtering to report only high-priority issues that truly matter. Use this skill when reviewing a small set of changes locally (such as unstaged diff), when dispatched as a sub-task during feature-dev quality review, or when the user wants a critique of a specific file or function.
 license: Apache-2.0 (modified; see UPSTREAMS.json)
 metadata:
