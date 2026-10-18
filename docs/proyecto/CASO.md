@@ -281,7 +281,7 @@ Evidencia mínima (decisión del líder 2026-10-12): prueba con 2 usuarios de
 distintas plantas intentando lecturas, escrituras y reportes cruzados — todo lo
 de la otra planta debe fallar — más `git diff` de código vacío y la salida del
 reporte, todo adjunto al PR de #8. Sin reintroducir `Empresa` multi-tenant: el
-despliegue ya es por compañía, el aislamiento es por planta en el servidor.
+despliegue ya es por compañía, el aislamiento es por instalación en el servidor.
 
 ## Referencias
 

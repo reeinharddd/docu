@@ -37,7 +37,7 @@ Los números de GLM-OCR son **lo que reporta Zhipu AI** en su reporte técnico
 **Tesseract no se elige como motor.** Se conserva por dos razones: marca el piso
 de la comparación y sirve de filtro instantáneo (≈ 0.2 s) para documentos limpios,
 donde un VLM es gasto innecesario. Un OCR clásico no resuelve tablas ni orden de
-lectura, que es justo lo que RF-02 necesita en los formatos reales de planta.
+lectura, que es justo lo que RF-02 necesita en los formatos reales de la instalación.
 
 ## 3. Fase 1: lo medido en DOCU
 
@@ -108,8 +108,8 @@ El resto de la estrategia de IA (modelos locales, embeddings, umbrales) sigue en
 
 ## 7. Límites: qué no alcanza
 
-- **Scans reales de la planta:** sin medir. La fase 2 usa los `#61` contra ground
-  truth; si el CER sube en formularios reales de planta, entra el plan B.
+- **Scans reales de la instalación:** sin medir. La fase 2 usa los `#61` contra ground
+  truth; si el CER sube en formularios reales de la instalación, entra el plan B.
 - **Formato exacto de campos clave:** el CSV del brief medirá exactitud por campo,
   no solo CER de texto corrido.
 - **Volumen:** el rendimiento por página en CPU real está sin medir (`#46`).

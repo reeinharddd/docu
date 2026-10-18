@@ -16,7 +16,7 @@ Los permisos se deciden en el servidor; el front solo oculta (principio 5 de VIS
 
 ## 2. Por qué importa tu parte
 
-Sin RBAC efectivo, el aislamiento por planta (C2) y RF-06 no se demuestran: la prueba de 2 usuarios debe fallar en el servidor, no en el botón. Si sale bien, cada pantalla y cada reporte heredan permisos sin código extra.
+Sin RBAC efectivo, el aislamiento entre instalaciones (C2) y RF-06 no se demuestran: la prueba de 2 usuarios debe fallar en el servidor, no en el botón. Si sale bien, cada pantalla y cada reporte heredan permisos sin código extra.
 
 ## 3. Objetivo y resultado esperado
 
@@ -24,7 +24,7 @@ Autorización efectiva en servidor + bitácora completa + reglas como datos.
 
 | Entregable | Evidencia |
 |---|---|
-| Guards por rol y alcance (propio, departamento, planta) | Prueba: usuario de planta 2 no lee ni escribe planta 1, incluidas rutas indirectas |
+| Guards por rol y alcance (propio, departamento, instalación) | Prueba: usuario de la instalación 2 no lee ni escribe la instalación 1, incluidas rutas indirectas |
 | Bitácora append-only (quién subió, quién confirmó) | Tabla con actor, acción, entidad, detalle; nada la edita ni borra |
 | Reglas R-P1..T1 evaluables desde `ReglaValidacion` | 1 caso por regla ejecutado por el evaluador, no por `if` |
 | Prueba "un departamento no lee otro" (#26) | Caso verde en el PR |
@@ -54,7 +54,7 @@ Autorización efectiva en servidor + bitácora completa + reglas como datos.
 
 ## 8. Criterios de aceptación
 
-- [ ] Planta 2 no accede a planta 1 (lectura, escritura, reportes, rutas indirectas).
+- [ ] Instalación 2 no accede a instalación 1 (lectura, escritura, reportes, rutas indirectas).
 - [ ] Departamento no lee otro departamento (#26 verde).
 - [ ] Bitácora registra quién subió y quién confirmó cada dato oficial.
 - [ ] Reglas ejecutadas por evaluador, cero `if` de negocio en código.

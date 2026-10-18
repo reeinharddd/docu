@@ -94,7 +94,7 @@ Consecuencias para DOCU:
 
 ## 6. Qué categorías considerar al elegir
 
-1. **Idioma y dominio:** español y las 6 familias de documento de planta.
+1. **Idioma y dominio:** español y las 6 familias de documento de la instalación.
 2. **Dimensión vs esquema:** 768 ya está fijado; un modelo de 1024 obliga a migrar.
 3. **Infra y restricciones:** offline (RNF-03), sin GPU, RAM, Docker, tamaño.
 4. **Contexto y chunking:** 2 K (EmbeddingGemma) vs 32 K (Qwen3) según largo real.
