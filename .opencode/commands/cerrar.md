@@ -1,5 +1,8 @@
 ---
 description: Cerrar el trabajo de la rama actual - verify, commit convencional y PR que cierra el issue
+dueno: reeinharddd
+disparador: al terminar el trabajo de la rama
+proposito: Verifica, commitea convencional y abre el PR que cierra el issue
 ---
 
 Rama: !`git rev-parse --abbrev-ref HEAD`

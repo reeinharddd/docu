@@ -29,8 +29,9 @@ check_pieza() {
     printf '%s\n' "$bloque" | grep -q "^$campo:" || reportar "$pieza" "falta $campo"
   done
   if [ "$es_vendor" = 1 ]; then
-    for campo in origen version; do
-      printf '%s\n' "$bloque" | grep -q "^$campo:" || reportar "$pieza" "falta $campo (vendor)"
+    printf '%s\n' "$bloque" | grep -q "^metadata:" || reportar "$pieza" "falta metadata (vendor)"
+    for campo in repo commit version; do
+      printf '%s\n' "$bloque" | grep -q "^  $campo:" || reportar "$pieza" "falta metadata.$campo (vendor)"
     done
   fi
   dueno=$(printf '%s\n' "$bloque" | sed -n 's/^dueno:[[:space:]]*//p')

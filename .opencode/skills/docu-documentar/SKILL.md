@@ -1,6 +1,9 @@
 ---
 name: docu-documentar
 description: Como se escribe y se ubica la documentacion de DOCU - taxonomia por tipo, ADR, briefs, indice verificable y capas de autoridad. Usar antes de crear, mover o editar cualquier archivo en docs/.
+dueno: reeinharddd
+disparador: antes de crear, mover o editar cualquier archivo en docs/
+proposito: Reglas de taxonomia, ADR, briefs e indice de la documentacion
 ---
 
 # Documentar en DOCU

@@ -1,5 +1,8 @@
 ---
 description: Estado actual del proyecto DOCU (git, issues, hitos, bloqueos)
+dueno: reeinharddd
+disparador: al pedir el estado del proyecto
+proposito: Resume git, issues, hitos y bloqueos actuales
 ---
 
 Git:
