@@ -79,7 +79,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 | Ruta | Contenido | Estado |
 |---|---|---|
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
-| `decisiones/` | ADRs de ingeniería, 14 (13 aceptadas, 1 propuesta) | en progreso |
+| `decisiones/` | ADRs de ingeniería, 14 aceptadas | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA, alcance de la solución y `fichas/` (contrato de documentos del caso) | en progreso |
 | `diseno/` | Experiencia de uso: modelo operativo, pantallas, flujos, identidad | pendiente |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
