@@ -104,7 +104,6 @@ paso "dependencias y hooks"
 if [ ! -f .env ]; then cp .env.example .env; ok ".env creado desde .env.example (pide al lider las credenciales de Drive)"; else ok ".env ya existe"; fi
 bun install --frozen-lockfile >/dev/null 2>&1 || error "bun install fallo. Corre: bun install --frozen-lockfile"
 ok "bun install (lefthook instalado por postinstall)"
-(cd apps/api && bunx prisma generate >/dev/null 2>&1) && ok "prisma generate" || aviso "prisma generate fallo. Corre: cd apps/api && bunx prisma generate"
 
 paso "rutas en el shell"
 perfil="$HOME/.bashrc"; case "${SHELL:-}" in */zsh) perfil="$HOME/.zshrc" ;; esac

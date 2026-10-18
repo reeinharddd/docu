@@ -1,5 +1,5 @@
 # CODEOWNERS — propiedad por carpeta (ADR-0008 / integraciones/GITHUB-GESTION.md).
 /apps/api/ @Agent3835
 /apps/web/ @kirxllix
-/infra/ /prisma/ /*.json /*.yml @reeinharddd
+/infra/ /*.json /*.yml @reeinharddd
 # /dataset/ @<Carlos> — pendiente: sin cuenta GitHub (ver proyecto/EQUIPO.md).

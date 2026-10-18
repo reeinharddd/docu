@@ -186,7 +186,7 @@ Novedades de PostgreSQL 18 (lanzada el 2025-09-25) que tocan al proyecto:
 
 | Novedad | Utilidad | Remarca |
 |---|---|---|
-| `uuidv7()` | El esquema usa UUID v4 aleatorio, que dispersa las inserciones en los índices | Value en las tablas que solo crecen; se puede cambiar mientras no haya datos de producción |
+| `uuidv7()` | El esquema (M1) usará UUID; v4 aleatorio dispersa las inserciones en los índices | Value en las tablas que solo crecen; se puede cambiar mientras no haya datos de producción |
 | `skip scan` en índices multicolumna | Búsqueda por fecha y área donde la primera columna puede faltar | Beneficio directo, sin configurar |
 | E/S asíncrona | Lecturas secuenciales y vaciado más rápidos | Beneficio directo, se debe medir en la prueba de volumen |
 | `OLD` y `NEW` en `RETURNING` | Registrar valor anterior y nuevo en una sola sentencia | Mejora la trazabilidad del historial |
@@ -243,8 +243,8 @@ funcionalidad.
 
 | Job | Qué hace hoy |
 |---|---|
-| `guardas` | Instala, verifica que `.env` no esté en el repo, gitleaks, Biome, genera y valida Prisma, tipos, valida el Compose |
-| `smoke` | Genera cliente, aplica migraciones, siembra, arranca la API, consulta el health y prueba la cola |
+| `guardas` | Instala, verifica que `.env` no esté en el repo, gitleaks, Biome, tipos, valida el Compose |
+| `smoke` | Arranca la API, consulta el health y prueba la cola |
 
 No se ejecutan las pruebas del front ni el lint de plantillas, aunque ambas
 cosas pasan hoy. *Remarca: añadirlas cuando se implemente la capa de pruebas.*

@@ -11,7 +11,7 @@
 
 ## 1. Contexto
 
-Con el v1 afirmado, este brief reescribe `MODELO-DATOS.md` desde él: cada tabla con su constraint y su porqué, sin placeholder, con versiones reales. Es el documento que el backend obedece.
+Con el v1 afirmado, este brief reescribe `MODELO-DATOS.md` desde él: cada tabla con su constraint y su porqué, sin referencias a un esquema inexistente, con versiones reales. Es el documento que el backend obedece.
 
 ## 2. Por qué importa tu parte
 
@@ -21,7 +21,7 @@ Sin modelo cerrado, #12 y #3 interpretan cada uno por su lado. Si sale bien, S2 
 
 | Entregable | Evidencia |
 |---|---|
-| `MODELO-DATOS.md` reescrito desde v1 | Cero referencias al placeholder como verdad; trazabilidad regla→constraint |
+| `MODELO-DATOS.md` reescrito desde v1 | Cero referencias a un esquema inexistente como verdad; trazabilidad regla→constraint |
 | Versiones reales | `bun.lock` manda; `verify` verde |
 
 ## 4. Actividades específicas
@@ -44,7 +44,7 @@ Sin modelo cerrado, #12 y #3 interpretan cada uno por su lado. Si sale bien, S2 
 
 ## 8. Criterios de aceptación
 
-- [ ] Sin placeholder; trazabilidad completa; `verify` verde.
+- [ ] Sin referencias a un esquema inexistente; trazabilidad completa; `verify` verde.
 
 ## 9. Riesgos nombrados
 

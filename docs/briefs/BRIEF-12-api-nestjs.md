@@ -36,7 +36,7 @@ Fase A (esqueleto, 20→27-oct, sin esperar el contrato): módulos, config, heal
 
 1. Crear módulos por dominio (`auth`, `ingesta`, `oficial`) sobre el esqueleto actual. Terminado: `GET /health` responde ok.
 2. Cablear validación global y apagado limpio. Terminado: campo extra rechazado + `SIGTERM` cierra conexiones.
-3. Modelar Prisma desde el diagrama v1 aprobado del #7 (no del placeholder). Terminado: `prisma validate` verde + migración.
+3. Modelar Prisma desde el diagrama v1 aprobado del #7. Terminado: `prisma validate` verde + migración.
 4. Implementar ingesta: subir → hash `sha256` → familia → estado. Terminado: 1 archivo por familia con su hash.
 5. Implementar dato oficial: confirmar exige persona; historial solo-insert. Terminado: publicar sin confirmar es imposible (prueba).
 6. Documentar contratos para #4. Terminado: tabla endpoint → request/response.
@@ -69,7 +69,7 @@ Neutralidad: este brief basta con el solo contexto del repo.
 - [ ] Contratos documentados y usados por #4.
 - [ ] `bun run verify` en verde; PR con `Closes #12` (fase correspondiente).
 
-No es done si: un endpoint acepta campos sin validar; el schema copia el placeholder; falta el contrato para #4.
+No es done si: un endpoint acepta campos sin validar; el schema no sale del diagrama v1; falta el contrato para #4.
 
 ## 9. Riesgos nombrados
 

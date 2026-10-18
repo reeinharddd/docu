@@ -51,10 +51,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: bun run lint
-      - run: bunx prisma generate
-        working-directory: apps/api
       - run: bun run typecheck
-      - run: bun run prisma:validate
       - run: docker compose -f infra/docker-compose.yml config
       - run: bash scripts/doc-index.sh
       - run: bash scripts/docs-linkcheck.sh
@@ -94,12 +91,6 @@ jobs:
         with:
           bun-version: 1.4.2
       - run: bun install
-      - run: bunx prisma generate
-        working-directory: apps/api
-      - run: bunx prisma migrate deploy
-        working-directory: apps/api
-      - run: bun prisma/seed.ts
-        working-directory: apps/api
       # El smoke usa el mismo script que local: espera por condicion, no por
       # tiempo fijo, y distingue "la API no levanta" de "falta infraestructura".
       - run: bash scripts/smoke-api.sh

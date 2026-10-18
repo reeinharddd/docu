@@ -169,15 +169,15 @@ no puede justificarse con un dato, no se toma: se usa local.
 
 ## 6. Advertencia técnica: la dimensión del embedding
 
-Hoy el schema declara `DatoOficial.embedding` como `vector(768)`. La dimensión
-**tiene que coincidir con la del modelo de embeddings elegido**. Ollama permite
-pedir una dimensión concreta en `/api/embed` (por ejemplo, 128 para un modelo
-reducido), y un modelo distinto producirá una dimensión distinta.
+El vector de `DatoOficial` se mide en 768 dimensiones como **contrato propuesto**.
+La dimensión **tiene que coincidir con la del modelo de embeddings elegido**.
+Ollama permite pedir una dimensión concreta en `/api/embed` (por ejemplo, 128
+para un modelo reducido), y un modelo distinto producirá una dimensión distinta.
 
 Decisión pendiente de M1: fijar el modelo de embeddings y su dimensión, y hacer
 que la migración y el tipo del schema coincidan. Si el modelo elegido entrega
-384 o 128 dimensiones, la columna pasa a `vector(384)` o `vector(128)` y se
-cambia la migración inicial, porque todavía no hay datos de producción.
+384 o 128 dimensiones, la columna nace como `vector(384)` o `vector(128)`, porque
+todavía no hay esquema ni datos de producción.
 
 La búsqueda textual completa con `tsvector` es el camino **Must** y no depende
 del modelo; el embedding es **Should**. Orden correcto: primero `tsvector`

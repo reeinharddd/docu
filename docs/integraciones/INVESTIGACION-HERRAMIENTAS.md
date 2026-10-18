@@ -55,7 +55,7 @@ superable: confirmar la licencia en el repositorio. Responsable: Kira, K1.
 | 4 | Credenciales | Sí, ninguna |
 | 5 | Versionable | Sí |
 | 6 | Ancho de contexto | Sí |
-| 7 | Encaje | Sí, alta: `prisma.config.ts` y el driver adapter son territorio E1 |
+| 7 | Encaje | Sí, alta: `prisma.config.ts` y el driver adapter son territorio M1 |
 
 **Veredicto: entra.** Es la candidata con mejor encaje: cubre exactamente la
 complejidad que este proyecto ya tiene y que menos gente domina (adaptador de
