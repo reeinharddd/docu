@@ -182,7 +182,7 @@ Firecrawl) hasta su disparador.** `.mcp.json` es el catálogo del equipo;
 | MCP del CLI de Angular | 1, 2, 3, 5, 6, 7 | **Extra apagado.** Oficial del CLI (`angular.dev/ai/mcp`, comando presente en el 22.2.1 instalado), `--read-only --local-only`, pin `@angular/cli@22.2.1`, licencia MIT del CLI |
 | Context7 | 2, 3, 7 | **Rechazado.** Criterio 5: no es versionable, se consulta "lo actual". Rompe ADR-0007 punto 5 |
 | Engram | 1, 4, 7 | **En uso.** No es MCP del proyecto; política en [`ENGRAM.md`](ENGRAM.md) |
-| Harnesses externos | ver ADR-0013 (propuesta) | **superpowers `v6.4.2` pineado como plugin del proyecto, subordinado a `AGENTS.md`.** gentle-ai en espera (escribe en `~/.config`, no es clon-listo). ECC/gstack sin fuente verificable. Detalle en [`INVESTIGACION-HERRAMIENTAS.md`](INVESTIGACION-HERRAMIENTAS.md) |
+| Harnesses externos | ver ADR-0013 | **superpowers `v6.4.2` pineado como plugin del proyecto, subordinado a `AGENTS.md`.** gentle-ai en espera (escribe en `~/.config`, no es clon-listo). ECC/gstack no entran como contrato; sus skills puntuales sí, vendorizadas con repo+commit+licencia (`.opencode/skills/vendor/`). Detalle en [`INVESTIGACION-HERRAMIENTAS.md`](INVESTIGACION-HERRAMIENTAS.md) |
 | Modelos locales (Ollama) | 7 | **Fuera de alcance hasta M1.** No hay `ValidationPipe` ni modelo que validar |
 
 ### Regla aplicada
