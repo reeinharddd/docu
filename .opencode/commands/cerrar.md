@@ -13,7 +13,7 @@ Pasos, en orden, sin saltar ninguno:
 
 1. Si la rama es `main`, para: nada se trabaja directo en `main`.
 2. Corre `bun run verify`. Si falla, corrige y repite. No sigas en rojo.
-3. Si tocaste `docs/`, corre `bash scripts/doc-index.sh` y, si falla, `--fix`.
+3. Corre `bash scripts/harness-check.sh`; si tocaste `docs/`, corre tambien `bash scripts/doc-index.sh` y, si falla, `--fix`.
 4. Muestra el diff resumido y propone un mensaje de commit convencional en espanol (`feat:`, `fix:`, `docs:`, `chore:`), sin atribucion a IA. Un cambio logico por commit. Espera confirmacion para commitear.
 5. Con confirmacion: `git push -u origin HEAD` y `gh pr create --base main` con cuerpo segun @.github/PULL_REQUEST_TEMPLATE.md, incluyendo `Closes #<issue>` (el numero sale del nombre de la rama) y la evidencia.
 6. Pide revisor: `gh pr edit --add-reviewer <usuario>` con alguien de @docs/proyecto/EQUIPO.md distinto al autor.
