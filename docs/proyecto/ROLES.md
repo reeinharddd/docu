@@ -20,10 +20,10 @@ el rol casi en automático; el jefe confirma en 1 clic.
 
 Sin cima fija (anti-sesgo): ninguna persona es la raíz del sistema.
 La autoridad es relativa —cada nodo manda sobre su subárbol— así que
-si mañana aparece gente por encima de Roberto, o un sitio trae más
+si mañana aparece gente por encima de Roberto, o una instalación trae más
 niveles y más personas, nada se reescribe: los permisos existentes
 siguen valiendo porque nunca dijeron "el de hasta arriba", solo
-"tu subárbol". Cada sitio trae su propia forma sin afectar a los demás.
+"tu subárbol". Cada instalación trae su propia forma sin afectar a los demás.
 
 ## 2. Roles fijos (no saben de negocios)
 
@@ -32,7 +32,7 @@ Ninguno menciona departamentos, máquinas ni industrias.
 
 | Rol | Significa | Regla |
 |---|---|---|
-| `admin` | Administra su subárbol: invita, asigna y configura. **No es superusuario**: no ve fuera de su subárbol salvo grant multisitio explícito, ni libera ni confirma por ser `admin` | Solo reparte lo que recibió; administrar usuarios no otorga liberación |
+| `admin` | Administra su subárbol: invita, asigna y configura. **No es superusuario**: no ve fuera de su subárbol salvo grant multiinstalación explícito, ni libera ni confirma por ser `admin` | Solo reparte lo que recibió; administrar usuarios no otorga liberación |
 | `manager` | Tiene gente a cargo. **No confirma por ser `manager`**: confirmar, liberar y publicar exigen grants explícitos | Ve su subárbol; actúa solo con capacidad otorgada |
 | `member` | Opera y registra | Ve y sube solo su dominio asignado |
 | `guest` | Solo consulta (interno de solo-lectura o externo invitado) | Lectura acotada; si es externo, con vigencia obligatoria |
@@ -43,9 +43,9 @@ mismas reglas (su subárbol + sus dominios); la diferencia entre
 ellos es administrativa (`manage_users`, `manage_permissions`,
 `manage_config`), no de visibilidad.
 
-Excepción multisitio (H-01): el aislamiento por instalación (ADR-0014) es
-la regla; Roberto accede a varios sitios por **grants explícitos por
-sitio**, no por su rol. Ve consolidados de sus sitios siempre, y
+Excepción multiinstalación (H-01): el aislamiento por instalación (ADR-0014) es
+la regla; Roberto accede a varias instalaciones por **grants explícitos por
+instalación**, no por su rol. Ve consolidados de sus instalaciones siempre, y
 detalle solo donde tenga grant. Sin grant, el filtro de instalación lo
 frena como a cualquiera.
 
@@ -92,7 +92,7 @@ Catálogo de acciones (el motor evalúa estas, no las 4 gruesas):
 | `quarantine` | Mandar a cuarentena o cambiar su estado |
 | `manage_users` | Invitar, suspender y asignar usuarios |
 | `manage_permissions` | Conceder o revocar capacidades |
-| `manage_config` | Cambiar reglas y configuración del sitio |
+| `manage_config` | Cambiar reglas y configuración de la instalación |
 | `view_audit` | Consultar bitácoras e historiales |
 
 `propio` significa: registros que creé + registros asignados a mí,
@@ -114,17 +114,17 @@ evaluación):
 `permiso efectivo = identidad activa + acción permitida + alcance
 del recurso + dominio autorizado + vigencia + reglas de denegación`
 
-Todo debe cumplirse a la vez. Ejemplo: Andrés tiene alcance `sitio`
+Todo debe cumplirse a la vez. Ejemplo: Andrés tiene alcance `instalacion`
 pero solo `dominio: materiales`; un documento de Calidad está en su
 subárbol pero fuera de sus dominios → denegado salvo grant explícito.
 
 Reportes consolidados (Roberto): política propia. Campos permitidos,
 filtros y agregación mínima (sin grupos que permitan reconstruir
 registros individuales, nombres o datos sensibles). Consolidado sí;
-detalle solo con grant por sitio.
+detalle solo con grant por instalación.
 
-Niveles del árbol (genéricos; en C1 `sitio` = la planta, sin que el
-rol lo mencione): `organizacion` → `sitio` → `departamento` → `propio`.
+Niveles del árbol (genéricos; en C1 `instalacion` = la planta, sin que el
+rol lo mencione): `organizacion` → `instalacion` → `departamento` → `propio`.
 
 ## 4. Reglas del caso con responsables genéricos
 
@@ -148,8 +148,8 @@ Marta (`dominio: calidad`) opera con estos grants:
 
 | Capacidad | Sobre qué | Vigencia |
 |---|---|---|
-| `release_lot` | liberar lotes (R-Q1), todos los dominios del sitio | permanente, con revisión anual |
-| `quarantine_lot` | mandar a cuarentena, todos los dominios del sitio | permanente, con revisión anual |
+| `release_lot` | liberar lotes (R-Q1), todos los dominios de la instalación | permanente, con revisión anual |
+| `quarantine_lot` | mandar a cuarentena, todos los dominios de la instalación | permanente, con revisión anual |
 | `confirm` | confirmar extracciones y datos, `dominio: calidad` | permanente, con revisión anual |
 
 Liberar un lote, cuarentenar una recepción y cambiar el estado de
@@ -172,11 +172,11 @@ corporativo, RH, Contaduría y Seguridad.
 | # | Nombre | Puesto | Depto | Reporta a | Rol sistema | Responsabilidades | Problemas que vive |
 |---|---|---|---|---|---|---|---|
 | 1 | Roberto | Gerente de la División Médica | Corporativo americano | Corporativo global (fuera del sistema) | `admin`, organizacion | Crea el entorno, asigna a cada gerente de planta como jefe de la suya; nunca está en planta | Ve reportes consolidados, sin detalle en tiempo real |
-| 2 | Laura | Gerente de Planta | Gerencia | Roberto | `admin`, sitio | Administra su planta e invita a sus gerentes y jefes | Paros por planta hermana: material, medida, tardanza |
-| 3 | Andrés | Gerente de Materiales | Materiales | Laura | `manager`, sitio (dominio materiales) | Dueño de flujo de materiales: planeación, compras, almacén, inventarios | Si el material falla, todo lo demás se para |
+| 2 | Laura | Gerente de Planta | Gerencia | Roberto | `admin`, `instalacion` | Administra su planta e invita a sus gerentes y jefes | Paros por planta hermana: material, medida, tardanza |
+| 3 | Andrés | Gerente de Materiales | Materiales | Laura | `manager`, `instalacion` (dominio materiales) | Dueño de flujo de materiales: planeación, compras, almacén, inventarios | Si el material falla, todo lo demás se para |
 | 4 | Ana | Planeadora | Planeación | Andrés | `manager`, departamento | Emite programa semanal, mezcla 3-4 fuentes a mano | Vive el problema: replanifica por R-P1, R-P2, R-P3, R-P4 |
 | 5 | Sergio | Auxiliar de planeación | Planeación | Ana | `member`, propio | Descargas externas: promesas, inventario, embarques hermanas | Datos dispersos en Excel + correo + descargas |
-| 6 | Marta | Jefa de Calidad | Calidad | Laura | `manager`, sitio (con alcance de liberación) | Libera QA y confirma dato oficial (R-Q1), peel test | Producción no se auto-libera; escaneados dispersos |
+| 6 | Marta | Jefa de Calidad | Calidad | Laura | `manager`, `instalacion` (con alcance de liberación) | Libera QA y confirma dato oficial (R-Q1), peel test | Producción no se auto-libera; escaneados dispersos |
 | 7 | Pedro | Jefe de Almacén | Almacén | Andrés | `manager`, departamento | Stock, inventarios, R-T1 mínimo film/Tyvek | Material ausente bloquea fecha (R-P3); tardanzas |
 | 8 | Luis | Almacenista recepción | Almacén | Pedro | `member`, propio | Registra `rollo_id`, medida, certificado, condición | Sin certificado no se programa (R-P1); medida (R-P2) |
 | 9 | Jorge | Jefe de Producción | Producción | Laura | `manager`, departamento | Asigna máquina/material, corte y sellado | Rollo, material o medida equivocados |
@@ -184,15 +184,15 @@ corporativo, RH, Contaduría y Seguridad.
 | 11 | Juan | Auxiliar facilities | Mantenimiento | Miguel | `member`, propio, `dominio: mantenimiento-facilities` | Repara diario, reporta paros de su sección | No le sirven datos de máquinas; scope fino (ver §7) |
 | 12 | Miguel | Jefe de Mantenimiento e Ingeniería | Mantenimiento e Ingeniería | Laura | `manager`, departamento | Paros, cambios de ingeniería por correo | Avisos de hermanas y cliente por correo suelto |
 | 13 | Sofía | Seguridad e Higiene | Seguridad | Laura | `member`, departamento | Temperatura/humedad de piso, listas de asistencia | Área blanca controlada, no cleanroom certificado |
-| 14 | Elena | Gerente de RH en planta | RH | VP de RH corporativo (fuera del sistema) | `manager`, sitio, `dominio: rh` | Reclutamiento, capacitación y perfiles con su equipo en planta; no reporta a la gerencia de planta | Doble línea: opera en planta, responde al corporativo |
+| 14 | Elena | Gerente de RH en planta | RH | VP de RH corporativo (fuera del sistema) | `manager`, `instalacion`, `dominio: rh` | Reclutamiento, capacitación y perfiles con su equipo en planta; no reporta a la gerencia de planta | Doble línea: opera en planta, responde al corporativo |
 | 15 | Pablo | Reclutador | RH | Elena | `member`, propio | Entrevistas y listas de asistencia | Solo ve su dominio |
 | 16 | Ricardo | Contralor en planta | Contaduría | Contralor corporativo (fuera del sistema) | `guest`, su dominio | Presenta costos y embarques en planta; su jefe está en el corporativo | Opera en planta, responde fuera de ella; nada operativo |
 | — | Externo | — | — | quien lo invita | `guest` con vigencia | — | Acceso explícito por subárbol + dominio + vigencia |
 
-Roberto ve todos los sitios sin pisar planta; Laura ve su planta;
+Roberto ve todas las instalaciones sin pisar planta; Laura ve su planta;
 cada jefe ve su departamento; cada operario ve su dominio. Nadie ve
 de lado ni hacia arriba salvo su jefe. Elena y Ricardo responden al
-corporativo aunque trabajen en planta. Otro sitio puede traer otra
+corporativo aunque trabajen en planta. Otra instalación puede traer otra
 forma (más niveles, más gente) sin tocar esta.
 
 Notas: Sofía es `member` con alcance `departamento` (no `propio`)
@@ -206,7 +206,7 @@ de él, no departamentos separados.
 | Persona | Puesto ficticio | Rol + alcance | Qué hace cada día | Qué toca |
 |---|---|---|---|---|
 | Ana | Planeadora | `manager`, departamento | Emite el programa semanal, reprograma por R-P1..P4 | `programa_planeacion`, `correo_hermana` |
-| Marta | Jefa de calidad | `manager`, sitio (liberación) | Libera rollos y programas (R-Q1), confirma dato oficial | `escaneado` (peel test), cuarentenas |
+| Marta | Jefa de calidad | `manager`, `instalacion` (liberación) | Libera rollos y programas (R-Q1), confirma dato oficial | `escaneado` (peel test), cuarentenas |
 | Juan | Auxiliar mantenimiento facilities | `member`, propio, su dominio | Repara diario, reporta paros con motivo (R-A1) | `excel_turno` (su sección), avisos |
 
 ## 7. Ejemplo trabajado: Juan y el mapeo casi automático
@@ -226,11 +226,11 @@ Lo mismo vale para subdepartamentos, corporativo o externos.
 
 ## 8. Receta para Configuración 2
 
-1. Roberto (o Laura) crea el sitio 2 como dato, sin código.
-2. Asigna al gerente del sitio 2 como `admin` de ese sitio.
+1. Roberto (o Laura) crea la instalación 2 como dato, sin código.
+2. Asigna al gerente de la instalación 2 como `admin` de esa instalación.
 3. Ese gerente invita hacia abajo con la misma tabla del §5.
-4. Verificación: 2 usuarios de distintos sitios intentan lecturas,
-   escrituras y reportes cruzados; todo lo del otro sitio falla
+4. Verificación: 2 usuarios de distintas instalaciones intentan lecturas,
+   escrituras y reportes cruzados; todo lo de la otra instalación falla
    (evidencia del PR de #8).
 
 ## 9. Qué espera cada consumidor
@@ -298,7 +298,7 @@ graph TD
     subgraph ORG["Organización: ve todo"]
         R["Roberto · admin"]
     end
-    subgraph SITIO["Sitio: ve su planta"]
+    subgraph INSTALACION["Instalación: ve su planta"]
         L["Laura · admin"]
         A["Andrés · manager materiales"]
         M5["Marta · manager calidad"]
@@ -344,7 +344,7 @@ cargan como datos. Columnas según `MODELO-DATOS.md`: `Instalacion` →
 
 | código | nombre | responsable |
 |---|---|---|
-| `C1` | Sitio Configuración 1 | Laura (fila 2) |
+| `C1` | Instalación Configuración 1 | Laura (fila 2) |
 | `CORP` | Corporativo americano | Roberto (fila 1) |
 
 ### 11.2 Departamentos (`Departamento`)
@@ -366,19 +366,19 @@ cargan como datos. Columnas según `MODELO-DATOS.md`: `Instalacion` →
 ### 11.3 Dominios (`dominio`, dato en el permiso, no tabla del negocio)
 
 `planeacion`, `almacen`, `produccion`, `mantenimiento-facilities`,
-`maquinas`, `ingenieria`, `seguridad`, `rh`, `contaduria`. Un sitio
-nuevo trae los suyos sin tocar código.
+`maquinas`, `ingenieria`, `seguridad`, `rh`, `contaduria`. Una instalación
+nueva trae los suyos sin tocar código.
 
 ### 11.4 Usuarios (`Usuario` + `UsuarioRol`)
 
 | nombre | puesto | departamento | reporta a | rol | alcance |
 |---|---|---|---|---|---|
 | Roberto | Gerente División Médica | — (corporativo) | — | `admin` | organizacion |
-| Laura | Gerente de Planta | `gerencia` | Roberto | `admin` | sitio `C1` |
-| Andrés | Gerente de Materiales | `materiales` | Laura | `manager` | sitio `C1` |
+| Laura | Gerente de Planta | `gerencia` | Roberto | `admin` | `instalacion` `C1` |
+| Andrés | Gerente de Materiales | `materiales` | Laura | `manager` | `instalacion` `C1` |
 | Ana | Planeadora | `planeacion` | Andrés | `manager` | departamento |
 | Sergio | Auxiliar de planeación | `planeacion` | Ana | `member` | propio |
-| Marta | Jefa de Calidad | `calidad` | Laura | `manager` | sitio `C1` + liberación |
+| Marta | Jefa de Calidad | `calidad` | Laura | `manager` | `instalacion` `C1` + liberación |
 | Pedro | Jefe de Almacén | `almacen` | Andrés | `manager` | departamento |
 | Luis | Almacenista recepción | `almacen` | Pedro | `member` | propio |
 | Jorge | Jefe de Producción | `produccion` | Laura | `manager` | departamento |
@@ -386,7 +386,7 @@ nuevo trae los suyos sin tocar código.
 | Juan | Auxiliar facilities | `mantenimiento` | Miguel | `member` | propio + dominio |
 | Miguel | Jefe de Mantenimiento e Ingeniería | `mantenimiento` | Laura | `manager` | departamento |
 | Sofía | Seguridad e Higiene | `seguridad` | Laura | `member` | departamento |
-| Elena | Gerente de RH en planta | `rh` | VP RH corporativo | `manager` | sitio `C1` |
+| Elena | Gerente de RH en planta | `rh` | VP RH corporativo | `manager` | `instalacion` `C1` |
 | Pablo | Reclutador | `rh` | Elena | `member` | propio |
 | Ricardo | Contralor en planta | `contaduria` | Contralor corporativo | `guest` | su dominio |
 
@@ -403,7 +403,7 @@ no como FK, para que el árbol nunca exija una cima fija.
 Esto alimenta a #59 (seed C1) y a #7 (carga): con estas 4 tablas
 el diagrama v0 ya tiene qué sostener.
 
-## 12. Bundle del usuario (todo lo que posiciona a alguien en el sitio)
+## 12. Bundle del usuario (todo lo que posiciona a alguien en la instalación)
 
 Cada usuario necesita estos datos; sin ellos el sistema no sabe
 dónde colgarlo ni qué dejarle ver. Tres orígenes: la empresa los da,
@@ -416,12 +416,12 @@ el jefe los confirma, o el sistema los infiere.
 | `usuario` | Login legible (`c1.mantenimiento.juan`); puede cambiar sin crear persona nueva | sistema | sí |
 | `tipo_relacion` | `interno` o `externo`. Ricardo es interno de solo-lectura; un proveedor es externo con vigencia obligatoria | empresa | sí |
 | `puesto` | Qué hace (texto libre, sin catálogo) | empresa | sí |
-| `instalacion` | Sitio donde opera (adscripción, no jefatura) | empresa | sí |
-| `instalacion_activa` | Sitio en sesión (si trabaja en dos instalaciones) | usuario elige | no |
+| `instalacion` | Instalación donde opera (adscripción, no jefatura) | empresa | sí |
+| `instalacion_activa` | Instalación en sesión (si trabaja en dos instalaciones) | usuario elige | no |
 | `departamento` | En qué área (código del §11.2) | empresa | sí, salvo corporativo |
 | `reporta_a` | Jerarquía (su rama del árbol; texto si es externo al sistema) | empresa | sí |
 | `rol` | `admin`, `manager`, `member`, `guest` | sistema propone, jefe confirma | sí |
-| `alcance` | `organizacion`, `sitio`, `departamento`, `propio` | sistema propone, jefe confirma | sí |
+| `alcance` | `organizacion`, `instalacion`, `departamento`, `propio` | sistema propone, jefe confirma | sí |
 | `dominios` | Secciones que ve (del §11.3, varios posibles) | sistema propone, jefe confirma | sí, salvo `admin` |
 | `grants` | Capacidades explícitas (`release_lot`, `quarantine_lot`, `confirm`…), cada una con alcance, dominios, vigencia, motivo y otorgante | jefe otorga | no (defecto: ninguno) |
 | `turno` | T1, T2, T3 (realismo del dataset) | empresa | no |
@@ -514,7 +514,7 @@ Si una regla BLOQUEO exige liberar y el `manager` capaz no está
 (vacaciones, enfermedad, turno T2/T3 sin manager en planta):
 
 1. La solicitud escala automáticamente al superior del subárbol.
-2. Si no hay superior disponible, el `admin` del sitio hereda la
+2. Si no hay superior disponible, el `admin` de la instalación hereda la
    capacidad de liberar **una vez**, validada en servidor, dejando
    marca inmutable `emergencia: true` con motivo en bitácora
    (solo-insert, ADR-0010).
@@ -559,7 +559,7 @@ así cuando el motor exista. Marcarlos no ejecuta nada en el repo.
 | ID | Caso | Resultado esperado |
 |---|---|---|
 | T01 | Miembro de C1 contra C2 | Denegado leer, modificar y reportar |
-| T02 | Roberto multisitio | Solo sitios con grant; consolidado sí, detalle solo con grant |
+| T02 | Roberto multiinstalación | Solo instalaciones con grant; consolidado sí, detalle solo con grant |
 | T03 | Juan lee otro dominio misma instalación | Denegado |
 | T04 | Producción libera lote sin grant | Denegado |
 | T05 | Subir archivo ≠ publicar oficial | Subir pasa; publicar sin grant se deniega |
