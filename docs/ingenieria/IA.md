@@ -1,6 +1,6 @@
 # Estrategia de IA y modelos
 
-Estado: vigente como criterio. Última investigación: 2026-10-05.
+Estado: vigente como criterio. Última investigación: 2026-10-17.
 
 Este documento responde tres preguntas: para qué se usa un modelo en DOCU, qué
 modelo se elige para cada uso, y cómo se impide que un modelo invente.
@@ -78,13 +78,19 @@ ninguna regla aplica  →  modelo            →  propuesta con confianza
 sin confianza         →  cuarentena con motivo
 ```
 
+La pieza que ocupa el lugar de "modelo" en esa regla es **Laya** (checkpoint
+`multilingual`, local, Apache 2.0): devuelve una confianza **calibrada** en un
+solo pase, sin generar texto. Si su confianza cae bajo el umbral, el caso escala
+al LLM local con salida JSON Schema (§2). El motor de OCR que alimenta la señal 6
+y el detalle de la decisión están en [OCR.md](OCR.md).
+
 Reglas que se generan con esto y son obligatorias:
 
 | Regla | Motivo |
 |---|---|
 | Un archivo que no encaja en ninguna familia no se inventa: va a cuarentena | Una familia inventada contamina el modelo canónico |
 | El modelo solo propone familia; no la escribe | Separa el error recuperable del que no lo es |
-| La confianza del modelo ordena la revisión; no autoriza la publicación | La confianza no es una probabilidad calibrada |
+| La confianza del modelo ordena la revisión; no autoriza la publicación | Aun siendo calibrada (Laya), la confianza solo ordena; publicar exige confirmación humana (ADR-0006) |
 | La asignación automática exige reglas deterministas que ya coincidieron | El modelo cubre el residuo, no la base |
 | Toda asignación queda registrada con su señal y su regla | Sin eso no hay por qué el archivo terminó donde terminó |
 
@@ -139,6 +145,7 @@ el responsable de la tarea, pero estas son las que se evaluaron:
 
 | Modelo | Uso previsto | Nota |
 |---|---|---|
+| **GLM-OCR** | Lectura de escaneados: OCR, layout y campos clave (KIE) | Motor principal de [OCR.md](OCR.md); 0.9B, corre en CPU |
 | **Llama 3.1 / 3.2** | Clasificación y consulta en texto | Muy usado, salida estructurada estable |
 | **Llama 3.2 Vision** | Clasificación de escaneados y hojas | Tiene visión, evita OCR previo para leer el layout |
 | **Gemma** | Alternativa ligera para máquinas modestas | Buen rendimiento por vatio |
@@ -146,6 +153,9 @@ el responsable de la tarea, pero estas son las que se evaluaron:
 | **Qwen** | Alternativa con fuerte soporte en español | Útil si los otros fallan en el dataset |
 | **gpt-oss** | Alternativa abierta de tamaño medio | Sirve si se quiere comparar contra un modelo mayor |
 | **embeddinggemma** u otro de embeddings | Genera el vector de `DatoOficial` | Ver la advertencia de dimensión abajo |
+
+El **scoring y la decisión** no se sirven por Ollama: corren en proceso en el
+worker con **Laya** (ONNX), detallado en [OCR.md](OCR.md) §6.
 
 ### Nube, solo con autorización
 
@@ -165,7 +175,7 @@ no puede justificarse con un dato, no se toma: se usa local.
 | Fine-tuning | No hay dataset etiquetado suficiente, y el 20% a humano no se reduce entrenando |
 | Modelo propio | El cuatrimestre no da margen; se usa un modelo disponible y se mide |
 | Embeddings en Redis | La fuente de verdad de los vectores es Postgres con pgvector; una segunda base vectorial duplica la verdad |
-| Confianza declarada por el modelo | La "confianza" que devuelve un modelo no es una probabilidad calibrada. Se usa como señal de ordenamiento y se valida contra el dataset |
+| Confianza declarada por un LLM | La "confianza" que declara un LLM no es una probabilidad calibrada; se usa como señal de ordenamiento y se valida contra el dataset. **Excepción:** Laya devuelve confianza calibrada (ECE 0.081) y por eso alimenta la cascada de §3, aunque sigue sin publicar nada ([OCR.md](OCR.md) §6) |
 
 ## 6. Advertencia técnica: la dimensión del embedding
 
@@ -190,7 +200,7 @@ del modelo; el embedding es **Should**. Orden correcto: primero `tsvector`
 | Precisión de clasificación | ≥ 80% sobre 200 archivos sintéticos | Script de C1 con salida CSV por corrida |
 | Cobertura de cuarentena con motivo | 100% de lo dudoso | Cada fila de `Cuarentena` tiene `motivo` y `reglaCodigo` |
 | Determinismo | Corridas repetidas dan el mismo resultado | `temperature: 0`, `seed` fijo, versión del modelo registrada |
-| Exactitud de OCR | ≥ 90% de campos clave, CER ≤ 10% | Fase 1 con genéricos + fase 2 con 40 escaneados sintéticos contra ground truth |
+| Exactitud de OCR | ≥ 90% de campos clave, CER ≤ 10% | Fase 1 con genéricos + fase 2 con 40 escaneados sintéticos contra ground truth (motor: [OCR.md](OCR.md)) |
 
 La evidencia de cada corrida registra **modelo, versión, temperatura, seed y
 esquema usado**. Sin eso, una medición no es reproducible y no sirve para el
