@@ -1,5 +1,8 @@
 ---
 description: Proponer una ADR nueva con la plantilla y el siguiente numero libre
+dueno: reeinharddd
+disparador: al decidir y registrar una decision de ingenieria
+proposito: Genera una ADR nueva con la plantilla y el siguiente numero libre
 ---
 
 Decision a registrar: $ARGUMENTS

@@ -12,10 +12,10 @@ Un cambio de requisito es un issue aprobado y su reflejo en
 | RF-02 | Validar al entrar; mandar a cuarentena o revisión lo inválido o dudoso con motivo visible, sin borrado silencioso | Alta | Must |
 | RF-03 | Exigir confirmación humana para publicar el dato oficial (patrón repetido y responsable), con historial de origen, regla aplicada y quién confirmó | Alta | Must |
 | RF-04 | Buscador de documentos y datos con filtros por fecha y área; consulta donde cada cifra cita su fuente y su cálculo; gráficas guardables | Alta | Must reducido |
-| RF-05 | Tablero configurable por planta, reporte descargable y alertas (métrica, umbral, destinatarios, mensaje); reportes recurrentes que se pausan si el formato cambia | Alta | Must limitado a 1 reporte + 1 alerta |
-| RF-06 | Control de acceso por rol en servidor (planta → departamento → rol → persona) y bitácora completa de quién subió y quién confirmó | Alta | Must |
+| RF-05 | Tablero configurable por instalación, reporte descargable y alertas (métrica, umbral, destinatarios, mensaje); reportes recurrentes que se pausan si el formato cambia | Alta | Must limitado a 1 reporte + 1 alerta |
+| RF-06 | Control de acceso por rol en servidor (instalación → departamento → rol → persona) y bitácora completa de quién subió y quién confirmó | Alta | Must |
 | RF-07 | Documentos: ver, editar metadatos, versionar; derivados o vistas según familia | Media | Could |
-| RF-08 | Parametrización por planta sin cambiar código: catálogos, familias, roles, umbrales, tableros, alertas | Media | Must mínimo + Configuración 2 |
+| RF-08 | Parametrización por instalación sin cambiar código: catálogos, familias, roles, umbrales, tableros, alertas | Media | Must mínimo + Configuración 2 |
 
 ## Requisitos no funcionales
 
@@ -34,7 +34,7 @@ Un cambio de requisito es un issue aprobado y su reflejo en
 | Nivel | Contenido |
 |---|---|
 | Must | RF-01, RF-02, RF-03, RF-06, RF-04 reducido, RF-08 mínimo, Configuración 2 demostrada sin código |
-| Should | Búsqueda semántica con pgvector, reglas extra de planta, OCR difícil |
+| Should | Búsqueda semántica con pgvector, reglas extra de instalación, OCR difícil |
 | Could | LLM de clasificación, consulta en lenguaje natural, tableros configurables, RF-07 completo |
 | Won't | Voz, agentes auto-mejorables, RLS o base por cliente, sensores, predicción |
 
@@ -78,9 +78,10 @@ cercana con impacto en diseño es **2026-10-30, contrato de datos congelado**
 | RF-07 | Versión nueva de metadatos sin perder la anterior |
 | RF-08 | Configuración 2 cargada con `git diff` de código vacío y reporte propio |
 
-Métricas fijadas para las pruebas de clasificación y OCR: 200 archivos sintéticos
-(5 familias × 40) con precisión de clasificación ≥ 80%; 50 escaneados de prueba
-con exactitud de campos clave ≥ 90% y CER ≤ 10% en texto corrido.
+Métricas fijadas para las pruebas de clasificación y OCR sobre el dataset de C1
+(composición y conteos en `ingenieria/fichas/CONTRATO.md` §8): precisión de
+clasificación ≥ 80%; exactitud de campos clave ≥ 90% y CER ≤ 10% en texto corrido
+sobre los escaneados del mismo dataset.
 
 ## Referencias
 

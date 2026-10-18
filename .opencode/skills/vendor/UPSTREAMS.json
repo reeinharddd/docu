@@ -1,0 +1,24 @@
+{
+  "_nota": "Procedencia de las skills vendorizadas de .opencode/skills/vendor/. Fijadas por commit; subir el pin es un PR (ADR-0007 punto 5, ADR-0013).",
+  "ecc-angular-developer": {
+    "repo": "https://github.com/affaan-m/ECC",
+    "commit": "8384d60",
+    "license": "MIT"
+  },
+  "ecc-nestjs-patterns": {
+    "repo": "https://github.com/affaan-m/ECC",
+    "commit": "8384d60",
+    "license": "MIT"
+  },
+  "ecc-prisma-patterns": {
+    "repo": "https://github.com/affaan-m/ECC",
+    "commit": "8384d60",
+    "license": "MIT"
+  },
+  "pp-code-reviewer": {
+    "repo": "https://github.com/waybarrios/opencode-power-pack",
+    "commit": "9dccb6d",
+    "license": "Apache-2.0",
+    "nota": "modificada"
+  }
+}

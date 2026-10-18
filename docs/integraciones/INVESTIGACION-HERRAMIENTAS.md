@@ -1,7 +1,7 @@
 # Investigación de herramientas para agentes y modelos
 
-Resultado de la investigación de herramientas (brief retirado del repo; ver
-`git log -- docs/briefs/BRIEF-INVESTIGACION-HERRAMIENTAS.md`).
+Resultado de la investigación de herramientas (brief retirado del repo; ver su
+historial: `git log -- docs/integraciones/INVESTIGACION-HERRAMIENTAS.md`).
 Consultado el 2026-10-05. Toda afirmación lleva fuente y fecha. Lo que no se pudo
 confirmar dice **no confirmado** y no se rellena por suposición (regla 3 del brief).
 
@@ -55,7 +55,7 @@ superable: confirmar la licencia en el repositorio. Responsable: Kira, K1.
 | 4 | Credenciales | Sí, ninguna |
 | 5 | Versionable | Sí |
 | 6 | Ancho de contexto | Sí |
-| 7 | Encaje | Sí, alta: `prisma.config.ts` y el driver adapter son territorio E1 |
+| 7 | Encaje | Sí, alta: `prisma.config.ts` y el driver adapter son territorio M1 |
 
 **Veredicto: entra.** Es la candidata con mejor encaje: cubre exactamente la
 complejidad que este proyecto ya tiene y que menos gente domina (adaptador de
@@ -123,7 +123,7 @@ documentada aquí para que sea visible, no para discutirla de nuevo cada semana.
 
 > Evolución 2026-10-10: el equipo acordó opencode como entorno oficial y propone
 > pinearlo como plugin del proyecto (`#v6.4.2`, mismo commit) subordinado a
-> `AGENTS.md`. Ver ADR-0013 (propuesta). El veredicto de arriba queda como
+> `AGENTS.md`. Ver ADR-0013 (aceptada). El veredicto de arriba queda como
 > contexto histórico; la decisión vigente, si se acepta, es la del ADR.
 
 ### 1.7 Modelos de IA
@@ -247,10 +247,11 @@ el contrato del repo? Aclaración de skills: el repo trae 3 propias versionadas
 
 | Repo | Licencia | Uso en DOCU |
 |---|---|---|
-| `obra/superpowers` | MIT | Plugin pineado `#v6.4.2` (ADR-0013 propuesta) |
+| `obra/superpowers` | MIT | Plugin pineado `#v6.4.2` (ADR-0013) |
 | `Gentleman-Programming/engram` | MIT | MCP core con `--project=docu` |
 | `tt-a1i/archify` | MIT | Skill de diagramas (RF-04 caso de uso #36, docs arquitectura). Trigger K1 |
 | `waybarrios/opencode-power-pack` | MIT | Vendorizada `pp-code-reviewer` (pin `9dccb6d`). Cantera con pin npm: `differential-review`, `code-architect`, `security-review`, `paper-summarizer`, `agents-md-improver`. Trigger S-series/K1, una por PR |
+| `affaan-m/ECC` | MIT | Vendorizadas `ecc-angular-developer`, `ecc-nestjs-patterns`, `ecc-prisma-patterns` (pin `8384d60`) |
 | `Dicklesworthstone/destructive_command_guard` | custom | NO se adopta (licencia + instalador curl). Ideas ya aplicadas: denies en `opencode.json` |
 | `Tarquinen/opencode-dynamic-context-pruning` | AGPL | NO se adopta (copyleft + V2 + proyecto movido a Sleev). Ideas: comprimir por tarea, proteger patrones |
 

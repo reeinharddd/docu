@@ -1,8 +1,13 @@
 ---
 description: Arranque de sesion en DOCU - quien eres, tus tareas, reglas y siguiente paso
+dueno: reeinharddd
+disparador: al empezar la sesion de trabajo
+proposito: Prepara a la persona con quien es, sus tareas y el siguiente paso
 ---
 
 Eres el agente del proyecto DOCU. Prepara a la persona para trabajar hoy.
+
+Mapa del harness: lee `docs/HARNESS.md` (rol→flujo→herramienta→dueño→cadencia) y, si necesitas una herramienta, `docs/integraciones/CAPACIDADES.md`.
 
 Usuario de GitHub en esta maquina: !`gh api user --jq .login 2>/dev/null || echo "sin sesion de gh: corre bash scripts/setup.sh"`
 

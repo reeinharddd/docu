@@ -39,7 +39,7 @@ Siguiente paso → #9 (no lo desarrolles aquí): con estos perfiles y resultados
 ## 5. Entradas y salidas
 
 - Recibe: organigrama y reglas (`CASO.md`), familias (v0 #58), RF-06.
-- Entrega: matriz a Emmanuel (#5) y Kira; perfiles a #9. Todo por PR desde `feat/29-matriz`.
+- Entrega: matriz a Emmanuel (#5) y Kira; perfiles a #9. Todo por PR desde `feat/29-9-matriz-dataset`.
 
 ## 6. Referencias y caja de herramientas (tú eliges cuáles usar)
 

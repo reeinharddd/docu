@@ -44,8 +44,9 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0010](ADR-0010-bitacora-e-historial-solo-insert.md) | Bitácora, historial de origen y originales son solo-insert | Aceptada | 2026-10-06 |
 | [0011](ADR-0011-api-encola-worker-procesa.md) | La API encola, el worker procesa y la IA propone dentro del worker | Aceptada | 2026-10-06 |
 | [0012](ADR-0012-construccion-tras-design-system-y-modelo.md) | No se construye producto hasta tener design system y modelo de datos validado | Aceptada | 2026-10-06 |
-| [0013](ADR-0013-opencode-oficial-superpowers-engram.md) | OpenCode es el entorno oficial, con superpowers pineado y Engram como memoria | Propuesta | 2026-10-10 |
-| [0014](ADR-0014-planta-single-company.md) | Planta como raíz single-company; alcance por planta | Propuesta | 2026-10-13 |
+| [0013](ADR-0013-opencode-oficial-superpowers-engram.md) | OpenCode es el entorno oficial y todo el harness del agente vive en el repositorio | Aceptada | 2026-10-10 |
+| [0014](ADR-0014-instalacion-single-company.md) | Instalación como raíz single-company; alcance por instalación | Aceptada | 2026-10-13 |
+| [0015](ADR-0015-core-del-harness.md) | El harness tiene un core: conocimiento y cumplimiento verificables | Aceptada | 2026-10-17 |
 
 ## Reglas de esta carpeta
 

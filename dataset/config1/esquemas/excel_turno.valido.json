@@ -1,0 +1,17 @@
+{
+  "turno_id": "TURNO-C1-TP-01-2026-10-26-T1",
+  "planta_id": "C1",
+  "linea_id": "TP-01",
+  "fecha": "2026-10-26",
+  "turno": "T1",
+  "operador": "carmen",
+  "orden_id": "ORD-2026-0042",
+  "rollo_id": "R-017",
+  "cantidad_buena": { "valor": 0, "unidad": "m" },
+  "merma": { "valor": 36, "unidad": "kg" },
+  "paro_min": 180,
+  "paro_motivo": "film mal: purga, reposicion y re-tensado",
+  "hora_paro": "06:20",
+  "observaciones": "TP-01 detenida ~3 h; R-017 fantasma",
+  "archivo_evidencia_id": "ARCH-0044"
+}

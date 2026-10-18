@@ -1,5 +1,8 @@
 ---
 name: ecc-nestjs-patterns
+dueno: reeinharddd
+disparador: al construir o revisar un backend NestJS
+proposito: Patrones de arquitectura NestJS
 description: NestJS architecture patterns for modules, controllers, providers, DTO validation, guards, interceptors, config, and production-grade TypeScript backends. Use when building or reviewing a NestJS backend — modules, providers, DTO validation, guards, or interceptors.
 metadata:
   origin: ECC

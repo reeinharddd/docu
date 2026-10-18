@@ -23,12 +23,12 @@ Sin generador, cada prueba futura pide documentos a mano. Si sale bien, cualquie
 | Entregable | Evidencia |
 |---|---|
 | Generador reproducible | `bun dataset/generar.ts --seed 42` regenera idéntico (script + config + CSV commiteados; binarios no) |
-| Dataset C1 completo | ~200 archivos (5 familias × 40: 100 válidos, 60 con error, 40 escaneados) según fichas |
+| Dataset C1 completo | ~170 archivos + 30–40 de ruido, con los conteos de `CONTRATO.md` §8 (archivos y revisiones por familia) y su reparto válido/inválido/ambiguo |
 | Plan y casos de prueba base | `docs/ingenieria/PRUEBAS.md`: 1 caso por RF con su evidencia |
 
 ## 4. Actividades específicas
 
-1. Escribir el generador desde las fichas: plantillas en `dataset/plantillas/` (Excel `xlsx`, PDF `pdf-lib`, `.eml`, escaneados por render + degradado 150/300 dpi con Sharp/ImageMagick) + CSV de *ground truth* automático. Terminado: regenera idéntico.
+1. Escribir el generador desde las fichas y los esquemas (`dataset/config1/esquemas/`, JSON Schema draft 2020-12): plantillas en `dataset/plantillas/` (Excel `xlsx`, PDF `pdf-lib`, `.eml`, escaneados por render + degradado 150/300 dpi con Sharp/ImageMagick) + CSV de *ground truth* automático. Terminado: regenera idéntico.
 2. Producir el dataset C1 con los conteos de las fichas. Terminado: conteos verificados.
 3. Escribir `PRUEBAS.md` desde "Pruebas que exige cada requisito". Terminado: 1 caso por RF.
 
@@ -72,10 +72,10 @@ idéntica con `--seed 42`.
 ## 8. Criterios de aceptación
 
 - [ ] Regenera idéntico con `--seed 42`.
-- [ ] ~200 archivos con los conteos de las fichas.
+- [ ] Los conteos de `CONTRATO.md` §8 (archivos, revisiones, ruido y reparto por regla).
 - [ ] `PRUEBAS.md` con 1 caso por RF; `bun run verify` verde.
 
-No es done si: hay archivos o CSV a mano; los conteos no cuadran con las fichas.
+No es done si: hay archivos o CSV a mano; los conteos no cuadran con las fichas y `CONTRATO.md` §8.
 
 ## 9. Riesgos nombrados
 
@@ -87,4 +87,4 @@ Viernes 23-oct con Erik: dataset + plan. Después: #32 resto, #3, #6.
 
 ## Versión corta (descripción del issue)
 
-> [61] Generador + dataset — Carlos, 19→23-oct. Sistema con semilla, ~200 archivos, PRUEBAS.md. Requiere fichas #9. Detalle: `docs/briefs/BRIEF-61-generador-dataset.md`.
+> [61] Generador + dataset — Carlos, 19→23-oct. Sistema con semilla, dataset C1 según `CONTRATO.md` §8, PRUEBAS.md. Requiere fichas #9. Detalle: `docs/briefs/BRIEF-61-generador-dataset.md`.

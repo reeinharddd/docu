@@ -1,22 +1,21 @@
 # Ingeniería: modelo de datos
 
-Estado: en revisión 2026-10-12. `apps/api/prisma/schema.prisma` es un
-placeholder agregado sin validación y no tiene validez como fuente. El diagrama
-v1 del BRIEF-07 lo reemplaza; este documento se reescribe desde el diagrama
-aprobado. Lo que sigue es contexto histórico, no verdad.
+Estado: en revisión 2026-10-12. No hay esquema ni migración implementados: el
+modelo de datos se decide con el diagrama v1 (BRIEF-07/BRIEF-58) y se escribe en
+el repositorio recién en M1 (#59). Lo que sigue es contexto histórico, no verdad.
 
-PostgreSQL 18 con `pgvector`. La extensión la crea la migración base
-(`CREATE EXTENSION vector`), no un script de arranque: `infra/postgres/init` está
-montado pero vacío y no debe cargarse a mano.
+PostgreSQL 18 con `pgvector`. La extensión `vector` la creará la migración base
+de M1 (`CREATE EXTENSION vector`), no un script de arranque: `infra/postgres/init`
+está montado pero vacío y no debe cargarse a mano.
 
 ## Capa de organización y acceso
 
-`Planta` → `Departamento` → `Usuario`, con `Rol` en tabla puente
-(`UsuarioRol`). Raíz `Planta`: un despliegue sirve a una compañía y en él
-conviven sus plantas; nunca se mezclan compañías. Cuatro códigos de rol: `admin`, `planeacion`, `calidad`, `almacen`.
+`Instalacion` → `Departamento` → `Usuario`, con `Rol` en tabla puente
+(`UsuarioRol`). Raíz `Instalacion`: un despliegue sirve a una compañía y en él
+conviven sus instalaciones; nunca se mezclan compañías. Cuatro códigos de rol: `admin`, `manager`, `member`, `guest` (`proyecto/ROLES.md`).
 
 `Usuario.departamentoId` es opcional a propósito: un administrador no pertenece
-a un departamento. `Planta` + `Departamento` + `nombre` es único.
+a un departamento. `Instalacion` + `Departamento` + `nombre` es único.
 
 ## Ingesta
 
@@ -54,9 +53,9 @@ publicable (`docs/decisiones/ADR-0006`).
 auditoría de RF-06.
 
 Las tres tablas append-only (`Bitacora`, `HistorialOrigen`, y los originales)
-están garantizadas **en capa de servicio**, no por el schema. La migración E1 no
-instala disparadores ni revoca `UPDATE`/`DELETE`. Al cerrar M1 hay que añadir esa
-garantía en la base, no confiar solo en el código.
+están garantizadas **en capa de servicio**, no por el schema. La migración base
+(M1) todavía no instala disparadores ni revoca `UPDATE`/`DELETE`. Al cerrarlo hay
+que añadir esa garantía en la base, no confiar solo en el código.
 
 ## Configuración sin código
 

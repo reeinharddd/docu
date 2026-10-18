@@ -13,8 +13,8 @@ Definidos en `infra/docker-compose.yml`, proyecto `docu`:
 
 Ambos con `restart: unless-stopped` y healthcheck. Postgres usa `pg_isready`,
 Redis usa `redis-cli ping`. `infra/postgres/init` se monta como
-`docker-entrypoint-initdb.d` y está **vacío**: la extensión `vector` la crea la
-migración de Prisma, no un script de arranque.
+`docker-entrypoint-initdb.d` y está **vacío**: la extensión `vector` la creará la
+migración base de M1, no un script de arranque.
 
 Tags flotantes, sin digest. `pg18` y `8` son ramas móviles. Es aceptable para
 desarrollo y es un punto a fijar antes de cualquier despliegue compartido.
@@ -45,8 +45,8 @@ los permisos de GitHub y Drive, está en `docs/integraciones/`.
 | Memoria | `ENGRAM_PROJECT` |
 | Extra (apagado) | `FIRECRAWL_API_KEY` |
 
-La API se lanza con `bun --env-file ../../.env`, y `prisma.config.ts` carga el
-mismo archivo. No hace falta exportar nada a mano.
+La API se lanza con `bun --env-file ../../.env`, el único punto de carga de
+variables. No hace falta exportar nada a mano.
 
 ## Entornos
 
@@ -61,7 +61,7 @@ servicio del job. Es el mismo schema, otro host.
 
 ## Puertas
 
-`bun run verify` encadena lint, tipos, `prisma validate`, `compose config`,
+`bun run verify` encadena lint, tipos, `compose config`,
 honestidad del índice documental, pruebas web y el arranque real de la API. CI
 corre los mismos scripts con las mismas versiones fijadas, así que local y
 remoto no pueden divergir.
@@ -70,7 +70,6 @@ remoto no pueden divergir.
 |---|---|---|
 | Lint | `bun run lint` | Verde. Biome `2.5.4` con `recommended` y `--error-on-warnings` |
 | Tipos | `bun run typecheck` | Verde en `apps/api` y `apps/web` |
-| Schema | `bun run prisma:validate` | Verde |
 | Compose | `bun run compose:check` | Verde |
 | Índice documental | `bash scripts/doc-index.sh` | Verde |
 | Pruebas web | `bun --filter web test` | Verde: 1 archivo, 2 pruebas |

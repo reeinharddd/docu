@@ -1,0 +1,16 @@
+{
+  "recepcion_id": "REC-2026-10-0007",
+  "rollo_id": "R-017",
+  "material_id": "MAT-TYV-01",
+  "rollo_origen": "hermana-us-01",
+  "orden_compra_id": "OC-44821",
+  "fecha_recepcion": "2026-10-10T09:12:00-06:00",
+  "medida_ancho": { "valor": 152.4, "unidad": "mm" },
+  "certificado_referencia": null,
+  "certificado_presente": false,
+  "condicion_recepcion": "pendiente_revision",
+  "cantidad_recibida": { "valor": 4, "unidad": "rollo" },
+  "ubicacion": "ALM-C1-A3",
+  "registrado_por": "luis",
+  "archivo_evidencia_id": "ARCH-0009"
+}

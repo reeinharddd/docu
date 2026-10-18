@@ -95,7 +95,7 @@ existen y son los correctos:
 
 | Vacío | Consecuencia | Dónde se resuelve |
 |---|---|---|
-| El único diagrama es de arquitectura en capas | `RF-04` pide diagrama de casos de uso: no existe | Issue #36 |
-| No hay carpeta de originales ni dataset | `dataset/config1` y `config2` siguen vacíos | Issue #9 |
+| El único diagrama es de arquitectura en capas | `RF-04` pide diagrama de casos de uso: no existe | Issue #36 (cerrado como no planificado: no se hará) |
+| No hay carpeta de originales ni dataset | `dataset/config1` y `config2` siguen vacíos | Issue #61 (generador y dataset; #9 solo dejó el diseño) |
 | El plan académico llama al proyecto "Proyecto EC0935 – REPOSITORIO…" y la carpeta se llama "Desarrollo web integral" | Búsqueda por nombre falla | Usar el ID, nunca el nombre |
 | El SRS IEEE 830 es una tarea de Sprint 1 y la plantilla sí está aquí | El entregable académico depende de una plantilla versionada en Drive | La copia vigente en Drive (citar fecha) e issue #13 |

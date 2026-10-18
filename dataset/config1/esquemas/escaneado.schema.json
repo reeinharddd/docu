@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docu.local/config1/esquemas/escaneado.schema.json",
+  "title": "escaneado",
+  "description": "Papel firmado escaneado que da evidencia de calidad. Sin firma no libera.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "escaneo_id",
+    "tipo_documento",
+    "planta_id",
+    "fecha",
+    "responsable",
+    "firma_presente",
+    "paginas",
+    "legibilidad",
+    "idioma",
+    "archivo_id"
+  ],
+  "properties": {
+    "escaneo_id": { "type": "string", "minLength": 1 },
+    "tipo_documento": {
+      "type": "string",
+      "enum": ["verificacion", "peel_test", "liberacion", "asistencia"]
+    },
+    "planta_id": { "type": "string", "minLength": 1 },
+    "fecha": { "type": "string", "format": "date" },
+    "orden_id": { "type": ["string", "null"] },
+    "rollo_id": { "type": ["string", "null"], "pattern": "^R-[0-9]{3}$" },
+    "lote": { "type": ["string", "null"] },
+    "responsable": { "type": "string", "minLength": 1 },
+    "resultado": {
+      "type": ["string", "null"],
+      "enum": ["aprobado", "rechazado", "pendiente", null]
+    },
+    "firma_presente": { "type": "boolean" },
+    "paginas": { "type": "integer", "minimum": 1 },
+    "legibilidad": { "type": "string", "enum": ["alta", "media", "baja"] },
+    "idioma": { "type": "string", "enum": ["es", "en", "mixto"] },
+    "archivo_id": { "type": "string", "minLength": 1 }
+  }
+}

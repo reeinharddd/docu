@@ -11,11 +11,15 @@
 
 ## 1. Contexto
 
-Parte de los documentos de la planta llegan escaneados. RF-02 exige leer sus
+Parte de los documentos de la instalación llegan escaneados. RF-02 exige leer sus
 campos clave con al menos 90 % de exactitud y CER ≤ 10 % en texto corrido
 (`proyecto/REQUISITOS.md`). El OCR corre en el worker, nunca en la API
-(ADR-0011). Fase 1 con documentos genéricos en español (sin esperar scans);
-fase 2 confirma con scans del caso (#61).
+(ADR-0011).
+
+Alcance acordado (2026-10-17): este issue **delimita tecnologías y estructuras**;
+no construye nada. No hay script, ni CSV, ni scans o documentos reales por ahora.
+La validación con los escaneados del caso (#61) queda como fase 2 futura, fuera
+del entregable.
 
 ## 2. Por qué importa tu parte
 
@@ -25,30 +29,30 @@ cumple. Si la evaluación sale ahora, el diseño del worker se fija con datos.
 
 ## 3. Objetivo y resultado esperado
 
-Recomendar rápido si el OCR sirve para nuestro español y formatos, y cómo funciona. Sin rigor de proyecto todavía: es un spike con números, no una certificación.
+Decidir y delimitar qué tecnología lee los escaneados y cómo corre, con números
+medidos en fase 1. Sin script ni CSV: la decisión y su justificación son el
+entregable.
 
 | Entregable | Evidencia |
 |---|---|
-| Script reproducible de evaluación | `dataset/ocr-eval/` con comando único y semilla/versiones fijadas |
-| Resultados fase 1 (genéricos) | CSV: exactitud de campos, CER y tiempo por página, 2 motores × 150/300 dpi |
-| Recomendación + límites | `docs/ingenieria/OCR.md`: ¿sirve para nuestro español y formatos? ¿cómo funciona? ¿qué no alcanza? |
+| Decisión de motor + scoring | `docs/ingenieria/OCR.md`: qué motor, con qué números y qué no alcanza |
+| Insumo de mercado | `docs/ingenieria/OCR-MERCADO.md`: alternativas y por qué se descartaron |
 | Si el motor elegido no corre en Bun/Node | Borrador de ADR (`/adr`) según el criterio de reversión de ADR-0011 |
+| Fuera de alcance | Script `dataset/ocr-eval/`, CSV y scans reales (#61, fase 2 futura) |
 
 ## 4. Actividades específicas
 
-1. Evaluar fase 1 con documentos genéricos en español (Tesseract modelo `spa`, Docling):
-   exactitud de campos y CER por resolución. Terminado: CSV fase 1. Los scans
-   del caso (#61) confirman en fase 2.
-2. Evaluar al menos dos motores: Tesseract (con `tesseract.js` o binario) y
-   Docling. Opcional un tercero si ambos fallan.
-3. Medir por motor y resolución: exactitud de campos clave, CER, tiempo y RAM.
-4. Escribir `docs/ingenieria/OCR.md` con la tabla de resultados y la decisión.
-5. Comentar en #3 la conclusión y cómo afecta al worker.
+1. Evaluar fase 1 con un corpus genérico en español (Tesseract `spa` y un
+   motor moderno) midiendo CER. Los números van en `OCR.md`; no hay CSV.
+2. Comparar al menos dos motores. El elegido fue **GLM-OCR 0.9B** frente a
+   **Tesseract 5.5** (el brief planteaba Tesseract + Docling; ver §6).
+3. Escribir `docs/ingenieria/OCR.md` con la tabla de resultados y la decisión.
+4. Comentar en #3 la conclusión y cómo afecta al worker.
 
 ## 5. Entradas y salidas
 
-- Recibe: documentos genéricos en español (fase 1); scans del caso (#61) para fase 2.
-- Entrega: al worker y pipeline #3 (propio), por PR, la recomendación y el script. Revisa Emmanuel.
+- Recibe: un corpus genérico en español (fase 1). Los scans del caso (#61) quedan para fase 2 futura, fuera de este issue.
+- Entrega: a #3, por PR, la decisión (`OCR.md`) y su insumo (`OCR-MERCADO.md`). Revisa Emmanuel.
 
 ## 6. Referencias y caja de herramientas
 
@@ -57,7 +61,10 @@ Recomendar rápido si el OCR sirve para nuestro español y formatos, y cómo fun
 - Documentación oficial de Tesseract y Docling (versión fija en el script).
 - Automatizable: el CER se calcula con distancia de Levenshtein; no a mano.
 
-Recursos oficiales para evaluar (verificados 2026-10-09):
+Recursos oficiales para evaluar (verificados 2026-10-09). *Nota: la lista de
+motores de abajo es la del plan original (Tesseract + Docling); la evaluación
+real eligió GLM-OCR y comparó contra Tesseract (`OCR.md`). Se conserva como
+registro.*
 
 | Para | Recurso | Cuándo usarlo |
 |---|---|---|
@@ -72,21 +79,21 @@ Recursos oficiales para evaluar (verificados 2026-10-09):
 ## 7. Cómo trabajar
 
 - `/tarea 32` y `/cerrar` en OpenCode.
-- Todo lo generado lleva versión y semilla: reproducible o no existe.
-- No toques `apps/` (ADR-0012): el script vive en `dataset/ocr-eval/`.
+- Toda cifra que se cite lleva su versión y origen; si no, no existe.
+- No toques `apps/` (ADR-0012): este issue no entrega código.
 
 ## 8. Criterios de aceptación
 
-- [ ] Un tercero corre el script con un comando y obtiene el mismo CSV.
-- [ ] Al menos 2 motores × 2 resoluciones medidos.
 - [ ] `docs/ingenieria/OCR.md` dice qué motor, con qué números y qué no alcanza.
+- [ ] La elección se justifica frente a las alternativas (Tesseract, Docling, plan B).
+- [ ] Alcance y divergencia documentados: sin script, CSV ni scans reales en este issue.
 - [ ] #3 tiene comentario con la conclusión.
 - [ ] `bun run verify` en verde.
 
 ## 9. Riesgos nombrados
 
-Que los escaneados no lleguen a tiempo. Mitigación: empezar con 10 documentos
-generados y escaneados por ti mismo; desde el 2026-10-16 sin escaneados es bloqueo con etiqueta `bloqueado`.
+Que el motor elegido falle en escaneados reales. Mitigación: fase 1 mide con un
+corpus degradado propio; la validación con scans del caso (#61) se agenda en fase 2.
 
 ## 10. Revisión
 

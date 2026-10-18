@@ -5,7 +5,8 @@ DOCU — Repositorio de Documentación Digital. Config 1: Baja SterilPack.
 Monorepo bun: `apps/api` (NestJS 12 + Prisma 7 + BullMQ 6), `apps/web`
 (Angular 22 zoneless + Tailwind 4), `infra/`, `dataset/`. `packages/` no existe
 todavia; si se crea, hay que registrarlo en `workspaces`.
-Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
+Documentos del proyecto: empieza por `docs/README.md` y el mapa del harness
+`docs/HARNESS.md`. Briefs de tarea:
 `docs/briefs/`. Decisiones: `docs/decisiones/`. Arranque y diagnóstico:
 `docs/operacion/BOOTSTRAP.md`. Stack y versiones: `docs/ingenieria/STACK.md`.
 
@@ -35,3 +36,7 @@ Documentos del proyecto: empieza por `docs/README.md`. Briefs de tarea:
    constructor se importa con `import type`: NestJS lo resuelve con
    `emitDecoratorMetadata` y necesita la clase en runtime.
 9. Nada destructivo sin orden explicita. Main protegida, todo por PR con revisor.
+10. Nada de commit ni push sin verificacion previa del usuario: tras cada
+    cambio se revisa todo con el usuario y solo con su satisfaccion
+    explicita se pregunta si commitear; lo mismo para push. Sin ese si,
+    no hay commit ni push.

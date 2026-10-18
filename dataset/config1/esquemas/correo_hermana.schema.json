@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docu.local/config1/esquemas/correo_hermana.schema.json",
+  "title": "correo_hermana",
+  "description": "Un mensaje que anuncia un cambio que mueve el plan. Es senal, no dato oficial.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "correo_id",
+    "de",
+    "para",
+    "fecha",
+    "asunto",
+    "tipo",
+    "requiere_accion",
+    "idioma"
+  ],
+  "properties": {
+    "correo_id": { "type": "string", "minLength": 1 },
+    "de": { "type": "string", "minLength": 1 },
+    "para": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "fecha": { "type": "string", "format": "date-time" },
+    "asunto": { "type": "string", "minLength": 1 },
+    "planta_origen": { "type": ["string", "null"] },
+    "tipo": {
+      "type": "string",
+      "enum": ["cambio_fecha", "lote", "calidad", "ingenieria", "cliente"]
+    },
+    "orden_afectada": { "type": ["string", "null"] },
+    "rollo_id": { "type": ["string", "null"], "pattern": "^R-[0-9]{3}$" },
+    "fecha_promesa_nueva": { "type": ["string", "null"], "format": "date" },
+    "adjunto_id": { "type": ["string", "null"] },
+    "requiere_accion": { "type": "boolean" },
+    "idioma": { "type": "string", "enum": ["es", "en", "mixto"] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "tipo": { "const": "cambio_fecha" } },
+        "required": ["tipo"]
+      },
+      "then": {
+        "required": ["fecha_promesa_nueva"],
+        "properties": {
+          "fecha_promesa_nueva": { "type": "string", "format": "date" }
+        }
+      }
+    }
+  ]
+}

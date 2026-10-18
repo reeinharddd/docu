@@ -30,7 +30,7 @@ Aplicación Angular + Tailwind funcional con las 4 pantallas, navegación, consu
 | Pruebas e2e (Playwright) | Flujo completo contra API real |
 | Lighthouse/axe en pantallas clave | Reporte sin errores AA |
 | F2: login, registro, usuarios, RBAC por rol, bitácora visible | Cada rol ve lo suyo (permite #5) |
-| F3: config de planta (C2), dashboard, alertas | Tablero + alertas con datos de prueba |
+| F3: config de instalación (C2), dashboard, alertas | Tablero + alertas con datos de prueba |
 
 ## 4. Actividades específicas
 
@@ -44,7 +44,7 @@ Aplicación Angular + Tailwind funcional con las 4 pantallas, navegación, consu
 8. Escribir pruebas e2e (Playwright) del flujo completo. Terminado: flujo subir → revisar → consultar contra API real.
 9. Ejecutar Lighthouse/axe en pantallas clave. Terminado: sin errores AA.
 10. Construir F2 (login, registro, gestión de usuarios, vistas por rol, bitácora visible). Terminado: cada rol ve lo suyo.
-11. Construir F3 (config de planta, dashboard, alertas con datos de prueba). Terminado: tablero + alertas funcionando.
+11. Construir F3 (config de instalación, dashboard, alertas con datos de prueba). Terminado: tablero + alertas funcionando.
 12. Extender e2e al producto completo. Terminado: verde.
 
 Total estimado: F1 15–20 h; F2/F3 15–20 h.
@@ -97,7 +97,7 @@ Total estimado: F1 15–20 h; F2/F3 15–20 h.
 - [ ] Pruebas e2e (Playwright) del flujo completo en verde
 - [ ] Lighthouse/axe sin errores AA en pantallas clave
 - [ ] F2 completo (login, usuarios, RBAC, bitácora)
-- [ ] F3 completo (config planta, dashboard, alertas)
+- [ ] F3 completo (config instalación, dashboard, alertas)
 - [ ] e2e del producto completo en verde
 - [ ] Escritorio y celular (RNF-01)
 - [ ] Español
@@ -114,7 +114,7 @@ Los datos son de prueba, contenidos y sin falla real: el producto se entrega com
 
 - F1 (§3–§8): 4 pantallas + e2e del flujo subir → confirmar → consultar.
 - F2: login, registro, gestión de usuarios, RBAC por rol, bitácora visible (usa #5 cuando exista; mientras tanto, mocks con la forma del contrato).
-- F3: config de planta (C2), dashboard, alertas con datos de prueba.
+- F3: config de instalación (C2), dashboard, alertas con datos de prueba.
 
 ## 10. Revisión
 

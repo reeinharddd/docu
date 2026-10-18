@@ -68,7 +68,7 @@ la raíz `Planta`, familias con código, migraciones antes de afirmar v1,
 ## 7. Cómo trabajar
 
 - `/tarea 59`, rama `feat/59-diagrama-v1-seed`. Dos syncs con Carlos (16 y 23-oct).
-- EMMANUEL NO DEBE: cambiar la raíz `Planta`; meter familias con código; tocar migraciones antes de afirmar v1.
+- EMMANUEL NO DEBE: cambiar la raíz `Instalacion`; meter familias con código; tocar migraciones antes de afirmar v1.
 - TypeScript estricto, `.env` fuera del repo. Bloqueo >24 h con `bloqueado`.
 
 ## 8. Criterios de aceptación

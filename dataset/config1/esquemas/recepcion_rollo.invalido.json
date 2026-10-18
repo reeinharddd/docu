@@ -1,0 +1,12 @@
+{
+  "recepcion_id": "REC-2026-10-0008",
+  "rollo_id": "017",
+  "material_id": "MAT-TYV-01",
+  "rollo_origen": "hermana-us-01",
+  "fecha_recepcion": "10/10/2026",
+  "medida_ancho": 152.4,
+  "certificado_presente": false,
+  "condicion_recepcion": "ok",
+  "cantidad_recibida": { "valor": -4, "unidad": "rollo" },
+  "registrado_por": "luis"
+}

@@ -3,6 +3,10 @@
 Fecha: 2026-10-06 · Estado: Aceptada
 Decide: Erik · Revisa: Emmanuel (dueño del módulo de reglas)
 
+Alcance actualizado por ADR-0014 (2026-10-13): las reglas, familias, umbrales y
+catálogos son **por instalación**, no "por empresa". El resto de esta decisión
+sigue vigente.
+
 ## Contexto
 
 El caso Baja SterilPack trae siete reglas de negocio (R-P1 a R-P4, R-Q1, R-A1,
@@ -16,7 +20,7 @@ El esquema ya tiene `ConfigFamilia.esquema` y `ReglaValidacion.expresion` en
 
 ## Decisión
 
-Toda regla de negocio, familia, umbral y catálogo **por empresa** se guarda como
+Toda regla de negocio, familia, umbral y catálogo **por instalación** se guarda como
 fila en la base y la evalúa un motor genérico:
 
 1. `ConfigFamilia` describe columnas, tipos y obligatorios de cada familia.
@@ -35,7 +39,7 @@ fila en la base y la evalúa un motor genérico:
 |---|---|
 | Reglas en código TypeScript, una clase por regla | Rápido al inicio; la Configuración 2 exige deploy y RF-08 no se demuestra |
 | Motor externo de reglas (Drools, json-rules-engine con DSL propio) | Dependencia de primer nivel para siete reglas; otra cosa que aprender en un semestre |
-| Reglas en archivos YAML versionados | Cambiar una regla vuelve a ser un PR al código; no hay alcance por empresa |
+| Reglas en archivos YAML versionados | Cambiar una regla vuelve a ser un PR al código; no hay alcance por instalación |
 
 ## Consecuencias
 

@@ -16,26 +16,30 @@ este plan con GitHub y se corrige aquí.
 
 ## Orden de ejecución (un brief = un entregable)
 
-| Orden | Qué | Quién | Cierra | Desbloquea |
-|---|---|---|---|---|
-| 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo |
-| 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo |
-| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 |
-| 4 | SRS + firma + casos de uso (#13, #30, #36) | Erik | 13-oct | entregas |
-| 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 |
-| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 |
-| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 |
-| 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 |
-| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 |
-| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 |
-| 11 | Arquitectura (#60) | Erik | 16-oct | #12 |
-| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 |
-| 13 | OCR spike + fase 2 (#32) | Erik | 23-oct | #3 |
-| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 |
-| 15 | Frontend completo (#4) | Kira | 20-nov | demo |
-| 16 | API esqueleto (#12-A) | Emmanuel | 27-oct | #5 |
-| 17 | RBAC en servidor (#5) | Carlos+Emmanuel | 06-nov | #4, #39 |
-| 18 | Pipeline (#3) | Erik | 13-nov | demo |
+| Orden | Qué | Quién | Cierra | Desbloquea | Estado |
+|---|---|---|---|---|---|
+| 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo | Hecho |
+| 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo | Hecho (#10 cerrado 2026-10-17) |
+| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | En revisión (PR #63) |
+| 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas | Hecho |
+| 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 | Hecho |
+| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **Pendiente: no iniciado** |
+| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Pendiente |
+| 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 | Hecho |
+| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente |
+| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente |
+| 11 | Arquitectura (#60) | Erik | 23-oct | #12 | Pendiente |
+| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 | Pendiente |
+| 13 | OCR spike + fase 2 (#32) | Erik | 23-oct | #3 | Hecho (evaluación OCR, #32 cerrado) |
+| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 | Pendiente |
+| 15 | Frontend completo (#4) | Kira | 20-nov | demo | Pendiente |
+| 16 | API esqueleto (#12-A) | Emmanuel | 27-oct | #5 | Pendiente |
+| 17 | RBAC en servidor (#5) | Carlos+Emmanuel | 06-nov | #4, #39 | Pendiente |
+| 18 | Pipeline (#3) | Erik | 13-nov | demo | Pendiente |
+
+**Siguiente en la fila:** el **modelado de la base de datos** (C1). Arranca por
+#58 (diagrama v0 afirmado) → #59 (v1 + seed) → #60 (arquitectura) y #62 (modelo
+documentado). Puerta de ADR-0012: nada de producto hasta cerrar estas filas.
 
 Cada brief es autocontenido: con opencode + su issue + el Project + las memorias, cualquiera ejecuta sus actividades predefinidas sin contexto previo. Si un brief exige saber de otro para continuar, ahí termina y nace uno nuevo.
 
@@ -54,18 +58,18 @@ trabaje sin depender de una sola persona.
 | E2 | Worker y pipeline en serio | #3, worker real |
 | M1 | Backend/modelo: API, Prisma, validación | #12, #59 |
 | K1 | Frontend en construcción | #4, #41 |
-| C1/C2 | Configuración 1 (Baja SterilPack) / Configuración 2 (segunda planta) | #7, #8 |
+| C1/C2 | Configuración 1 (Baja SterilPack) / Configuración 2 (segunda instalación) | #7, #8 |
 | S1–S4 | Sprints del calendario canónico | `GITHUB-GESTION.md` |
 
 ## Épicas
 
 | Épica (issue) | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
-| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (en progreso), #60, #43, #8, #31, #33 |
+| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (hecho), #60, #8, #74 (hecho) |
 | Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
-| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (absorbió #28 el 13-oct), #42, #41 |
+| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira); #41 (Kira, PR #63); #42 (Erik, hecho) |
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
-| QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #36, #6, entregas |
+| QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #61, #6, entregas |
 | Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
 | Base de datos (#50) | 1 → 2 | Emmanuel | RF-08 | #58, #59, #7 |
 
@@ -75,7 +79,7 @@ trabaje sin depender de una sola persona.
 |---|---|---|
 | #12 API, #3 Pipeline, #5 RBAC, #7 Configuración 1 | #10 Arquitectura y entorno | Sin `pgvector` no hay `vector`, sin BD no hay ingesta |
 | #4 Frontend | #23 Contrato de datos congelado | La maqueta consume el contrato, no la BD |
-| #4 Frontend | #3 Pipeline de ingesta | La API entrega el dato que la pantalla cita |
+| #4 Frontend | #3 Pde ingesta | La API entrega el dato que la pantalla cita |
 | #3 Pipeline | #7 Configuración 1 | Ordena, lee y valida por familia |
 | #8 Configuración 2 | #7 Configuración 1 | La 2 se prueba sobre datos de la 1 |
 | #3 Pipeline | #32 Evaluación OCR | RF-02 exige ≥ 90 %: se mide antes de implementar |
@@ -88,12 +92,5 @@ de datos validado (ADR-0012).
 
 ## Riesgos
 
-| Riesgo | Señal | Mitigación |
-|---|---|---|
-| OCR no alcanza el 90 % en scans del caso | #32 fase 2 sin resultados al 2026-10-23 (Erik) | Spike fase 1 con genéricos 16-oct; confirma o recorta |
-| Sprint 1 termina el 23-oct y el contrato es 30-oct flexible | #60 o #62 abiertos al 2026-10-23 | Si el diseño se retrasa, el líder replanifica en sync (no solo Markdown) |
-| #29 retrasa matriz | Sin `ROLES.md` al 2026-10-16 (Carlos) | Alcance recortado a matriz; dataset es #9/#61 |
-| #39 y #36 sin responsable | `gh issue list --search no:assignee` | **Cerrado 2026-10-12**: #36 → Erik, #39 → Emmanuel (sync lunes; assignee en GitHub pendiente a que existan las cuentas) |
-| Marca Fase 1 cierra el 13-oct | #41-fase1, Kira | Es la primera fecha que vence; bloquea fase2 |
-| Prototipos UI/UX cierran el 23-oct | #11, Kira | Tras la marca, alimenta #4 y #23 |
-| Frontend sin design system de marca | #41 abierto al 2026-10-30 | Playground (#42) usable desde el 2026-10-13 |
+El registro vivo es `gestion/RIESGOS.md`; aquí no se duplica para no divergir.
+Si un riesgo cambia, se actualiza ahí y se anuncia en el sync.

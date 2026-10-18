@@ -1,6 +1,9 @@
 ---
 name: docu-gestion
 description: Convenciones de gestion del trabajo en DOCU sobre GitHub Issues - etiquetas, hitos, sub-issues, dependencias, ramas, PR y Definicion de Hecho. Usar antes de crear, mover, etiquetar o cerrar un issue, o al empezar una tarea.
+dueno: reeinharddd
+disparador: antes de crear, mover, etiquetar o cerrar un issue
+proposito: Convenciones de gestion del trabajo en GitHub Issues
 ---
 
 # Gestion del trabajo en DOCU

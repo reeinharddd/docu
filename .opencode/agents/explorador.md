@@ -1,5 +1,8 @@
 ---
 description: Descubrimiento solo-lectura del repo para una tarea (mapa, patrones, riesgos). Usar en la ola 1 de /tarea antes de proponer.
+dueno: reeinharddd
+disparador: en la ola 1 de /tarea, antes de proponer
+proposito: Descubrimiento solo-lectura del repo para una tarea
 mode: subagent
 permission:
   edit:

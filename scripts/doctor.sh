@@ -28,12 +28,6 @@ else
   falta_line "Biome no instalado. Corre 'bun install' (esta declarado en devDependencies)"
 fi
 
-pinned_prisma=$(sed -n 's/.*"prisma": *"\([0-9.]*\)".*/\1/p' apps/api/package.json)
-if [ -x apps/api/node_modules/.bin/prisma ]; then
-  ok_line "Prisma $pinned_prisma instalado (ultimo estable; la 8 sigue en RC)"
-else
-  falta_line "Prisma no generado. Corre 'bunx prisma generate' en apps/api"
-fi
 # Solo cuenta como fallo un comando ejecutable con @latest, no la prosa que
 # explica por que esta prohibido.
 if grep -rEn '`[^`]*(bunx|npm|pnpm|bun) +[a-z@][^`]*@latest' docs/ README.md AGENTS.md 2>/dev/null | grep -v 'que esta prohibido\|era `8\.0\|instalaria una release'; then
@@ -90,6 +84,10 @@ if [ "$n_api" -gt 0 ]; then ok_line "pruebas api: $n_api archivo(s)"; else aviso
 line ""
 line "== indice documental =="
 if bash scripts/doc-index.sh >/dev/null 2>&1; then ok_line "indice de docs honesto (docs/.indice)"; else falta_line "docs/.indice no coincide con el disco. Corre: bash scripts/doc-index.sh --fix"; fi
+
+line ""
+line "== harness =="
+if bash scripts/harness-check.sh >/dev/null 2>&1; then ok_line "harness: metadata y catalogo en verde"; else falta_line "harness-check falla: revisa dueno/disparador/proposito o CAPACIDADES.md"; fi
 
 line ""
 line "== higiene git =="
