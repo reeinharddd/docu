@@ -6,7 +6,7 @@ futuro va en [ADR](../decisiones/README.md), no aquí.
 ## 1. Mapa de procesos
 
 ```
-┌─────────────┐   HTTP/JSON    ┌──────────────────┐   Prisma    ┌──────────────┐
+┌─────────────┐   HTTP/JSON    ┌──────────────────┐   SQL/pg    ┌──────────────┐
 │  Angular 22 │ ─────────────► │   NestJS 12      │ ──────────► │ PostgreSQL 18│
 │  zoneless   │ ◄───────────── │   (puerto 3000)  │ ◄────────── │ + pgvector   │
 └─────────────┘  respuestas    └────────┬─────────┘  resultado  └──────────────┘
@@ -43,7 +43,7 @@ en línea, lo que demuestra que la cola funciona; falta el proceso real.
 | Origen | Destino | Mecanismo | Contrato | Fallo visible |
 |---|---|---|---|---|
 | Angular | API | HTTP/JSON | Rutas por módulo; convención de error única | Mensaje en pantalla, nunca bloqueo silencioso (RNF-01) |
-| API | Postgres | Prisma con driver adapter `pg` | `DATABASE_URL` desde `prisma.config.ts` | `/health` y el `doctor` |
+| API | Postgres | driver `pg` directo (hoy solo `/health`) | `DATABASE_URL` del entorno | `/health` y el `doctor` |
 | API | Redis | BullMQ `Queue` con ioredis | Jobs `{ archivoId, sha256, familia }` | Job en retry, luego cuarentena con motivo |
 | Worker | Redis | BullMQ `Worker` y `QueueEvents` | Conexiones separadas: **nunca** compartir | El worker no arranca; `/health` no lo detecta todavía |
 | Worker | Postgres | Prisma | Resultado del job: `DatoOficial`, `Cuarentena`, `HistorialOrigen` | Todo error debe dejar motivo |
@@ -79,7 +79,7 @@ Los pasos 4 a 7 son los que todavía no existen. Es el trabajo de M1 y E2.
 | Front ↔ API | El front no decide permisos, ni familias, ni estados. Solo muestra |
 | API ↔ Worker | La API solo encola. Si necesita un resultado, lee la base o espera un evento |
 | Worker ↔ IA | El modelo no escribe en la base. Devuelve un JSON validado y el worker decide |
-| App ↔ Base | Prisma es el único acceso a datos. SQL crudo solo para `vector` y agregaciones que Prisma no tipa |
+| App ↔ Base | El acceso a datos del producto (M1) va por Prisma; SQL crudo solo para `vector` y agregaciones que Prisma no tipa. Hoy la API solo prueba conectividad en `/health` |
 | Persona ↔ Sistema | Nada se publica sin confirmación humana ([ADR-0006](../decisiones/ADR-0006-ia-propone-humano-dispone.md)) |
 
 ## 5. Modelo de despliegue

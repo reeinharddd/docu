@@ -3,7 +3,7 @@
 Estado: propuesta para aprobación 17-oct. Dueño: Carlos.
 Alcance: contrato que cumplen las 6 fichas. Sin generador (#61),
 sin muestras manuales, sin afirmar campos del modelo de datos
-(`MODELO-DATOS.md` advierte placeholder; las fichas proponen
+(no hay esquema implementado; las fichas proponen
 contratos lógicos). Consume la matriz de `ROLES.md` (rama
 `feat/29-9-matriz-dataset`), no la corrige.
 

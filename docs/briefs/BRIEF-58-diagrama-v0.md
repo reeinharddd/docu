@@ -17,7 +17,7 @@ Del caso (`CASO.md`): 6 familias de archivo, 7 reglas R-P1..T1 ya decididas (12-
 
 Del stack: PostgreSQL 18 + pgvector (`uuid`, `text`, `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`, uniques, índices, `CHECK`). Local/offline: PCs en la misma red, sin nube, mínimos recursos. Nada puede exigir internet ni hardware especial.
 
-Restricciones duras: sin `Empresa` multi-tenant; `schema.prisma` es placeholder sin validez (no lo uses); reglas, familias, roles y umbrales viven como datos, nunca como `if`; bitácora/historial/originales son solo-insert.
+Restricciones duras: sin `Empresa` multi-tenant; no hay esquema implementado todavía; reglas, familias, roles y umbrales viven como datos, nunca como `if`; bitácora/historial/originales son solo-insert.
 
 ## 2. Lo que debes pensar (antes de dibujar)
 
@@ -91,12 +91,12 @@ Para decidir solo, sin depender de nadie:
 Lo que NO te limitamos: nombres de tablas, cuántas son, cómo agrupas lo
 fijo/dinámico/manual, orden del registro. Lo que sí se devuelve con
 motivos: tabla sin porqué escrito, `Empresa` multi-tenant, PNG que no sale
-del `.dbml`, o tocar `apps/api/prisma/*` (el placeholder no se usa).
+del `.dbml`.
 
 ## 7. Cómo trabajar
 
 - `bash scripts/setup.sh`, `opencode`, `/inicio`, `/tarea 58`. Rama `feat/58-diagrama-v0`.
-- EMMANUEL NO DEBE: copiar el placeholder; inventar datos de planta; simular entrevistas; tocar `apps/api/prisma/*`.
+- EMMANUEL NO DEBE: inventar datos de planta; simular entrevistas.
 - EMMANUEL SÍ DEBE: decidir y justificar por escrito; `.env` fuera del repo.
 - Duda 30 min en el issue; bloqueo >24 h con `bloqueado`. 1 issue En progreso.
 

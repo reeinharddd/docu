@@ -1,7 +1,7 @@
 # Ingeniería: contrato de API
 
 Estado: vigente. Describe el presente, no el deseo.
-Base: NestJS 12, Prisma 7 con adaptador `pg`, `PORT_API` (3000 por defecto).
+Base: NestJS 12, driver `pg` directo, `PORT_API` (3000 por defecto).
 
 ## Superficie actual (E1)
 
@@ -9,7 +9,7 @@ Base: NestJS 12, Prisma 7 con adaptador `pg`, `PORT_API` (3000 por defecto).
 |---|---|---|
 | `GET` | `/health` | `SELECT 1` en PostgreSQL y `PING` en Redis. Responde `{ status, postgres, redis }` |
 
-Es toda la API que existe. `AppModule` declara un controlador y un proveedor.
+Es toda la API que existe. `AppModule` declara un controlador.
 No hay autenticación, no hay DTOs, no hay OpenAPI. Eso es correcto para E1
 (`docs/REGLAS.md`: sin lógica de negocio antes de M1).
 
@@ -18,12 +18,10 @@ que usa CI para no dar por buena una API a medio levantar.
 
 ## Cómo se abre la conexión
 
-`PrismaService` extiende `PrismaClient` y le pasa un `PrismaPg` construido con
-`DATABASE_URL`. Prisma 7 movió la conexión fuera del schema: la resuelve
-`prisma.config.ts`, que además carga el `.env` de la raíz del monorepo para que
-los comandos funcionen desde cualquier subcarpeta sin exportar variables a mano.
-
-`$connect()` en `onModuleInit` y `$disconnect()` en `onModuleDestroy`.
+`/health` abre un cliente `pg` efímero con `DATABASE_URL`, ejecuta `SELECT 1` y
+lo cierra; Redis se consulta igual con `ioredis`. La conexión no se cachea: es
+una prueba de vida, no una capa de datos. El ORM y el esquema llegan en M1
+(#59), no en E1.
 
 ## Convenciones ya fijadas
 

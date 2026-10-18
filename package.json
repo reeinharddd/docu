@@ -10,11 +10,10 @@
     "dev": "bash scripts/dev.sh",
     "dev:web": "bun --filter web start",
     "doctor": "bash scripts/doctor.sh",
-    "verify": "bun run lint && bun run typecheck && bun run prisma:validate && bun run compose:check && bash scripts/doc-index.sh && bun --filter web test && bun run smoke:api",
+    "verify": "bun run lint && bun run typecheck && bun run compose:check && bash scripts/doc-index.sh && bun --filter web test && bun run smoke:api",
     "lint": "biome check --error-on-warnings .",
     "lint:fix": "biome check --write .",
     "typecheck": "bun --filter '*' typecheck",
-    "prisma:validate": "cd apps/api && bunx prisma validate",
     "smoke:api": "bash scripts/smoke-api.sh",
     "compose:check": "docker compose -f infra/docker-compose.yml config >/dev/null",
     "docs:links": "bash scripts/docs-linkcheck.sh",
@@ -23,15 +22,9 @@
     "postinstall": "lefthook install",
     "project:sync": "bun scripts/project-sync.ts"
   },
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.10.0",
-    "dotenv": "^18.0.5",
-    "pg": "^8.23.1"
-  },
   "devDependencies": {
     "@biomejs/biome": "2.5.4",
-    "@evilmartians/lefthook": "^2.1.17",
-    "@types/pg": "^8.23.1"
+    "@evilmartians/lefthook": "^2.1.17"
   },
   "packageManager": "bun@1.4.2"
 }

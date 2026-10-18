@@ -199,7 +199,7 @@ daría (barandilla para novatos) lo dan estas reglas + los denies de
 `migrate reset` con confirmación):
 
 1. Leer con `SELECT`, `psql` o Prisma. Nada más.
-2. Escribir solo vía migraciones y seeds del repo (`apps/api/prisma/`). Nunca
+2. Escribir solo vía migraciones y seeds del repo (cuando existan, M1). Nunca
    `UPDATE` ni `DELETE` manuales contra datos compartidos.
 3. `prisma migrate reset` solo con confirmación explícita y con backup previo
    si hay datos que importen.
@@ -214,7 +214,6 @@ permite `lsp` sin confirmación (solo-lectura). Mapa verificado en su código:
 | Lenguaje del proyecto | Servidor | Cobertura |
 |---|---|---|
 | TS/JS (`apps/`) | typescript, eslint, biome | Definición, referencias, símbolos, diagnóstico |
-| Prisma (`schema.prisma`) | prisma | Esquema |
 | Bash (`scripts/*.sh`) | bash | Navegación |
 | YAML (CI, compose) | yaml-ls | Esquema y símbolos |
 | Dockerfile | dockerfile | Básico |

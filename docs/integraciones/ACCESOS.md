@@ -94,7 +94,7 @@ como variable de entorno en `.env.example`, y su fila en esta tabla.
 
 Leer el repositorio, leer issues, milestones y Project de GitHub, leer la carpeta de Drive,
 leer la memoria del proyecto, y ejecutar las verificaciones declaradas en el
-repositorio: `bun run lint`, `bun run typecheck`, `bun run prisma:validate`,
+repositorio: `bun run lint`, `bun run typecheck`,
 `bun run compose:check`, `bun run doctor`, `bash scripts/doc-index.sh` y las
 pruebas.
 
