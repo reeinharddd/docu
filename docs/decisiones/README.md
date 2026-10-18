@@ -40,7 +40,7 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0006](ADR-0006-ia-propone-humano-dispone.md) | La IA propone, el humano dispone | Aceptada | 2026-09-26 |
 | [0007](ADR-0007-contrato-de-herramientas-del-agente.md) | El contrato del agente y sus herramientas viven en el repositorio | Aceptada | 2026-10-05 |
 | [0008](ADR-0008-github-como-gestor-del-equipo.md) | GitHub Issues y Projects como gestor del equipo, en lugar de Monday | Aceptada | 2026-10-06 |
-| [0009](ADR-0009-reglas-del-caso-como-datos.md) | Las reglas del caso son datos en `ReglaValidacion`, no código | Reemplazada por ADR-0014 | 2026-10-06 |
+| [0009](ADR-0009-reglas-del-caso-como-datos.md) | Las reglas del caso son datos en `ReglaValidacion`, no código | Aceptada | 2026-10-06 |
 | [0010](ADR-0010-bitacora-e-historial-solo-insert.md) | Bitácora, historial de origen y originales son solo-insert | Aceptada | 2026-10-06 |
 | [0011](ADR-0011-api-encola-worker-procesa.md) | La API encola, el worker procesa y la IA propone dentro del worker | Aceptada | 2026-10-06 |
 | [0012](ADR-0012-construccion-tras-design-system-y-modelo.md) | No se construye producto hasta tener design system y modelo de datos validado | Aceptada | 2026-10-06 |
