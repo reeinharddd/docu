@@ -1,9 +1,10 @@
 # Gestión: trazabilidad requisito → épica → issue → PR → evidencia
 
-Estado: vigente. Verificado contra GitHub el 2026-10-17 (53 issues, 5 milestones:
-Cierre de diseño 23-oct, Contrato de datos 30-oct, Fin del desarrollo 20-nov,
-Listos 27-nov, Presentación 1-dic), tras la migración desde
-Monday (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
+Estado: vigente. Verificado contra GitHub el 2026-10-17 (54 issues: 29
+abiertos / 25 cerrados, 5 milestones: Cierre de diseño 23-oct, Contrato de datos
+30-oct, Fin del desarrollo 20-nov, Listos 27-nov, Presentación 1-dic), tras la
+migración desde Monday
+(`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
 
 ## La cadena
 
@@ -31,7 +32,7 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | RNF-06 | Infraestructura | Infraestructura | 1 | #10 |
 | RNF-02 | — | QA/Documentación | 1 | #9 |
 | RNF-03 | Permisos | Autenticación | 2–3 | #5, #8 |
-| RNF-07 | Auditoría | QA/Documentación | 1–4 | #6, #9, #13, #30 |
+| RNF-07 | Auditoría | QA/Documentación | 1–4 | #6, #9, #13, #30, #74 |
 
 ## Huecos que siguen abiertos
 

@@ -16,26 +16,30 @@ este plan con GitHub y se corrige aquí.
 
 ## Orden de ejecución (un brief = un entregable)
 
-| Orden | Qué | Quién | Cierra | Desbloquea |
-|---|---|---|---|---|
-| 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo |
-| 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo |
-| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 |
-| 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas |
-| 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 |
-| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 |
-| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 |
-| 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 |
-| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 |
-| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 |
-| 11 | Arquitectura (#60) | Erik | 23-oct | #12 |
-| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 |
-| 13 | OCR spike + fase 2 (#32) | Erik | 23-oct | #3 |
-| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 |
-| 15 | Frontend completo (#4) | Kira | 20-nov | demo |
-| 16 | API esqueleto (#12-A) | Emmanuel | 27-oct | #5 |
-| 17 | RBAC en servidor (#5) | Carlos+Emmanuel | 06-nov | #4, #39 |
-| 18 | Pipeline (#3) | Erik | 13-nov | demo |
+| Orden | Qué | Quién | Cierra | Desbloquea | Estado |
+|---|---|---|---|---|---|
+| 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo | Hecho |
+| 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo | Hecho (#10 cerrado 2026-10-17) |
+| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | En revisión (PR #63) |
+| 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas | Hecho |
+| 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 | Hecho |
+| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **Pendiente: no iniciado** |
+| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Pendiente |
+| 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 | Hecho |
+| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente |
+| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente |
+| 11 | Arquitectura (#60) | Erik | 23-oct | #12 | Pendiente |
+| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 | Pendiente |
+| 13 | OCR spike + fase 2 (#32) | Erik | 23-oct | #3 | Hecho (evaluación OCR, #32 cerrado) |
+| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 | Pendiente |
+| 15 | Frontend completo (#4) | Kira | 20-nov | demo | Pendiente |
+| 16 | API esqueleto (#12-A) | Emmanuel | 27-oct | #5 | Pendiente |
+| 17 | RBAC en servidor (#5) | Carlos+Emmanuel | 06-nov | #4, #39 | Pendiente |
+| 18 | Pipeline (#3) | Erik | 13-nov | demo | Pendiente |
+
+**Siguiente en la fila:** el **modelado de la base de datos** (C1). Arranca por
+#58 (diagrama v0 afirmado) → #59 (v1 + seed) → #60 (arquitectura) y #62 (modelo
+documentado). Puerta de ADR-0012: nada de producto hasta cerrar estas filas.
 
 Cada brief es autocontenido: con opencode + su issue + el Project + las memorias, cualquiera ejecuta sus actividades predefinidas sin contexto previo. Si un brief exige saber de otro para continuar, ahí termina y nace uno nuevo.
 
@@ -61,9 +65,9 @@ trabaje sin depender de una sola persona.
 
 | Épica (issue) | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
-| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (en progreso), #60, #8 |
+| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (hecho), #60, #8, #74 (hecho) |
 | Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
-| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11, #28, #42, #41 |
+| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira); #41 (Kira, PR #63); #42 (Erik, hecho) |
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
 | QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #61, #6, entregas |
 | Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
