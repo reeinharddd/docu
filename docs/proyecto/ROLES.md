@@ -27,7 +27,7 @@ siguen valiendo porque nunca dijeron "el de hasta arriba", solo
 
 ## 2. Roles fijos (no saben de negocios)
 
-Cuatro códigos en inglés, válidos para cualquier empresa o planta.
+Cuatro códigos en inglés, válidos para cualquier empresa o instalación.
 Ninguno menciona departamentos, máquinas ni industrias.
 
 | Rol | Significa | Regla |
@@ -43,10 +43,10 @@ mismas reglas (su subárbol + sus dominios); la diferencia entre
 ellos es administrativa (`manage_users`, `manage_permissions`,
 `manage_config`), no de visibilidad.
 
-Excepción multisitio (H-01): el aislamiento por planta (ADR-0014) es
+Excepción multisitio (H-01): el aislamiento por instalación (ADR-0014) es
 la regla; Roberto accede a varios sitios por **grants explícitos por
 sitio**, no por su rol. Ve consolidados de sus sitios siempre, y
-detalle solo donde tenga grant. Sin grant, el filtro de planta lo
+detalle solo donde tenga grant. Sin grant, el filtro de instalación lo
 frena como a cualquiera.
 
 Cómo se propone solo con la lista de usuarios (sugerencia, no veredicto):
@@ -336,11 +336,11 @@ flowchart LR
 ## 11. Valores semilla para la BD (Configuración 1)
 
 Lo genérico es el mecanismo; los valores son de la empresa y se
-cargan como datos. Columnas según `MODELO-DATOS.md`: `Planta` →
+cargan como datos. Columnas según `MODELO-DATOS.md`: `Instalacion` →
 `Departamento` → `Usuario`, con `UsuarioRol` puente y
 `Usuario.departamentoId` opcional (corporativo sin departamento).
 
-### 11.1 Plantas (`Planta`)
+### 11.1 Instalaciones (`Instalacion`)
 
 | código | nombre | responsable |
 |---|---|---|
@@ -349,7 +349,7 @@ cargan como datos. Columnas según `MODELO-DATOS.md`: `Planta` →
 
 ### 11.2 Departamentos (`Departamento`)
 
-| código | nombre | planta | responsable |
+| código | nombre | instalación | responsable |
 |---|---|---|---|
 | `direccion` | Dirección de División | `CORP` | Roberto |
 | `gerencia` | Gerencia de Planta | `C1` | Laura |
@@ -391,7 +391,7 @@ nuevo trae los suyos sin tocar código.
 | Ricardo | Contralor en planta | `contaduria` | Contralor corporativo | `guest` | su dominio |
 
 Reglas semilla: la referencia primaria de la persona es su `id`
-estable (§12); `Planta` + `Departamento` + `nombre` es solo
+estable (§12); `Instalacion` + `Departamento` + `nombre` es solo
 restricción de login único, no identidad. `Departamento.responsable`
 no sustituye a `reporta_a` ni otorga permisos: Ana responde por
 Planeación aunque reporte a Andrés; el responsable administra el
@@ -411,13 +411,13 @@ el jefe los confirma, o el sistema los infiere.
 
 | Campo | Para qué posiciona | Origen | Obligatorio |
 |---|---|---|---|
-| `id` | Identidad interna estable; sobrevive a cambios de planta, depto o login y conserva historial | sistema | sí |
+| `id` | Identidad interna estable; sobrevive a cambios de instalación, depto o login y conserva historial | sistema | sí |
 | `nombre` | Identidad ficticia | empresa | sí |
 | `usuario` | Login legible (`c1.mantenimiento.juan`); puede cambiar sin crear persona nueva | sistema | sí |
 | `tipo_relacion` | `interno` o `externo`. Ricardo es interno de solo-lectura; un proveedor es externo con vigencia obligatoria | empresa | sí |
 | `puesto` | Qué hace (texto libre, sin catálogo) | empresa | sí |
-| `planta` | Sitio donde opera (adscripción, no jefatura) | empresa | sí |
-| `planta_activa` | Sitio en sesión (si trabaja en dos plantas) | usuario elige | no |
+| `instalacion` | Sitio donde opera (adscripción, no jefatura) | empresa | sí |
+| `instalacion_activa` | Sitio en sesión (si trabaja en dos instalaciones) | usuario elige | no |
 | `departamento` | En qué área (código del §11.2) | empresa | sí, salvo corporativo |
 | `reporta_a` | Jerarquía (su rama del árbol; texto si es externo al sistema) | empresa | sí |
 | `rol` | `admin`, `manager`, `member`, `guest` | sistema propone, jefe confirma | sí |
@@ -433,14 +433,14 @@ el jefe los confirma, o el sistema los infiere.
 | `fecha_modificacion` | Cuándo (trazabilidad ISO 13485 / 21 CFR Part 11) | sistema | sí |
 
 Lo mínimo que la empresa entrega por persona: nombre, puesto,
-planta, departamento y a quién reporta. Con eso el sistema propone
+instalación, departamento y a quién reporta. Con eso el sistema propone
 rol, alcance y dominios (§2); el jefe confirma en 1 clic y el bundle
 queda completo. Nada más se configura a mano.
 
 `reporta_a` no es lo mismo que dónde opera: Elena está adscrita a
 `C1` pero reporta al VP de RH; Ricardo opera en `C1` pero reporta al
 Contralor corporativo. El acceso se hereda de la adscripción y los
-grants, nunca del jefe: Elena no recibe permisos sobre otras plantas
+grants, nunca del jefe: Elena no recibe permisos sobre otras instalaciones
 por su línea corporativa, ni pierde sus tareas de planta.
 
 Ejemplo (Juan, fila 11):
@@ -452,7 +452,7 @@ Ejemplo (Juan, fila 11):
   "usuario": "c1.mantenimiento.juan",
   "tipo_relacion": "interno",
   "puesto": "Auxiliar facilities",
-  "planta": "C1",
+  "instalacion": "C1",
   "departamento": "mantenimiento",
   "reporta_a": "Miguel",
   "rol": "member",
@@ -542,7 +542,7 @@ Cuatro operaciones distintas (no basta `estado = baja`):
    si Carmen pasa a Laura, Laura no adquiere permisos de Producción
    ni Carmen ve datos de otros operarios.
 4. Conservación histórica: la identidad del autor queda en los
-   registros anteriores; cambiar de departamento o planta no borra
+   registros anteriores; cambiar de departamento o instalación no borra
    historial ni crea persona nueva.
 - `suspendido`: congela sesión y capacidades al instante; al
   reactivarse, todo vuelve sin reasignar.
@@ -560,7 +560,7 @@ así cuando el motor exista. Marcarlos no ejecuta nada en el repo.
 |---|---|---|
 | T01 | Miembro de C1 contra C2 | Denegado leer, modificar y reportar |
 | T02 | Roberto multisitio | Solo sitios con grant; consolidado sí, detalle solo con grant |
-| T03 | Juan lee otro dominio misma planta | Denegado |
+| T03 | Juan lee otro dominio misma instalación | Denegado |
 | T04 | Producción libera lote sin grant | Denegado |
 | T05 | Subir archivo ≠ publicar oficial | Subir pasa; publicar sin grant se deniega |
 | T06 | Grant bajo vs denegación vigente | Gana la denegación |
@@ -570,7 +570,7 @@ así cuando el motor exista. Marcarlos no ejecuta nada en el repo.
 | T10 | IA con usuario restringido | Ni resúmenes ni agregados filtran lo prohibido |
 | T11 | Reasignación de huérfanos | Reporte cambia; capacidades no se amplían |
 | T12 | Externo caducado | Sin acceso, incluidas sesiones pendientes |
-| T13 | Usuario en dos plantas | Manda la planta activa + sus grants |
+| T13 | Usuario en dos instalaciones | Manda la instalación activa + sus grants |
 | T14 | Cambio de departamento | Sin permisos obsoletos; historial intacto |
 | T15 | Registro ya confirmado | Rectificación conserva valor anterior, autor y evidencia |
 

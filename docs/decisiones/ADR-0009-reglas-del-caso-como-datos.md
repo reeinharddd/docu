@@ -1,6 +1,6 @@
 # ADR 0009 — Las reglas del caso son datos en `ReglaValidacion`, no código
 
-Fecha: 2026-10-06 · Estado: Aceptada
+Fecha: 2026-10-06 · Estado: Reemplazada por ADR-0014
 Decide: Erik · Revisa: Emmanuel (dueño del módulo de reglas)
 
 ## Contexto

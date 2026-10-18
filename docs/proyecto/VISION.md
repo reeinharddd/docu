@@ -36,7 +36,7 @@ Dentro:
 - Dato oficial con historial de origen, regla aplicada y quién confirmó.
 - Búsqueda y consulta donde **cada cifra cita su fuente y su cálculo**.
 - Control de acceso por rol **en servidor** y bitácora de quién hizo qué.
-- Parametrización por planta: la segunda configuración (segunda planta de la
+- Parametrización por instalación: la segunda configuración (segunda instalación de la
   misma compañía) se carga con datos, sin cambiar código.
 - Agente de IA que responde y alerta citando procedencia. Propone, no decide.
 
@@ -71,7 +71,7 @@ guardables como producto completo.
 
 Configuración 1 es la planta sintética de empaque médico **Baja SterilPack**
 (ver `CASO.md`): no existe, no hay levantamiento real; su dataset se genera en
-paralelo (#9). Configuración 2 es una segunda planta mínima de la misma
+paralelo (#9). Configuración 2 es una segunda instalación mínima de la misma
 compañía que debe cargar sin una línea de código nueva. La prueba de
 generalidad es la evidencia central del proyecto (RNF-07).
 
