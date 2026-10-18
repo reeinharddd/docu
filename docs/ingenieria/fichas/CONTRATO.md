@@ -25,7 +25,7 @@ aportan evidencia de calidad.
 |---|---|---|
 | `documento_id` | `DOC-C1-000123` | Documento lógico |
 | `archivo_id` | UUID | Archivo físico en DOCU |
-| `planta_id` | `C1` | Sitio |
+| `planta_id` | `C1` | Instalación |
 | `orden_id` | `ORD-2026-0042` | Conecta programa, producción, calidad |
 | `rollo_id` | `R-017` | Conecta recepción, inventario, programa |
 | `material_id` | `MAT-TYV-01` | Material y especificación |
@@ -52,7 +52,7 @@ validación de negocio y permisos.
 ## 4. Política multidominio
 
 - **A. Visibilidad**: un documento se descubre si hay permiso de
-  lectura y se comparte al menos un dominio, cumpliendo planta,
+  lectura y se comparte al menos un dominio, cumpliendo instalación,
   alcance, vigencia y denegaciones.
 - **B. Campos**: visible no es legible entero; cada campo sensible
   exige su autorización. Si no hay filtrado seguro, se deniega con
