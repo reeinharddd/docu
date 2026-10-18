@@ -5,10 +5,10 @@ Dueño: Carlos. Alcance: solo matriz y perfiles. Dataset y
 documentos son #9. La aceptación técnica llega cuando el motor de
 #5 pase las pruebas del §16; son estados distintos.
 
-Nota: el BRIEF-29 y `MODELO-DATOS.md` nombran códigos atados al
-negocio (`planeacion`, `calidad`, `almacen`). Este documento los
-reemplaza por roles fijos de jerarquía, sin una sola palabra del
-negocio. Actualizar esos archivos toca a #58/#59/#5, no a este issue.
+Nota: este documento reemplazó los códigos atados al negocio que usaba el
+BRIEF-29 histórico (`planeacion`, `calidad`, `almacen`) por roles fijos de
+jerarquía, sin una sola palabra del negocio. `MODELO-DATOS.md` ya usa estos
+cuatro códigos.
 
 ## 1. La idea en una línea
 
