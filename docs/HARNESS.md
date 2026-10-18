@@ -39,7 +39,7 @@ desde `main`; bloqueo > 24 h se escala con etiqueta.
 
 | Agente | Flujo | Herramienta | Dueño |
 |---|---|---|---|
-| Sesión (opencode) | `/inicio` → `/tarea` → `/cerrar` | comandos `docu-*`, skills, superpowers | Erik |
+| Sesión (opencode) | `/inicio` → `/tarea` → `/cerrar` | comandos de `.opencode/commands/`, skills `docu-*`, superpowers | Erik |
 | Explorador (subagente) | ola 1 de `/tarea`, antes de proponer | solo lectura (`read`, `grep`, `glob`, `lsp`) | Erik |
 | Revisor (subagente) | antes de `/cerrar` o de aprobar un PR | solo lectura, calibrado | Erik |
 
@@ -59,8 +59,10 @@ la otra se corrige en el mismo PR.
 
 ## 5. Runbook de evolución del harness
 
-Toda operación sobre la metadata pasa por `scripts/harness-check.sh` (falla en
-CI si el harness queda inconsistente).
+Toda operación sobre las piezas con frontmatter (comandos, subagentes y skills)
+pasa por `scripts/harness-check.sh` (falla en CI si el harness queda
+inconsistente). El catálogo registra además MCP y scripts, que no llevan
+frontmatter y se verifican por revisión en el PR.
 
 | Operación | Quién aprueba | Cómo se documenta | Cómo se verifica |
 |---|---|---|---|
