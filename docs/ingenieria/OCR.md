@@ -75,10 +75,6 @@ brief**: falta el script con comando único en `dataset/ocr-eval/` (§8).
 
 ## 5. Layout y tablas
 
-GLM-OCR ya ecorren en CPU; el costo real por página hay que medirlo en `#46`.
-
-## 5. Layout y tablas
-
 GLM-OCR ya entrega layout, tablas (HTML) y orden de lectura. Si un formato del
 caso lo excede, el siguiente escalón es **surya** o **Docling** (layout + tablas)
 y, con más recursos, **MinerU**. No se agrega ninguna de estas piezas hasta que la
