@@ -40,10 +40,37 @@ check_pieza() {
   fi
 }
 
-for pieza in $(find .opencode/commands -type f -name '*.md' | sort); do check_pieza "$pieza" 0; done
-for pieza in $(find .opencode/agents -type f -name '*.md' | sort); do check_pieza "$pieza" 0; done
-for pieza in $(find .opencode/skills -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' | sort); do check_pieza "$pieza" 0; done
-for pieza in $(find .opencode/skills/vendor -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' | sort); do check_pieza "$pieza" 1; done
+es_vendor() {
+  case "$1" in
+    .opencode/skills/vendor/*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+descubrir() {
+  find .opencode/commands -type f -name '*.md' 2>/dev/null
+  find .opencode/agents -type f -name '*.md' 2>/dev/null
+  find .opencode/skills -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' 2>/dev/null
+  find .opencode/skills/vendor -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' 2>/dev/null
+}
+
+descubiertas=$(descubrir | sort -u)
+for pieza in $descubiertas; do
+  if es_vendor "$pieza"; then check_pieza "$pieza" 1; else check_pieza "$pieza" 0; fi
+done
+
+INDICE=docs/integraciones/CAPACIDADES.md
+if [ -f "$INDICE" ]; then
+  en_indice=$(grep -o '^| `\.opencode/[^`]*`' "$INDICE" | sed 's/^| `//; s/`$//' | sort -u)
+  for pieza in $descubiertas; do
+    printf '%s\n' "$en_indice" | grep -qxF "$pieza" || reportar "$pieza" "no aparece en CAPACIDADES.md (huerfana)"
+  done
+  for pieza in $en_indice; do
+    [ -e "$pieza" ] || reportar "$pieza" "listada en CAPACIDADES.md pero no existe en disco (fantasma)"
+  done
+else
+  reportar "$INDICE" "no existe (indice vivo del harness)"
+fi
 
 if [ "$hallazgos" -gt 0 ]; then
   echo "harness-check: $hallazgos hallazgo(s) sobre $total piezas"
