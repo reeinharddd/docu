@@ -75,7 +75,7 @@ trabaje sin depender de una sola persona.
 |---|---|---|
 | #12 API, #3 Pipeline, #5 RBAC, #7 Configuración 1 | #10 Arquitectura y entorno | Sin `pgvector` no hay `vector`, sin BD no hay ingesta |
 | #4 Frontend | #23 Contrato de datos congelado | La maqueta consume el contrato, no la BD |
-| #4 Frontend | #3 Pipeline de ingesta | La API entrega el dato que la pantalla cita |
+| #4 Frontend | #3 Pde ingesta | La API entrega el dato que la pantalla cita |
 | #3 Pipeline | #7 Configuración 1 | Ordena, lee y valida por familia |
 | #8 Configuración 2 | #7 Configuración 1 | La 2 se prueba sobre datos de la 1 |
 | #3 Pipeline | #32 Evaluación OCR | RF-02 exige ≥ 90 %: se mide antes de implementar |
