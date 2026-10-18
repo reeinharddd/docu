@@ -66,6 +66,24 @@ edita un documento de otro sin avisar en el PR.
 La memoria de sesión (bitácora, descubrimientos, contexto de conversación) vive
 en Engram, no se commitea (`docu-memoria`, `integraciones/ENGRAM.md`).
 
+## Propiedad de las herramientas del harness
+
+Regla: cada pieza del harness declara su dueño en el frontmatter (`dueno`), y ese
+valor debe existir en este archivo. `scripts/harness-check.sh` lo verifica en CI.
+El índice vivo está en `integraciones/CAPACIDADES.md`; el mapa, en `HARNESS.md`.
+
+| Herramienta | Dueño |
+|---|---|
+| Comandos `.opencode/commands/*` (6) | Erik |
+| Subagentes `.opencode/agents/*` (2) | Erik |
+| Skills propias `.opencode/skills/docu-*` (3) | Erik |
+| Skills vendorizadas `.opencode/skills/vendor/*` (4) | Erik |
+| Catálogo MCP (`opencode.json`) | Erik |
+| Scripts del harness (`scripts/*`) | Erik |
+
+Cambiar de dueño una herramienta es un PR que toca su `dueno` y esta tabla a la
+vez. Detalle del proceso en `HARNESS.md` §5.
+
 ## Forma de trabajo
 
 - Ramas: `feat/<issue>-<slug>` desde `main` (`gh issue develop N`); nada directo a `main`.
