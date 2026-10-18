@@ -32,7 +32,7 @@ docs/decisiones/ADR-0010-bitacora-e-historial-solo-insert.md
 docs/decisiones/ADR-0011-api-encola-worker-procesa.md
 docs/decisiones/ADR-0012-construccion-tras-design-system-y-modelo.md
 docs/decisiones/ADR-0013-opencode-oficial-superpowers-engram.md
-docs/decisiones/ADR-0014-planta-single-company.md
+docs/decisiones/ADR-0014-instalacion-single-company.md
 docs/decisiones/README.md
 docs/gestion/PLAN-EPICAS.md
 docs/gestion/RIESGOS.md

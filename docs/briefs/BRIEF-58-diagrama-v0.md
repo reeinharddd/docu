@@ -11,7 +11,7 @@
 
 ## 1. Contexto que te damos (tú decides el qué)
 
-Despliegue: una compañía corre su propio sistema; en él conviven sus plantas; jamás se mezclan compañías. Tu diagrama debe sostener eso.
+Despliegue: una compañía corre su propio sistema; en él conviven sus instalaciones; jamás se mezclan compañías. Tu diagrama debe sostener eso.
 
 Del caso (`CASO.md`): 6 familias de archivo, 7 reglas R-P1..T1 ya decididas (12-oct), organigrama con Planeación/Calidad/Almacén/Admin, 5 máquinas, flujo programa→recepción→inventario→turno con confirmación humana que libera (R-Q1).
 
@@ -24,7 +24,7 @@ Restricciones duras: sin `Empresa` multi-tenant; no hay esquema implementado tod
 La pregunta central: ¿cómo almacenamos lo crudo y cómo conviven tres clases de datos?
 
 - **Fijos del sistema (nunca cambian):** roles, permisos, estados, severidades, familias base. ¿En qué tablas viven? ¿Qué los hace inmutables?
-- **Dinámicos (dependen del cliente y de lo consumido):** órdenes, rollos, programas, pruebas, usuarios y departamentos de cada planta. ¿Qué los ata a su planta? ¿Qué impide que una planta lea otra?
+- **Dinámicos (dependen del cliente y de lo consumido):** órdenes, rollos, programas, pruebas, usuarios y departamentos de cada instalación. ¿Qué los ata a su instalación? ¿Qué impide que una instalación lea otra?
 - **Manuales (los agrega una persona):** confirmaciones, motivos de cuarentena, decisiones. ¿Dónde queda quién/cuándo/por qué, y qué impide reescribirlos?
 
 Piensa también: ¿dónde muere un dato inválido y con qué motivo? ¿Qué es único en cada tabla y por qué? ¿Qué índice necesita cada consulta de lineage y auditoría?
@@ -42,7 +42,7 @@ Tú propones las tablas. La revisión del 16-oct las afirma o las devuelve con m
 ## 4. Cómo verificar tu propuesta
 
 1. Cada tabla del diagrama existe en el registro con su porqué. Terminado: cero tablas "porque sí".
-2. Cada unique/`CHECK`/FK responde a una regla del caso o a una amenaza (planta que lee otra, inválido que pasa, historia que se reescribe). Terminado: trazabilidad regla→constraint.
+2. Cada unique/`CHECK`/FK responde a una regla del caso o a una amenaza (instalación que lee otra, inválido que pasa, historia que se reescribe). Terminado: trazabilidad regla→constraint.
 3. El núcleo se crea en https://postgres.new y los JSON anidados se inspeccionan en https://jsoncrack.com. Terminado: capturas en el PR.
 4. Nada exige nube ni hardware especial. Terminado: checklist offline en el PR.
 
@@ -64,7 +64,7 @@ Para decidir solo, sin depender de nadie:
   flujo programa→recepción→inventario→turno con confirmación humana (R-Q1).
   Cada tabla que propongas debe rastrearse a algo de aquí.
 - `docs/proyecto/REQUISITOS.md` — RF-08 (qué familias debe sostener el
-  modelo) y RF-06 (qué alcance por planta/departamento/rol debe impedir
+  modelo) y RF-06 (qué alcance por instalación/departamento/rol debe impedir
   lecturas cruzadas). Si el requisito no te dice el tipo, tú lo propones.
 - ADR-0009 (`docs/decisiones/ADR-0009-reglas-del-caso-como-datos.md`) —
   reglas, familias, roles y umbrales como datos, nunca como `if`.
@@ -73,8 +73,8 @@ Para decidir solo, sin depender de nadie:
   reescrituras.
 - ADR-0011 (`docs/decisiones/ADR-0011-api-encola-worker-procesa.md`) —
   la API encola y el worker procesa: no diseñes para un monolito síncrono.
-- ADR-0014 (`docs/decisiones/ADR-0014-planta-single-company.md`, propuesta) —
-  raíz Planta single-company: sin tabla `Empresa` multi-tenant.
+- ADR-0014 (`docs/decisiones/ADR-0014-instalacion-single-company.md`) —
+  raíz Instalación single-company: sin tabla `Empresa` multi-tenant.
 - `docs/ingenieria/STACK.md` §2.4 — tipos permitidos (`uuid`, `text`,
   `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`), uniques, índices,
   `CHECK`. PostgreSQL 18 + pgvector: https://www.postgresql.org/docs/18/ ·
