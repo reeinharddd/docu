@@ -78,6 +78,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 
 | Ruta | Contenido | Estado |
 |---|---|---|
+| `HARNESS.md` | Mapa del harness: rol→flujo→herramienta→dueño→cadencia, los dos ciclos y el runbook de evolución | vigente |
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
 | `decisiones/` | ADRs de ingeniería, 14 aceptadas | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA, alcance de la solución y `fichas/` (contrato de documentos del caso) | en progreso |
