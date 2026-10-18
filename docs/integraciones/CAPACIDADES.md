@@ -72,3 +72,12 @@ secciones de MCP y scripts son informativas (no llevan frontmatter propio).
 | `scripts/smoke-api.sh` | script | Erik | en `verify` | Arranca la API y consulta `/health` | propio | activo |
 | `scripts/drive-check.sh` | script | Erik | al verificar Drive | Comprueba el acceso a Drive | propio | activo |
 | `scripts/memory-export.sh` | script | Erik | al exportar memoria | Exporta la memoria de Engram | propio | activo |
+
+## Candidatos (no adoptados)
+
+Fuera del catálogo vivo: lo que todavía no es herramienta del harness.
+
+| Pieza | Tipo | Dueño | Disparador | Propósito | Origen/Versión | Estado |
+|---|---|---|---|---|---|---|
+| `docs/integraciones/CATALOGO-2026-10-17.md` | documento | Erik | al evaluar una herramienta nueva | Barrido de candidatos (stars) | propio | vigente |
+| `docs/integraciones/INVESTIGACION-HERRAMIENTAS.md` | documento | Erik | al evaluar una herramienta nueva | Investigación base y veredictos | propio | vigente |
