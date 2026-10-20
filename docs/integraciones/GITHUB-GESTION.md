@@ -29,7 +29,19 @@ mantiene dos veces el mismo dato.
 | Dependencia | *Blocked by* nativo | #4 bloqueada por #3, #23 y #41 |
 | Bloqueo > 24 h | Etiqueta `bloqueado` | — |
 | Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-10-12 → 2026-10-23` |
+| Brief | Comentario fijado en el issue con el enlace; el issue manda el estado, el brief el detalle | `BRIEF-11` |
+| Taller de diseño | Rama huérfana `design/kira-playground`; nunca se fusiona; a `main` solo docs y tokens | #11, #41 |
 | Evidencia | PR con `Closes #N` + adjunto | — |
+
+## Briefs y taller de diseño
+
+- Cada issue de tarea enlaza su brief en un comentario fijado (y en el cuerpo si
+  el brief cambia). El brief explica el cómo; el issue manda el estado.
+- El diseño se explora en `design/kira-playground`, rama huérfana que **nunca**
+  se fusiona. A `main` solo viajan `docs/diseno/*`, `docs/diseno/tokens.json`
+  aprobado y capturas; el código del taller se queda (ADR-0012).
+- Promoción: `playground/PROMOCION.md`; PR desde una rama creada en `main` con
+  `Closes #N`.
 
 ## Épicas
 
@@ -113,7 +125,8 @@ Estado 2026-10-17: **colaboradores ya con `Write`** (`Agent3835` = Emmanuel,
 reales y el secreto `PROJECT_TOKEN` activo (el workflow `project-sync` corre en
 verde, con cron de lunes a viernes). Falta el paso 2: las 5 vistas.
 Estado 2026-10-19: se suma `WearyBerry` = Carlos con `Write`; sus issues #61,
-#8 y #6 quedan asignados.
+#8 y #6 quedan asignados. Status y fechas de #11/#41 corregidos; las 5 vistas
+siguen pendientes de creación en la web (la API no las crea).
 
 La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
 

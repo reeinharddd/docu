@@ -20,11 +20,11 @@ este plan con GitHub y se corrige aquí.
 |---|---|---|---|---|---|
 | 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo | Hecho |
 | 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo | Hecho (#10 cerrado 2026-10-17) |
-| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | En revisión (PR #63) |
+| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | En revisión (PR #63 con conflictos; falta acta de marca) |
 | 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas | Hecho |
 | 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 | Hecho |
 | 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **Pendiente: no iniciado** |
-| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Pendiente |
+| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | En progreso: #41-fase2 (tokens); #11 espera #41. Taller: `design/kira-playground` |
 | 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 | Hecho |
 | 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente |
 | 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente |
@@ -67,7 +67,7 @@ trabaje sin depender de una sola persona.
 |---|---|---|---|---|
 | Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (hecho), #60, #8, #74 (hecho) |
 | Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
-| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira); #41 (Kira, PR #63); #42 (Erik, hecho) |
+| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira, bloqueado por #41); #41 (Kira, fase2 en progreso; fase1 PR #63); #42 (Erik, hecho) |
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
 | QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #61, #6, entregas |
 | Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
@@ -84,8 +84,13 @@ trabaje sin depender de una sola persona.
 | #8 Configuración 2 | #7 Configuración 1 | La 2 se prueba sobre datos de la 1 |
 | #3 Pipeline | #32 Evaluación OCR | RF-02 exige ≥ 90 %: se mide antes de implementar |
 | #39 Reporte y alerta | #3 Pipeline | El reporte lee datos ya ingeridos |
-| #41 Design system | #42 Playground | El design system se explora en el playground |
+| #41 Design system | #42 Playground | Hecho: el taller ya existe (`design/kira-playground`) |
+| #11 Prototipos | #41 Design system | Los mockups usan tokens y componentes aprobados |
 | #4 Frontend | #41 Design system | Puerta 1 de ADR-0012 |
+
+El taller de diseño es la rama huérfana `design/kira-playground`: **nunca se
+fusiona**. A `main` solo llegan `docs/diseno/*`, `docs/diseno/tokens.json` y
+capturas; el código del taller se queda (`BRIEF-11`, `BRIEF-41-fase2`).
 
 La construcción de producto espera dos puertas: design system de marca y modelo
 de datos validado (ADR-0012).

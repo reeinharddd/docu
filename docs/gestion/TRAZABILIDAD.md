@@ -27,7 +27,7 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | RF-06 | Permisos / Infraestructura | Autenticación / Infraestructura | 1–2 | #10, #5 |
 | RF-07 | — | transversal (Could) | — | Sin issue, a propósito |
 | RF-08 | Infraestructura | Infraestructura / Base de datos | 2–3 | #7, #8 |
-| RNF-01 | — | Frontend | 1 | #11 |
+| RNF-01 | — | Diseño / Frontend | 1 | #11, #41 |
 | RNF-05 | Infraestructura | Infraestructura | 1 | #10 |
 | RNF-06 | Infraestructura | Infraestructura | 1 | #10 |
 | RNF-02 | — | QA/Documentación | 1 | #9 |
