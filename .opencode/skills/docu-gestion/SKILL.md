@@ -21,7 +21,6 @@ operativo; si discrepan, gana el documento.
 | Hito con fecha | Milestone |
 | Epica / sprint / prioridad | `epica:*`, `sprint:N`, `prioridad:*` |
 | Requisito | `RF-0n`, `RNF-0n`; si falta, `req:pendiente` |
-| Plan academico | `ec0935` + `fase:N` |
 | Dependencia | relacion nativa *blocked by* |
 | Cronograma | linea `Cronograma` del cuerpo: `AAAA-MM-DD → AAAA-MM-DD` |
 

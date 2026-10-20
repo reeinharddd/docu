@@ -52,9 +52,8 @@ Contiene los documentos de las etapas, la plantilla de formato y el diagrama de
 arquitectura. El árbol verificado y los 3 enlaces cruzados con los entregables:
 `integraciones/DRIVE.md`.
 
-Se busca **por identificador, nunca por nombre**: el tablero académico llama al proyecto
-"Proyecto EC0935 – REPOSITORIO DE DOCUMENTACION DIGITAL (RDD)" y la carpeta se
-llama "Desarrollo web integral". Buscar por nombre falla.
+Se busca **por identificador, nunca por nombre**: el nombre del tablero no
+coincide con el de la carpeta. Buscar por nombre falla.
 
 Regla dura: **solo lectura y siempre en vivo**. Nunca se usa una copia local
 como fuente de verdad, porque una copia envejece y nadie se entera. Prohibido
