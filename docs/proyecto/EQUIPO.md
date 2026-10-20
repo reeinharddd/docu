@@ -9,7 +9,7 @@ Estado: vigente. Última actualización: 2026-10-17. Replanificación: inicio 20
 | Erik Alfonso Beltrán Ramírez | Líder, infra y pipeline | `auth/governance`, despliegue, CI, entorno, ADRs de infraestructura | `reeinharddd` |
 | Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas. Configuración 1 (#7), 2026-10-19 → 10-30, alimenta el contrato de datos | `Agent3835` |
 | Kira Llizara Garfias González | Frontend y UX | Angular, Tailwind, captura, bandeja, programa, búsqueda, diseño de pantallas | `kirxllix` |
-| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | pendiente (sin cuenta) |
+| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | `WearyBerry` |
 
 Materias: **Yakko Olivo Nájera** (Desarrollo web integral) es dueño del
 producto y sus entregas viven en DOCU. **Resffa Elizabeth Fierro García**
@@ -31,8 +31,10 @@ está en su brief y el estado en su issue.
 
 #39 → Emmanuel (reporte y alerta, RF-05, tras #7), ya asignado en GitHub
 (`Agent3835`). Kira (`kirxllix`) también tiene sus issues asignados. #36 se
-cerró como no planificado (el diagrama de casos de uso no se hará). Carlos sigue
-sin cuenta de GitHub: mientras tanto manda el dueño nominal de este archivo.
+cerró como no planificado (el diagrama de casos de uso no se hará). Carlos ya
+tiene cuenta de GitHub (`WearyBerry`, 2026-10-19): sus issues #61 y #8 y el
+cierre de pruebas #6 quedan asignados a él. #34 (manuales) se cerró como no
+planificado; los manuales se absorben en #6.
 
 Cómo empieza cualquiera: `bash scripts/setup.sh`, `opencode`, `/inicio`
 (`operacion/BOOTSTRAP.md`).
@@ -61,7 +63,6 @@ edita un documento de otro sin avisar en el PR.
 | `integraciones/DRIVE.md`, `GITHUB.md`, `MCP.md` | Erik | — |
 | `integraciones/ENGRAM.md` | Erik | — |
 | `gestion/*` | Erik | Todo el equipo en el PR |
-| `academico/ENTREGAS.md` | Erik | Responsable de la entrega |
 
 La memoria de sesión (bitácora, descubrimientos, contexto de conversación) vive
 en Engram, no se commitea (`docu-memoria`, `integraciones/ENGRAM.md`).

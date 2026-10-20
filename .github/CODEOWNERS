@@ -2,4 +2,4 @@
 /apps/api/ @Agent3835
 /apps/web/ @kirxllix
 /infra/ /*.json /*.yml @reeinharddd
-# /dataset/ @<Carlos> — pendiente: sin cuenta GitHub (ver proyecto/EQUIPO.md).
+/dataset/ @WearyBerry
