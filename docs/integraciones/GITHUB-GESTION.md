@@ -26,7 +26,6 @@ mantiene dos veces el mismo dato.
 | Prioridad | Etiqueta `prioridad:*` → campo `Prioridad` | `prioridad:critica` |
 | Área | Etiqueta `epica:*` → campo `Épica` | `epica:diseno` |
 | Requisito | Etiqueta `RF-0n` / `RNF-0n`; si falta, `req:pendiente` | `RF-01` |
-| Plan académico | `ec0935` + `fase:N` | #32 |
 | Dependencia | *Blocked by* nativo | #4 bloqueada por #3, #23 y #41 |
 | Bloqueo > 24 h | Etiqueta `bloqueado` | — |
 | Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-10-12 → 2026-10-23` |
@@ -41,7 +40,7 @@ mantiene dos veces el mismo dato.
 | #49 | Frontend | Aplicación Angular (espera la puerta de diseño, ADR-0012) |
 | #50 | Base de datos | Modelo, contrato, Configuración 1 |
 | #51 | Autenticación | RBAC, matriz de roles, bitácora, reglas |
-| #52 | QA/Documentación | Dataset, pruebas, SRS, entregas académicas |
+| #52 | QA/Documentación | Dataset, pruebas, SRS y documentación de cierre |
 | #53 | Diseño | Prototipos, categorías, design system, playground |
 
 ## Campos del Project
@@ -113,6 +112,8 @@ Estado 2026-10-17: **colaboradores ya con `Write`** (`Agent3835` = Emmanuel,
 `kirxllix` = Kira) y sus issues asignados; `.github/CODEOWNERS` con usuarios
 reales y el secreto `PROJECT_TOKEN` activo (el workflow `project-sync` corre en
 verde, con cron de lunes a viernes). Falta el paso 2: las 5 vistas.
+Estado 2026-10-19: se suma `WearyBerry` = Carlos con `Write`; sus issues #61,
+#8 y #6 quedan asignados.
 
 La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
 
@@ -130,14 +131,14 @@ La API no permite crear vistas ni secretos de usuario. Una sola vez, Erik:
    activar `Item closed` → `Listo` y `Pull request merged` → `Listo` (el sync
    lo hace igual; los integrados son instantáneos).
 4. **Colaboradores** rol *Write* y asignación de issues: **hecho 2026-10-17**
-   (`Agent3835`, `kirxllix`); sus usuarios van a `proyecto/EQUIPO.md` y
-   `.github/CODEOWNERS`. Carlos sigue sin cuenta.
+   (`Agent3835`, `kirxllix`) y **2026-10-19** (`WearyBerry` = Carlos); sus
+   usuarios van a `proyecto/EQUIPO.md` y `.github/CODEOWNERS`.
 
 ## Origen
 
 Hasta el 2026-10-06 el gestor fue Monday. Todo su contenido (tarjetas,
-subelementos, comentarios con alcance y criterios, plan académico EC0935) se
-migró a issues y al plan académico EC0935. El archivo `academico/EC0935.md` se
-dio de baja del repo por orden del líder y no se restaura; el registro de la
-migración queda en ADR-0008. La cuenta de Monday se dio de baja
-(ADR-0008).
+subelementos, comentarios con alcance y criterios) se migró a issues. En esa
+migración se colaron datos de un plan académico ajeno a DOCU; el 2026-10-19 se
+retiraron sus etiquetas, referencias y el directorio `academico/`. El registro
+de la migración y su enmienda quedan en ADR-0008. La cuenta de Monday se dio de
+baja (ADR-0008).
