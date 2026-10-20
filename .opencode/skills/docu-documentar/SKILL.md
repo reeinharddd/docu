@@ -20,7 +20,7 @@ Ley del sistema: `docs/README.md`. Esta skill resume lo que mas se olvida.
 | Como se levanta o se rompe | `docs/operacion/` |
 | Como se habla con un sistema externo | `docs/integraciones/` |
 | Delegacion de una tarea | `docs/briefs/BRIEF-<issue>-<slug>.md` |
-| Entregas de la materia | `docs/academico/` |
+| Entregas de la materia | Drive (vivo); no se versionan en el repo |
 | Estado de una tarea | Issue de GitHub, nunca un documento |
 | Contexto de una sesion | Memoria del agente, nunca un documento |
 

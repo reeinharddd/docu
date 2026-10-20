@@ -93,3 +93,11 @@ Qué se extrajo y a dónde fue:
 
 > Nota 2026-10-09: `academico/EC0935.md` se dio de baja del repo por orden del
 > líder. La tabla histórica no cambia.
+
+## Enmienda 2026-10-19: retiro del plan académico ajeno
+
+El plan EC0935 pertenece a **Administración de Proyectos**, no a DOCU, y se
+coló en la migración de Monday. Se retiraron sus etiquetas (`ec0935`,
+`fase:1..6`), las líneas `Fase EC0935` de los issues cerrados #28–#35 y el
+directorio `docs/academico/`. La decisión de este ADR no cambia; DOCU se alinea
+solo a sus materias y a `docs/`.

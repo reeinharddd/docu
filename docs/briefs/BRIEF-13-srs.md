@@ -38,13 +38,12 @@ Si el SRS dice algo que el repo no sostiene, la auditoría lo caza. Si sale bien
 ## 5. Entradas y salidas
 
 - Recibe: Etapa-2-v2, caso, Monday migrado (copia vigente en Drive, citar fecha), `REQUISITOS.md`, `CASO.md`.
-- Entrega: PDF + URL + firma en #30; se registra en `academico/ENTREGAS.md`.
+- Entrega: PDF + URL + firma en #30; se registra en Drive con fecha.
 
 ## 6. Referencias y caja de herramientas
 
 - Plantilla IEEE 830 del Drive; `REQUISITOS.md`, `CASO.md`, `VISION.md`, `TRAZABILIDAD.md`; `DRIVE.md` (dónde subir; §Vacíos como lista explícita).
 - https://mermaid.js.org + https://mermaid.live (diagrama versionable) · https://languagetool.org (redacción) · https://pandoc.org (tablas al DOCX).
-- Nota: `academico/EC0935.md` se dio de baja; si el SRS la cita, copia vigente en Drive con fecha.
 
 ## 7. Cómo trabajar
 
