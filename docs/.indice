@@ -1,7 +1,6 @@
 # Indice documental de DOCU. Fuente de verdad de docs/README.md.
 # Verifica con: bash scripts/doc-index.sh
 # Regenera con: bash scripts/doc-index.sh --fix
-docs/academico/ENTREGAS.md
 docs/briefs/BRIEF-03-pipeline-ingesta.md
 docs/briefs/BRIEF-04-frontend-angular.md
 docs/briefs/BRIEF-05-rbac-bitacora.md

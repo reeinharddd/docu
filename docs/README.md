@@ -29,7 +29,6 @@ documenta igual un diseño que una decisión de ingeniería.
 | Operación | Cómo se levanta y se rompe | Infra | Cada comando nuevo | `operacion/*.md` | — |
 | Integración | Cómo se habla con un sistema externo | Quien lo integra | Cambio de API o de permiso | `integraciones/*.md` | — |
 | Gestión | Quién hace qué, cuándo, con qué riesgo | Erik | Cada semana | `gestion/*.md` | — |
-| Académico | Qué se entrega a la materia | Responsable de la entrega | Fecha de entrega | `academico/*.md` | — |
 | Plantillas | Formatos obligatorios de brief, ADR y evidencia | Dueño del tipo | Cuando cambia el proceso | `plantillas/*.md` | — |
 
 Regla de ubicación que evita ruido en el repositorio:
@@ -63,7 +62,7 @@ Reglas que hacen funcional la separación:
 | Repositorio (`docs/`) | Código, reglas, decisiones, contrato operativo | Estado de una tarea |
 | ADR (`decisiones/`) | Por qué el sistema es como es | Cómo se usa hoy |
 | GitHub Issues, milestones y Project | Estado, responsable, fechas, sprint, dependencia | Decisiones técnicas |
-| Drive (carpeta viva) | Entregas y documentos académicos firmados | Reglas del equipo |
+| Drive (carpeta viva) | Entregas firmadas de la materia | Reglas del equipo |
 | GitHub (código) | Historial, PR, CI, protección de `main` | Requisitos y diseño |
 | Engram (memoria) | Contexto de sesión, descubrimientos, índice | Nada canónico |
 
@@ -86,16 +85,14 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
-| `academico/` | Plan académico EC0935 y entregas de la materia | en progreso |
 | `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
 | `superpowers/` | Olas, planes y specs del flujo de trabajo | histórico |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
 
 Los directorios marcados `pendiente` están vacíos a propósito: no hay
-diseño de pantallas ni entregable académico todavía. Se crean cuando la
-materia o el producto los necesiten, y hasta entonces el índice dice la verdad
-en vez de prometer archivos que no existen.
+diseño de pantallas todavía. Se crean cuando el producto los necesite, y hasta
+entonces el índice dice la verdad en vez de prometer archivos que no existen.
 
 ## Fuentes fuera del repositorio
 
