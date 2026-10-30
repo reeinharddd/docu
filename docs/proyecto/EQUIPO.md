@@ -24,7 +24,7 @@ está en su brief y el estado en su issue.
 
 | Persona | Responsable de | Próximos entregables | Fecha | Brief |
 |---|---|---|---|---|
-| Kira | Experiencia y diseño | Marca Fase 1 (#41-fase1), luego prototipos y flujo (#11), categorías (#28); después design system (#41) | 2026-10-16 / 10-23 | `briefs/BRIEF-41-marca-fase1.md`, `briefs/BRIEF-11-prototipos-ui-ux.md` (incluye #28) |
+| Kira | Experiencia y diseño | Prototipos y flujo (#11) y categorías (#28); marca y design system ya entregados (#41) | 2026-10-16 / 10-23 | `briefs/BRIEF-11-prototipos-ui-ux.md` (incluye #28) |
 | Emmanuel | Backend y base de datos | Diagrama v0 (#58) y v1+seed (#59); carga C1 (#7); después APIs (#12), solo-insert (#44), pruebas API (#45) y reporte (#39) | 2026-10-19 / 10-30 | `briefs/BRIEF-07-configuracion-1.md` |
 | Carlos | Datos y calidad | Generador y dataset (#61), Configuración 2 (#8) | 2026-10-16 / 10-23 | `briefs/BRIEF-61-*`; histórico: `briefs/historico/BRIEF-29-*`, `briefs/historico/BRIEF-09-*` |
 | Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), pipeline de ingesta (#3), esenciales y entorno (#10), arquitectura (#60), modelo (#62), gestión del Project (#43), playground de diseño (#42), SRS (#13), aprobación de requisitos (#30), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/historico/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md` |
