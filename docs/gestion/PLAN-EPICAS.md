@@ -13,6 +13,27 @@ este plan con GitHub y se corrige aquí.
 > milestone y se corrige aquí en el mismo PR, con anuncio en el sync.
 >
 > Replanificación 2026-10-09: inicio 2026-10-05 → 2026-10-12 (+7 días).
+>
+> 2026-10-30: la fecha del 30-oct ya no se sostiene (#58 → #59 → #7 en cadena,
+> ninguno cerrado). El líder decide **reestructurar el alcance** antes de mover
+> el milestone; la nueva fecha sale de esa replanificación.
+
+## Reestructuración de alcance (decisión del líder, 2026-10-30)
+
+Lo que se entrega es **más pequeño y está cerrado**, no más grande a medias:
+
+1. **Caso de ejemplo primero.** Se cierra bien el caso de ejemplo
+   (Baja SterilPack / C1) y se expone *el problema y cómo se solucionó*,
+   entre técnico y relato. Sin extras y sin esperar a tener todo.
+2. **Frontend directo a mockups funcionales**, no a pantallas sueltas.
+3. **Metas más cortas**, con el caso de ejemplo como criterio de Hecho.
+4. **SDD y TDD** (spec antes del código, pruebas primero) para ir más rápido con
+   IA sin perder seguridad ni evidencia.
+
+Consecuencia: las órdenes 6 a 18 de la tabla siguiente, los hitos y los briefs se
+replanifican. Este documento se actualiza en el PR de replanificación, junto
+con el milestone y los issues afectados. Hasta entonces, este archivo solo
+refleja el estado real en GitHub.
 
 ## Orden de ejecución (un brief = un entregable)
 
@@ -23,16 +44,16 @@ este plan con GitHub y se corrige aquí.
 | 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | Hecho (2026-10-29: PDF de exploración + acta de marca en `docs/diseno/`) |
 | 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas | Hecho |
 | 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 | Hecho |
-| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **Pendiente: no iniciado** |
-| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Tokens entregados (#41-fase2, 2026-10-29); #11 desbloqueado, sigue en el taller `design/kira-playground` |
+| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **En curso, en replanificación**: hay rama `feat/58-diagrama-v0` con entregable sin PR; el formato del ER sigue en discusión (ADR-0016 y ADR-0017 en Propuesta) |
+| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Tokens entregados (#41-fase2, 2026-10-29); #11 **En progreso** en el taller `design/kira-playground`, desbloqueado; fecha por definir en la replanificación |
 | 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 | Hecho |
-| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente |
-| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente |
-| 11 | Arquitectura (#60) | Erik | 23-oct | #12 | Pendiente |
-| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 | Pendiente |
+| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente; sin fecha en el tablero |
+| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente; bloqueado por #58; sin fecha en el tablero |
+| 11 | Arquitectura (#60) | Erik | 23-oct | #12 | Pendiente; bloqueado por #59; sin fecha en el tablero |
+| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 | Pendiente; bloqueado por #59; sin fecha en el tablero |
 | 13 | OCR spike + fase 2 (#32) | Erik | 23-oct | #3 | Hecho (evaluación OCR, #32 cerrado) |
-| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 | Pendiente |
-| 15 | Frontend completo (#4) | Kira | 20-nov | demo | Pendiente |
+| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 | Pendiente; la fecha del 30-oct no se sostiene (bloqueado por #59); se replanifica |
+| 15 | Frontend completo (#4) | Kira | 20-nov | demo | Pendiente; bloqueado por #3; sin holgura (comparten fecha de cierre) |
 | 16 | API esqueleto (#12-A) | Emmanuel | 27-oct | #5 | Pendiente |
 | 17 | RBAC en servidor (#5) | Carlos+Emmanuel | 06-nov | #4, #39 | Pendiente |
 | 18 | Pipeline (#3) | Erik | 13-nov | demo | Pendiente |
@@ -40,6 +61,8 @@ este plan con GitHub y se corrige aquí.
 **Siguiente en la fila:** el **modelado de la base de datos** (C1). Arranca por
 #58 (diagrama v0 afirmado) → #59 (v1 + seed) → #60 (arquitectura) y #62 (modelo
 documentado). Puerta de ADR-0012: nada de producto hasta cerrar estas filas.
+Desde 2026-10-30 la fila se replanifica: la primera decisión pendiente es el
+formato del ER de #58 y la fecha de #59.
 
 Cada brief es autocontenido: con opencode + su issue + el Project + las memorias, cualquiera ejecuta sus actividades predefinidas sin contexto previo. Si un brief exige saber de otro para continuar, ahí termina y nace uno nuevo.
 
@@ -87,6 +110,7 @@ trabaje sin depender de una sola persona.
 | #41 Design system | #42 Playground | Hecho: el taller ya existe (`design/kira-playground`) |
 | #11 Prototipos | #41 Design system | Los mockups usan tokens y componentes aprobados |
 | #4 Frontend | #41 Design system | Puerta 1 de ADR-0012 |
+| #12 API | #60 Arquitectura, #62 Modelo documentado | Puerta 2 de ADR-0012: el modelo se define antes del código |
 
 El taller de diseño es la rama huérfana `design/kira-playground`: **nunca se
 fusiona**. A `main` solo llegan `docs/diseno/*`, `docs/diseno/tokens.json` y
