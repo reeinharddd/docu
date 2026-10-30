@@ -20,11 +20,11 @@ este plan con GitHub y se corrige aquí.
 |---|---|---|---|---|---|
 | 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo | Hecho |
 | 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo | Hecho (#10 cerrado 2026-10-17) |
-| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | En revisión (PR #63 con conflictos; falta acta de marca) |
+| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | Hecho (2026-10-29: PDF de exploración + acta de marca en `docs/diseno/`) |
 | 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas | Hecho |
 | 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 | Hecho |
 | 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **Pendiente: no iniciado** |
-| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | En progreso: #41-fase2 (tokens); #11 espera #41. Taller: `design/kira-playground` |
+| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Tokens entregados (#41-fase2, 2026-10-29); #11 desbloqueado, sigue en el taller `design/kira-playground` |
 | 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 | Hecho |
 | 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente |
 | 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente |
@@ -67,7 +67,7 @@ trabaje sin depender de una sola persona.
 |---|---|---|---|---|
 | Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (hecho), #60, #8, #74 (hecho) |
 | Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
-| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira, bloqueado por #41); #41 (Kira, fase2 en progreso; fase1 PR #63); #42 (Erik, hecho) |
+| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira, desbloqueado tras #41); #41 (hecho 2026-10-29); #42 (Erik, hecho) |
 | Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
 | QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #61, #6, entregas |
 | Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
