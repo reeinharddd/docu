@@ -84,7 +84,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `diseno/` | Identidad de marca (acta y PDF de exploración) y design system (tokens, tipografía, componentes base) | en construcción |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
-| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
+| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad, replanificación de C1 (2026-10-30) | en revisión |
 | `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
 | `superpowers/` | Olas, planes y specs del flujo de trabajo | histórico |
