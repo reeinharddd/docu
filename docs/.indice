@@ -18,6 +18,7 @@ docs/briefs/BRIEF-59-diagrama-v1-seed.md
 docs/briefs/BRIEF-60-arquitectura-modelo.md
 docs/briefs/BRIEF-61-generador-dataset.md
 docs/briefs/BRIEF-62-modelo-datos.md
+docs/briefs/BRIEF-90-reconciliacion-github.md
 docs/decisiones/ADR-0001-flujos-de-trabajo-del-agente.md
 docs/decisiones/ADR-0002-bun-como-runtime-y-gestor.md
 docs/decisiones/ADR-0003-angular-zoneless-sin-zone-js.md
