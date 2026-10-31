@@ -73,7 +73,7 @@ lanza opencode con el entorno exportado: `set -a; source .env; set +a`. Después
 
 | Herramienta | Versión | Verificación |
 |---|---|---|
-| Bun | `1.4.2` exacta | `package.json` → `packageManager`, fijada en CI y devcontainer |
+| Bun | `1.4.3` exacta | `package.json` → `packageManager`, fijada en CI y devcontainer |
 | Docker | con Compose v2 | `docker --version` |
 | Git | cualquiera | — |
 
