@@ -4,7 +4,7 @@
 
 - Issue: #84 — https://github.com/reeinharddd/docu/issues/84
 - Dueño: Kira Angel López (`kirxllix`)
-- Fechas: 2026-11-02 → 2026-11-06 · Sprint 2 · hito `C1 modelo y BD` (12-nov)
+- Fechas: 2026-11-02 → 2026-11-10 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / plataforma
 - Requisitos: RNF-01
 - Bloqueado por: — · Bloquea a: #11, #4
@@ -20,7 +20,7 @@ API, tests y estilos.
 ## 2. Por qué importa tu parte
 
 #4 (frontend real) y #11 (mockups) se construyen encima de esta base. Si la
-base no está el lunes, los dos carriles de Kira se bloquean el uno al otro y el
+base no está el 10-nov, los dos carriles de Kira se bloquean el uno al otro y el
 24-nov no hay producto que enseñar. Si la base existe, el trabajo de #4 es
 construir pantallas, no decidir infraestructura de estilos.
 
@@ -110,9 +110,9 @@ esta lista, que es corta a propósito. Lo que no está aquí, no entra.
 
 ## 10. Revisión
 
-Viernes 6-nov en el sync: se recorre la base con Erik y se afirma o se devuelve
-con motivos. Después: #11 (mockups) y #4 (frontend real).
+Martes 10-nov en el sync: se recorre la base con Erik y se afirma o se devuelve con
+motivos. Después: #11 (mockups, 13-nov) y #4 (frontend real, 17-nov).
 
 ## Versión corta (descripción del issue)
 
-> [84] Plataforma frontend — kirxllix, 2→6-nov. Base mínima de frontend: tokens, layout, rutas, cliente de API, pruebas y estilos. Entradas recibidas del design system ya entregado y de la arquitectura (#60). Entregable: base en apps/web, probada y en main. Revisión el 6-nov. Detalle: `docs/briefs/BRIEF-84-plataforma-frontend.md`.
+> [84] Plataforma frontend — kirxllix, 2→10-nov. Base mínima de frontend: tokens, layout, rutas, cliente de API, pruebas y estilos. Entradas recibidas del design system ya entregado y de la arquitectura (#60). Entregable: base en apps/web, probada y en main. Revisión el 10-nov. Detalle: `docs/briefs/BRIEF-84-plataforma-frontend.md`.

@@ -4,7 +4,7 @@
 
 - Issue: #06 — https://github.com/reeinharddd/docu/issues/6
 - Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`)
-- Fechas: 2026-11-24 → 2026-12-03 · Sprint 4 → post-C1 · hito `C1 final` (3-dic)
+- Fechas: 2026-12-01 → 2026-12-03 · Sprint 4 → post-C1 · hito `C1 final` (3-dic)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / QA-Documentación / demo
 - Requisitos: RF-01, RF-02, RF-03, RF-04; RNF-01, RNF-02
 - Bloqueado por: #89 · Bloquea a: —
@@ -112,4 +112,4 @@ Lunes 2-dic: verificación previa. Jueves 3-dic: demo final y acta de cierre.
 
 ## Versión corta (descripción del issue)
 
-> [6] Demo final — reeinharddd, 24-nov→3-dic. Cierre de C1: alcance con evidencia, trazabilidad completa, demo final y acta de cierre. Entradas recibidas de la demo del 24-nov (#89), de la vertical completa (#7) y de la trazabilidad. Entregable: acta de cierre firmada y C1 cerrado con evidencia por requisito. Revisión el 3-dic. Detalle: `docs/briefs/BRIEF-06-demo-final.md`.
+> [6] Demo final — reeinharddd, 1→3-dic. Cierre de C1: alcance con evidencia, trazabilidad completa, demo final y acta de cierre. Entradas recibidas de la demo del 24-nov (#89), de la vertical completa (#7) y de la trazabilidad. Entregable: acta de cierre firmada y C1 cerrado con evidencia por requisito. Revisión el 3-dic. Detalle: `docs/briefs/BRIEF-06-demo-final.md`.

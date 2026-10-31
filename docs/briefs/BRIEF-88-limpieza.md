@@ -4,7 +4,7 @@
 
 - Issue: #88 — https://github.com/reeinharddd/docu/issues/88
 - Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`)
-- Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov)
+- Fechas: 2026-11-02 → 2026-11-06 · Sprint 2 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: media / tarea / Infraestructura / documentación
 - Requisitos: RNF-05
 - Bloqueado por: #87 · Bloquea a: #89
@@ -107,9 +107,9 @@ revisar el PR con el segundo ojo del líder.
 
 ## 10. Revisión
 
-Jueves 12-nov en el sync: se recorre la lista de archivos y se afirma o se
-devuelve con motivos. Después: #89 (demo) puede leer el repo sin ruido.
+Viernes 6-nov en el sync: se recorre la lista de archivos y se afirma o se devuelve
+con motivos. Después: #89 (demo) puede leer el repo sin ruido.
 
 ## Versión corta (descripción del issue)
 
-> [88] Limpieza de docs — reeinharddd, 2→12-nov. Barrido del material viejo, línea de vigencia en los ADR e índice al día. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §12. Entregable: árbol limpio con el motivo de cada borrado, ADRs con vigencia e índice regenerado. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-88-limpieza.md`.
+> [88] Limpieza de docs — reeinharddd, 2→6-nov. Barrido del material viejo, línea de vigencia en los ADR e índice al día. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §12. Entregable: árbol limpio con el motivo de cada borrado, ADRs con vigencia e índice regenerado. Revisión el 6-nov. Detalle: `docs/briefs/BRIEF-88-limpieza.md`.

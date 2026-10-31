@@ -4,7 +4,7 @@
 
 - Issue: #87 — https://github.com/reeinharddd/docu/issues/87
 - Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`)
-- Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov)
+- Fechas: 2026-11-02 → 2026-11-06 · Sprint 2 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / proceso
 - Requisitos: RNF-05, RNF-07
 - Bloqueado por: — · Bloquea a: #88, #89
@@ -105,13 +105,13 @@ que no cumple.
 
 Que las puertas bloqueen el trabajo de los demás por reglas mal escritas: la
 mitigación es probarlas con PR de prueba antes de activarlas de verdad, y que
-el líder afirme las reglas el 12-nov.
+el líder afirme las reglas el 6-nov.
 
 ## 10. Revisión
 
-Jueves 12-nov en el sync: se leen las reglas y el ADR, y se afirma o se
-devuelve con motivos.
+Viernes 6-nov en el sync: se leen las reglas y el ADR, y se afirma o se devuelve
+con motivos.
 
 ## Versión corta (descripción del issue)
 
-> [87] SDD y TDD — reeinharddd, 2→12-nov. Reglas escritas, plantillas y puertas automáticas que las hacen cumplir. Entradas recibidas de AGENTS.md y de los hooks y la CI que ya existen. Entregable: reglas, plantilla de PR, puertas en la CI y el ADR. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-87-sdd-tdd.md`.
+> [87] SDD y TDD — reeinharddd, 2→6-nov. Reglas escritas, plantillas y puertas automáticas que las hacen cumplir. Entradas recibidas de AGENTS.md y de los hooks y la CI que ya existen. Entregable: reglas, plantilla de PR, puertas en la CI y el ADR. Revisión el 6-nov. Detalle: `docs/briefs/BRIEF-87-sdd-tdd.md`.
