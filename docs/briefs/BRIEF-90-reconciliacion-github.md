@@ -288,11 +288,16 @@ encuentra ninguno de esos textos fuera de `docs/decisiones/` y
 ```bash
 bash scripts/doc-index.sh --fix
 bash scripts/doc-index.sh
-grep -rn "Cierre de diseño\|Fin del desarrollo\|Listos para presentar\|Presentación de diciembre\|30-oct\|20-nov\|27-nov\|1-dic" docs/ --include="*.md" | grep -v "^docs/decisiones/\|^docs/briefs/historico/"
+grep -rn "Cierre de diseño\|Fin del desarrollo\|Listos para presentar\|Presentación de diciembre\|30-oct\|27-nov\|1-dic\|23-oct\|13-oct\|16-oct" docs/ --include="*.md" | grep -v "^docs/decisiones/\|^docs/briefs/historico/\|^docs/gestion/REPLAN-2026-10-30.md\|^docs/briefs/BRIEF-90-reconciliacion-github.md"
 ```
 
 Ese `grep` debe salir vacío. Si algo sale, es contenido viejo que quedó y se
 corrige en este mismo PR.
+
+Dos exclusiones son deliberadas: el plan y este brief **pueden** citar las
+fechas viejas, porque su trabajo es contar el cambio; y `20-nov` no se busca,
+porque en la v2 esa fecha es el **ensayo** de la demo, no el fin del
+desarrollo.
 
 ### Actividad 8 — Dejar los briefs al día
 
