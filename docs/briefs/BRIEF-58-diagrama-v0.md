@@ -1,13 +1,13 @@
-# BRIEF #58 — Diagrama BD v0 (diseño, termina afirmado)
+# BRIEF #58 — ER v1 de C1: draw.io fuente + texto derivado, DDL, vistas, triggers y migración
 
 ## 0. Encabezado
 
 - Issue: #58
-- Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-10-13 → 2026-10-16 · Sprint 1
+- Dueño: Erik Alfonso Beltrán Ramírez (Líder, infra).
+- Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
-- Bloqueado por: nada · Bloquea a: #59
+- Bloqueado por: #83 (caso cerrado) · Bloquea a: #60, #62, #23, #44, #5, #59, #61, #85
 - Nota (2026-10-18): ADR-0016 cambió el entregable de "DBML + PNG" a **Mermaid**.
 - Nota (2026-10-19): ADR-0017 pasó el ER a **draw.io** (`.drawio` + SVG exportado
   por página, `ingenieria/DIAGRAMAS.md`); Mermaid queda para flujos y secuencias.
@@ -40,7 +40,7 @@ Piensa también: ¿dónde muere un dato inválido y con qué motivo? ¿Qué es �
 | Registro de decisiones | Por cada tabla: qué clase de dato guarda, por qué existe, qué constraint lleva y por qué |
 | Matriz de clases | Cada tabla marcada: fija, dinámica o manual |
 
-Tú propones las tablas. La revisión del 16-oct las afirma o las devuelve con motivos.
+Tú propones las tablas. La revisión del 12-nov las afirma o las devuelve con motivos.
 
 ## 4. Cómo verificar tu propuesta
 
@@ -57,7 +57,7 @@ Tú propones las tablas. La revisión del 16-oct las afirma o las devuelve con m
 ## 6. Caja de herramientas (tú eliges cuáles usar)
 
 Principio: este brief te da contexto y restricciones duras, no el diseño.
-Tú propones las tablas con tu criterio; la revisión del 16-oct las afirma
+Tú propones las tablas con tu criterio; la revisión del 12-nov las afirma
 o las devuelve con motivos. Nada se cierra antes de que propongas.
 
 Para decidir solo, sin depender de nadie:
@@ -107,10 +107,38 @@ en draw.io (ADR-0017).
 
 - [ ] El ER (draw.io, SVG embebido) se ve en el PR; cada tabla con clase y porqué registrados.
 - [ ] Trazabilidad regla→constraint completa; R-P1..T1 como datos.
-- [ ] Checklist offline.
-- [ ] Afirmado del equipo en #58 el 16-oct.
+- [ ] Capturas `postgres.new` adjuntas; checklist offline.
+- [ ] Afirmado del equipo en #58 el 12-nov.
 
 No es done si: hay tablas sin porqué; aparece `Empresa`; el diagrama no está en draw.io (ADR-0017).
+
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** El ER de C1 es **híbrido**: un dominio genérico (`entity_type`,
+`entity`, `relation`) para lo que el caso no anticipa, más las tablas
+concretas y estables del sistema (`ingest`, `truth`, `config`, `platform`). El
+archivo `.drawio` es la fuente; el texto derivado es lo que se lee y lo que se
+revisa.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** una variación del dataset con una familia nueva, **when** se
+   registra, **then** el sistema la procesa o la manda a cuarentena con motivo,
+   sin romper nada.
+2. **Given** la migración aplicada, **when** se intenta reescribir un original,
+   un histórico o una bitácora, **then** la base lo rechaza (solo-insert).
+3. **Given** el texto derivado, **when** alguien lo compara con el `.drawio`,
+   **then** coinciden tabla por tabla, y `bun run diagramas:check` lo confirma.
+
+**Plan de pruebas.** `bun run diagramas:check` (texto derivado vs fuente),
+migración de Prisma aplicada en limpio, prueba de solo-insert sobre la base
+levantada y prueba de la familia nueva.
+
+**Evidencia.** El `.drawio`, el texto derivado, la salida de la migración, el
+resultado de `diagramas:check` y las dos pruebas de schema.
+
+**Listo cuando.** ER afirmado, migración aplicada, vistas y triggers
+funcionando, y el contrato con su SHA (eso cierra #62 y #23).
 
 ## 9. Riesgos nombrados
 
@@ -118,8 +146,10 @@ El dataset revela formas que el v0 no previó. No es bloqueo: eso lo absorbe #59
 
 ## 10. Revisión
 
-Viernes 16-oct en el sync, con Erik y Carlos: afirmación o devolución motivada. Después: #59.
+Jueves 12-nov en el sync, con Carlos y Emmanuel: afirmación o devolución motivada. Después: #60, #62 y #23.
 
 ## Versión corta (descripción del issue)
 
-> [58] Diagrama BD v0 — Emmanuel, 13→16-oct. Contexto dado, tablas decididas y justificadas por él, afirmado el 16-oct. Detalle: `docs/briefs/BRIEF-58-diagrama-v0.md`.
+
+> [58] ER v1 — reeinharddd, 2→12-nov. Diseño completo de la base: ER híbrido, DDL, enums, vistas, triggers y migración aplicada. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §3 y de docs/ingenieria/DIAGRAMA-BD-v0.md. Entregable: draw.io fuente + texto derivado + migración aplicada + contrato con SHA. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-58-diagrama-v0.md`.
+

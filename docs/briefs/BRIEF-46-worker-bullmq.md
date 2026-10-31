@@ -3,11 +3,11 @@
 ## 0. Encabezado
 
 - Issue: #46
-- Dueño: Erik.
-- Fechas: 2026-10-27 → 2026-11-06 · Sprint 2 · hito `Fin del desarrollo` (2026-11-20)
+- Dueño: Emmanuel Valenzuela Cruz (Backend).
+- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Backend / worker.
 - Requisitos: RF-01, RNF-04
-- Bloqueado por: #10 (entorno: Redis) · Bloquea a: #39 (cola reportes/alertas), #3 (ingesta async)
+- Bloqueado por: #3 (el pipeline encola) · Bloquea a: #39, #7
 
 ## 1. Contexto
 
@@ -60,6 +60,30 @@ Lo que NO te limitamos: estructura interna, orden de arranque. Lo que sí se dev
 
 No es done si: un job se pierde sin motivo; el worker frena una pantalla.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** La API encola y el worker procesa (ADR-0011): el trabajo pesado
+nunca bloquea una pantalla, y ningún job se pierde en silencio.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** un job de ingesta encolado, **when** el worker lo toma, **then**
+   termina en estado final (hecho o cuarentena con motivo) y se puede consultar
+   desde la API.
+2. **Given** un job que falla tres veces, **when** se agotan los reintentos,
+   **then** va a cuarentena con el motivo y el último error, no desaparece.
+3. **Given** el worker detenido, **when** se consulta `/health`, **then** dice
+   que no vive, con la profundidad de cada cola.
+
+**Plan de pruebas.** Tests del worker con un job que falla y uno que pasa, la
+suite de la API en verde (#45) y `bun run verify` con el worker levantado.
+
+**Evidencia.** Salida de los tests, `/health` con las colas y el log de un job
+que terminó en cuarentena.
+
+**Listo cuando.** El worker procesa las colas con reintentos y cuarentena, y
+su salud es visible.
+
 ## 9. Riesgos nombrados
 
 Redis caído en local frena todo. Mitigación: `REDIS_PORT` en `.env`, `doctor` lo detecta; compose con healthcheck.
@@ -70,4 +94,6 @@ Redis caído en local frena todo. Mitigación: `REDIS_PORT` en `.env`, `doctor` 
 
 ## Versión corta (descripción del issue)
 
-> [46] Worker BullMQ — Erik, 27-oct→6-nov. 4 colas, reintentos + cuarentena, /health. Requiere Redis (#10). Detalle: `docs/briefs/BRIEF-46-worker-bullmq.md`.
+
+> [46] Worker BullMQ — Agent3835, 13→18-nov. Worker con colas por tipo de trabajo, para que el trabajo pesado no bloquee las pantallas. Entradas recibidas de la arquitectura (#60), del pipeline (#3) y de docs/ingenieria/OCR.md. Entregable: worker con sus colas y reintentos, probado. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-46-worker-bullmq.md`.
+

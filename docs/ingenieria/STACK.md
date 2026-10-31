@@ -26,7 +26,7 @@ manifiesto permite moverse dentro del rango.
 
 | Pieza | Versión | Fijada | Sitio oficial | Repositorio |
 |---|---|---|---|---|
-| Bun (runtime, gestor, ejecutor) | 1.4.2 | sí | <https://bun.sh> | <https://github.com/oven-sh/bun> |
+| Bun (runtime, gestor, ejecutor) | 1.4.3 | sí | <https://bun.sh> | <https://github.com/oven-sh/bun> |
 | TypeScript (API) | 5.9.3 | sí | <https://www.typescriptlang.org> | <https://github.com/microsoft/TypeScript> |
 | TypeScript (web) | 6.0.3 | rango `~6.0.2` | <https://www.typescriptlang.org> | <https://github.com/microsoft/TypeScript> |
 | Zod (validación de entrada y salida) | pendiente | no | <https://zod.dev> | <https://github.com/colinhacks/zod> |

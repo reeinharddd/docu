@@ -1,13 +1,33 @@
-# BRIEF #11 — Prototipos UI/UX y flujo de pantallas
+# BRIEF #11 — Mockups funcionales: flujo del caso con datos reales
 
 ## 0. Encabezado
 
-- Issue: #11 (absorbió #28: categorías se definen aquí; #28 cerrado not planned 13-oct)
+- Issue: #11 (las categorías se definen aquí; #28 quedó cerrado como no planificado)
 - Dueño: Kira
-- Fechas: 2026-10-16 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-16)
-- Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / diseño
+- Fechas: 2026-11-13 → **2026-11-16** · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Prioridad / Tipo / Épica / Módulo: alta / tarea / Diseño / diseño
 - Requisitos: RNF-01 (usabilidad); alimenta RF-01, RF-03, RF-04
-- Bloqueado por: nada · Bloquea a: #4 Frontend Angular
+- Bloqueado por: #83 (caso), #84 (plataforma) · Bloquea a: #4 Frontend Angular
+- Taller: rama `design/kira-playground` (huérfana; nunca se fusiona a `main`)
+
+## 0.1 Dónde se trabaja y qué viaja a `main`
+
+- **Taller:** rama huérfana `design/kira-playground`. Ahí viven la app Angular 22
+  espejo (`playground/ng`, `bun run start` → `:4200`), los tokens crudos
+  (`playground/tokens/`), las pantallas y las capturas de iteración.
+- **Arranque:** `git worktree add ../docu-playground design/kira-playground` (o
+  `git switch design/kira-playground`), luego
+  `cd playground && bun install && bun run start`; `opencode` y `/inicio`.
+- **Se queda en el taller:** código, pruebas, iteraciones descartadas, capturas
+  de trabajo y tokens sin aprobar. Nada de eso viaja a `main` (ADR-0012).
+- **Viaja a `main` (solo lo afirmado):** `docs/diseno/FLUJO.md`,
+  `docs/diseno/CATEGORIAS.md`, capturas finales adjuntas al PR y, cuando #41
+  cierre, `docs/diseno/DESIGN-SYSTEM.md` + `docs/diseno/tokens.json`. Checklist:
+  `playground/PROMOCION.md`.
+- **Promoción:** el PR sale de una rama creada desde `main` (no de la huérfana),
+  con `Closes #11` y evidencia (capturas + `bun run verify`). Lo revisa un par.
+- **Enlaces:** [rama](https://github.com/reeinharddd/docu/tree/design/kira-playground)
+  · `BRIEF-42-playground-diseno.md` · `playground/PROMOCION.md`.
 
 ## 1. Contexto
 
@@ -31,10 +51,11 @@ pantallas del producto.
 
 | Entregable | Evidencia |
 |---|---|
-| Flujo de pantallas (diagrama de navegación) | Imagen o enlace en `docs/diseno/FLUJO.md` |
-| Prototipo navegable de: captura, bandeja de revisión/cuarentena, Programa Oficial, búsqueda con cita de fuente | Enlace público de solo lectura (Figma, Penpot u otra) + capturas en el PR |
+| Flujo de pantallas (diagrama de navegación) | `docs/diseno/FLUJO.md` con el diagrama y el enlace al taller |
+| Prototipo navegable de: captura, bandeja de revisión/cuarentena, Programa Oficial, búsqueda con cita de fuente | App en `design/kira-playground` (`playground/ng`, `:4200`) + capturas por pantalla en el PR; el código del taller no se fusiona |
 | Categorías y etiquetas visibles en la interfaz (ex-#28, parte de #11) | Tabla en `docs/diseno/CATEGORIAS.md`: familia, etiquetas, color/ícono |
 | Estados de error y vacío por pantalla | Una captura por estado en el PR |
+| Promoción del taller a `main` | Checklist de `playground/PROMOCION.md` completo; solo docs, tokens aprobados y capturas |
 | Revisión de un par | Comentario de aprobación en el PR |
 
 ## 4. Actividades específicas
@@ -42,22 +63,29 @@ pantallas del producto.
 1. Leer `proyecto/CASO.md`, `proyecto/REQUISITOS.md` (RF-01..04, RNF-01) y
    ADR-0006. Entregable: lista de 5–8 tareas del usuario piloto en el PR.
 2. Dibujar el flujo de navegación entre las cuatro pantallas. Terminado: cada
-   tarea del punto 1 tiene un camino.
-3. Prototipar las cuatro pantallas en baja fidelidad, en escritorio y celular
-   (RNF-01: Chrome, Edge, Android).
+   tarea del punto 1 tiene un camino; el diagrama se promueve a
+   `docs/diseno/FLUJO.md`.
+3. Prototipar las cuatro pantallas en el taller (`/nueva-pantalla`), baja
+   fidelidad primero, en escritorio y celular (RNF-01: Chrome, Edge, Android).
+   Cada pantalla declara su contrato (ruta, datos, acciones) según
+   `playground/CONSISTENCIA.md`.
 4. Definir categorías y etiquetas (ex-#28, absorbido aquí) a partir de las familias:
    `programa_planeacion`, `recepcion_rollo`, `inventario`, `excel_turno`,
    `correo_hermana`, `escaneado` (`ingenieria/MODELO-DATOS.md`).
 5. Diseñar los estados: cargando, vacío, error con mensaje claro, cuarentena con
    motivo visible, dato confirmado con quién y cuándo.
 6. Pasar a una persona del equipo por el flujo y anotar dónde se trabó.
+7. Promover con `playground/PROMOCION.md`: PR desde `main` con `FLUJO.md`,
+   `CATEGORIAS.md`, capturas y `bun run verify` en verde.
 
 ## 5. Entradas y salidas
 
 - Recibe: requisitos y caso (repo), familias (`MODELO-DATOS.md`), matriz de
-  roles preliminar de Carlos (#29) para saber quién ve qué.
-- Entrega: a Erik y Emmanuel, por PR a `docs/diseno/`, el flujo y qué datos
-  muestra cada pantalla (insumo del contrato de datos #23).
+  roles preliminar de Carlos (#29) para saber quién ve qué, y los tokens
+  aprobados de #41 Fase 2.
+- Entrega: a Erik y Emmanuel, por PR desde `main` a `docs/diseno/`, el flujo,
+  las capturas y qué datos muestra cada pantalla (insumo del contrato de datos
+  #23). El prototipo se revisa en el taller, no en `main`.
 
 ## 6. Referencias y caja de herramientas
 
@@ -85,18 +113,55 @@ Recursos oficiales y curados para diseñar el flujo:
 
 ## 7. Cómo trabajar
 
-- Con OpenCode: `/tarea 11` para empezar y `/cerrar` para el PR.
+- Con OpenCode: abre el taller (`design/kira-playground`) y usa `/inicio`,
+  `/tarea 11` y `/nueva-pantalla`; `/cerrar` para el PR de promoción desde
+  `main`.
+- La rama `design/kira-playground` es huérfana y **NUNCA** se fusiona a `main`;
+  dentro del taller manda su `AGENTS.md`.
+- Sin API ni BD. Código solo en `playground/ng/` y `playground/tokens/`; cero
+  valores hardcodeados fuera de `tokens.css` (`CONSISTENCIA.md`).
+- A `main` solo viaja lo afirmado (docs, tokens aprobados y capturas); nada de
+  código del playground (ADR-0012).
+- Estado: #11 sigue `Por hacer` hasta que #41 cierre; una persona, un issue
+  `En progreso`.
 - La IA genera y varía; no decide reglas, permisos, dato oficial ni diseño final.
 - Duda de 30 min: pregunta al equipo. Bloqueo de 24 h: etiqueta `bloqueado`.
 
 ## 8. Criterios de aceptación
 
-- [ ] Las cuatro pantallas existen y se navega entre ellas.
+- [ ] Las cuatro pantallas existen en `design/kira-playground` y se navega entre ellas.
 - [ ] Cada pantalla tiene versión escritorio y celular.
 - [ ] La bandeja muestra el motivo de cuarentena y la acción de confirmar.
 - [ ] La búsqueda muestra de qué archivo y regla sale cada cifra.
+- [ ] Cada pantalla tiene estados cargando, vacío, error y confirmado.
 - [ ] `docs/diseno/FLUJO.md` y `docs/diseno/CATEGORIAS.md` en el PR, con `bun run verify` en verde.
+- [ ] Checklist de `playground/PROMOCION.md` completo; el PR no trae código del playground.
 - [ ] Un par revisó y aprobó.
+
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** Los mockups ya son navegables y consumen datos reales del dataset
+del mes, no pantallas vacías: sirven de spec de UI para el frontend real (#4).
+
+**Criterios (Given/When/Then).**
+
+1. **Given** el dataset del mes, **when** se abre el mockup del flujo de
+   revisión, **then** muestra los mismos casos que el caso describe, con sus
+   valores reales.
+2. **Given** un revisor, **when** recorre el flujo completo, **then** puede
+   llegar del programa al oficial sin ayuda y en menos de 10 minutos.
+3. **Given** la plataforma frontend (#84), **when** se compara el mockup con
+   la base que ya está en `main`, **then** cada pantalla del mockup tiene su
+   equivalente en la estructura atomic.
+
+**Plan de pruebas.** Recorrido manual cronometrado con captura en cada paso, y
+verificación de que los datos del mockup salen del dataset (no de fixtures).
+
+**Evidencia.** Video del recorrido, capturas de cada pantalla con datos
+reales y el PR con `Closes #11`.
+
+**Listo cuando.** El flujo del caso se puede recorrer entero con datos reales y
+sirve de spec para #4.
 
 ## 9. Riesgos nombrados
 
@@ -104,26 +169,39 @@ Es la primera fecha del proyecto (9-oct). Riesgo: pulir la estética antes de
 cerrar el flujo. Mitigación: baja fidelidad primero; la marca (colores,
 tipografía) se trabaja después en el playground de diseño.
 
+Riesgo: el prototipo se queda atrapado en el taller y `main` nunca ve la
+evidencia. Mitigación: `PROMOCION.md`, enlaces fijados en #11 y demo en el sync
+del 16-nov.
+
 ## 10. Revisión
 
-Viernes 2026-10-23 en el sync: recorrido del prototipo de 10 minutos con Erik. Flujo unificado con fase2 desde el martes 13-oct: tokens y mockups se trabajan juntos en el playground (una sola corriente 13→23, sin pasos duplicados).
+Estado 2026-10-19: #41 Fase 2 (tokens) en curso. #11 sigue bloqueado por #41 y
+no se mueve a `En progreso` hasta que cierre. El taller está listo en
+`design/kira-playground`; la Fase 1 de #41 espera resolver los conflictos del
+PR #63.
 
-Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fase 1 (#41-fase1).
+Lunes 2026-11-16 en el sync: recorrido del mockup de 10 minutos con Erik.
+Flujo unificado con #41-fase2: tokens y mockups se trabajan juntos en el taller
+(una sola corriente, sin pasos duplicados).
+
+Replanificación v2 (2026-10-30): las mockups son funcionales y usan datos reales del dataset (#61); la marca y el design system de #41 ya están entregados.
 
 ## 11. Insumos del agente
 
 | Insumo | Estado | Notas |
 |---|---|---|
-| DESIGN.md | Pendiente | Plantilla en `docs/plantillas/DESIGN.md` |
-| AGENTS.md | Pendiente | Plantilla en `docs/plantillas/AGENTS.md` |
-| design-system.md | Pendiente | Plantilla en `docs/plantillas/design-system.md` |
-| Visión | Pendiente | 1 párrafo |
-| Slogan | Pendiente | Frase corta |
-| Paleta | Pendiente | Hex + nombre por token |
-| Tipografías | Pendiente | Display, body, mono |
+| Taller `design/kira-playground` | Entregado | Rama huérfana + app Angular + tokens + reglas (`AGENTS.md`, `CONSISTENCIA.md`, `PROMOCION.md`) |
+| DESIGN.md | Parcial | Plantilla en el taller; falta llenarla con la dirección elegida |
+| AGENTS.md | Entregado | Raíz del taller + `playground/AGENTS.md` |
+| design-system.md | Pendiente | #41 Fase 2; sin tokens aprobados no hay alta fidelidad |
+| Visión | Entregado | `proyecto/VISION.md` y `CASO.md` |
+| Slogan | Parcial | 3 en el PDF de Fase 1; falta el acta de elección en #41 |
+| Paleta | Parcial | Hex + modo oscuro en el PDF; falta OKLCH y tokens |
+| Tipografías | Parcial | 3 familias en el PDF; falta escala modular |
 | Iconos | Pendiente | Set elegido |
-| Imágenes | Pendiente | Logo, ilustraciones, fotos |
+| Imágenes | Parcial | Concepto de logo; faltan variantes |
 | Estados | Pendiente | Cargando, vacío, error, cuarentena, confirmado |
+| Acta de marca | Pendiente | Dirección, motivo y descartadas en #41; sin acta no cierra #41 |
 
 ## 12. Recursos por actividad
 
@@ -137,3 +215,7 @@ Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fas
 - [Excalidraw](https://excalidraw.com/) — Diagramar el flujo. **Cuándo:** necesitas diagramar navegación.
 - [W3C WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/) — Criterios AA exactos. **Cuándo:** necesitas verificar accesibilidad.
 - [axe DevTools](https://www.deque.com/axe/) — Verificación automática. **Cuándo:** necesitas auditar accesibilidad.
+
+
+> [11] Mockups funcionales — kirxllix, 13→16-nov. Mockups navegables con el flujo del caso y datos reales del dataset, no pantallas vacías. Entradas recibidas de docs/proyecto/CASO.md, del dataset (#61) y de ADR-0012. Entregable: mockups navegables con el flujo del caso y datos reales. Revisión el 16-nov. Detalle: `docs/briefs/BRIEF-11-prototipos-ui-ux.md`.
+

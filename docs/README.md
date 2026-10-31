@@ -79,20 +79,26 @@ sin listar. Corre en CI y en `bun run doctor`.
 |---|---|---|
 | `HARNESS.md` | Mapa del harness: rol→flujo→herramienta→dueño→cadencia, los dos ciclos y el runbook de evolución | vigente |
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
-| `decisiones/` | ADRs de ingeniería, 15 aceptadas, 1 reemplazada y 1 propuesta | en progreso |
-| `ingenieria/` | Stack verificado, modelo de datos, estándar de diagramas y diagrama de BD, API, colas, entorno, estrategia de IA, alcance de la solución y `fichas/` (contrato de documentos del caso) | en progreso |
-| `diseno/` | Experiencia de uso: modelo operativo, pantallas, flujos, identidad | pendiente |
+| `decisiones/` | ADRs de ingeniería, 15 aceptadas, 1 reemplazada y 1 en propuesta | en progreso |
+| `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA, alcance de la solución, `fichas/` (contrato de documentos del caso), estándar de diagramas y ER de C1 (`DIAGRAMA-BD-v0.drawio` + texto derivado) | en progreso |
+| `diseno/` | Identidad de marca (acta y PDF de exploración) y design system (tokens, tipografía, componentes base) | en construcción |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
-| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad | completo |
+| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad, replanificación de C1 (2026-10-30) y brief de reconciliación | completo |
 | `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
-| `superpowers/` | Olas, planes y specs del flujo de trabajo | histórico |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
 
-Los directorios marcados `pendiente` están vacíos a propósito: no hay
-diseño de pantallas todavía. Se crean cuando el producto los necesite, y hasta
-entonces el índice dice la verdad en vez de prometer archivos que no existen.
+Los directorios marcados `pendiente` están vacíos a propósito: se crean cuando
+el producto los necesite, y hasta entonces el índice dice la verdad en vez de
+prometer archivos que no existen.
+
+`diseno/` ya tiene marca y design system (#41). Las pantallas y el flujo de #11
+se construyen en el taller `design/kira-playground` (rama huérfana) y llegan a
+`main` como `FLUJO.md` y `CATEGORIAS.md`.
+
+El ER de la base tiene dos formatos y una sola fuente: el `.drawio` es la fuente
+(ADR-0017) y el texto derivado se verifica contra él con `bun run diagramas:check`.
 
 ## Fuentes fuera del repositorio
 

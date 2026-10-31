@@ -1,14 +1,14 @@
-# BRIEF #61 — Generador automático + dataset + plan de pruebas
+# BRIEF #61 — Dataset genérico y comprobable del mes
 
 ## 0. Encabezado
 
 - Issue: #61
 - Dueño: Carlos.
-- Fechas: 2026-10-19 → 2026-10-23 · Sprint 1 · hito `Cierre de diseño` (2026-10-23).
+- Fechas: 2026-11-02 → 2026-11-17 · Sprint 3 · hito `C1 vertical completa` (19-nov).
 - Prioridad / Tipo / Épica: alta / tarea / QA-Documentación.
 - Requisitos: RNF-02, RNF-07.
-- Bloqueado por: #9 · Bloquea a: #32, #3, #6
-- Este brief construye el sistema; pensar los documentos fue #9. Sin fichas aprobadas no se genera nada.
+- Bloqueado por: #83 (caso), #58 (DDL) · Bloquea a: #59, #85, #86
+- El generador se desarrolla en paralelo desde el 2-nov; **solo la emisión espera al contrato** (12-nov). Las fichas de documentos son el contrato: sin fichas aprobadas no se emite el corpus.
 
 ## 1. Contexto
 
@@ -77,14 +77,41 @@ idéntica con `--seed 42`.
 
 No es done si: hay archivos o CSV a mano; los conteos no cuadran con las fichas y `CONTRATO.md` §8.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** El generador produce el corpus del mes de forma determinista:
+60 turnos × 6 familias, válidos y con error, y un **manifiesto SHA-256** que
+lo describe. El dataset **no se versiona**: vive en el entorno y se regenera.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** la misma semilla, **when** se genera el corpus dos veces, **then**
+   los archivos y el manifiesto SHA-256 son idénticos.
+2. **Given** el corpus emitido, **when** se compara con el manifiesto, **then**
+   el conteo por familia y cada hash cuadran.
+3. **Given** una familia nueva que el caso agrega, **when** se genera el
+   corpus, **then** el generador la incluye sin código nuevo: son datos.
+
+**Plan de pruebas.** Dos generaciones seguidas comparando hashes, validación
+del conteo por familia contra `docs/ingenieria/fichas/CONTRATO.md` §8, y el
+`dataset:check` del repo cuando exista.
+
+**Evidencia.** El manifiesto SHA-256, el conteo por familia y la salida de las
+dos generaciones, en el PR con `Closes #61`.
+
+**Listo cuando.** Otra persona puede regenerar el corpus y obtener los mismos
+hashes.
+
 ## 9. Riesgos nombrados
 
 El generador se come la semana. Mitigación: fichas cerradas el 17-oct (sin cambios después salvo issue); desde el 21-oct sin generador corriendo es bloqueo.
 
 ## 10. Revisión
 
-Viernes 23-oct con Erik: dataset + plan. Después: #32 resto, #3, #6.
+Martes 17-nov con Erik: dataset + manifiesto. Después: #59 seed, #85 IA y #86 replicabilidad.
 
 ## Versión corta (descripción del issue)
 
-> [61] Generador + dataset — Carlos, 19→23-oct. Sistema con semilla, dataset C1 según `CONTRATO.md` §8, PRUEBAS.md. Requiere fichas #9. Detalle: `docs/briefs/BRIEF-61-generador-dataset.md`.
+
+> [61] Dataset del mes — WearyBerry, 2→17-nov. Dataset genérico y comprobable: se genera con el generador determinista y no se versiona, solo su manifiesto SHA-256. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §6 y de docs/ingenieria/fichas/CONTRATO.md. Entregable: dataset físico generado, con manifiesto SHA-256 y la evidencia de que es reproducible. Revisión el 17-nov. Detalle: `docs/briefs/BRIEF-61-generador-dataset.md`.
+

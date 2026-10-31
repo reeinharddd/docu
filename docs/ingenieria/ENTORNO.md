@@ -53,8 +53,8 @@ variables. No hace falta exportar nada a mano.
 | Entorno | Qué lo define | Estado |
 |---|---|---|
 | Local | Compose con tags flotantes | Operativo |
-| Devcontainer | `.devcontainer/devcontainer.json`, Bun 1.4.2, `postCreateCommand: bun install` | Operativo |
-| CI | `.github/workflows/ci.yml`, Bun 1.4.2, PostgreSQL y Redis como servicios | Operativo |
+| Devcontainer | `.devcontainer/devcontainer.json`, Bun 1.4.3, `postCreateCommand: bun install` | Operativo |
+| CI | `.github/workflows/ci.yml`, Bun 1.4.3, PostgreSQL y Redis como servicios | Operativo |
 
 En CI la URL de la base apunta a `localhost:5432` porque Postgres corre como
 servicio del job. Es el mismo schema, otro host.

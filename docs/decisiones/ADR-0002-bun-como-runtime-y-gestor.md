@@ -1,6 +1,10 @@
 # ADR 0002 — Bun como runtime y gestor de paquetes del monorepo
 
 Fecha: 2026-10-05 · Estado: Aceptada · Decide: Erik · Revisa: cualquier
+
+> Nota 2026-10-31: el patch se actualizó de 1.4.2 a 1.4.3, que es la versión
+> que el equipo tiene instalada. La decisión no cambia: Bun sigue siendo el runtime,
+> el gestor de paquetes y el ejecutor de scripts.
 integrante del equipo
 
 ## Contexto
@@ -16,8 +20,8 @@ instalación pesa.
 
 ## Decisión
 
-**Bun 1.4.2** es el runtime, el gestor de paquetes, el ejecutor de scripts y el
-orquestador del entorno local. Se fija con `packageManager: bun@1.4.2` en el
+**Bun 1.4.3** es el runtime, el gestor de paquetes, el ejecutor de scripts y el
+orquestador del entorno local. Se fija con `packageManager: bun@1.4.3` en el
 `package.json` raíz, y el CI lo instala con `oven-sh/setup-bun` fijando la misma
 versión. Los scripts de paquete son los que la gente ejecuta; nadie debe
 recordar `cd apps/api`.
@@ -55,8 +59,8 @@ Consecuencias directas:
 
 ## Evidencia
 
-- `package.json` raíz: `packageManager: bun@1.4.2`, scripts sin `npm`.
-- `.github/workflows/ci.yml`: `oven-sh/setup-bun@v2` con `bun-version: 1.4.2`.
+- `package.json` raíz: `packageManager: bun@1.4.3`, scripts sin `npm`.
+- `.github/workflows/ci.yml`: `oven-sh/setup-bun@v2` con `bun-version: 1.4.3`.
 - `apps/api/scripts/queue-ping.ts` ejecutado por `bun` en el job `smoke` con
   resultado `queue-ping OK`.
 

@@ -33,7 +33,7 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | ADR | Decisión | Estado | Fecha |
 |---|---|---|---|
 | [0001](ADR-0001-flujos-de-trabajo-del-agente.md) | Flujos de trabajo del agente dentro del proyecto | Aceptada | 2026-09-26 |
-| [0002](ADR-0002-bun-como-runtime-y-gestor.md) | Bun 1.4.2 como runtime y gestor de paquetes del monorepo | Aceptada | 2026-10-05 |
+| [0002](ADR-0002-bun-como-runtime-y-gestor.md) | Bun 1.4.3 como runtime y gestor de paquetes del monorepo | Aceptada | 2026-10-05 |
 | [0003](ADR-0003-angular-zoneless-sin-zone-js.md) | Angular 22 zoneless, sin zone.js | Aceptada | 2026-10-05 |
 | [0004](ADR-0004-prisma-postgresql-pgvector.md) | Prisma 7 con driver adapter sobre PostgreSQL 18 + pgvector | Aceptada | 2026-10-05 |
 | [0005](ADR-0005-bullmq-para-trabajo-pesado.md) | BullMQ y Redis para OCR y trabajo asíncrono | Aceptada | 2026-10-05 |

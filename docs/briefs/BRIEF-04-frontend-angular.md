@@ -1,13 +1,13 @@
-# BRIEF #4 — Frontend Angular: captura, bandeja, Programa Oficial y búsqueda
+# BRIEF #4 — Frontend del caso contra la API real, con tokens, tests y estilos
 
 ## 0. Encabezado
 
 - Issue: #4
 - Dueño: Kira
-- Fechas: 2026-10-19 → 2026-11-20 · Sprint 2
+- Fechas: 2026-11-17 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / frontend
 - Requisitos: RF-01, RF-03, RF-04; RNF-01
-- Bloqueado por: #41 fase 2 (design system) · Requiere: K1, M1, E2
+- Bloqueado por: #11, #12 · Bloquea a: #89
 
 ## 1. Contexto
 
@@ -102,6 +102,31 @@ Total estimado: F1 15–20 h; F2/F3 15–20 h.
 - [ ] Escritorio y celular (RNF-01)
 - [ ] Español
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** Cuatro pantallas contra la API real: captura, bandeja de revisión,
+programa oficial y búsqueda. Cada cifra que se muestra cita su fuente y su
+cálculo.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** un archivo en la bandeja, **when** el usuario lo confirma, **then**
+   aparece en el programa oficial con su origen, su regla y su persona.
+2. **Given** una búsqueda con filtro, **when** el usuario la ejecuta, **then**
+   devuelve resultados en menos de 3 s con 1 000 documentos y cada cifra cita su
+   fuente.
+3. **Given** un usuario sin permiso, **when** abre una pantalla de otro
+   departamento, **then** la API lo rechaza y la pantalla lo explica.
+
+**Plan de pruebas.** Tests web (`bun --filter web test`), suite de la API en
+verde (#45) y recorrido manual de las cuatro pantallas con el dataset real.
+
+**Evidencia.** Capturas de las cuatro pantallas con datos reales, video corto
+del recorrido y el PR con `Closes #4`.
+
+**Listo cuando.** Las cuatro pantallas funcionan contra la API real, sin
+datos de maqueta.
+
 ## 9. Riesgos nombrados
 
 - API M1/E2 no lista. Mitigación: usar mocks hasta que la API esté disponible.
@@ -110,7 +135,7 @@ Total estimado: F1 15–20 h; F2/F3 15–20 h.
 
 ## 9.1. Alcance completo (el producto, no solo MVP)
 
-Los datos son de prueba, contenidos y sin falla real: el producto se entrega completo el 20-nov.
+Los datos son reales del dataset del mes (#61) y la vertical se entrega completa el 18-nov.
 
 - F1 (§3–§8): 4 pantallas + e2e del flujo subir → confirmar → consultar.
 - F2: login, registro, gestión de usuarios, RBAC por rol, bitácora visible (usa #5 cuando exista; mientras tanto, mocks con la forma del contrato).
@@ -155,3 +180,7 @@ Sprint 2 cierra 2026-11-20. Revisión de avances en syncs de lunes y viernes.
 - [screensiz.es](https://screensiz.es/) — Viewports reales. **Cuándo:** verificar tamaños de pantalla.
 - [W3C WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/) — Criterios AA exactos. **Cuándo:** verificar accesibilidad.
 - [axe DevTools](https://www.deque.com/axe/) — Verificación automática. **Cuándo:** auditar accesibilidad.
+
+
+> [4] Frontend del caso contra la API real — kirxllix, 17→18-nov. Captura, bandeja de revisión, programa oficial y búsqueda funcionando contra la API, sobre la plataforma de #84. Entradas recibidas de la plataforma (#84), de la API (#12) y de los mockups (#11). Entregable: las cuatro pantallas funcionando contra la API. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-04-frontend-angular.md`.
+

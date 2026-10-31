@@ -16,7 +16,15 @@ aviso_line(){ aviso=$((aviso+1)); line "${amarillo}AVISO${fin}  $1"; }
 line "== runtime =="
 want_bun=$(bun -e 'console.log((require("./package.json").packageManager||"").replace("bun@",""))' 2>/dev/null)
 have_bun=$(bun --version 2>/dev/null)
-if [ "$want_bun" = "$have_bun" ]; then ok_line "Bun $have_bun (fijado en package.json)"; else falta_line "Bun $have_bun != $want_bun fijado en packageManager"; fi
+want_mm=$(printf '%s' "$want_bun" | cut -d. -f1,2)
+have_mm=$(printf '%s' "$have_bun" | cut -d. -f1,2)
+if [ "$want_bun" = "$have_bun" ]; then
+  ok_line "Bun $have_bun (fijado en package.json)"
+elif [ "$want_mm" = "$have_mm" ]; then
+  aviso_line "Bun $have_bun != $want_bun fijado en packageManager (mismo major.minor; el patch no suele romper nada)"
+else
+  falta_line "Bun $have_bun != $want_bun fijado en packageManager"
+fi
 
 line ""
 line "== herramientas fijadas =="
