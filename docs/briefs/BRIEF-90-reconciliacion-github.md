@@ -2,12 +2,12 @@
 
 ## 0. Encabezado
 
-- Issue (`#90`) / enlace: `https://github.com/reeinharddd/docu/issues/90` (se crea en la actividad 2)
+- Issue: #90 — https://github.com/reeinharddd/docu/issues/90
 - Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`)
-- Fechas (inicio-fin) / Sprint: 2026-10-31 → 2026-11-01 / `sprint:2`
-- Prioridad / Tipo / Épica / Módulo: `alta` / `tarea` / `infraestructura` / gestión del proyecto
-- Requisitos asociados (RF-/RNF-): `RNF-07` (calidad transversal)
-- Bloqueado por (`#N`): — / Bloquea a (`#N`): #83, #84, #85, #86, #87, #88, #89, #90 y a los 18 issues que se reescriben en la actividad 3
+- Fechas: 2026-10-31 → 2026-11-01 · Sprint 2 · hito `C1 modelo y BD` (12-nov)
+- Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / gestión del proyecto
+- Requisitos: RNF-07
+- Bloqueado por: — · Bloquea a: #83, #84, #85, #86, #87, #88, #89 y los 17 issues que se reescriben en la actividad 3
 
 ## 1. Contexto
 

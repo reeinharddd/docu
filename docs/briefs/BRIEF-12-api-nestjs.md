@@ -1,14 +1,14 @@
-# BRIEF #12 — API NestJS: esqueleto, ingesta y dato oficial
+# BRIEF #12 — API de ingesta y validación
 
 ## 0. Encabezado
 
 - Issue: #12
-- Dueño: Emmanuel (ejecuta), Erik (revisa).
-- Fechas: propuesto 2026-10-20 → 2026-11-06 · Sprint 1→2
+- Dueño: Emmanuel Valenzuela Cruz (Backend).
+- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Backend / api.
-- Requisitos: RF-01, RF-03, RNF-05
-- Bloqueado por: #10 · Bloquea a: #4, #3
-- Nota: endpoints de negocio esperan v1 (#59) y contrato (#23).
+- Requisitos: RF-01, RF-03
+- Bloqueado por: #45 (la puerta TDD) · Bloquea a: #3, #4, #7
+- Nota: el endpoint de ingesta no espera al pipeline: se construye con la suite primero, sobre el DDL ya aplicado (#58).
 
 ## 1. Contexto
 
@@ -16,7 +16,7 @@ La API es la única puerta de escritura del sistema (el worker procesa, la API e
 
 ## 2. Por qué importa tu parte
 
-El frontend (#4) y el pipeline (#3) consumen tus contratos. Si los módulos no existen o la validación no es global, cada historia posterior inventa su forma y RF-01/RF-03 no se demuestran. Si sale bien, el 30-oct el contrato se implementa en horas, no en días.
+El frontend (#4) y el pipeline (#3) consumen tus contratos. Si los módulos no existen o la validación no es global, cada historia posterior inventa su forma y RF-01/RF-03 no se demuestran. Si sale bien, el pipeline (#3) y las pantallas (#4) se montan sobre un contrato ya probado, no sobre supuestos.
 
 ## 3. Objetivo y resultado esperado
 
@@ -30,7 +30,7 @@ Esqueleto modular + endpoints de ingesta y dato oficial contra el contrato #23.
 | Endpoints dato oficial (confirmar, historial) | Confirmar sin persona falla; al confirmar queda origen, regla y persona (RF-03) |
 | Contratos para #4 | Documento de endpoints usado por el frontend |
 
-Fase A (esqueleto, 20→27-oct, sin esperar el contrato): módulos, config, health, validación; alimenta a #5. Fase B (negocio, tras #5 y #23): endpoints.
+Fase A (esqueleto, 13→14-nov): módulos, config, health, validación global; alimenta a #5. Fase B (negocio, 15→18-nov): endpoint de ingesta que valida por familia y deja el oficial listo para revisión.
 
 ## 4. Actividades específicas
 
@@ -44,7 +44,7 @@ Fase A (esqueleto, 20→27-oct, sin esperar el contrato): módulos, config, heal
 ## 5. Entradas y salidas
 
 - Recibe: entorno (#10), diagrama v1 + seed (#7), reglas como datos (ADR-0009), matriz (#29, vía #7).
-- Entrega: a #5 esqueleto con guards cableables (27-oct); a Kira (#4) contratos + API corriendo; a Erik (#3) ingesta usable. Comenta en #3, #4 y #5.
+- Entrega: a #5 esqueleto con guards cableables (14-nov); a Kira (#4) contratos + API corriendo; al pipeline (#3) ingesta usable. Comenta en #3, #4 y #5.
 
 ## 6. Referencias y caja de herramientas
 
@@ -71,9 +71,33 @@ Neutralidad: este brief basta con el solo contexto del repo.
 
 No es done si: un endpoint acepta campos sin validar; el schema no sale del diagrama v1; falta el contrato para #4.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** Un endpoint de ingesta que recibe un archivo de una familia
+conocida, lo valida con las reglas cargadas, y devuelve el resultado con su
+familia, su hash y su estado (oficial o cuarentena).
+
+**Criterios (Given/When/Then).**
+
+1. **Given** un archivo válido, **when** se ingesta, **then** responde con su
+   hash, su familia y el identificador del dato oficial.
+2. **Given** un archivo inválido, **when** se ingesta, **then** responde con la
+   cuarentena y su motivo, y el original queda intacto.
+3. **Given** una familia que el motor no conoce, **when** se ingesta, **then**
+   la API responde con error de validación y **no** revienta ni acepta el dato.
+
+**Plan de pruebas.** La suite de la API (#45) es la puerta: primero el test
+falla, después el endpoint, después verde. Se corre `bun run verify` completo.
+
+**Evidencia.** Salida de los tests con los casos 1-3, la respuesta real de una
+ingesta y el PR con `Closes #12`.
+
+**Listo cuando.** La ingesta valida por familia, no acepta lo inválido y la
+suite está en verde.
+
 ## 9. Riesgos nombrados
 
-El contrato #23 se mueve (30-oct flexible) y la fase B se comprime. Mitigación: fase A completa el 23-oct; desde el 2026-10-30 sin contrato es bloqueo.
+El contrato #23 se mueve (12-nov) y la fase B se comprime. Mitigación: la fase A se cierra el 14-nov; desde el 15-nov sin DDL aplicado es bloqueo.
 
 ## 10. Revisión
 
@@ -81,4 +105,6 @@ Syncs lunes/viernes con Erik; demo de endpoints al cerrar fase B. Después: #4 c
 
 ## Versión corta (descripción del issue)
 
-> [12] API NestJS — Emmanuel, propuesto 20-oct → 06-nov. Esqueleto + ingesta y dato oficial sobre contrato #23. Fase A 20→27-oct (alimenta #5), fase B tras #5+#23. Detalle: `docs/briefs/BRIEF-12-api-nestjs.md`.
+
+> [12] API de ingesta — Agent3835, 13→18-nov. Endpoint de ingesta que valida por familia y deja el dato oficial listo para revisión. Entradas recibidas de la arquitectura (#60), del contrato de datos y de las reglas de validación. Entregable: endpoint de ingesta probado, con la suite de #45 en verde. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-12-api-nestjs.md`.
+

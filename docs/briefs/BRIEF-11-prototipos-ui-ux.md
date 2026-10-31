@@ -1,13 +1,13 @@
-# BRIEF #11 — Prototipos UI/UX y flujo de pantallas
+# BRIEF #11 — Mockups funcionales: flujo del caso con datos reales
 
 ## 0. Encabezado
 
-- Issue: #11 (absorbió #28: categorías se definen aquí; #28 cerrado not planned 13-oct)
+- Issue: #11 (las categorías se definen aquí; #28 quedó cerrado como no planificado)
 - Dueño: Kira
-- Fechas: 2026-10-16 → **2026-10-23** · Sprint 1 · hito `Cierre de diseño` (2026-10-23)
+- Fechas: 2026-11-13 → **2026-11-16** · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Diseño / diseño
 - Requisitos: RNF-01 (usabilidad); alimenta RF-01, RF-03, RF-04
-- Bloqueado por: #41 Fase 2 (tokens y componentes base) · Bloquea a: #4 Frontend Angular
+- Bloqueado por: #83 (caso), #84 (plataforma) · Bloquea a: #4 Frontend Angular
 - Taller: rama `design/kira-playground` (huérfana; nunca se fusiona a `main`)
 
 ## 0.1 Dónde se trabaja y qué viaja a `main`
@@ -138,6 +138,31 @@ Recursos oficiales y curados para diseñar el flujo:
 - [ ] Checklist de `playground/PROMOCION.md` completo; el PR no trae código del playground.
 - [ ] Un par revisó y aprobó.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** Los mockups ya son navegables y consumen datos reales del dataset
+del mes, no pantallas vacías: sirven de spec de UI para el frontend real (#4).
+
+**Criterios (Given/When/Then).**
+
+1. **Given** el dataset del mes, **when** se abre el mockup del flujo de
+   revisión, **then** muestra los mismos casos que el caso describe, con sus
+   valores reales.
+2. **Given** un revisor, **when** recorre el flujo completo, **then** puede
+   llegar del programa al oficial sin ayuda y en menos de 10 minutos.
+3. **Given** la plataforma frontend (#84), **when** se compara el mockup con
+   la base que ya está en `main`, **then** cada pantalla del mockup tiene su
+   equivalente en la estructura atomic.
+
+**Plan de pruebas.** Recorrido manual cronometrado con captura en cada paso, y
+verificación de que los datos del mockup salen del dataset (no de fixtures).
+
+**Evidencia.** Video del recorrido, capturas de cada pantalla con datos
+reales y el PR con `Closes #11`.
+
+**Listo cuando.** El flujo del caso se puede recorrer entero con datos reales y
+sirve de spec para #4.
+
 ## 9. Riesgos nombrados
 
 Es la primera fecha del proyecto (9-oct). Riesgo: pulir la estética antes de
@@ -146,7 +171,7 @@ tipografía) se trabaja después en el playground de diseño.
 
 Riesgo: el prototipo se queda atrapado en el taller y `main` nunca ve la
 evidencia. Mitigación: `PROMOCION.md`, enlaces fijados en #11 y demo en el sync
-del 23-oct.
+del 16-nov.
 
 ## 10. Revisión
 
@@ -155,11 +180,11 @@ no se mueve a `En progreso` hasta que cierre. El taller está listo en
 `design/kira-playground`; la Fase 1 de #41 espera resolver los conflictos del
 PR #63.
 
-Viernes 2026-10-23 en el sync: recorrido del prototipo de 10 minutos con Erik.
+Lunes 2026-11-16 en el sync: recorrido del mockup de 10 minutos con Erik.
 Flujo unificado con #41-fase2: tokens y mockups se trabajan juntos en el taller
 (una sola corriente, sin pasos duplicados).
 
-Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fase 1 (#41-fase1).
+Replanificación v2 (2026-10-30): las mockups son funcionales y usan datos reales del dataset (#61); la marca y el design system de #41 ya están entregados.
 
 ## 11. Insumos del agente
 
@@ -190,3 +215,7 @@ Replanificación 2026-10-09: fechas 05→09-oct a 16→23-oct; va tras marca Fas
 - [Excalidraw](https://excalidraw.com/) — Diagramar el flujo. **Cuándo:** necesitas diagramar navegación.
 - [W3C WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/) — Criterios AA exactos. **Cuándo:** necesitas verificar accesibilidad.
 - [axe DevTools](https://www.deque.com/axe/) — Verificación automática. **Cuándo:** necesitas auditar accesibilidad.
+
+
+> [11] Mockups funcionales — kirxllix, 13→16-nov. Mockups navegables con el flujo del caso y datos reales del dataset, no pantallas vacías. Entradas recibidas de docs/proyecto/CASO.md, del dataset (#61) y de ADR-0012. Entregable: mockups navegables con el flujo del caso y datos reales. Revisión el 16-nov. Detalle: `docs/briefs/BRIEF-11-prototipos-ui-ux.md`.
+

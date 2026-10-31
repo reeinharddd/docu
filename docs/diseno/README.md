@@ -48,5 +48,5 @@ del proyecto es OKLCH.
 
 - [`../plantillas/DESIGN.md`](../plantillas/DESIGN.md) — plantilla de diseño de pantalla
 - [`../plantillas/design-system.md`](../plantillas/design-system.md) — plantilla del design system
-- [`../briefs/BRIEF-41-marca-fase1.md`](../briefs/BRIEF-41-marca-fase1.md) — brief de la Fase 1
-- [`../briefs/BRIEF-41-fase2-design-system.md`](../briefs/BRIEF-41-fase2-design-system.md) — brief de la Fase 2
+- [`../briefs/historico/BRIEF-41-marca-fase1.md`](../briefs/historico/BRIEF-41-marca-fase1.md) — brief de la Fase 1
+- [`../briefs/historico/BRIEF-41-fase2-design-system.md`](../briefs/historico/BRIEF-41-fase2-design-system.md) — brief de la Fase 2
