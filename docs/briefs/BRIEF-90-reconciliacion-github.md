@@ -211,27 +211,33 @@ que Erik tiene abierto). Si el Project no acepta la etiqueta de estado por
 API, se deja `En progreso` en #58 desde la interfaz, como se documenta en
 `docs/integraciones/GITHUB-GESTION.md`.
 
-### Actividad 7 — Reescribir los documentos de gestión
+### Actividad 7 — Quitar de los documentos vivos las fechas y los hitos viejos
 
-**Entregable:** tres documentos alineados con la v2. **Terminado cuando**
-`PLAN-EPICAS.md` tiene la tabla de carriles de `REPLAN-2026-10-30.md` §5,
-`TRAZABILIDAD.md` refleja el conteo real de issues y el índice lista lo que
-existe.
+**Entregable:** ningún documento vivo dice ya las fechas de octubre ni los
+milestones muertos. **Terminado cuando** el `grep` de verificación no
+encuentra ninguno de esos textos fuera de `docs/decisiones/` y
+`docs/briefs/historico/`.
 
-- `docs/gestion/PLAN-EPICAS.md`: la tabla de órdenes pasa a ser la de los 8
-  carriles con su fecha, su dueño y su bloque; se borra la tabla de 18 filas
-  del plan viejo.
-- `docs/gestion/TRAZABILIDAD.md`: re-verificar contra `gh issue list --state
-  all` (el conteo real tras esta tarea), cerrar el hueco de RF-07/RF-08
-  declarándolos transversales, y añadir las filas de los issues nuevos.
-- `docs/README.md`: `gestion/` pasa a "plan por carriles, trazabilidad,
-  replanificación"; `diseno/` sigue vacío y se dice por qué; `ingenieria/`
-  refleja el diagrama de BD y los estudios de mercado nuevos.
+| Documento | Qué corregir |
+|---|---|
+| `docs/gestion/PLAN-EPICAS.md` | La tabla de 18 órdenes pasa a ser la de los 8 carriles con fecha, dueño y bloque |
+| `docs/gestion/RITMO-SEMANAL.md` | §"Fechas fijadas": 13-oct, 16-oct, 23-oct, 30-oct, 20-nov, 27-nov y 1-dic → freeze 18-nov, ensayo 20-nov, demo 24-nov, final 3-dic |
+| `docs/gestion/TRAZABILIDAD.md` | Encabezado: el conteo real de issues tras esta tarea y los 5 milestones nuevos |
+| `docs/gestion/RIESGOS.md` | El riesgo "Contrato 30-oct en riesgo" → "Freeze del 18-nov en riesgo", con su señal nueva |
+| `docs/proyecto/EQUIPO.md` | La tabla de entregables, responsables y fechas → los 8 carriles; la línea de "Replanificación" de octubre |
+| `docs/proyecto/REQUISITOS.md` | §de fechas: "la más cercana" → 12-nov (contrato) y 24-nov (demo) |
+| `docs/proyecto/VISION.md` | La referencia "(#9)" del dataset → #61 |
+| `docs/proyecto/ROLES.md` | Las 5 referencias a `#9` (cerrado) → el documento de fichas y #61 |
+| `docs/integraciones/GITHUB-GESTION.md` | Los ejemplos de milestone y de cronograma → los nuevos |
 
 ```bash
 bash scripts/doc-index.sh --fix
 bash scripts/doc-index.sh
+grep -rn "Cierre de diseño\|Fin del desarrollo\|Listos para presentar\|Presentación de diciembre\|30-oct\|20-nov\|27-nov\|1-dic" docs/ --include="*.md" | grep -v "^docs/decisiones/\|^docs/briefs/historico/"
 ```
+
+Ese `grep` debe salir vacío. Si algo sale, es contenido viejo que quedó y se
+corrige en este mismo PR.
 
 ### Actividad 8 — Dejar los briefs al día
 
@@ -249,16 +255,22 @@ fecha y su responsable, y `docs/.indice` no tiene discrepancias.
    adopta el formato de spec de `docs/plantillas/BRIEF.md` (criterios
    Given/When/Then, contrato, plan de pruebas, evidencia, criterio de listo).
 3. **Crear** los briefs que no existen: `BRIEF-45-pruebas-api.md`,
-   `BRIEF-46-worker-bullmq.md`, `BRIEF-44-solo-insert.md`,
-   `BRIEF-06-demo-final.md`, `BRIEF-83-caso-c1.md`,
-   `BRIEF-84-plataforma-frontend.md`, `BRIEF-85-integracion-ia.md`,
-   `BRIEF-86-replicabilidad.md`, `BRIEF-87-sdd-tdd.md`,
-   `BRIEF-88-limpieza.md`, `BRIEF-89-demo-24-nov.md`.
+   `BRIEF-44-solo-insert.md`, `BRIEF-06-demo-final.md`,
+   `BRIEF-83-caso-c1.md`, `BRIEF-84-plataforma-frontend.md`,
+   `BRIEF-85-integracion-ia.md`, `BRIEF-86-replicabilidad.md`,
+   `BRIEF-87-sdd-tdd.md`, `BRIEF-88-limpieza.md`, `BRIEF-89-demo-24-nov.md`.
    `BRIEF-08` se crea cuando #8 se reprograme, no ahora.
+   `BRIEF-46-worker-bullmq.md` **existe en el historial** (commit `3ca1e8a`, en
+   la rama `feat/58-diagrama-v0`) pero nunca llegó a `main`: se recupera y se
+   actualiza en vez de escribirlo de cero:
+
+   ```bash
+   git show 3ca1e8a:docs/briefs/BRIEF-46-worker-bullmq.md > docs/briefs/BRIEF-46-worker-bullmq.md
+   ```
 
 ### Actividad 9 — Verificar y abrir los PRs
 
-**Entregable:** 4 PRs con evidencia. **Terminado cuando** `bun run verify` está
+**Entregable:** 5 PRs con evidencia. **Terminado cuando** `bun run verify` está
 verde y cada PR cita su resultado.
 
 | PR | Contenido | Rama |
@@ -266,7 +278,8 @@ verde y cada PR cita su resultado.
 | C1 | GitHub: milestones, issues, dependencias, tablero | `docs/reconciliacion-github` |
 | C2 | Briefs nuevos de #83–#90 | `docs/briefs-nuevos` |
 | C3 | Briefs reescritos de los issues existentes | `docs/briefs-v2` |
-| C4 | `PLAN-EPICAS.md`, `TRAZABILIDAD.md`, `docs/README.md` | `docs/gestion-v2` |
+| C4 | Los 9 documentos vivos de la actividad 7 | `docs/gestion-v2` |
+| C5 | Barrido de contenido obsoleto (actividad 10) | `chore/barrido-basura` |
 
 ```bash
 bun run verify
@@ -274,6 +287,48 @@ bun run verify
 
 Los PRs de docs llevan la etiqueta `sin-issue`; los de código llevan
 `Closes #N`.
+
+### Actividad 10 — Barrido del contenido obsoleto
+
+**Esta actividad va al final, cuando la 9 esté en verde.** El plan nuevo ya es
+el único plan: lo que quedó del viejo se va, porque un documento que dice
+"30-oct" o "Cierre de diseño" hace ruido y lleva a decisiones viejas.
+
+**Entregable:** nada del plan anterior queda visible. **Terminado cuando** el
+`grep` de la actividad 7 sale vacío y el inventario de abajo está resuelto.
+
+| Qué | Acción | Motivo | Dónde queda |
+|---|---|---|---|
+| `docs/superpowers/` (8 archivos: `olas/`, `plans/`, `specs/`) | **Borrar** | Artefactos del flujo viejo (olas, planes y specs de octubre) superados por la v2; dentro tienen los hitos de octubre que ya no existen | En el historial de git; el PR lista los 8 archivos y su motivo |
+| `docs/README.md`, línea de `superpowers/` | Quitar la fila del índice | El directorio deja de existir | El PR C5 |
+| `docs/.indice` | Regenerar | Las 8 entradas desaparecen | `bash scripts/doc-index.sh --fix` |
+| `docs/decisiones/ADR-0008`, `ADR-0012`, `ADR-0014` | **No se reescriben**: añadir al final una línea `Vigencia 2026-10-30: los hitos fueron sustituidos por los de docs/gestion/REPLAN-2026-10-30.md §9` | Los ADRs no se reescriben (`docs/README.md` §regla 2); pero sus hitos ya no son vigentes y el lector tiene que saberlo | Los tres ADRs, con una línea y sin tocar la decisión |
+| `docs/briefs/historico/` | **Se queda** | Es el historial de asignaciones; no es ruido, es trazabilidad | Sin cambios |
+| `originales/` | **Intocable** | Es la fuente de verdad de los documentos del caso | Sin cambios |
+| Issues y milestones de GitHub | **No se borran** | `docs/REGLAS.md` 4: se cierran como `not planned` con motivo | Sin cambios |
+
+**Lo que este barrido NO toca** (son entregables vivos de otros carriles, no
+contenido viejo):
+
+| Documento | Por qué no se toca aquí |
+|---|---|
+| `docs/ingenieria/MODELO-DATOS.md` | Contradice al ER; lo reescribe el carril D (#58) cuando aterrice el modelo híbrido |
+| `docs/proyecto/CASO.md` | Lo amplía el carril A (#83): personas, flujos, conversaciones y mapa de derivación |
+| `docs/ingenieria/fichas/` | Es el contrato de datos vigente; lo consume Carlos en el carril F |
+| `docs/ingenieria/ALCANCE-SOLUCION.md` | Sus 10 módulos de API son hipótesis a validar contra el caso, en el carril A |
+| `docs/decisiones/ADR-0016` y `ADR-0017` | Se resuelven en el PR del ER (carril D): 0017 aceptada, 0016 reemplazada |
+
+```bash
+git rm -r docs/superpowers
+bash scripts/doc-index.sh --fix
+bash scripts/doc-index.sh
+grep -rn "Cierre de diseño\|Fin del desarrollo\|Listos para presentar\|Presentación de diciembre\|30-oct\|20-nov\|27-nov\|1-dic" docs/ --include="*.md" | grep -v "^docs/decisiones/\|^docs/briefs/historico/"
+bun run verify
+```
+
+El PR C5 dice en su cuerpo **qué se borró y por qué**: borrar sin decirlo dejaría
+el hueco sin explicación; el historial del PR es la evidencia de que no fue un
+silencio.
 
 ## 5. Entradas y salidas
 
@@ -324,11 +379,19 @@ evidencia.
 - [ ] `gh api repos/{owner}/{repo}/issues/89/dependencies/blocked_by` devuelve
       7, 4 y 85.
 - [ ] El tablero no tiene `En progreso` fantasma: solo #58.
-- [ ] `PLAN-EPICAS.md`, `TRAZABILIDAD.md` y `docs/README.md` reflejan la v2.
+- [ ] `PLAN-EPICAS.md`, `TRAZABILIDAD.md`, `RITMO-SEMANAL.md`, `RIESGOS.md`,
+      `EQUIPO.md`, `REQUISITOS.md`, `VISION.md`, `ROLES.md` y
+      `GITHUB-GESTION.md` no mencionan ninguna fecha ni milestone del plan
+      viejo.
 - [ ] `docs/briefs/historico/` tiene los 7 briefs archivados y cada issue
       abierto tiene su brief con fecha y responsable actualizados.
 - [ ] `bash scripts/doc-index.sh` reporta 0 discrepancias.
 - [ ] `bun run verify` en verde, con la salida pegada en los PRs.
+- [ ] El barrido está hecho: `docs/superpowers/` no existe, el índice no lo
+      lista, y los tres ADRs que nombraban hitos viejos tienen su línea de
+      vigencia.
+- [ ] El `grep` de la actividad 7 no devuelve nada fuera de
+      `docs/decisiones/` y `docs/briefs/historico/`.
 
 ## 9. Riesgos nombrados
 
@@ -338,6 +401,8 @@ evidencia.
 | El tablero no acepta el estado por API | Dejar `En progreso` manual solo en #58, como ya está documentado | 1-nov |
 | Los 26 briefs se escriben de más rápido y quedan como contexto repetido | Cada brief apunta al documento del repo que lo sostiene y no repite lo que ya está escrito | 6-nov |
 | Los documentos de gestión divergen otra vez del plan | `PLAN-EPICAS.md` y `TRAZABILIDAD.md` se corrigen en el mismo PR que cambia las etiquetas (regla 6 de la skill de gestión) | 1-nov |
+| Queda contenido viejo con fechas de octubre y alguien lo lee como vigente | El `grep` de la actividad 7 es un criterio de aceptación, no una revisión a ojo: si sale algo, no se cierra el PR | 1-nov |
+| El barrido borra algo que sí se necesita | El inventario de la actividad 10 dice qué no se toca: `originales/`, `docs/briefs/historico/`, los ADRs, los issues y los cinco entregables vivos de otros carriles | 6-nov |
 
 ## 10. Revisión
 
@@ -376,3 +441,8 @@ Cinco formas de falla que la spec implica y que ninguna prueba cubre:
 5. **Un número de issue se aparta de la tabla** porque se creó otro issue
    mientras tanto y el brief apunta al número equivocado. Pin: cada issue
    creado se verifica con `gh issue view N` antes de seguir al siguiente.
+6. **Un documento vivo conserva una fecha del plan viejo.** Alguien lee
+   `RITMO-SEMANAL.md` y cree que el contrato era el 30-oct, o `EQUIPO.md` y
+   asigne un trabajo que ya no es de esa persona. Pin: el `grep` de la
+   actividad 7 vacío, ejecutado como criterio de aceptación y no como
+   revisión visual.
