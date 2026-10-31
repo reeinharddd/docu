@@ -1,40 +1,50 @@
 # Equipo, responsabilidades y propiedad de la documentación
 
-Estado: vigente. Última actualización: 2026-10-17. Replanificación: inicio 2026-10-05 → 2026-10-12 (+7 días); #32 pasa a Erik, #7 pasa a Emmanuel.
+Estado: vigente. Última actualización: 2026-10-31. Plan vigente:
+`gestion/REPLAN-2026-10-30.md` (v2, ocho carriles en paralelo). Hitos: modelo y
+BD 12-nov · vertical completa 19-nov · demo con el profesor 24-nov · final
+3-dic.
 
 ## Personas
 
 | Persona | Rol en DOCU | Áreas del sistema | Usuario GitHub |
 |---|---|---|---|
-| Erik Alfonso Beltrán Ramírez | Líder, infra y pipeline | `auth/governance`, despliegue, CI, entorno, ADRs de infraestructura | `reeinharddd` |
-| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas. Configuración 1 (#7), 2026-10-19 → 10-30, alimenta el contrato de datos | `Agent3835` |
+| Erik Alfonso Beltrán Ramírez | Líder, caso, infra y pipeline | Caso (#83), plataforma frontend (#84), IA (#85), BD/ER (#58, #62), arquitectura (#60), CI y entorno, ADRs de infraestructura, revisión de todos los PRs | `reeinharddd` |
+| Emmanuel Valenzuela Cruz | Backend | API NestJS, ingesta, dato oficial, RBAC, reglas declarativas, worker y seed | `Agent3835` |
 | Kira Llizara Garfias González | Frontend y UX | Angular, Tailwind, captura, bandeja, programa, búsqueda, diseño de pantallas | `kirxllix` |
-| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, Configuración 1 y 2, plan de pruebas, evidencias | `WearyBerry` |
+| Carlos Ariel Martín Rojas | Dataset y QA | Dataset sintético, replicabilidad, plan de pruebas, evidencias | `WearyBerry` |
 
 Materias: **Yakko Olivo Nájera** (Desarrollo web integral) es dueño del
 producto y sus entregas viven en DOCU. **Resffa Elizabeth Fierro García**
 (Extracción de Conocimiento de BD) también. **MIGUEL ANGEL CARDONA CONTRERAS**
 (Desarrollo para Dispositivos Inteligentes).
 
-## Responsabilidades y entregables en E1
+## Responsabilidades y entregables en C1
 
-Hasta cerrar las dos puertas de ADR-0012 (design system y modelo de datos) no se
-construye producto. Esto es lo que cada persona debe entregar ahora. El detalle
-está en su brief y el estado en su issue.
+Plan vigente: `gestion/REPLAN-2026-10-30.md` (ocho carriles en paralelo, del
+lunes 2-nov al 3-dic). Esto es lo que cada persona entrega; el detalle está en
+su brief y el estado en su issue.
 
-| Persona | Responsable de | Próximos entregables | Fecha | Brief |
+| Persona | Carril | Entregables | Cierra | Brief |
 |---|---|---|---|---|
-| Kira | Experiencia y diseño | Prototipos y flujo (#11) y categorías (#28); marca y design system ya entregados (#41) | 2026-10-16 / 10-23 | `briefs/BRIEF-11-prototipos-ui-ux.md` (incluye #28) |
-| Emmanuel | Backend y base de datos | Diagrama v0 (#58) y v1+seed (#59); carga C1 (#7); después APIs (#12), solo-insert (#44), pruebas API (#45) y reporte (#39) | 2026-10-19 / 10-30 | `briefs/BRIEF-07-configuracion-1.md` |
-| Carlos | Datos y calidad | Generador y dataset (#61), Configuración 2 (#8) | 2026-10-16 / 10-23 | `briefs/BRIEF-61-*`; histórico: `briefs/historico/BRIEF-29-*`, `briefs/historico/BRIEF-09-*` |
-| Erik | Liderazgo, infra y gestión | Evaluación de OCR con números (#32), pipeline de ingesta (#3), esenciales y entorno (#10), arquitectura (#60), modelo (#62), gestión del Project (#43), playground de diseño (#42), SRS (#13), aprobación de requisitos (#30), worker (#46), revisión de todos los PR | 2026-10-16 / 10-23 | `briefs/BRIEF-32-evaluacion-ocr.md`, `briefs/BRIEF-10-arquitectura-entorno.md`, `briefs/historico/BRIEF-43-gestion-project.md`, `briefs/BRIEF-42-playground-diseno.md`, `briefs/BRIEF-13-srs.md` |
+| Erik | A. Caso | Diseño del caso cerrado con mapa de derivación (#83) | 6-nov | `briefs/BRIEF-83-caso-c1.md` |
+| Erik | B. Plataforma frontend | Base del frontend en `main`: atomic, routing, kit, tests, CI (#84) | 10-nov | `briefs/BRIEF-84-plataforma-frontend.md` |
+| Erik | C/D. Infra IA y BD | Motores de IA montados (#85) y ER híbrido con DDL, vistas, triggers y migración (#58, #60, #62, #23) | 12-nov | `briefs/BRIEF-58-diagrama-v0.md`, `briefs/BRIEF-60-arquitectura-modelo.md`, `briefs/BRIEF-62-modelo-datos.md` |
+| Erik | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas (#85) | 18-nov | `briefs/BRIEF-85-integracion-ia.md` |
+| Erik | Método y gestión | SDD/TDD con guardas (#87), limpieza documental (#88), demo del 24-nov (#89), final (#6), revisión de todos los PR | 20-nov / 3-dic | `briefs/BRIEF-87-sdd-tdd.md`, `briefs/BRIEF-89-demo-24-nov.md` |
+| Emmanuel | G. Backend | Pruebas de API (#45), ingesta (#12), pipeline (#3), worker (#46), solo-insert (#44), RBAC y reglas (#5), seed (#59), verificación de punta a punta (#7) | 19-nov | `briefs/BRIEF-45-pruebas-api.md`, `briefs/BRIEF-12-api-nestjs.md`, `briefs/BRIEF-03-pipeline-ingesta.md` |
+| Kira | H. Frontend | Mockups funcionales con datos reales (#11) y pantallas del caso contra la API real (#4) | 18-nov | `briefs/BRIEF-11-prototipos-ui-ux.md`, `briefs/BRIEF-04-frontend-angular.md` |
+| Carlos | F. Dataset | Generador determinista y dataset del mes con manifiesto SHA-256 (#61), replicabilidad (#86), reglas y evidencias (#5) | 19-nov | `briefs/BRIEF-61-generador-dataset.md`, `briefs/BRIEF-86-replicabilidad.md` |
 
-#39 → Emmanuel (reporte y alerta, RF-05, tras #7), ya asignado en GitHub
-(`Agent3835`). Kira (`kirxllix`) también tiene sus issues asignados. #36 se
-cerró como no planificado (el diagrama de casos de uso no se hará). Carlos ya
-tiene cuenta de GitHub (`WearyBerry`, 2026-10-19): sus issues #61 y #8 y el
-cierre de pruebas #6 quedan asignados a él. #34 (manuales) se cerró como no
-planificado; los manuales se absorben en #6.
+Erik lleva el caso, la plataforma, la IA y la BD, y además revisa todos los
+PRs: es el cuello de botella declarado del plan, con orden interno
+A → B → C → D → E y guardarraíl de des-recorte (`gestion/REPLAN-2026-10-30.md`
+§7).
+
+#39 (reporte y alerta, RF-05) sigue con Emmanuel (`Agent3835`), después de #7.
+Kira (`kirxllix`) y Carlos (`WearyBerry`) tienen sus issues asignados. #36 se
+cerró como no planificado (el diagrama de casos de uso no se hará). #34
+(manuales) se cerró como no planificado; los manuales se absorben en #6.
 
 Cómo empieza cualquiera: `bash scripts/setup.sh`, `opencode`, `/inicio`
 (`operacion/BOOTSTRAP.md`).
@@ -54,7 +64,7 @@ edita un documento de otro sin avisar en el PR.
 | `ingenieria/ARQUITECTURA.md` | Erik | Emmanuel |
 | `ingenieria/MODELO-DATOS.md` | Emmanuel | Erik |
 | `ingenieria/ALCANCE-SOLUCION.md` | Erik | Emmanuel |
-| `ingenieria/fichas/*.md` (contrato de documentos, #9) | Carlos | Emmanuel |
+| `ingenieria/fichas/*.md` (contrato de documentos, #61) | Carlos | Emmanuel |
 | `ingenieria/API.md`, `ingenieria/COLAS.md` | Emmanuel | Erik |
 | `ingenieria/ENTORNO.md` | Erik | Erik (bloqueante en PR) |
 | `diseno/*.md` | Kira | Erik (coherencia de alcance) |

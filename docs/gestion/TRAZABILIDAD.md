@@ -1,9 +1,11 @@
 # Gestión: trazabilidad requisito → épica → issue → PR → evidencia
 
-Estado: vigente. Verificado contra GitHub el 2026-10-17 (54 issues: 29
-abiertos / 25 cerrados, 5 milestones: Cierre de diseño 23-oct, Contrato de datos
-30-oct, Fin del desarrollo 20-nov, Listos 27-nov, Presentación 1-dic), tras la
-migración desde Monday
+Estado: vigente. Verificado contra GitHub el 2026-10-31, tras la replanificación
+v2 (`gestion/REPLAN-2026-10-30.md`): 35 issues abiertos (27 heredados + 8
+nuevos: #83 a #90), 29 cerrados, 6 milestones abiertos (C1 modelo y BD 12-nov,
+C1 vertical completa 19-nov, Avances profesor 24-nov, C1 final 3-dic, Post-C1
+sin fecha, Contrato de datos congelado 12-nov) y 4 cerrados. La migración desde
+Monday está en
 (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
 
 ## La cadena
@@ -19,20 +21,21 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 
 | Requisito | Módulo | Épica | Sprint | Issue |
 |---|---|---|---|---|
-| RF-01 | API | Backend / Frontend | 1–2 | #12, #3, #4 |
-| RF-02 | API / Permisos | Backend / Autenticación | 2 | #3, #5 |
-| RF-03 | API | Backend / Frontend | 1–2 | #12, #4 |
-| RF-04 | Documentos | Frontend | 2 | #4 |
+| RF-01 | API | Backend / Frontend | 3 | #12, #3, #4, #46, #85 |
+| RF-02 | API / Permisos | Backend / Autenticación | 3 | #3, #5, #85 |
+| RF-03 | API | Backend / Frontend | 3 | #12, #4, #44 |
+| RF-04 | Documentos | Frontend | 3 | #4, #85 |
 | RF-05 | `agent/tools` | Backend | 3 | #39 |
-| RF-06 | Permisos / Infraestructura | Autenticación / Infraestructura | 1–2 | #10, #5 |
+| RF-06 | Permisos / Infraestructura | Autenticación / Infraestructura | 3 | #5, #44 |
 | RF-07 | — | transversal (Could) | — | Sin issue, a propósito |
-| RF-08 | Infraestructura | Infraestructura / Base de datos | 2–3 | #7, #8 |
-| RNF-01 | — | Diseño / Frontend | 1 | #11, #41 |
-| RNF-05 | Infraestructura | Infraestructura | 1 | #10 |
-| RNF-06 | Infraestructura | Infraestructura | 1 | #10 |
-| RNF-02 | — | QA/Documentación | 1 | #9 |
-| RNF-03 | Permisos | Autenticación | 2–3 | #5, #8 |
-| RNF-07 | Auditoría | QA/Documentación | 1–4 | #6, #9, #13, #30, #74 |
+| RF-08 | Infraestructura | Infraestructura / Base de datos | 3–4 | #7, #8, #58, #59, #60, #62 |
+| RNF-01 | — | Diseño / Frontend | 3 | #11, #84 |
+| RNF-02 | — | QA/Documentación | 3 | #61 |
+| RNF-03 | Permisos | Autenticación | 3–4 | #5, #8 |
+| RNF-04 | Asíncrono | Backend | 3 | #46 |
+| RNF-05 | Infraestructura | Infraestructura | 2 | #87 |
+| RNF-06 | Infraestructura | Infraestructura | 2 | #87 |
+| RNF-07 | Auditoría | QA/Documentación | 2–4 | #6, #61, #83, #86, #87, #88, #89 |
 
 ## Huecos que siguen abiertos
 
@@ -41,8 +44,8 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | 1 | `RF-05` no tiene issue | — | **Cerrado**: #39 (Emmanuel, `Agent3835`) |
 | 2 | `RF-08` sin etiqueta en Configuración 2 | — | **Cerrado**: #8 lleva `RF-08` |
 | 3 | #7, #9, #13, #30 sin requisito | — | **Cerrado**: `RF-08`, `RNF-02`/`RNF-07`, `RNF-07`, `RNF-07` (tomados de los criterios de cada issue) |
-| 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto |
-| 7 | Dependencias vacías | — | **Cerrado**: 10 *blocked by* nativos (ver `PLAN-EPICAS.md`) |
+| 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto: RF-08 es transversal (modelo, seed, contrato y configuración) |
+| 7 | Dependencias vacías | — | **Cerrado**: 31 *blocked by* nativos de la v2 (ver `PLAN-EPICAS.md`) |
 | 8 | #18–#26 sin etiquetas propias | Heredan requisito, épica y sprint del padre (#3, #4, #5, #9, #12). Monday dado de baja total el 2026-10-09: nada vive ahí, todo se opera en GitHub | **Cerrado** |
 
 ## Reglas

@@ -21,14 +21,14 @@ mantiene dos veces el mismo dato.
 | Épica | Issue `tipo:epica` con sub-issues; su barra de progreso es la de sus hijos | #48 Épica: Backend |
 | Tarea, historia, investigación, entregable | Issue con `tipo:*` | #12 API NestJS |
 | Subtarea | Sub-issue | #46 Worker (de #3) |
-| Hito con fecha | Milestone | `Contrato de datos congelado` (2026-10-30) |
-| Sprint | Etiqueta `sprint:N` → campo iteración `Sprint` | `sprint:2` |
+| Hito con fecha | Milestone | `C1 modelo y BD` (2026-11-12) |
+| Sprint | Etiqueta `sprint:N` → campo iteración `Sprint` | `sprint:3` |
 | Prioridad | Etiqueta `prioridad:*` → campo `Prioridad` | `prioridad:critica` |
 | Área | Etiqueta `epica:*` → campo `Épica` | `epica:diseno` |
 | Requisito | Etiqueta `RF-0n` / `RNF-0n`; si falta, `req:pendiente` | `RF-01` |
-| Dependencia | *Blocked by* nativo | #4 bloqueada por #3, #23 y #41 |
+| Dependencia | *Blocked by* nativo | #4 bloqueada por #11 y #12 |
 | Bloqueo > 24 h | Etiqueta `bloqueado` | — |
-| Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-10-12 → 2026-10-23` |
+| Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-11-13 → 2026-11-18` |
 | Brief | Comentario fijado en el issue con el enlace; el issue manda el estado, el brief el detalle | `BRIEF-11` |
 | Taller de diseño | Rama huérfana `design/kira-playground`; nunca se fusiona; a `main` solo docs y tokens | #11, #41 |
 | Evidencia | PR con `Closes #N` + adjunto | — |
@@ -82,7 +82,7 @@ mantiene dos veces el mismo dato.
 
 ```bash
 gh issue list --assignee @me                      # mis tareas
-gh issue list --milestone "Cierre de diseño"      # lo que vence en el hito
+gh issue list --milestone "C1 modelo y BD"        # lo que vence en el hito
 gh issue list --label req:pendiente               # tareas sin requisito
 gh issue view 12                                  # detalle, sub-issues y dependencias
 gh issue develop 12 --base main --checkout        # rama ligada al issue

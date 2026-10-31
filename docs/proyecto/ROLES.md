@@ -1,9 +1,9 @@
 # Roles, matriz de permisos y perfiles demo
 
-Estado: propuesta para afirmación documental 16-oct (issue #29).
-Dueño: Carlos. Alcance: solo matriz y perfiles. Dataset y
-documentos son #9. La aceptación técnica llega cuando el motor de
-#5 pase las pruebas del §16; son estados distintos.
+Estado: matriz y perfiles afirmados (issue #29, cerrado 2026-10-17).
+Dueño: Carlos. Alcance: solo matriz y perfiles. El dataset y los
+documentos son #61 (`docs/ingenieria/fichas/`). La aceptación técnica llega
+cuando el motor de #5 pase las pruebas del §16; son estados distintos.
 
 Nota: este documento reemplazó los códigos atados al negocio que usaba el
 BRIEF-29 histórico (`planeacion`, `calidad`, `almacen`) por roles fijos de
@@ -201,7 +201,7 @@ Mantenimiento e Ingeniería son un solo nodo (`mantenimiento`,
 responsable Miguel); `maquinas` e `ingenieria` son dominios dentro
 de él, no departamentos separados.
 
-## 6. Perfiles demo (filas 4, 6 y 11 de la matriz; van a #9)
+## 6. Perfiles demo (filas 4, 6 y 11 de la matriz; los usa #61)
 
 | Persona | Puesto ficticio | Rol + alcance | Qué hace cada día | Qué toca |
 |---|---|---|---|---|
@@ -237,7 +237,7 @@ Lo mismo vale para subdepartamentos, corporativo o externos.
 
 - #5 RBAC: esta matriz como datos semilla (árbol + roles + dominios)
   + alta casi automática + filtro para la IA.
-- #9 dataset: perfiles Ana, Marta, Juan con resultado esperado por
+- #61 dataset: perfiles Ana, Marta, Juan con resultado esperado por
   documento (dueño verosímil por ficha).
 - Kira: qué ve cada nivel para prototipos (#11).
 
@@ -465,7 +465,7 @@ Ejemplo (Juan, fila 11):
 }
 ```
 
-Este bundle es el contrato que #9 usa por ficha (dueño verosímil por
+Este bundle es el contrato que #61 usa por ficha (dueño verosímil por
 documento) y #61 para generar usuarios coherentes en masa.
 
 ## 13. Capacidades delegables (nadie es indispensable)
@@ -579,5 +579,5 @@ así cuando el motor exista. Marcarlos no ejecuta nada en el repo.
 - `CASO.md` (incluye el incidente "el rollo fantasma" y el alcance del
   caso), `REQUISITOS.md` (RF-06, RF-08)
 - ADR-0009 reglas como datos, ADR-0006 IA propone humano dispone
-- Fichas de documentos: `../ingenieria/fichas/` (#9)
+- Fichas de documentos: `../ingenieria/fichas/` (#61)
 - Brief: `../briefs/historico/BRIEF-29-matriz-roles-y-dataset.md`

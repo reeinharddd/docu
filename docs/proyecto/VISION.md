@@ -71,7 +71,7 @@ guardables como producto completo.
 
 Configuración 1 es la planta sintética de empaque médico **Baja SterilPack**
 (ver `CASO.md`): no existe, no hay levantamiento real; su dataset se genera en
-paralelo (#9). Configuración 2 es una segunda instalación mínima de la misma
+paralelo (#61). Configuración 2 es una segunda instalación mínima de la misma
 compañía que debe cargar sin una línea de código nueva. La prueba de
 generalidad es la evidencia central del proyecto (RNF-07).
 

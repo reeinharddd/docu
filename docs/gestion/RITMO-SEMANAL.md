@@ -38,14 +38,24 @@ Issues y Project (`integraciones/GITHUB-GESTION.md`).
 
 ## Fechas fijadas
 
-Sprints (`GITHUB-GESTION.md`, no se redefinen): S1 diseño 12–23 oct, S2 19 oct–6 nov, S3 9–20 nov, S4 23 nov–4 dic. S1/S2 se solapan 19–23 oct por replan aprobado. Semanas de lunes a domingo (12→18, 19→25…): un brief puede durar días o varias semanas; mandan sus fechas, la semana solo marca el ritmo de syncs.
+Sprints (`GITHUB-GESTION.md`, no se redefinen): S2 diseño y método 31 oct–6 nov,
+S3 modelo e implementación 7–19 nov, S4 demo y final 20 nov–3 dic. Semanas de
+lunes a domingo: un brief puede durar días o varias semanas; mandan sus fechas,
+la semana solo marca el ritmo de syncs.
 
 | Fecha | Qué | Dónde |
 |---|---|---|
-| 2026-10-13 | Elección de marca + firma SRS + entorno y tablero listos; arrancan v0 y matriz | #41-fase1, #13/#30, #10, #43, #58, #29 |
-| 2026-10-16 | Matriz (Carlos), diagrama v0 (Emmanuel) | #29, #58 |
-| 2026-10-23 | Cierre de diseño y fin de la arquitectura (Erik, Sprint 1) | Milestone `Cierre de diseño` |
-| **2026-10-30** | **Contrato de datos para maquetas (objetivo flexible)** | Milestone `Contrato de datos congelado`, #23 |
-| 2026-11-20 | Fin del desarrollo | Milestone |
-| 2026-11-27 | Listos para presentar | Milestone |
-| 2026-12-01 | Presentación de diciembre | Milestone |
+| 2026-10-31 | Arrancan el caso, la plataforma frontend y el generador del dataset | #83, #84, #61 |
+| 2026-11-06 | Caso cerrado, método (SDD/TDD) y limpieza documental | #83, #87, #88 |
+| 2026-11-10 | Plataforma frontend en `main` | #84 |
+| **2026-11-12** | **Modelo y base de datos congelados; contrato con SHA** | Milestone `C1 modelo y BD`, #58, #60, #62, #23 |
+| 2026-11-17 | Dataset del mes completo, con manifiesto SHA-256 | #61 |
+| 2026-11-18 | Freeze de la vertical: backend, IA, dataset, permisos y frontend de punta a punta | Milestone `C1 vertical completa`, #85, #4, #7 |
+| 2026-11-19 | Verificación de punta a punta y replicabilidad | #7, #86 |
+| 2026-11-20 | Ensayo de la demo, con video de respaldo | #89 |
+| **2026-11-24** | **Demo de avances con el profesor** | Milestone `Avances profesor`, #89 |
+| **2026-12-03** | **Presentación final** | Milestone `C1 final`, #6 |
+
+Las fechas de los hitos son las de los milestones en GitHub
+(`integraciones/GITHUB-GESTION.md`). Si un milestone se mueve, se corrige esta
+tabla en el mismo PR.

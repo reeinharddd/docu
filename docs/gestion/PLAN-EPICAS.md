@@ -6,17 +6,18 @@ planificación**, no el estado. Si discrepan, gana GitHub y se corrige este
 archivo. Reconciliación: cada lunes (`RITMO-SEMANAL.md` §Lunes) se compara
 este plan con GitHub y se corrige aquí.
 
-## Fecha objetivo (flexible por decisión del líder 2026-10-12)
+## Fechas de la v2 (replanificación del líder, 2026-10-30)
 
-> **Contrato de datos: objetivo 30 de octubre de 2026 para las maquetas.**
-> Milestone `Contrato de datos congelado` e issue #23. Si se mueve, se mueve el
-> milestone y se corrige aquí en el mismo PR, con anuncio en el sync.
+> **C1 modelo y BD: 12 de noviembre de 2026.**
+> Milestone `C1 modelo y BD` (#6), issues #58, #60, #62 y #23. Si se mueve, se
+> mueve el milestone y se corrige aquí en el mismo PR, con anuncio en el sync.
 >
-> Replanificación 2026-10-09: inicio 2026-10-05 → 2026-10-12 (+7 días).
+> **C1 vertical completa: 19 de noviembre.** Milestone `C1 vertical completa` (#7).
+> **Avances profesor: 24 de noviembre.** Milestone `Avances profesor` (#8).
+> **C1 final: 3 de diciembre.** Milestone `C1 final` (#9).
 >
-> 2026-10-30: la fecha del 30-oct ya no se sostiene (#58 → #59 → #7 en cadena,
-> ninguno cerrado). El líder decide **reestructurar el alcance** antes de mover
-> el milestone; la nueva fecha sale de esa replanificación.
+> El plan completo está en `gestion/REPLAN-2026-10-30.md`; los hitos son los
+> milestones de GitHub, no las fechas de este archivo.
 
 ## Reestructuración de alcance (decisión del líder, 2026-10-30)
 
@@ -30,57 +31,54 @@ Lo que se entrega es **más pequeño y está cerrado**, no más grande a medias:
 4. **SDD y TDD** (spec antes del código, pruebas primero) para ir más rápido con
    IA sin perder seguridad ni evidencia.
 
-Consecuencia: las órdenes 6 a 18 de la tabla siguiente, los hitos y los briefs se
-replanifican. Este documento se actualiza en el PR de replanificación, junto
-con el milestone y los issues afectados. Hasta entonces, este archivo solo
-refleja el estado real en GitHub.
+Consecuencia: el trabajo ya no es una cadena de 18 órdenes; son **ocho
+carriles en paralelo** (tabla siguiente). El detalle de cada entregable está
+en el brief de su issue.
 
-## Orden de ejecución (un brief = un entregable)
+## Orden de ejecución (ocho carriles en paralelo)
 
-| Orden | Qué | Quién | Cierra | Desbloquea | Estado |
+Un carril = un brief = un entregable. Los carriles no se ejecutan en cascada:
+arrancan cuando su entrada está, y las dependencias reales están registradas
+como *blocked by* en GitHub.
+
+| Carril | Qué | Quién | Cierra | Desbloquea | Issues |
 |---|---|---|---|---|---|
-| 1 | Tablero y gestión (#43) | Erik | 13-oct | ritmo | Hecho |
-| 2 | Esenciales: entorno, reglas, agentes, CI (#10) | Erik | 13-oct | todo el equipo | Hecho (#10 cerrado 2026-10-17) |
-| 3 | Marca + elección (#41-fase1) | Kira | 13-oct | fase2, #11 | Hecho (2026-10-29: PDF de exploración + acta de marca en `docs/diseno/`) |
-| 4 | SRS + firma (#13, #30) | Erik | 13-oct | entregas | Hecho |
-| 5 | Matriz y perfiles (#29) | Carlos | 16-oct | #5, #9 | Hecho |
-| 6 | Diagrama v0 afirmado (#58) | Emmanuel | 16-oct | #59 | **En curso, en replanificación**: hay rama `feat/58-diagrama-v0` con entregable sin PR; el formato del ER sigue en discusión (ADR-0016 y ADR-0017 en Propuesta) |
-| 7 | Tokens + flujo unificados (#41-fase2, #11) | Kira | 23-oct | #4 | Tokens entregados (#41-fase2, 2026-10-29); #11 **En progreso** en el taller `design/kira-playground`, desbloqueado; fecha por definir en la replanificación |
-| 8 | Diseño de documentos (#9) | Carlos | 19-oct | #61 | Hecho |
-| 9 | Generador + dataset + plan (#61) | Carlos | 23-oct | #32 resto, #3 | Pendiente; sin fecha en el tablero |
-| 10 | v1 + seed (#59) | Emmanuel | 23-oct | #7, #60 | Pendiente; bloqueado por #58; sin fecha en el tablero |
-| 11 | Arquitectura (#60) | Erik | 23-oct | #12 | Pendiente; bloqueado por #59; sin fecha en el tablero |
-| 12 | Modelo documentado (#62) | Erik | 23-oct | #12, #3 | Pendiente; bloqueado por #59; sin fecha en el tablero |
-| 13 | OCR spike + fase 2 (#32) | Erik | 23-oct | #3 | Hecho (evaluación OCR, #32 cerrado) |
-| 14 | Verificación con carga (#7) | Emmanuel | 30-oct | #8, #23 | Pendiente; la fecha del 30-oct no se sostiene (bloqueado por #59); se replanifica |
-| 15 | Frontend completo (#4) | Kira | 20-nov | demo | Pendiente; bloqueado por #3; sin holgura (comparten fecha de cierre) |
-| 16 | API esqueleto (#12-A) | Emmanuel | 27-oct | #5 | Pendiente |
-| 17 | RBAC en servidor (#5) | Carlos+Emmanuel | 06-nov | #4, #39 | Pendiente |
-| 18 | Pipeline (#3) | Erik | 13-nov | demo | Pendiente |
+| A. Caso | Diseño del caso cerrado: personas, flujos, conversaciones, qué falla → cómo se resuelve → por qué afecta, con mapa de derivación | Erik | 6-nov | BD, plataforma, dataset, mockups | #83 |
+| B. Plataforma frontend | Estructura atomic, routing, kit, tests y CI | Erik | 10-nov | Frontend del caso | #84 |
+| C. Infra IA | Ollama con los modelos, Laya por ONNX, scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85 y #60) |
+| D. Base de datos | ER híbrido, DDL + migración, vistas, triggers, append-only, contrato con SHA | Erik | 12-nov | Backend, IA, contrato | #58, #60, #62, #23 |
+| E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas, búsqueda híbrida | Erik | 18-nov | Freeze, demo | #85 |
+| F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 |
+| G. Backend | Specs y suite desde el 3-nov; implementación: API, ingesta, reglas, cuarentena, oficial, lineage, seed, RBAC, bitácora | Emmanuel | 19-nov | Freeze, demo | #45, #12, #3, #46, #44, #5, #59, #7 |
+| H. Frontend | Spec de UI desde el 6-nov; mockups funcionales 13→16-nov; pantallas contra la API real 17→18-nov | Kira | 18-nov | Freeze, demo | #11, #4 |
 
-**Siguiente en la fila:** el **modelado de la base de datos** (C1). Arranca por
-#58 (diagrama v0 afirmado) → #59 (v1 + seed) → #60 (arquitectura) y #62 (modelo
-documentado). Puerta de ADR-0012: nada de producto hasta cerrar estas filas.
-Desde 2026-10-30 la fila se replanifica: la primera decisión pendiente es el
-formato del ER de #58 y la fecha de #59.
+**Hitos del calendario:** freeze de la vertical **18-nov** · ensayo **20-nov** ·
+demo con el profesor **24-nov** · final **3-dic**.
+
+**Reglas de la v2:**
+
+- Nada específico del caso es código: las reglas y el contrato son datos.
+- La IA (OCR, embeddings, LLM) entra en C1: sin OCR no hay caso real.
+- La demo se prepara y se ensaya antes; si algo falla, hay modo degradado y
+  video de respaldo.
+- Erik revisa todos los PRs. Un issue `En progreso` por persona.
 
 Cada brief es autocontenido: con opencode + su issue + el Project + las memorias, cualquiera ejecuta sus actividades predefinidas sin contexto previo. Si un brief exige saber de otro para continuar, ahí termina y nace uno nuevo.
 
-## Etapa actual: E1, refuerzo del repositorio
+## Etapa actual: C1, el caso de ejemplo completo
 
-Hasta tener un design system de marca y los insumos del modelo de datos, **no se
-construye frontend, backend ni base de datos**. E1 deja listos reglas,
-conocimiento, herramientas del agente, memoria y gestión para que el equipo
-trabaje sin depender de una sola persona.
+E1 (refuerzo del repositorio: reglas, entorno, briefs, herramientas del agente)
+ya está cerrada. Ahora toca **C1**: el caso de ejemplo (Baja SterilPack) corriendo
+de punta a punta, con la IA dentro y con evidencia para las dos presentaciones.
 
 ### Glosario de etapas (uso en briefs; confirma el líder)
 
 | Código | Significa | Ejemplo |
 |---|---|---|
-| E1 | Refuerzo del repositorio (esta etapa) | Reglas, entorno, briefs |
+| E1 | Refuerzo del repositorio (cerrada) | Reglas, entorno, briefs |
 | E2 | Worker y pipeline en serio | #3, worker real |
 | M1 | Backend/modelo: API, Prisma, validación | #12, #59 |
-| K1 | Frontend en construcción | #4, #41 |
+| K1 | Frontend en construcción | #4, #84 |
 | C1/C2 | Configuración 1 (Baja SterilPack) / Configuración 2 (segunda instalación) | #7, #8 |
 | S1–S4 | Sprints del calendario canónico | `GITHUB-GESTION.md` |
 
@@ -88,36 +86,49 @@ trabaje sin depender de una sola persona.
 
 | Épica (issue) | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
-| Infraestructura (#47) | 1 → 3 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #10 (hecho), #60, #8, #74 (hecho) |
-| Backend (#48) | 1 → 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #32, #39 |
-| Diseño (#53) | 1 → 2 | Kira, Erik | RNF-01 | #11 (Kira, desbloqueado tras #41); #41 (hecho 2026-10-29); #42 (Erik, hecho) |
-| Frontend (#49) | 2 → 3 | Kira | RF-01, RF-03, RF-04 | #4 |
-| QA / Documentación (#52) | 1 → 4 | Erik, Carlos | RNF-02, RNF-07 | #9, #13, #30, #61, #6, entregas |
-| Autenticación (#51) | 1 → 2 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #29, #5 |
-| Base de datos (#50) | 1 → 2 | Emmanuel | RF-08 | #58, #59, #7 |
+| Infraestructura (#47) | 2 → 4 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #60, #87, #90, #8 |
+| Backend (#48) | 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #39 |
+| Diseño (#53) | 3 | Kira, Erik | RNF-01 | #11, #84 |
+| Frontend (#49) | 3 | Kira | RF-01, RF-03, RF-04 | #4, #84 |
+| QA / Documentación (#52) | 2 → 4 | Erik, Carlos | RNF-02, RNF-07 | #61, #86, #83, #88, #89, #6 |
+| Autenticación (#51) | 3 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #5 |
+| Base de datos (#50) | 3 | Erik, Emmanuel | RF-08 | #58, #59, #62, #23, #7 |
 
 ## Dependencias (nativas en GitHub, *blocked by*)
 
+Las dependencias de la v2, registradas en GitHub y verificables con
+`gh issue view N` (panel *Development*):
+
 | Issue bloqueado | Bloqueado por | Por qué |
 |---|---|---|
-| #12 API, #3 Pipeline, #5 RBAC, #7 Configuración 1 | #10 Arquitectura y entorno | Sin `pgvector` no hay `vector`, sin BD no hay ingesta |
-| #4 Frontend | #23 Contrato de datos congelado | La maqueta consume el contrato, no la BD |
-| #4 Frontend | #3 Pde ingesta | La API entrega el dato que la pantalla cita |
-| #3 Pipeline | #7 Configuración 1 | Ordena, lee y valida por familia |
-| #8 Configuración 2 | #7 Configuración 1 | La 2 se prueba sobre datos de la 1 |
-| #3 Pipeline | #32 Evaluación OCR | RF-02 exige ≥ 90 %: se mide antes de implementar |
-| #39 Reporte y alerta | #3 Pipeline | El reporte lee datos ya ingeridos |
-| #41 Design system | #42 Playground | Hecho: el taller ya existe (`design/kira-playground`) |
-| #11 Prototipos | #41 Design system | Los mockups usan tokens y componentes aprobados |
-| #4 Frontend | #41 Design system | Puerta 1 de ADR-0012 |
-| #12 API | #60 Arquitectura, #62 Modelo documentado | Puerta 2 de ADR-0012: el modelo se define antes del código |
+| #58 ER v1 | #83 Caso | El ER deriva del caso cerrado |
+| #60 Arquitectura | #58 | La arquitectura describe el modelo ya decidido |
+| #62 Modelo | #58 | El modelo documentado describe el ER ya cerrado |
+| #23 Contrato | #62, #61 | El contrato congelado necesita modelo y dataset |
+| #59 Seed | #58, #61 | El seed necesita el DDL y los archivos del dataset |
+| #44 Solo-insert | #58 | El solo-insert se instala sobre el esquema |
+| #45 Pruebas API | #87 SDD/TDD | La puerta TDD necesita el método definido |
+| #12 API de ingesta | #45 | La API se construye con la suite primero |
+| #3 Pipeline | #12 | El pipeline usa la API de ingesta |
+| #46 Worker | #3 | El worker procesa lo que el pipeline encola |
+| #5 RBAC | #58 | Los permisos se calculan sobre el modelo |
+| #61 Dataset | #83, #58 | El dataset sale del caso y respeta el DDL |
+| #84 Plataforma FE | #87 | La plataforma se construye con el método y las guardas |
+| #85 IA | #58, #61 | La IA corre sobre el DDL y se mide con el corpus |
+| #86 Replicabilidad | #61, #59 | La replicabilidad encadena dataset y seed |
+| #7 C1 de punta a punta | #12, #3, #59, #85 | La verificación de punta a punta necesita todo |
+| #11 Mockups | #83, #84 | Los mockups salen del caso y de la plataforma |
+| #4 Frontend | #11, #12 | Las pantallas reales consumen la API |
+| #89 Demo 24-nov | #7, #4, #85 | La demo necesita la vertical completa |
+| #6 Demo final | #89 | La final se apoya en la demo de avances |
+
+Dentro del carril D (#60, #62 y #23 bloqueados por #58) las dependencias
+expresan el **orden de derivación**, no semanas de espera: el carril se
+entrega entero el 12-nov.
 
 El taller de diseño es la rama huérfana `design/kira-playground`: **nunca se
 fusiona**. A `main` solo llegan `docs/diseno/*`, `docs/diseno/tokens.json` y
 capturas; el código del taller se queda (`BRIEF-11`, `BRIEF-41-fase2`).
-
-La construcción de producto espera dos puertas: design system de marca y modelo
-de datos validado (ADR-0012).
 
 ## Riesgos
 
