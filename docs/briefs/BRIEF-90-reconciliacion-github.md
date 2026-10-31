@@ -525,6 +525,17 @@ saliera a la primera.
 | 4 | 31 pares `blocked by` | El endpoint REST de dependencias devuelve el ejemplo de la doc; se usó `--add-blocked-by` y se verificó por GraphQL |
 | 5 | 4 milestones cerrados, 0 issues abiertos dentro | Las 7 épicas quedan sin milestone: son contenedores |
 | 6 | Tablero con fechas de la v2 y solo #58 en `En progreso` | `project-sync.ts` solo rellena campos vacíos; las ventanas de sprint seactualizaron aparte |
+| 7 | Nueve documentos vivos reescritos (PR #91) | El tablero y los briefs se corrigen aparte: el plan manda sobre lo que ya estaba escrito |
+| 8 | 11 briefs reescritos, 6 archivados, 11 nuevos (PRs #92 y #93) | El briefcheck exige cinco campos de encabezado y BRIEF-90 no los tenía: eso rompía la CI de su propio PR |
+| 9 | `bun run verify` en verde y 5 PRs abiertos | El `FALTA` de `doctor` era la diferencia de patch de Bun (1.4.3 contra el pin 1.4.2): secomparó por `major.minor` (PR #95) |
+| 10 | `docs/superpowers/` borrado y 3 ADR con línea de vigencia (PR #94) | Un ADR no se reescribe: se le dice que el calendario cambió y la decisión sigue |
+
+**Preparación del lunes (2-nov).** Los ocho carriles arrancan el 2-nov en el
+tablero y el Sprint 2 va del 2-nov al 6-nov. `bun run doctor` queda sin `FALTA`.
+`db` y `redis` levantan con `--wait` y quedan sanos. `.env` y `.env.example`
+tienen las mismas variables y ningún secreto está en el repo. El trabajo del ER
+(#58) quedó restaurado en `feat/58-diagrama-v0` para que el carril D arranque
+el lunes con lo que ya estaba.
 
 **Decisiones que se tomaron al ejecutar** (quien lo lea sabe que no fueron
 invenciones):
