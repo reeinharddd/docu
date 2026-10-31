@@ -53,6 +53,9 @@ edita un documento de otro sin avisar en el PR.
 | `decisiones/ADR-*.md` | Quien decide | Erik (infra) o el dueño del módulo |
 | `ingenieria/ARQUITECTURA.md` | Erik | Emmanuel |
 | `ingenieria/MODELO-DATOS.md` | Emmanuel | Erik |
+| `ingenieria/DIAGRAMA-BD-v0.md` (#58) | Emmanuel | Erik |
+| `ingenieria/DIAGRAMA-BD-v0.drawio` y sus SVG (#58) | Emmanuel | Erik |
+| `ingenieria/DIAGRAMAS.md` (estándar de diagramas) | Erik | Emmanuel |
 | `ingenieria/ALCANCE-SOLUCION.md` | Erik | Emmanuel |
 | `ingenieria/fichas/*.md` (contrato de documentos, #9) | Carlos | Emmanuel |
 | `ingenieria/API.md`, `ingenieria/COLAS.md` | Emmanuel | Erik |

@@ -8,6 +8,9 @@
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08, RF-06
 - Bloqueado por: #58, #61, #10 · Bloquea a: #7, #62
+- Nota (2026-10-18): ADR-0016 cambió el entregable de "DBML + PNG" a **Mermaid**.
+- Nota (2026-10-19): ADR-0017 pasó el ER a **draw.io** (`.drawio` + SVG exportado
+  por página). La v1 se entrega como `DIAGRAMA-BD-v1.drawio` + SVG.
 
 ## 1. Contexto
 
@@ -21,7 +24,7 @@ Sin v1, el seed carga a ciegas y el contrato del 30-oct se congela en el aire. S
 
 | Entregable | Evidencia |
 |---|---|
-| Diagrama v1 afirmado | `DIAGRAMA-BD-v1.dbml` + PNG + nota de qué cambió vs v0 y por qué |
+| Diagrama v1 afirmado | `DIAGRAMA-BD-v1.drawio` (draw.io) + SVG + nota de qué cambió vs v0 y por qué |
 | Seed C1 reproducible | Script/config con semilla; `git diff` de código vacío salvo datos; 1 caso por constraint nuevo |
 
 ## 4. Actividades específicas
@@ -29,7 +32,7 @@ Sin v1, el seed carga a ciegas y el contrato del 30-oct se congela en el aire. S
 1. Pulir el diagrama con cada entrega del dataset: columnas que faltan, formas reales, errores que el v0 no atrapa. Terminado: v1 + nota de cambios.
 2. Endurecer constraints: cada error del dataset que pasó el v0 se vuelve `CHECK`, unique o regla como dato. Terminado: 1 caso de prueba por constraint nuevo.
 3. Escribir el seed (roles base, estados, familias, reglas R-P1..T1, umbrales). Terminado: regenera idéntico con semilla.
-4. Validar: `postgres.new` + `prisma validate` + `migrate` en local/offline. Terminado: capturas + verify verde.
+4. Validar: `prisma validate` + `migrate` en local/offline (núcleo en `postgres.new` si se quiere). Terminado: verify verde.
 
 ## 5. Entradas y salidas
 
@@ -44,7 +47,7 @@ los devuelve con motivos. Nada se cierra antes de que propongas.
 
 Para decidir solo, sin depender de nadie:
 
-- v0 afirmado (#58, `DIAGRAMA-BD-v0.dbml`) — tu punto de partida; la nota
+- v0 afirmado (#58, `DIAGRAMA-BD-v0.md`) — tu punto de partida; la nota
   de cambios vs v0 es entregable, no adorno.
 - Dataset y fichas de Carlos (#61, #9): cada error real que el v0 no atrapa
   se vuelve constraint. Syncs 16 y 23-oct para pedir lo que falte.
@@ -55,7 +58,7 @@ Para decidir solo, sin depender de nadie:
 - ADR-0009 (reglas como datos), ADR-0010 (solo-insert),
   ADR-0011 (API encola, worker procesa), ADR-0014 (raíz Planta, sin `Empresa`).
 - Skill `docu-basedatos` (mecanismos y estándares) + `ecc-prisma-patterns` (obligatoria: trampas de Prisma antes de escribir).
-- Dibujo y prueba: https://dbdiagram.io · núcleo en https://postgres.new ·
+- Diagrama: draw.io (ADR-0017, `ingenieria/DIAGRAMAS.md`) · núcleo en https://postgres.new ·
   seed idempotente: https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding.
 - Comandos: `bunx prisma migrate dev` desde `apps/api`, `bun run verify`.
   Entorno listo en #10; si el entorno falla, es bloqueo, no tu bug.
@@ -73,7 +76,7 @@ la raíz `Planta`, familias con código, migraciones antes de afirmar v1,
 
 ## 8. Criterios de aceptación
 
-- [ ] v1 + PNG afirmados el 23-oct, con nota de cambios vs v0.
+- [ ] v1 (draw.io) afirmado el 23-oct, con nota de cambios vs v0.
 - [ ] Seed idempotente con semilla; `git diff` de código vacío.
 - [ ] 1 caso por constraint nuevo; verify verde.
 - [ ] Todo en local/offline.
