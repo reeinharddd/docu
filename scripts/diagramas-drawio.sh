@@ -25,6 +25,11 @@ for f in docs/ingenieria/*.drawio; do
     docker run --rm -v "$PWD/docs/ingenieria:/data" "$IMG" \
       -x -f svg -p "$i" \
       -o "/data/diagramas/$base-$i.svg" "/data/$(basename "$f")" >/dev/null
+    # draw.io genera un id aleatorio por export (`ge-svg-<random>`): sin
+    # normalizarlo, dos exports del mismo .drawio no son iguales y la CI
+    # fallaría siempre. Se fija a un id estable para que el SVG sea
+    # reproducible byte a byte.
+    sed -i 's/ge-svg-[A-Za-z0-9_-]*/ge-svg-diagram/g' "docs/ingenieria/diagramas/$base-$i.svg"
     echo "drawio: $f página $i -> docs/ingenieria/diagramas/$base-$i.svg"
     i=$((i + 1))
   done
