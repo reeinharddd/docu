@@ -1,13 +1,13 @@
-# BRIEF #5 — RBAC en servidor, bitácora y reglas declarativas
+# BRIEF #5 — RBAC en servidor, bitácora y reglas
 
 ## 0. Encabezado
 
 - Issue: #5
-- Dueño: Carlos + Emmanuel (Erik revisa)
-- Fechas: propuesto 2026-10-27 → 2026-11-06 · Sprint 2
+- Dueño: Emmanuel Valenzuela Cruz + Carlos Ariel Martín Rojas (Erik revisa)
+- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Autenticación / permisos.
-- Requisitos: RF-06, RF-02, RNF-03
-- Bloqueado por: #12 (fase A), #29, #59 · Bloquea a: #4, #39
+- Requisitos: RF-02, RF-06, RNF-03
+- Bloqueado por: #58 · Bloquea a: #4, #39
 - Nota: los permisos viven en la API, no en la BD: sin esqueleto no hay dónde cablearlos.
 
 ## 1. Contexto
@@ -62,9 +62,33 @@ Autorización efectiva en servidor + bitácora completa + reglas como datos.
 
 No es done si: el permiso solo se oculta en front; un rol se creó en código; falta la prueba de 2 usuarios.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** Los permisos se calculan en el servidor, la bitácora registra
+quién qué cuándo y por qué, y las reglas de validación son datos cargables.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** un usuario de un departamento, **when** pide un dato de otro,
+   **then** la API lo rechaza y queda el intento en la bitácora.
+2. **Given** una regla nueva en la tabla de reglas, **when** se sube un archivo
+   que la viola, **then** va a cuarentena con ese motivo, sin tocar el código.
+3. **Given** una publicación confirmada, **when** se consulta su historial,
+   **then** devuelve origen, regla y persona, y no admite cambios.
+
+**Plan de pruebas.** Tests de la API en verde (#45) con los casos de la matriz
+de `docs/proyecto/ROLES.md`, más la prueba de dos usuarios con alcances
+distintos.
+
+**Evidencia.** Salida de los tests, una consulta a la bitácora y la captura de
+la cuarentena con motivo.
+
+**Listo cuando.** Los permisos, la bitácora y las reglas funcionan sin una
+línea de código específica del caso.
+
 ## 9. Riesgos nombrados
 
-Matriz #29 llega incompleta el 16-oct. Mitigación: arrancar con los 4 roles base + 4 acciones × 3 alcances (cerrado); el mapeo fino entra como datos después.
+La matriz de `docs/proyecto/ROLES.md` ya está afirmada, pero el mapeo fino de acciones por rol sigue creciendo con el caso. Mitigación: arrancar con los 4 roles base + 4 acciones × 3 alcances (cerrado); el resto entra como datos, nunca como `if`.
 
 ## 10. Revisión
 
@@ -72,4 +96,6 @@ Syncs con Erik; demo de escalada rechazada + bitácora al cerrar. Después: #4 p
 
 ## Versión corta (descripción del issue)
 
-> [5] RBAC + bitácora — Carlos y Emmanuel, propuesto 27-oct → 06-nov. Guards en el esqueleto #12-A + prueba 2 usuarios. Detalle: `docs/briefs/BRIEF-05-rbac-bitacora.md`.
+
+> [5] RBAC y reglas — Agent3835 y WearyBerry, 13→18-nov. Permisos en el servidor, bitácora de cambios y reglas de validación declarativas, sin lógica del caso en el código. Entradas recibidas de ADR-0009 y de las familias de docs/ingenieria/fichas/. Entregable: permisos aplicados, bitácora funcionando y reglas cargadas como datos. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-05-rbac-bitacora.md`.
+

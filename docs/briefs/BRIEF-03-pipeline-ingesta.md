@@ -1,13 +1,13 @@
-# BRIEF #3 — Pipeline de ingesta, OCR y clasificación
+# BRIEF #3 — Pipeline: archivo → reglas → oficial
 
 ## 0. Encabezado
 
 - Issue: #3
-- Dueño: Erik (ejecuta), Emmanuel (revisa).
-- Fechas: propuesto 2026-10-26 → 2026-11-13 · Sprint 2
+- Dueño: Emmanuel Valenzuela Cruz (Backend).
+- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / Backend / ingesta.
-- Requisitos: RF-01, RF-02, RNF-04
-- Bloqueado por: #59, #32, #10 · Bloquea a: #4, #39
+- Requisitos: RF-01, RF-02
+- Bloqueado por: #12 · Bloquea a: #46, #7
 
 ## 1. Contexto
 
@@ -65,6 +65,33 @@ Fase A (diseño worker + colas, tras #32): estructura sin OCR final. Fase B (int
 
 No es done si: OCR corre en la API; un inválido se borra en silencio; la demo usa datos a mano.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** El pipeline toma un archivo de una familia del dataset, lo valida
+con las reglas de `docs/ingenieria/fichas/`, y produce el dato oficial con su
+origen, la regla aplicada y la persona que confirmó. Lo que no valida va a
+cuarentena con motivo.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** un archivo válido de una familia, **when** el pipeline lo procesa,
+   **then** sale un dato oficial con su hash, su familia, su regla y su origen.
+2. **Given** un archivo inválido, **when** el pipeline lo procesa, **then** va a
+   cuarentena con motivo visible y el original sigue intacto.
+3. **Given** el dataset completo del mes, **when** corre el pipeline entero,
+   **then** termina sin intervention manual y el conteo por familia cuadra con
+   el manifiesto SHA-256.
+
+**Plan de pruebas.** Suite de la API en verde (#45), el OCR medido sobre el
+corpus de C1 (`docs/ingenieria/OCR.md`), y una corrida completa del pipeline
+con su salida pegada.
+
+**Evidencia.** Bitácora de la corrida con el conteo por familia, capturas de la
+cuarentena y del oficial, y el PR con `Closes #3`.
+
+**Listo cuando.** El pipeline corre de punta a punta sobre el dataset del mes y
+el dato oficial se puede citar con su origen.
+
 ## 9. Riesgos nombrados
 
 OCR no alcanza el 90 % (#32). Mitigación: pipeline por fases (reglas primero, Tesseract después); si ningún motor da, se recorta a reglas + humano con motivo, con ADR.
@@ -75,4 +102,6 @@ Syncs con Emmanuel (revisor) y Carlos (dataset). Demo de cadena al cerrar fase B
 
 ## Versión corta (descripción del issue)
 
-> [3] Pipeline ingesta/OCR — Erik, propuesto 26-oct → 13-nov. Worker BullMQ + OCR de #32 + C1 de #7, cadena motivada. Detalle: `docs/briefs/BRIEF-03-pipeline-ingesta.md`.
+
+> [3] Pipeline: archivo → reglas → oficial — Agent3835, 13→18-nov. El archivo entra, las reglas lo validan y sale el oficial, con frontend y backend conectados. Entradas recibidas de la API de ingesta (#12), del OCR (#85) y del worker (#46). Entregable: pipeline corriendo de punta a punta sobre el dataset del mes. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-03-pipeline-ingesta.md`.
+

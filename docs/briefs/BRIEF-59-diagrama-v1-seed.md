@@ -1,13 +1,13 @@
-# BRIEF #59 — Diagrama BD v1 + seed C1
+# BRIEF #59 — Seed reproducible desde el dataset
 
 ## 0. Encabezado
 
 - Issue: #59
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-10-16 → 2026-10-23 · Sprint 1 · hito Cierre de diseño
+- Fechas: 2026-11-17 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
-- Requisitos: RF-08, RF-06
-- Bloqueado por: #58, #61, #10 · Bloquea a: #7, #62
+- Requisitos: RF-08
+- Bloqueado por: #58, #61 · Bloquea a: #7, #86
 
 ## 1. Contexto
 
@@ -15,7 +15,7 @@ El v0 (#58) se afirmó con lo básico. Este brief lo refina con lo que el datase
 
 ## 2. Por qué importa tu parte
 
-Sin v1, el seed carga a ciegas y el contrato del 30-oct se congela en el aire. Si sale bien, #7 carga solo con datos y #60 documenta el modelo final.
+Sin DDL aplicado, el seed carga a ciegas y el contrato del 12-nov se congela en el aire. Si sale bien, #7 carga solo con datos y el modelo queda documentado en #62.
 
 ## 3. Objetivo y resultado esperado
 
@@ -44,27 +44,53 @@ Sin v1, el seed carga a ciegas y el contrato del 30-oct se congela en el aire. S
 
 ## 7. Cómo trabajar
 
-- `/tarea 59`, rama `feat/59-diagrama-v1-seed`. Dos syncs con Carlos (16 y 23-oct).
+- `/tarea 59`, rama `feat/59-seed-reproducible`. Dos syncs con Carlos (17 y 18-nov).
 - EMMANUEL NO DEBE: cambiar la raíz `Instalacion`; meter familias con código; tocar migraciones antes de afirmar v1.
 - TypeScript estricto, `.env` fuera del repo. Bloqueo >24 h con `bloqueado`.
 
 ## 8. Criterios de aceptación
 
-- [ ] v1 + PNG afirmados el 23-oct, con nota de cambios vs v0.
+- [ ] Seed idempotente, con el conteo por familia igual al manifiesto SHA-256.
 - [ ] Seed idempotente con semilla; `git diff` de código vacío.
 - [ ] 1 caso por constraint nuevo; verify verde.
 - [ ] Todo en local/offline.
 
 No es done si: reaparece `Empresa`; el seed no regenera idéntico.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** El seed carga el dataset del mes en la base de forma
+determinista: misma entrada, misma salida, sin depender del orden ni del
+estado previo.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** la base vacía y el dataset del mes, **when** corre el seed, **then**
+   el conteo por familia queda igual al manifiesto SHA-256.
+2. **Given** la base ya sembrada, **when** corre el seed otra vez, **then** el
+   resultado es idéntico y no hay filas duplicadas.
+3. **Given** un archivo inválido del dataset, **when** corre el seed, **then**
+   se registra como error esperado con su motivo, sin abortar la carga.
+
+**Plan de pruebas.** Dos corridas seguidas con comparación de conteos y hashes,
+la suite de la API en verde (#45) y la corrida completa con su salida pegada.
+
+**Evidencia.** Conteo por familia en las dos corridas, el manifiesto SHA-256 del
+dataset y el PR con `Closes #59`.
+
+**Listo cuando.** Dos corridas del seed dan el mismo resultado y el conteo
+cuadra con el manifiesto.
+
 ## 9. Riesgos nombrados
 
-Dataset incompleto al 23-oct. Mitigación: syncs 16/23; desde el 23-oct sin dataset completo es bloqueo (frena seed y #7).
+Dataset incompleto al 17-nov. Mitigación: syncs 17/18; desde el 18-nov sin dataset completo es bloqueo (frena el seed y #7).
 
 ## 10. Revisión
 
-Viernes 23-oct en el sync: afirmación v1 + demo del seed. Después: #7 carga, #60 documenta.
+Miércoles 18-nov en el sync: demo del seed con dos corridas idénticas. Después: #7 carga.
 
 ## Versión corta (descripción del issue)
 
-> [59] Diagrama v1 + seed — Emmanuel, 16→23-oct. Refina con dataset, endurece constraints, seed reproducible. Requiere #58 + #9 + #10. Detalle: `docs/briefs/BRIEF-59-diagrama-v1-seed.md`.
+
+> [59] Seed reproducible — Agent3835, 17→18-nov. Seed determinista que carga el dataset en la base sin depender del orden ni del estado previo. Entradas recibidas de docs/ingenieria/fichas/CONTRATO.md y del manifiesto SHA-256 del dataset. Entregable: seed idempotente, con la evidencia de que dos corridas dan el mismo resultado. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-59-diagrama-v1-seed.md`.
+

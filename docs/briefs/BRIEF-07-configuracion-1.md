@@ -1,13 +1,13 @@
-# BRIEF #7 — Verificación intermedia: carga directa con datos crudos
+# BRIEF #7 — C1: carga del dataset y verificación de punta a punta
 
 ## 0. Encabezado
 
 - Issue: #7
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-10-23 → 2026-10-30 · Sprint 2 · hito Contrato flexible
+- Fechas: 2026-11-13 → 2026-11-19 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: media / historia / Base de datos / base de datos.
-- Requisitos: RF-08, RF-02, RNF-05, RNF-06
-- Bloqueado por: #59, #10 · Bloquea a: #8, #3, #23
+- Requisitos: RF-08
+- Bloqueado por: #12, #3, #59, #85 · Bloquea a: #8, #89
 
 ## 1. Contexto
 
@@ -66,14 +66,42 @@ Es la prueba de RF-08: si C1 carga con `git diff` de código vacío, C2 (#8) es 
 
 No es done si: una familia exigió código; un inválido se borró en silencio.
 
+### 8.1 Contrato, pruebas y criterio de listo
+
+**Contrato.** El dataset del mes se carga en la base con el seed reproducible y
+la cadena completa produce el dato oficial; el conteo por familia cuadra con
+el manifiesto SHA-256.
+
+**Criterios (Given/When/Then).**
+
+1. **Given** el dataset del mes y el DDL aplicado, **when** corre el seed dos
+   veces, **then** el resultado es idéntico y el conteo por familia cuadra con
+   el manifiesto.
+2. **Given** la base cargada, **when** el pipeline procesa el corpus entero,
+   **then** los válidos llegan al oficial y los inválidos a cuarentena con
+   motivo, sin intervention manual.
+3. **Given** un archivo con una familia nueva, **when** se procesa, **then** el
+   sistema no se rompe: lo procesa o lo manda a cuarentena con motivo.
+
+**Plan de pruebas.** Suite de la API en verde (#45), seed con su prueba de
+repetibilidad, y la corrida completa del corpus con su bitácora.
+
+**Evidencia.** Conteo por familia contra el manifiesto SHA-256, bitácora de la
+corrida y capturas del oficial y de la cuarentena.
+
+**Listo cuando.** El caso corre de punta a punta sobre el dataset del mes y el
+resultado es reproducible por otra persona.
+
 ## 9. Riesgos nombrados
 
-El contrato se mueve (30-oct flexible) o el seed falla contra v1. Mitigación: seed probado desde el 23-oct; sin v1 afirmado no se carga (bloqueo, no parche).
+El contrato se mueve (12-nov) o el seed falla contra el DDL. Mitigación: seed probado en cuanto el DDL esté aplicado; sin migración aplicada no se carga (bloqueo, no parche).
 
 ## 10. Revisión
 
-Viernes 30-oct con Erik y Carlos: demo de carga + reporte. Después: #8 C2.
+Jueves 19-nov con Erik y Carlos: demo de carga + reporte. Después: #89 (demo) y #8 C2.
 
 ## Versión corta (descripción del issue)
 
-> [7] Verificación con carga directa — Emmanuel, 23→30-oct. Script con datos crudos + cadena + reporte; si falla se devuelve a #59. Requiere #59 + #10. Detalle: `docs/briefs/BRIEF-07-configuracion-1.md`.
+
+> [7] C1 de punta a punta — Agent3835, 13→19-nov. La historia que demuestra que el sistema funciona con el dataset del mes, de la carga a la revisión. Entradas recibidas del dataset (#61), del seed (#59) y del pipeline (#3). Entregable: carga del dataset y verificación de punta a punta, con la evidencia. Revisión el 19-nov. Detalle: `docs/briefs/BRIEF-07-configuracion-1.md`.
+
