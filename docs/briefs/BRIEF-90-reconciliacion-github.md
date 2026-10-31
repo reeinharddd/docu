@@ -72,6 +72,18 @@ gh api repos/{owner}/{repo}/milestones -f title='Post-C1' \
   -f description='Trabajo posterior a la presentacion final, sin fecha.'
 ```
 
+**Ojo con las fechas:** al crearlos con `POST`, GitHub guardó cada `due_on` un día
+antes de lo enviado. Hay que corregirlo con `PATCH`, que sí guarda lo que se le
+manda:
+
+```bash
+gh api repos/{owner}/{repo}/milestones/6 -X PATCH -f due_on='2026-11-12T00:00:00Z'
+```
+
+Los milestones quedaron: #6 C1 modelo y BD (12-nov), #7 C1 vertical completa
+(19-nov), #8 Avances profesor (24-nov), #9 C1 final (3-dic), #10 Post-C1 (sin
+fecha).
+
 ### Actividad 2 — Crear los 8 issues nuevos
 
 **Entregable:** #83–#90 creados. **Terminado cuando** los 8 aparecen en
@@ -101,12 +113,33 @@ gh issue create --title 'Caso C1: involucrados, responsabilidades, flujos y conv
 
 **Los 8 se crean con este patrón**, uno por uno, con el cuerpo de su fila.
 
-### Actividad 3 — Reescribir los 18 issues existentes
+### Actividad 3 — Reescribir los issues existentes
 
 **Entregable:** cada issue con el título, el responsable, las etiquetas y el
 milestone de la v2. **Terminado cuando** `gh issue view N` de cada uno muestra
-esos valores. `gh issue edit --label` **reemplaza** el juego completo de
-etiquetas: hay que pasar todas.
+esos valores.
+
+**La tabla tiene 17 filas** (incluye #23, que se reabre). El plan hablaba de
+18; el número real es 17. Los issues #18, #19, #20 y #39 no aparecen en la
+tabla: son subtareas de backend que ya tienen título y etiquetas correctos, así
+que solo se les mueve el milestone (actividad 5).
+
+**Cómo editar:** esta versión de `gh issue edit` no tiene `--label` (solo
+`--add-label` y `--remove-label`), y `gh issue edit --add-label` no borra lo
+que había. El API REST sí reemplaza el juego completo de una:
+
+```bash
+gh api repos/{owner}/{repo}/issues/58 -X PATCH \
+  -f title='ER v1 de C1: draw.io fuente + texto derivado, DDL, vistas, triggers y migración' \
+  -f body='> [58] ER v1 — reeinharddd, 12-nov. ...' \
+  -f milestone=6 \
+  -f 'labels[]=tipo:tarea' -f 'labels[]=prioridad:alta' -f 'labels[]=sprint:3' \
+  -f 'labels[]=epica:base-de-datos' -f 'labels[]=RF-08' \
+  -f 'assignees[]=reeinharddd'
+```
+
+Los milestones por número: 6 C1 modelo y BD · 7 C1 vertical completa ·
+8 Avances profesor · 9 C1 final · 10 Post-C1.
 
 | # | Título nuevo | Dueño | Fecha | Sprint | Milestone | Etiquetas |
 |---|---|---|---|---|---|---|
@@ -168,14 +201,23 @@ fecha se reprograma.
 | 6 | 89 | La final se apoya en la demo de avances |
 
 ```bash
-gh api repos/{owner}/{repo}/issues/58/dependencies/blocked_by -X POST -F dependency_issue_id=83
+gh issue edit 58 --add-blocked-by 83
 ```
 
-**Una llamada por fila.** Verificar con:
+**Una llamada por par.** El endpoint REST
+`issues/N/dependencies/blocked_by` **no sirve para esto**: devuelve el ejemplo
+de la documentación de GitHub (otro repo) con 200 OK, o sea que da un falso
+"creado". Las dependencias se crean con `gh issue edit N --add-blocked-by M` y
+se verifican por GraphQL, que sí ve el grafo real:
 
 ```bash
-gh api repos/{owner}/{repo}/issues/89/dependencies/blocked_by --jq '.[].number'
+gh api graphql --jq '.data.repository.issues.nodes[] | select(.number==89) | [.blockedBy.nodes[].number]'
 ```
+
+Si el par ya existe, GitHub responde `Target issue has already been taken`: es
+el par viejo, no un error. Y si el par nuevo cierra un ciclo, hay que quitar
+el viejo (`gh issue edit 3 --remove-blocked-by 7`): el grafo viejo tenía
+#3 bloqueado por #7 y el plan pide #7 bloqueado por #3.
 
 ### Actividad 5 — Mover los issues y cerrar los milestones viejos
 
@@ -206,10 +248,23 @@ gh project item-list 1 --owner reeinharddd --format json --limit 100 \
   --jq '.items[]|select(.content.number>=58)|"\(.content.number) \(.status) \(.content.title)"'
 ```
 
+**Ojo:** `scripts/project-sync.ts` solo **rellena campos vacíos**; no refresca
+una fecha vieja ni baja un `En progreso` que ya no aplica. Como el tablero
+tenía las fechas de octubre y #11 en `En progreso`, hubo que corregirlo a mano
+con un script operativo (GraphQL: `updateProjectV2ItemFieldValue` y
+`updateProjectV2Field`). Arreglar el script para que refresque es trabajo de
+#87 y #88, no de este brief.
+
+Las ventanas de sprint de la v2 (derivadas de los carriles del plan):
+
+| Sprint | Ventana | Trabajo |
+|---|---|---|
+| Sprint 2 | 31-oct → 6-nov | Caso, método, limpieza, reconciliación |
+| Sprint 3 | 7-nov → 19-nov | Modelo, plataforma, dataset, backend, IA, frontend |
+| Sprint 4 | 20-nov → 3-dic | Demo y final |
+
 Después de la sincronización, **solo #58** queda `En progreso` (es el trabajo
-que Erik tiene abierto). Si el Project no acepta la etiqueta de estado por
-API, se deja `En progreso` en #58 desde la interfaz, como se documenta en
-`docs/integraciones/GITHUB-GESTION.md`.
+que Erik tiene abierto). #8 queda sin fechas: es post-3-dic.
 
 ### Actividad 7 — Quitar de los documentos vivos las fechas y los hitos viejos
 
@@ -241,14 +296,14 @@ corrige en este mismo PR.
 
 ### Actividad 8 — Dejar los briefs al día
 
-**Entregable:** 8 briefs nuevos, 18 reescritos, 7 archivados. **Terminado
+**Entregable:** 11 briefs nuevos, 11 reescritos, 6 archivados. **Terminado
 cuando** cada issue abierto tiene un brief que coincide con su título, su
 fecha y su responsable, y `docs/.indice` no tiene discrepancias.
 
 1. **Archivar al histórico** (issues cerrados): `BRIEF-10-arquitectura-entorno.md`,
    `BRIEF-13-srs.md`, `BRIEF-32-evaluacion-ocr.md`, `BRIEF-41-marca-fase1.md`,
-   `BRIEF-41-fase2-design-system.md`, `BRIEF-42-playground-diseno.md` y
-   `BRIEF-43-gestion-project.md` → `docs/briefs/historico/`.
+   `BRIEF-41-fase2-design-system.md` y `BRIEF-42-playground-diseno.md` →
+   `docs/briefs/historico/`. `BRIEF-43-gestion-project.md` ya está ahí.
 2. **Reescribir** los briefs de los issues que cambian de título o fecha:
    `BRIEF-58`, `BRIEF-59`, `BRIEF-60`, `BRIEF-61`, `BRIEF-62`, `BRIEF-03`,
    `BRIEF-04`, `BRIEF-05`, `BRIEF-07`, `BRIEF-11` y `BRIEF-12`. Cada uno
@@ -258,7 +313,8 @@ fecha y su responsable, y `docs/.indice` no tiene discrepancias.
    `BRIEF-44-solo-insert.md`, `BRIEF-06-demo-final.md`,
    `BRIEF-83-caso-c1.md`, `BRIEF-84-plataforma-frontend.md`,
    `BRIEF-85-integracion-ia.md`, `BRIEF-86-replicabilidad.md`,
-   `BRIEF-87-sdd-tdd.md`, `BRIEF-88-limpieza.md`, `BRIEF-89-demo-24-nov.md`.
+   `BRIEF-87-sdd-tdd.md`, `BRIEF-88-limpieza.md`, `BRIEF-89-demo-24-nov.md`
+   y `BRIEF-46-worker-bullmq.md`.
    `BRIEF-08` se crea cuando #8 se reprograme, no ahora.
    `BRIEF-46-worker-bullmq.md` **existe en el historial** (commit `3ca1e8a`, en
    la rama `feat/58-diagrama-v0`) pero nunca llegó a `main`: se recupera y se
@@ -270,23 +326,27 @@ fecha y su responsable, y `docs/.indice` no tiene discrepancias.
 
 ### Actividad 9 — Verificar y abrir los PRs
 
-**Entregable:** 5 PRs con evidencia. **Terminado cuando** `bun run verify` está
+**Entregable:** 4 PRs con evidencia. **Terminado cuando** `bun run verify` está
 verde y cada PR cita su resultado.
 
 | PR | Contenido | Rama |
 |---|---|---|
-| C1 | GitHub: milestones, issues, dependencias, tablero | `docs/reconciliacion-github` |
-| C2 | Briefs nuevos de #83–#90 | `docs/briefs-nuevos` |
-| C3 | Briefs reescritos de los issues existentes | `docs/briefs-v2` |
+| C2 | Briefs nuevos (#83–#89, #44, #45, #46, #06) | `docs/briefs-nuevos` |
+| C3 | Briefs reescritos y archivados | `docs/briefs-v2` |
 | C4 | Los 9 documentos vivos de la actividad 7 | `docs/gestion-v2` |
 | C5 | Barrido de contenido obsoleto (actividad 10) | `chore/barrido-basura` |
+
+La reconciliación de GitHub (actividades 1 a 6) **no produce PR**: son cambios
+de estado en GitHub, no de archivos. Su evidencia queda en la sección
+"Ejecución" de este brief y en el tablero.
 
 ```bash
 bun run verify
 ```
 
 Los PRs de docs llevan la etiqueta `sin-issue`; los de código llevan
-`Closes #N`.
+`Closes #N`. Las ramas salen de `docs/replan-c1-v2` (PR #82): al mergear #82,
+el diff de cada una queda solo con lo suyo.
 
 ### Actividad 10 — Barrido del contenido obsoleto
 
@@ -446,3 +506,32 @@ Cinco formas de falla que la spec implica y que ninguna prueba cubre:
    asigne un trabajo que ya no es de esa persona. Pin: el `grep` de la
    actividad 7 vacío, ejecutado como criterio de aceptación y no como
    revisión visual.
+
+## Ejecución (2026-10-31)
+
+Lo que la ejecución encontró y cambió, para que el plan no se lea como si
+saliera a la primera.
+
+| Actividad | Resultado | Hallazgo |
+|---|---|---|
+| 1 | Milestones #6 a #10 creados | El POST guarda el `due_on` un día antes; se corrigió con PATCH |
+| 2 | #83 a #90 creados | Los números caen como dice el plan porque se crearon en orden |
+| 3 | 17 issues reescritos, #23 reabierta | Esta versión de `gh issue edit` no tiene `--label`; se usó el API REST |
+| 4 | 31 pares `blocked by` | El endpoint REST de dependencias devuelve el ejemplo de la doc; se usó `--add-blocked-by` y se verificó por GraphQL |
+| 5 | 4 milestones cerrados, 0 issues abiertos dentro | Las 7 épicas quedan sin milestone: son contenedores |
+| 6 | Tablero con fechas de la v2 y solo #58 en `En progreso` | `project-sync.ts` solo rellena campos vacíos; las ventanas de sprint seactualizaron aparte |
+
+**Decisiones que se tomaron al ejecutar** (quien lo lea sabe que no fueron
+invenciones):
+
+- El plan hablaba de 18 issues a reescribir; la tabla tenía 17 (con #23
+  incluido). Los que no estaban en la tabla (#18, #19, #20, #39) son subtareas
+  de backend con título y etiquetas ya correctos: solo se les movió el
+  milestone.
+- Las dependencias del plan dentro del carril D (#60, #62 y #23 bloqueados por
+  #58) comparten fecha de cierre con #58: el carril D se entrega entero el
+  12-nov y las dependencias expresan el orden de derivación dentro del carril,
+  no semanas de espera.
+- #8 (C2) queda sin fechas en el tablero: es post-3-dic.
+- La reconciliación de GitHub no produce PR: no hay archivos que cambien. Su
+  evidencia es esta tabla y el tablero.
