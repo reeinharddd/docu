@@ -87,7 +87,6 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad, replanificación de C1 (2026-10-30) | en revisión |
 | `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
-| `superpowers/` | Olas, planes y specs del flujo de trabajo | histórico |
 | `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
 
 Los directorios marcados `pendiente` están vacíos a propósito: se crean cuando
