@@ -4,7 +4,7 @@
 
 - Issue: #45 — https://github.com/reeinharddd/docu/issues/45
 - Dueño: Emmanuel Valenzuela Cruz (`Agent3835`)
-- Fechas: 2026-11-02 → 2026-11-06 · Sprint 2 · hito `C1 modelo y BD` (12-nov)
+- Fechas: 2026-11-02 → 2026-11-12 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / Backend / calidad
 - Requisitos: RNF-04, RNF-07
 - Bloqueado por: — · Bloquea a: #12, #3, #85, #86
@@ -112,9 +112,9 @@ se acepta, pero no se deja para después.
 
 ## 10. Revisión
 
-Viernes 6-nov en el sync: se corre la suite en limpio frente al equipo y se
-afirma o se devuelve con motivos. Después: #12 empieza con la puerta abierta.
+Jueves 12-nov en el sync: se corre la suite en limpio frente al equipo y se afirma
+o se devuelve con motivos. La puerta queda abierta para #12 y #3 desde el 13-nov.
 
 ## Versión corta (descripción del issue)
 
-> [45] Suite de pruebas de la API — Agent3835, 2→6-nov. La puerta TDD: runner, base de pruebas aislada, patrón de integración y CI que bloquea el merge. Entradas recibidas de apps/api y de scripts/smoke-api.sh. Entregable: suite verde en clone limpio, corriendo en CI. Revisión el 6-nov. Detalle: `docs/briefs/BRIEF-45-pruebas-api.md`.
+> [45] Suite de pruebas de la API — Agent3835, 2→12-nov. La puerta TDD: runner, base de pruebas aislada, patrón de integración y CI que bloquea el merge. Entradas recibidas de apps/api y de scripts/smoke-api.sh. Entregable: suite verde en clone limpio, corriendo en CI. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-45-pruebas-api.md`.

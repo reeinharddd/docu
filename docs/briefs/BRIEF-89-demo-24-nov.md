@@ -4,7 +4,7 @@
 
 - Issue: #89 — https://github.com/reeinharddd/docu/issues/89
 - Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`)
-- Fechas: 2026-11-19 → 2026-11-24 · Sprint 4 · hito `Avances profesor` (24-nov)
+- Fechas: 2026-11-18 → 2026-11-20 · Sprint 4 · hito `Avances profesor` (24-nov)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / QA-Documentación / demo
 - Requisitos: RF-01, RF-02, RF-03, RF-04
 - Bloqueado por: #7, #4, #11 · Bloquea a: #6
@@ -14,13 +14,13 @@
 El 24-nov se muestran avances al profesor. La demo no es un showcase: es la
 prueba de que el sistema hace lo que el caso dice, con los datos reales del
 mes. Este brief fija el guion, la evidencia que hay que tener lista y el
-ensayo del 20-nov, un día antes del freeze.
+ensayo del 20-nov, dos días después del freeze del 18-nov.
 
 ## 2. Por qué importa tu parte
 
-Si el guion se arma el 24-nov por la mañana, la demo se improvisa y se
-resumen las weakest partes. Si está listo el 19-nov, el 20-nov se ensaya, el
-21 y 22 se arregla lo que salió mal y el 24 se ejecuta. #6 (demo final) depende
+Si el guion se arma el 24-nov por la mañana, la demo se improvisa y se resumen
+las partes flojas. Si está listo el 20-nov, el 20-nov se ensaya, el 21 y 22 se
+arregla lo que salió mal y el 24 se ejecuta. #6 (demo final) depende
 de que esta sea creíble.
 
 ## 3. Objetivo y resultado esperado
@@ -111,4 +111,4 @@ acta en el issue.
 
 ## Versión corta (descripción del issue)
 
-> [89] Demo del 24-nov — reeinharddd, 19→24-nov. Guion de la demo, evidencia lista y ensayo previo. Entradas recibidas de la vertical completa (#7), del frontend (#4) y de los mockups (#11). Entregable: guion, evidencia, acta del ensayo y demo ejecutada. Revisión el 24-nov. Detalle: `docs/briefs/BRIEF-89-demo-24-nov.md`.
+> [89] Demo del 24-nov — reeinharddd, 18→20-nov. Guion de la demo, evidencia lista y ensayo previo. Entradas recibidas de la vertical completa (#7), del frontend (#4) y de los mockups (#11). Entregable: guion, evidencia, acta del ensayo y demo ejecutada. La demo se presenta el 24-nov y el acta queda en este issue. Revisión el 20-nov. Detalle: `docs/briefs/BRIEF-89-demo-24-nov.md`.
