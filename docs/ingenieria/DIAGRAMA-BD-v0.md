@@ -117,6 +117,13 @@ viven en las fichas de la Fase 1 (abajo), que es donde se leen sin ruido.
 > draw.io / diagrams.net y se exporta a SVG. GitHub no renderiza `.drawio`, por eso
 > el SVG vive al lado y es lo que se embebe. Al cambiar el diagrama se re-exporta
 > la página correspondiente (`bun run diagramas:drawio`) y se sobreescribe su SVG.
+>
+> SHA-256 de la fuente: `5221c3e754e10f4ee547045135c7fab2bafd1e0b2d5cdcf1afb500e4a5fbe3a2`
+>
+> Esa huella es lo que hace trazable el diagrama: `bun run diagramas:check` la
+> recalcula y falla si el `.drawio` cambió sin que este texto se actualice, y
+> además comprueba que cada tabla del diagrama esté en la matriz de clases de más
+> abajo. Editar el diagrama obliga a editar su texto: no se desincronizan solos.
 
 Cada tabla es una **tabla nativa de draw.io** (`shape=table` con filas y celdas
 `shape=tableRow` / `shape=partialRectangle`), no cajas dibujadas a mano: se

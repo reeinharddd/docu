@@ -8,6 +8,20 @@ Regla base: **el ER de la base de datos vive en draw.io (`.drawio`) y el resto d
 diagramas es texto Mermaid dentro de un `.md`**. Mermaid se revisa como diff y
 GitHub lo pinta solo. draw.io se usa donde el layout manual importa: el ER.
 
+**Docs as code (ADR-0017, aceptada 2026-10-31).** Todo diagrama vive dentro del
+repositorio, en texto, visible, modificable y trazable:
+
+- **Dentro del repo.** El `.drawio`, el texto derivado y los SVG exportados están
+  versionados aquí. No hay copia en Drive, ni en una cuenta de draw.io, ni en un
+  wiki: el diagrama se lee y se modifica con el repo abierto.
+- **Visible sin herramientas.** El texto derivado es la lectura: tablas, campos,
+  clases, constraints y trazabilidad se leen en el `.md`. El `.drawio` aporta el
+  layout; el SVG exportado es lo que GitHub muestra.
+- **Trazable de verdad.** El texto declara el SHA-256 de la fuente
+  (`SHA-256 de la fuente: …`) y `bun run diagramas:check` comprueba que el hash
+  siga vigente y que las tablas del diagrama y las del texto sean las mismas.
+  Editar el diagrama sin actualizar su texto rompe la CI.
+
 ## 1. Tipos permitidos y para qué
 
 | Tipo | Herramienta | Cuándo | Dónde vive |
@@ -140,3 +154,21 @@ bun run diagramas:drawio   # re-exporta los SVG de todos los .drawio (Docker)
 - [ ] Ids en inglés, etiquetas en español.
 - [ ] Cada tabla del ER muestra campos y PK/FK; el porqué está en la ficha.
 - [ ] El SVG embebido existe y se ve (no es un archivo viejo).
+
+## 5. Gate: qué se comprueba y qué falla
+
+`bun run diagramas:check` (corre en `verify` y en CI) falla, con archivo y línea:
+
+| Qué | Qué falla |
+|---|---|
+| Mermaid | Un bloque `mermaid` que no parsea (cualquier `.md` del repo, y los `.mmd`) |
+| draw.io | Un `.drawio` que no es XML válido, sin páginas, o sin SVG exportado por página; o un SVG sin página que lo respalde |
+| Trazabilidad | El `.md` derivado sin SHA-256 de la fuente, con el hash desactualizado, con una tabla del diagrama que no está en la matriz de clases, o una tabla de la matriz que no está en el diagrama |
+
+Flujo de trabajo cuando cambia el ER:
+
+1. Edita `docs/ingenieria/DIAGRAMA-BD-<v>.drawio` (draw.io) y exporta el SVG de
+   cada página con `bun run diagramas:drawio`.
+2. Actualiza el texto derivado: la matriz de clases, las fichas y el
+   `SHA-256 de la fuente`.
+3. `bun run verify`. Si el hash no cuadra, el gate te dice cuál es el nuevo.

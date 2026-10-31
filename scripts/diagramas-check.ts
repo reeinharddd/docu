@@ -7,10 +7,15 @@
  * 2. draw.io: comprueba que cada `ingenieria/*.drawio` sea XML válido, que tenga
  *    páginas y que cada página tenga su SVG exportado en `ingenieria/diagramas/`
  *    (y que no sobre ningún SVG huérfano).
+ * 3. Trazabilidad fuente→texto: el `.md` derivado declara el SHA-256 del
+ *    `.drawio`, y toda tabla del diagrama tiene que estar en la matriz de clases
+ *    del `.md` (y al revés). Editar el diagrama obliga a actualizar el texto: no
+ *    se desincronizan en silencio.
  *
  * Estándar: docs/ingenieria/DIAGRAMAS.md (ADR-0017). Corre en `bun run verify` y
  * en CI. No renderiza a imagen: el export del ER es `bun run diagramas:drawio`.
  */
+import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { JSDOM } from 'jsdom'
@@ -113,6 +118,7 @@ const SVG_DIR = join(DRAWIO_DIR, 'diagramas')
 const esperados = new Set<string>()
 let paginas = 0
 let problemas = 0
+let tablasTotales = 0
 
 for (const e of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
   if (!e.isFile() || !e.name.endsWith('.drawio')) continue
@@ -143,6 +149,66 @@ for (const e of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
       )
     }
   }
+
+  // ── trazabilidad: el .md derivado declara el hash y las tablas ─────────────
+  const tablasUnicas = [
+    ...new Set(
+      [
+        ...readFileSync(archivo, 'utf8').matchAll(
+          /<mxCell[^>]*\bvalue="([^"]+)"[^>]*\bstyle="[^"]*shape=table[;"]/g,
+        ),
+      ]
+        .map((m) => m[1])
+        .filter((v) => /^[a-z][a-z0-9_]*$/.test(v)),
+    ),
+  ]
+  tablasTotales += tablasUnicas.length
+
+  const md = join(DRAWIO_DIR, `${base}.md`)
+  if (!existsSync(md)) {
+    problemas++
+    console.error(`✗ ${archivo} — sin texto derivado: ${md}`)
+  } else {
+    const texto = readFileSync(md, 'utf8')
+
+    const hash = createHash('sha256')
+      .update(readFileSync(archivo))
+      .digest('hex')
+    const declarado = texto.match(/SHA-256 de la fuente:\s*`([0-9a-f]{64})`/i)
+    if (!declarado) {
+      problemas++
+      console.error(`✗ ${md} — no declara el SHA-256 de la fuente`)
+    } else if (declarado[1] !== hash) {
+      problemas++
+      console.error(
+        `✗ ${md} — SHA-256 desactualizado: dice ${declarado[1]}, la fuente es ${hash}`,
+      )
+    }
+
+    const seccion =
+      texto.split('## Matriz de clases')[1]?.split('\n## ')[0] ?? ''
+    const delTexto = new Set(
+      [...seccion.matchAll(/^\|\s*`([a-z][a-z0-9_]*)`\s*\|/gm)].map(
+        (m) => m[1],
+      ),
+    )
+    for (const t of tablasUnicas) {
+      if (!delTexto.has(t)) {
+        problemas++
+        console.error(
+          `✗ ${md} — la tabla \`${t}\` del diagrama no está en la matriz de clases`,
+        )
+      }
+    }
+    for (const t of delTexto) {
+      if (!tablasUnicas.includes(t)) {
+        problemas++
+        console.error(
+          `✗ ${md} — la tabla \`${t}\` de la matriz no está en el diagrama`,
+        )
+      }
+    }
+  }
 }
 
 if (existsSync(SVG_DIR)) {
@@ -160,4 +226,6 @@ if (rotos > 0 || problemas > 0) {
   process.exit(1)
 }
 console.log(`diagramas: ${bloques.length} bloques mermaid, 0 rotos`)
-console.log(`drawio: ${paginas} páginas, 0 problemas`)
+console.log(
+  `drawio: ${paginas} páginas, ${tablasTotales} tablas trazadas al texto, 0 problemas`,
+)
