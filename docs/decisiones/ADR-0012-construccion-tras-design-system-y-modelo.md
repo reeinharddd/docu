@@ -1,6 +1,8 @@
 # ADR 0012 — No se construye producto hasta tener design system de marca y modelo de datos validado
 
 Fecha: 2026-10-06 · Estado: Aceptada
+> Vigencia 2026-10-30: los hitos y fechas que este ADR menciona fueron sustituidos por
+> `docs/gestion/REPLAN-2026-10-30.md` §9. La decisión no cambia; lo que cambió es el calendario.
 Decide: Erik · Revisa: el equipo
 
 ## Contexto

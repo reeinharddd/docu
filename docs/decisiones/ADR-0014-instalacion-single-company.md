@@ -2,6 +2,9 @@
 
 Fecha: 2026-10-13 · Estado: Aceptada · Decide: Erik · Revisa: el equipo
 
+> Vigencia 2026-10-30: los hitos y fechas que este ADR menciona fueron sustituidos por
+> `docs/gestion/REPLAN-2026-10-30.md` §9. La decisión no cambia; lo que cambió es el calendario.
+
 ## Contexto
 
 Varios documentos decían `Empresa` multi-tenant y "parametrización por empresa"
