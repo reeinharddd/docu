@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/dist", "!**/build", "!**/.angular"]
+    "includes": ["**", "!**/dist", "!**/build", "!**/.angular", "!**/*.svg"]
   },
   "formatter": {
     "enabled": true,

@@ -39,6 +39,8 @@ docs/decisiones/ADR-0012-construccion-tras-design-system-y-modelo.md
 docs/decisiones/ADR-0013-opencode-oficial-superpowers-engram.md
 docs/decisiones/ADR-0014-instalacion-single-company.md
 docs/decisiones/ADR-0015-core-del-harness.md
+docs/decisiones/ADR-0016-diagramas-como-texto-mermaid.md
+docs/decisiones/ADR-0017-drawio-para-el-er.md
 docs/decisiones/README.md
 docs/diseno/DESIGN-SYSTEM.md
 docs/diseno/README.md
@@ -52,6 +54,8 @@ docs/ingenieria/ALCANCE-SOLUCION.md
 docs/ingenieria/API.md
 docs/ingenieria/ARQUITECTURA.md
 docs/ingenieria/COLAS.md
+docs/ingenieria/DIAGRAMA-BD-v0.md
+docs/ingenieria/DIAGRAMAS.md
 docs/ingenieria/EMBEDDINGS.md
 docs/ingenieria/EMBEDDINGS-MERCADO.md
 docs/ingenieria/ENTORNO.md
@@ -67,6 +71,7 @@ docs/ingenieria/MODELO-DATOS.md
 docs/ingenieria/OCR.md
 docs/ingenieria/OCR-MERCADO.md
 docs/ingenieria/STACK.md
+docs/ingenieria/WEB-SERVICES-MERCADO.md
 docs/integraciones/ACCESOS.md
 docs/integraciones/CAPACIDADES.md
 docs/integraciones/CATALOGO-2026-10-17.md
@@ -84,7 +89,9 @@ docs/plantillas/CONTRATO-MODULOS.md
 docs/plantillas/DESIGN.md
 docs/plantillas/design-system.md
 docs/plantillas/EVIDENCIA.md
+docs/plantillas/FICHA.md
 docs/plantillas/RFC.md
+docs/plantillas/ROLES.md
 docs/proyecto/CASO.md
 docs/proyecto/EQUIPO.md
 docs/proyecto/REQUISITOS.md

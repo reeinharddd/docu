@@ -10,13 +10,15 @@
     "dev": "bash scripts/dev.sh",
     "dev:web": "bun --filter web start",
     "doctor": "bash scripts/doctor.sh",
-    "verify": "bun run lint && bun run typecheck && bun run compose:check && bun run harness:check && bash scripts/doc-index.sh && bun --filter web test && bun run smoke:api",
+    "verify": "bun run lint && bun run typecheck && bun run compose:check && bun run harness:check && bun run diagramas:check && bash scripts/doc-index.sh && bun --filter web test && bun run smoke:api",
     "lint": "biome check --error-on-warnings .",
     "lint:fix": "biome check --write .",
     "typecheck": "bun --filter '*' typecheck",
     "smoke:api": "bash scripts/smoke-api.sh",
     "compose:check": "docker compose -f infra/docker-compose.yml config >/dev/null",
     "harness:check": "bash scripts/harness-check.sh",
+    "diagramas:check": "bun scripts/diagramas-check.ts",
+    "diagramas:drawio": "sh scripts/diagramas-drawio.sh",
     "docs:links": "bash scripts/docs-linkcheck.sh",
     "docs:briefs": "bash scripts/docs-briefcheck.sh",
     "docs:trace": "bash scripts/docs-tracecheck.sh",
@@ -25,7 +27,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.4",
-    "@evilmartians/lefthook": "^2.1.17"
+    "@evilmartians/lefthook": "^2.1.17",
+    "jsdom": "30.1.2",
+    "mermaid": "11.17.2"
   },
   "packageManager": "bun@1.4.3"
 }

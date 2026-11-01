@@ -47,6 +47,8 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0013](ADR-0013-opencode-oficial-superpowers-engram.md) | OpenCode es el entorno oficial y todo el harness del agente vive en el repositorio | Aceptada | 2026-10-10 |
 | [0014](ADR-0014-instalacion-single-company.md) | Instalación como raíz single-company; alcance por instalación | Aceptada | 2026-10-13 |
 | [0015](ADR-0015-core-del-harness.md) | El harness tiene un core: conocimiento y cumplimiento verificables | Aceptada | 2026-10-17 |
+| [0016](ADR-0016-diagramas-como-texto-mermaid.md) | Los diagramas son texto (Mermaid) y viven en el repositorio | Reemplazada por ADR-0017 | 2026-10-18 |
+| [0017](ADR-0017-drawio-para-el-er.md) | El ER de la base de datos se dibuja en draw.io; los flujos siguen en Mermaid; todo diagrama vive en el repo, en texto y trazable | Aceptada | 2026-10-19 |
 
 ## Reglas de esta carpeta
 

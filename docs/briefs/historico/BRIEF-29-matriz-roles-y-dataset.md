@@ -49,6 +49,9 @@ afirma o devuelve con motivos. Nada se cierra antes de que propongas.
 
 Para decidir sola, sin depender de nadie:
 
+- Skill `docu-dominio` (obligatoria primero: flujo de planta, glosario,
+  simulación) + `docu-documentar` (estándares MD del repo).
+- Plantilla `docs/plantillas/ROLES.md` — matriz, usuarios demo y validación.
 - `docs/proyecto/CASO.md` — organigrama y responsabilidades. Tu materia
   prima: extrae los puestos de aquí (Planeación, Calidad, Almacén, Admin).
   No inventes departamentos que el caso no tiene.

@@ -8,6 +8,9 @@
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
 - Bloqueado por: #83 (caso cerrado) · Bloquea a: #60, #62, #23, #44, #5, #59, #61, #85
+- Nota (2026-10-18): ADR-0016 cambió el entregable de "DBML + PNG" a **Mermaid**.
+- Nota (2026-10-19): ADR-0017 pasó el ER a **draw.io** (`.drawio` + SVG exportado
+  por página, `ingenieria/DIAGRAMAS.md`); Mermaid queda para flujos y secuencias.
 
 ## 1. Contexto que te damos (tú decides el qué)
 
@@ -33,7 +36,7 @@ Piensa también: ¿dónde muere un dato inválido y con qué motivo? ¿Qué es �
 
 | Entregable | Evidencia |
 |---|---|
-| Diagrama v0 afirmado | `docs/ingenieria/DIAGRAMA-BD-v0.dbml` + PNG generado del `.dbml`; aprobado en #58 |
+| Diagrama v0 afirmado | `docs/ingenieria/DIAGRAMA-BD-v0.md` (draw.io, ER por área, SVG embebido) visible en el PR; aprobado en #58 |
 | Registro de decisiones | Por cada tabla: qué clase de dato guarda, por qué existe, qué constraint lleva y por qué |
 | Matriz de clases | Cada tabla marcada: fija, dinámica o manual |
 
@@ -43,7 +46,7 @@ Tú propones las tablas. La revisión del 12-nov las afirma o las devuelve con m
 
 1. Cada tabla del diagrama existe en el registro con su porqué. Terminado: cero tablas "porque sí".
 2. Cada unique/`CHECK`/FK responde a una regla del caso o a una amenaza (instalación que lee otra, inválido que pasa, historia que se reescribe). Terminado: trazabilidad regla→constraint.
-3. El núcleo se crea en https://postgres.new y los JSON anidados se inspeccionan en https://jsoncrack.com. Terminado: capturas en el PR.
+3. El ER se ve en el PR (draw.io + SVG, ADR-0017); si hace falta probar el núcleo, se usa https://postgres.new. Terminado: diagrama visible en el PR.
 4. Nada exige nube ni hardware especial. Terminado: checklist offline en el PR.
 
 ## 5. Entradas y salidas
@@ -79,9 +82,9 @@ Para decidir solo, sin depender de nadie:
   `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`), uniques, índices,
   `CHECK`. PostgreSQL 18 + pgvector: https://www.postgresql.org/docs/18/ ·
   https://github.com/pgvector/pgvector.
-- Dibujo y prueba: https://dbdiagram.io o https://app.diagrams.net para el
-  `.dbml`; núcleo ejecutable en https://postgres.new; JSON anidados en
-  https://jsoncrack.com. Capturas de los tres van al PR como evidencia.
+- Diagramas: ER en draw.io (`.drawio` + SVG exportado, ADR-0017); flujos en
+  Mermaid (ADR-0016). Ver `ingenieria/DIAGRAMAS.md`. Núcleo ejecutable en https://postgres.new y JSON
+  anidados en https://jsoncrack.com son opcionales, no entregable.
 - Patrones y trampas (solo lectura): skill `ecc-prisma-patterns`; memoria
   del equipo en Engram (búscala con `/inicio` antes de decidir); guía de
   docs con `docu-documentar`.
@@ -90,8 +93,8 @@ Para decidir solo, sin depender de nadie:
 
 Lo que NO te limitamos: nombres de tablas, cuántas son, cómo agrupas lo
 fijo/dinámico/manual, orden del registro. Lo que sí se devuelve con
-motivos: tabla sin porqué escrito, `Empresa` multi-tenant, PNG que no sale
-del `.dbml`.
+motivos: tabla sin porqué escrito, `Empresa` multi-tenant, diagrama que no está
+en draw.io (ADR-0017).
 
 ## 7. Cómo trabajar
 
@@ -102,12 +105,12 @@ del `.dbml`.
 
 ## 8. Criterios de aceptación
 
-- [ ] v0 + PNG abren; cada tabla con clase y porqué registrados.
+- [ ] El ER (draw.io, SVG embebido) se ve en el PR; cada tabla con clase y porqué registrados.
 - [ ] Trazabilidad regla→constraint completa; R-P1..T1 como datos.
 - [ ] Capturas `postgres.new` adjuntas; checklist offline.
 - [ ] Afirmado del equipo en #58 el 12-nov.
 
-No es done si: hay tablas sin porqué; aparece `Empresa`; el PNG no sale del `.dbml`.
+No es done si: hay tablas sin porqué; aparece `Empresa`; el diagrama no está en draw.io (ADR-0017).
 
 ### 8.1 Contrato, pruebas y criterio de listo
 

@@ -6,6 +6,9 @@ pre-commit:
       run: biome check --write --staged
     no-secretos:
       run: ./noventa-secretos.sh
+    diagramas:
+      glob: "*.{md,mmd,drawio}"
+      run: bun scripts/diagramas-check.ts
 commit-msg:
   commands:
     formato:
