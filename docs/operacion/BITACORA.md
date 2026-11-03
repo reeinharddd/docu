@@ -137,3 +137,16 @@ git grep -n 'Estado: propuesta para aprobación' docs/    # sin resultados
 git grep -n 'es_replace' docs/                            # sin resultados
 bash -n scripts/rama-env.sh                               # sintaxis OK
 ```
+
+### Descubrimiento posterior (mismo día): arista foránea corrupta en el grafo
+
+Al auditar #83 se encontró que **#58 tenía una arista *blocked by* hacia un
+issue de OTRO repositorio** (`davglass/yui-examples#17`, 2009): basura real
+en el grafo, invisible porque el endpoint REST de dependencias la devuelve
+mezclada y mi primer DELETE fue un no-op (usé el id de nuestro #17, no el de
+la arista foránea, cuyo id de base de datos es `58`). Retirada con
+`DELETE .../issues/58/dependencies/blocked_by/58`. Lección operativa:
+**verificar el grafo con GraphQL (`blockedBy`), no con el REST de
+dependencias**; el REST puede devolver issues foráneos. Barrido final:
+39 aristas, 0 foráneas, 0 hacia cerrados. También se retiró #83 ← #2 (PR
+fusionado hacía semanas) — #83 queda sin bloqueos.
