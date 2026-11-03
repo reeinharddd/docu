@@ -11,12 +11,15 @@ cd "$(dirname "$0")/.."
 ISSUE="${1:-}"
 [ -n "$ISSUE" ] || { echo "uso: scripts/rama-env.sh <issue>"; exit 1; }
 command -v gh >/dev/null 2>&1 || { echo "falta gh: bash scripts/setup.sh"; exit 1; }
-gh issue view "$ISSUE" --json number -q .number >/dev/null 2>&1 || { echo "issue #$ISSUE no encontrado"; exit 1; }
+TITLE=$(gh issue view "$ISSUE" --json title -q .title 2>/dev/null) || { echo "issue #$ISSUE no encontrado"; exit 1; }
 
-gh issue develop "$ISSUE" --base main --checkout >/dev/null 2>&1
+# Slug compacto del titulo (max 4 palabras) -> feat/<issue>-<slug>
+SLUG=$(printf '%s' "$TITLE" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed -e 's/^-//' -e 's/-$//' | cut -d- -f1-4)
+BRANCH="feat/${ISSUE}-${SLUG}"
+gh issue develop "$ISSUE" --base main --name "$BRANCH" --checkout >/dev/null 2>&1
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 case "$BRANCH" in
-  feat/"$ISSUE"-*) SLUG="${BRANCH#feat/${ISSUE}-}" ;;
+  feat/"$ISSUE"*) SLUG="${BRANCH#feat/${ISSUE}-}" ;;
   main) echo "no se pudo crear la rama (main sigue activa); revisa gh issue develop $ISSUE"; exit 1 ;;
   *) SLUG="$BRANCH" ;;
 esac
