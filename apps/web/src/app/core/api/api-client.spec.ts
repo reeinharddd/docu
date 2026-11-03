@@ -20,29 +20,29 @@ describe('ApiClient', () => {
 
   afterEach(() => http.verify())
 
-  it('emite loading y luego ready con los datos', async () => {
+  it('emits loading and then ready with the data', async () => {
     const estados: unknown[] = []
-    client.get<unknown[]>('/cuarentena').subscribe((s) => estados.push(s))
-    http.expectOne('/v1/cuarentena').flush([{ id: 'doc-1' }])
+    client.get<unknown[]>('/quarantine').subscribe((s) => estados.push(s))
+    http.expectOne('/v1/quarantine').flush([{ id: 'doc-1' }])
     expect(estados).toEqual([
       { status: 'loading' },
       { status: 'ready', data: [{ id: 'doc-1' }] },
     ])
   })
 
-  it('emite empty cuando la lista llega vacia', async () => {
+  it('emits empty when the list arrives empty', async () => {
     const estados: unknown[] = []
-    client.get<unknown[]>('/oficial-records').subscribe((s) => estados.push(s))
-    http.expectOne('/v1/oficial-records').flush([])
+    client.get<unknown[]>('/official-records').subscribe((s) => estados.push(s))
+    http.expectOne('/v1/official-records').flush([])
     expect(estados).toEqual([{ status: 'loading' }, { status: 'empty' }])
   })
 
-  it('emite error accionable cuando la API falla', async () => {
+  it('emits an actionable error when the API fails', async () => {
     const estados: unknown[] = []
-    client.get<unknown>('/reports/dia').subscribe((s) => estados.push(s))
+    client.get<unknown>('/reports/day').subscribe((s) => estados.push(s))
     http
-      .expectOne('/v1/reports/dia')
-      .flush('fallo', { status: 500, statusText: 'Server Error' })
+      .expectOne('/v1/reports/day')
+      .flush('boom', { status: 500, statusText: 'Server Error' })
     expect(estados).toEqual([
       { status: 'loading' },
       {
@@ -52,7 +52,7 @@ describe('ApiClient', () => {
     ])
   })
 
-  it('prefija las rutas con /v1', () => {
+  it('prefixes paths with /v1', () => {
     client.get('/quarantine').subscribe()
     http.expectOne('/v1/quarantine').flush([])
   })

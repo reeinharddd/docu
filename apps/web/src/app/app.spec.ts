@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router'
 import { App } from './app'
 import { routes } from './app.routes'
 
-describe('App (shell de la plataforma)', () => {
+describe('App (plataforma shell)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
@@ -12,12 +12,12 @@ describe('App (shell de la plataforma)', () => {
     }).compileComponents()
   })
 
-  it('crea la app', () => {
+  it('creates the app', () => {
     const fixture = TestBed.createComponent(App)
     expect(fixture.componentInstance).toBeTruthy()
   })
 
-  it('muestra el wordmark docu con la u en acento', async () => {
+  it('shows the docu wordmark with the accented u', async () => {
     const fixture = TestBed.createComponent(App)
     await fixture.whenStable()
     const el = fixture.nativeElement as HTMLElement
@@ -26,17 +26,12 @@ describe('App (shell de la plataforma)', () => {
     expect(el.querySelector('.wordmark-u')).toBeTruthy()
   })
 
-  it('navega con las 4 rutas del caso', async () => {
+  it('navigates with the 4 case routes', async () => {
     const fixture = TestBed.createComponent(App)
     await fixture.whenStable()
     const el = fixture.nativeElement as HTMLElement
     const links = Array.from(el.querySelectorAll('nav a'))
     const rutas = links.map((a) => a.getAttribute('href'))
-    expect(rutas).toEqual([
-      '/captura',
-      '/bandeja',
-      '/programa-oficial',
-      '/busqueda',
-    ])
+    expect(rutas).toEqual(['/capture', '/inbox', '/schedule', '/search'])
   })
 })

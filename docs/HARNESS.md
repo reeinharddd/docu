@@ -1,6 +1,6 @@
 # Harness de DOCU: cómo trabajamos con agentes
 
-Estado: vigente. Última actualización: 2026-11-03. Dueño: Erik (`reeinharddd`).
+Estado: vigente. Última actualización: 2026-11-03 (skill docu-frontend). Dueño: Erik (`reeinharddd`).
 
 Este es el **mapa del harness**: la vista única de cómo se trabaja en DOCU, con
 agentes o a mano. No reescribe los documentos vigentes: los ata. Su compañero es

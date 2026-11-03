@@ -1,0 +1,20 @@
+@if (state().status === 'loading') {
+  <div class="cargando" data-test="loading" aria-busy="true" role="status">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Cargando…</p>
+  </div>
+} @else if (state().status === 'empty') {
+  <div class="vacio" data-test="empty" role="status">
+    <p>Sin registros por ahora.</p>
+    <p class="detalle">Cuando haya datos confirmados, aparecen aquí.</p>
+  </div>
+} @else if (state().status === 'error') {
+  <div class="error" data-test="error" role="alert">
+    <p>{{ message() }}</p>
+    <button type="button" class="reintentar" data-test="retry" (click)="retry.emit()">
+      Reintentar
+    </button>
+  </div>
+} @else {
+  <ng-content />
+}

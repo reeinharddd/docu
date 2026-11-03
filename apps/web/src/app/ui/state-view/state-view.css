@@ -1,0 +1,61 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.cargando,
+.vacio,
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3rem 1.5rem;
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink-2);
+  text-align: center;
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--color-line);
+  border-top-color: var(--color-brand-text);
+  border-radius: 9999px;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  border-style: solid;
+  border-color: var(--color-quarantine-bg);
+  color: var(--color-ink);
+}
+
+.reintentar {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-action);
+  color: var(--color-on-brand);
+  font-family: var(--font-body);
+  font-weight: 500;
+  cursor: pointer;
+  min-height: var(--spacing-10);
+}
+
+.reintentar:hover {
+  background: var(--color-action-hover);
+}
+
+.detalle {
+  color: var(--color-ink-3);
+  font-size: var(--text-xs);
+}

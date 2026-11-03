@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.demo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  border: 1px dashed var(--color-line-input);
+  border-radius: var(--radius-lg);
+  background: var(--color-brand-soft);
+  color: var(--color-ink-2);
+}
+
+button {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-action);
+  color: var(--color-on-brand);
+  font-family: var(--font-body);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--color-action-hover);
+}

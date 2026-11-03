@@ -103,6 +103,18 @@ build, en el PR con `Closes #84`.
 **Listo cuando.** La base está en `main`, probada y #4 y #11 pueden empezar
 sin decidir infraestructura.
 
+## 8bis. Alcance ampliado (decisión del líder, 2026-11-03)
+
+La demo del 24-nov no serán 4 pantallas sueltas: la plataforma deja el marco
+completo marcado para todas las etapas del frontend — rutas con guards y
+permisos reales (`authGuard`, `requiresPermission`, `/login`, `/forbidden`,
+wildcard), interceptores (base de API, token, errores), kit de UI atómico
+(`PageHeader`, `StateView`, `StatusBadge`), tipos transversales con el backend
+(mismo TypeScript: `Session`, `Permission`), patrones de prueba y la skill
+`docu-frontend` que fija las convenciones. Los datos de demo están marcados
+como efímeros: nada demo llega a la versión final, todo será dinámico desde
+el backend real (#12).
+
 ## 9. Riesgos nombrados
 
 Que la base crezca y se vuelva plataforma de la plataforma: la mitigación es
