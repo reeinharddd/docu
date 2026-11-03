@@ -1,36 +1,38 @@
 ---
 name: docu-memoria
-description: Como usar Engram (memoria del proyecto) en DOCU - cuando buscar, cuando guardar y que nunca va a memoria. Usar al empezar (/inicio, /tarea) y al cerrar trabajo.
-dueno: reeinharddd
-disparador: al empezar (/inicio, /tarea) y al cerrar trabajo
-proposito: Como usar Engram, la memoria del proyecto
+description: How to use Engram (the project memory) in DOCU - when to search, when to save and what never goes to memory. Use when starting (/inicio, /tarea) and when closing work.
 ---
+<!--
+owner: reeinharddd
+trigger: when starting (/inicio, /tarea) and when closing work
+purpose: How to use Engram, the project memory
+-->
 
-# Memoria del proyecto en DOCU
+# Project memory in DOCU
 
-Engram guarda **contexto de sesión**: lo que costó averiguar, decisiones con su
-motivo y el índice para reencontrarlo. Proyecto: `docu` (`ENGRAM_PROJECT` en
-`.env`). Requisito local: binario `engram` en el PATH; el MCP viene del repo
-(`opencode.json`, ver `docs/operacion/BOOTSTRAP.md`).
-Política completa: `docs/integraciones/ENGRAM.md`. Si discrepan, gana el documento.
+Engram stores **session context**: what was costly to find, decisions with
+their rationale and the index to find them again. Project: `docu`
+(`ENGRAM_PROJECT` in `.env`). Local requirement: `engram` binary on the PATH;
+the MCP comes from the repo (`opencode.json`, see `docs/operacion/BOOTSTRAP.md`).
+Full policy: `docs/integraciones/ENGRAM.md`. If they disagree, the document wins.
 
-## Al empezar (/inicio, /tarea)
+## When starting (/inicio, /tarea)
 
-1. Busca memoria relevante antes de leer docs: `engram_mem_search` con el tema
-   del issue o la tarea (2-3 consultas distintas, no una sola).
-2. Si un hallazgo contradice al repo, **gana el repo** y la memoria se corrige.
-3. Lo que ya está en `docs/` se lee en el archivo, no se re-graba en memoria.
+1. Search the memory before reading docs: `engram_mem_search` with the issue or
+   task topic (2-3 distinct queries, not just one).
+2. If a finding contradicts the repo, **the repo wins** and the memory is fixed.
+3. What already lives in `docs/` is read from the file, not re-saved.
 
-## Al cerrar
+## When closing
 
-Guarda **solo lo que costó trabajo averiguar** con `engram_mem_save`
-(versión real, gotcha de API, nombre de columna, decisión con motivo). Formato:
+Save **only what was costly to find** with `engram_mem_save` (real version, API
+gotcha, column name, decision with its rationale). Format:
 
-- Título corto y buscable.
-- `What / Why / Where (archivo del repo) / Learned`.
-- Toda memoria con decisión **apunta al archivo del repo** que la sostiene.
+- Short, searchable title.
+- `What / Why / Where (repo file) / Learned`.
+- Every memory with a decision **points to the repo file** that backs it.
 
-## Nunca a memoria
+## Never in memory
 
-Secretos o valores de `.env`, rutas personales o de una sola máquina, ADRs o
-versiones del stack (van en `docs/`), estado de tareas (van en GitHub Issues).
+Secrets or `.env` values, personal or single-machine paths, ADRs or stack
+versions (they live in `docs/`), task state (lives in GitHub Issues).

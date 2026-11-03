@@ -1,14 +1,16 @@
 # CLAUDE.md
 
-Este archivo es un puntero. No duplica reglas.
+This file is a pointer. It does not duplicate rules.
 
-Antes de tocar nada, lee y obedece:
+Before touching anything, read and obey:
 
-1. `AGENTS.md` — contrato del agente en este repositorio.
-2. `docs/REGLAS.md` — gobierno, revisores, secretos, evidencia, commits.
-3. `docs/decisiones/README.md` — las decisiones de ingeniería ya tomadas. No las
-   reverses sin escribir la ADR siguiente.
+1. `AGENTS.md` — the agent contract in this repository.
+2. `docs/REGLAS.md` — governance, reviewers, secrets, evidence, commits.
+3. `docs/decisiones/README.md` — the engineering decisions already taken. Do
+   not revert them without writing the next ADR.
 
-El entorno oficial es OpenCode (ver ADR-0013). Las reglas viven en el repositorio, no en la configuración de una máquina. Otros clientes deben leer lo mismo. Herramientas y servidores MCP: `.mcp.json` y
-`docs/integraciones/HERRAMIENTAS-AGENTE.md`. Comandos y skills del equipo:
-`.opencode/commands/` y `.opencode/skills/`.
+The official environment is OpenCode (see ADR-0013). The rules live in the
+repository, not in any machine's configuration. Other clients must read the
+same. Tools and MCP servers: `.mcp.json` and
+`docs/integraciones/HERRAMIENTAS-AGENTE.md`. Team commands and skills:
+`.opencode/commands/` and `.opencode/skills/`.

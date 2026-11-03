@@ -1,36 +1,36 @@
 {
   "$schema": "https://json.schemastore.org/mcp.json",
-  "_nota": "Catálogo del equipo, no runtime de opencode: opencode solo lee la clave mcp de opencode.json. Core = siempre activo. Extras = delimitados aquí y apagados (enabled false) hasta su disparador o tarea que los pida.",
+  "_note": "Team catalog, not the opencode runtime: opencode only reads the mcp key in opencode.json. Core = always on. Extras = delimited here and off (enabled false) until their trigger or the task asks for them.",
   "mcpServers": {
     "engram": {
-      "alcance": "core",
-      "donde": "opencode.json del repo (pisa la entrada global) + binario por máquina",
+      "scope": "core",
+      "where": "opencode.json in the repo (overrides the global entry) + binary per machine",
       "command": ["engram", "mcp", "--tools=agent", "--project=docu"],
-      "credencial": "ninguna, base local",
-      "detalle": "docs/integraciones/ENGRAM.md y docs/operacion/BOOTSTRAP.md"
+      "credential": "none, local database",
+      "detail": "docs/integraciones/ENGRAM.md and docs/operacion/BOOTSTRAP.md"
     },
     "github": {
-      "alcance": "core",
-      "donde": "sin MCP: gh CLI por scripts/setup.sh",
-      "credencial": "cuenta de GitHub con scope project, sin token extra",
-      "detalle": "docs/integraciones/GITHUB-GESTION.md"
+      "scope": "core",
+      "where": "no MCP: gh CLI via scripts/setup.sh",
+      "credential": "GitHub account with the project scope, no extra token",
+      "detail": "docs/integraciones/GITHUB-GESTION.md"
     },
     "drive": {
-      "alcance": "core",
-      "donde": "opencode.json del repo (sin secreto) + OAuth por máquina en .env",
+      "scope": "core",
+      "where": "opencode.json in the repo (no secret) + OAuth per machine in .env",
       "command": [
         "npx",
         "mcp-remote",
         "https://drivemcp.googleapis.com/mcp/v1"
       ],
-      "credencial": "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN en .env (las entrega el líder)",
-      "regla": "solo lectura y exportar; prohibido crear, subir o borrar",
-      "detalle": "docs/integraciones/DRIVE.md y docs/operacion/BOOTSTRAP.md"
+      "credential": "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN in .env (provided by the lead)",
+      "rule": "read-only and export; creating, uploading or deleting is forbidden",
+      "detail": "docs/integraciones/DRIVE.md and docs/operacion/BOOTSTRAP.md"
     },
     "angular-cli": {
-      "alcance": "extra",
+      "scope": "extra",
       "enabled": false,
-      "disparador": "K1: trabajo frontend en apps/web",
+      "trigger": "K1: frontend work in apps/web",
       "command": [
         "npx",
         "-y",
@@ -40,24 +40,24 @@
         "--local-only"
       ],
       "cwd": "apps/web",
-      "nota": "oficial del CLI (verificado en angular.dev/ai/mcp y en el CLI 22.2.1 instalado). Solo lectura y sin red; subir el pin junto con el CLI. Opt-in igual que el resto"
+      "note": "Official from the CLI (verified at angular.dev/ai/mcp and in the installed CLI 22.2.1). Read-only, no network; bump the pin together with the CLI. Opt-in like the rest"
     },
     "postgres": {
-      "alcance": "extra",
+      "scope": "extra",
       "enabled": false,
-      "disparador": "M1: contrato de datos",
+      "trigger": "M1: data contract",
       "command": [
         "npx",
         "-y",
         "@modelcontextprotocol/server-postgres@0.6.2",
         "{env:DATABASE_URL}"
       ],
-      "nota": "expone query SQL completo: aplican las reglas duras de HERRAMIENTAS-AGENTE.md §8. {env:} se resuelve contra el shell que lanza opencode: exporta antes con set -a, source .env, set +a"
+      "note": "Exposes full SQL: the hard rules of HERRAMIENTAS-AGENTE.md §8 apply. {env:} resolves against the shell that launches opencode: export it first with set -a, source .env, set +a"
     },
     "redis": {
-      "alcance": "extra",
+      "scope": "extra",
       "enabled": false,
-      "disparador": "C1: worker y colas",
+      "trigger": "C1: worker and queues",
       "command": [
         "uvx",
         "--from",
@@ -66,28 +66,28 @@
         "--url",
         "redis://localhost:6379/0"
       ],
-      "nota": "oficial de Redis. Requiere uvx (Python) por máquina. Al activar, ajustar la URL a REDIS_PORT de la máquina"
+      "note": "Official from Redis. Requires uvx (Python) per machine. When enabled, adjust the URL to the machine's REDIS_PORT"
     },
     "playwright": {
-      "alcance": "extra",
+      "scope": "extra",
       "enabled": false,
-      "disparador": "K1 prototipos o tarea que pida verificación visual/E2E",
+      "trigger": "K1 prototypes or a task that asks for visual/E2E verification",
       "command": ["npx", "-y", "@playwright/mcp@0.0.83"],
-      "requisitoMaquina": "navegadores instalados (npx playwright install chromium)",
-      "uso": "viewport y selectores puntuales; evidencia para la Definición de Hecho",
-      "optIn": "enabled true en tu config global, o cambio local sin commitear"
+      "machineRequirement": "browsers installed (npx playwright install chromium)",
+      "use": "viewport and specific selectors; evidence for the Definition of Done",
+      "optIn": "enabled true in your global config, or an uncommitted local change"
     },
     "firecrawl": {
-      "alcance": "extra",
+      "scope": "extra",
       "enabled": false,
-      "disparador": "hito que exija recolección sistemática (dataset, comparativa OCR) con autorización del líder",
+      "trigger": "a milestone that needs systematic collection (dataset, OCR comparison) with the lead's authorization",
       "url": "https://mcp.firecrawl.dev/v2/mcp",
       "headers": {
         "Authorization": "Bearer {env:FIRECRAWL_API_KEY}"
       },
-      "credencial": "FIRECRAWL_API_KEY en .env (vacía = keyless con límites)",
-      "uso": "buscar, luego raspar URLs puntuales; jamás bulk",
-      "optIn": "enabled true en tu config global, o cambio local sin commitear"
+      "credential": "FIRECRAWL_API_KEY in .env (empty = keyless with limits)",
+      "use": "search first, then scrape specific URLs; never bulk",
+      "optIn": "enabled true in your global config, or an uncommitted local change"
     }
   }
 }

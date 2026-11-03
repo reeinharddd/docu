@@ -1,8 +1,5 @@
 ---
 name: ecc-angular-developer
-dueno: reeinharddd
-disparador: al crear o revisar codigo Angular
-proposito: Patrones y buenas practicas de Angular 22
 description: Generates Angular code and provides architectural guidance. Trigger when creating projects, components, or services, or for best practices on reactivity (signals, linkedSignal, resource), forms, dependency injection, routing, SSR, accessibility (ARIA), animations, styling (component styles, Tailwind CSS), testing, or CLI tooling.
 metadata:
   origin: ECC
@@ -10,8 +7,13 @@ metadata:
   commit: 8384d60
   version: 2.2.3
   license: MIT
-  adaptacion: DOCU usa Angular 22 zoneless sin zone.js (ADR-0003); no generar código con zone.js ni NgModules salvo legado
+  adaptacion: DOCU uses Angular 22 zoneless, no zone.js (ADR-0003); never generate code with zone.js or NgModules except for legacy code
 ---
+<!--
+owner: reeinharddd
+trigger: when creating or reviewing Angular code
+purpose: Patterns and best practices for Angular 22
+-->
 
 # Angular Developer Guidelines
 

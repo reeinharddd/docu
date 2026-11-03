@@ -1,20 +1,22 @@
 ---
-description: Redactar el brief de delegacion de un issue con la plantilla oficial
-dueno: reeinharddd
-disparador: al delegar un issue a una persona
-proposito: Redacta el brief de delegacion con la plantilla oficial
+description: Draft the delegation brief of an issue with the official template
 ---
+<!--
+owner: reeinharddd
+trigger: when delegating an issue to a person
+purpose: Draft the brief with the official template
+-->
 
 Issue: #$1
 
 !`gh issue view $1 --json number,title,body,labels,milestone,assignees`
 
-Bloqueado por:
+Blocked by:
 !`gh api repos/{owner}/{repo}/issues/$1/dependencies/blocked_by --jq '.[] | "#\(.number) \(.title)"' 2>/dev/null`
 
-Redacta `docs/briefs/BRIEF-$1-<slug>.md` siguiendo exactamente @docs/plantillas/BRIEF.md:
+Write `docs/briefs/BRIEF-$1-<slug>.md` following exactly @docs/plantillas/BRIEF.md:
 
-- Toma requisitos de @docs/proyecto/REQUISITOS.md, responsables de @docs/proyecto/EQUIPO.md y fechas del hito.
-- Cada entregable con evidencia verificable por un tercero en 10 minutos.
-- Referencias con rutas exactas del repo, nada de "busca en Google".
-- Al terminar: `bash scripts/doc-index.sh --fix` y propone el comentario para el issue con el enlace al brief. No lo publiques sin confirmacion.
+- Take requirements from @docs/proyecto/REQUISITOS.md, owners from @docs/proyecto/EQUIPO.md and dates from the milestone.
+- Every deliverable carries evidence verifiable by a third party in 10 minutes.
+- References with exact repo paths, never "search Google".
+- When done: `bash scripts/doc-index.sh --fix` and propose the comment for the issue with the brief link. Do not publish it without confirmation.

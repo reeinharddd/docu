@@ -1,17 +1,19 @@
 ---
-description: Proponer una ADR nueva con la plantilla y el siguiente numero libre
-dueno: reeinharddd
-disparador: al decidir y registrar una decision de ingenieria
-proposito: Genera una ADR nueva con la plantilla y el siguiente numero libre
+description: Propose a new ADR with the template and the next free number
 ---
+<!--
+owner: reeinharddd
+trigger: when deciding and recording an engineering decision
+purpose: Propose a new ADR with the template and the next free number
+-->
 
-Decision a registrar: $ARGUMENTS
+Decision to record: $ARGUMENTS
 
-ADRs existentes:
+Existing ADRs:
 !`ls docs/decisiones/`
 
-1. Lee @docs/decisiones/README.md: si la decision no cumple los criterios de "Cuando abrir un ADR", dilo y para.
-2. Si es una de las pendientes de la tabla, usa ese numero; si no, el siguiente libre.
-3. Copia @docs/plantillas/ADR.md a `docs/decisiones/ADR-NNNN-<slug>.md` con `Estado: Propuesta`. Minimo dos alternativas reales, consecuencias honestas y criterio de reversion.
-4. Versiones: solo las reales de los `package.json`.
-5. Agrega la fila al indice del README de decisiones y corre `bash scripts/doc-index.sh --fix`.
+1. Read @docs/decisiones/README.md: if the decision does not meet the "When to open an ADR" criteria, say so and stop.
+2. If it belongs to the pending table, use that number; otherwise the next free one.
+3. Copy @docs/plantillas/ADR.md to `docs/decisiones/ADR-NNNN-<slug>.md` with `Estado: Propuesta`. At least two real alternatives, honest consequences and a reversal criterion.
+4. Versions: only the real ones from the `package.json` files.
+5. Add the row to the index in the decisiones README and run `bash scripts/doc-index.sh --fix`.

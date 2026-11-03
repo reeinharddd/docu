@@ -1,8 +1,11 @@
 #!/bin/sh
-# Verifica la metadata viva del harness: cada pieza (comando, subagente, skill
-# propia o vendorizada) declara dueno, disparador y proposito; las vendorizadas
-# ademas origen y version. Falla si falta un campo o si el dueno no existe en
-# docs/proyecto/EQUIPO.md. Registro en docs/HARNESS.md y docs/integraciones/CAPACIDADES.md.
+# Checks the live harness metadata: every piece (command, subagent, own or
+# vendored skill) declares owner, trigger and purpose; vendored pieces also
+# origin and version. Metadata lives in the frontmatter or, if the runtime
+# rejects it (unknown fields are routed into options and sent to the API
+# provider), in an <!-- --> block right after the frontmatter. Fails if a
+# field is missing or the owner does not exist in docs/proyecto/EQUIPO.md.
+# Registry: docs/HARNESS.md and docs/integraciones/CAPACIDADES.md.
 set -u
 cd "$(dirname "$0")/.."
 
@@ -11,7 +14,13 @@ hallazgos=0
 total=0
 
 fm() {
-  awk 'NR==1 && $0 !~ /^---[[:space:]]*$/ {exit} /^---[[:space:]]*$/ {c++; if (c==2) exit; next} c==1 {print}' "$1"
+  awk '
+    /^---[[:space:]]*$/ { c++; next }
+    c == 1 { print; next }
+    /<!--/ { h = 1; next }
+    /-->/ { h = 0; next }
+    h { print }
+  ' "$1"
 }
 
 reportar() { echo "HALLAZGO: $1: $2"; hallazgos=$((hallazgos+1)); }
@@ -25,7 +34,7 @@ check_pieza() {
     reportar "$pieza" "sin frontmatter"
     return
   fi
-  for campo in dueno disparador proposito; do
+  for campo in owner trigger purpose; do
     printf '%s\n' "$bloque" | grep -q "^$campo:" || reportar "$pieza" "falta $campo"
   done
   if [ "$es_vendor" = 1 ]; then
@@ -34,9 +43,9 @@ check_pieza() {
       printf '%s\n' "$bloque" | grep -q "^  $campo:" || reportar "$pieza" "falta metadata.$campo (vendor)"
     done
   fi
-  dueno=$(printf '%s\n' "$bloque" | sed -n 's/^dueno:[[:space:]]*//p')
-  if [ -n "$dueno" ] && ! grep -qF "$dueno" "$EQUIPO"; then
-    reportar "$pieza" "dueno '$dueno' no existe en EQUIPO.md"
+  owner=$(printf '%s\n' "$bloque" | sed -n 's/^owner:[[:space:]]*//p')
+  if [ -n "$owner" ] && ! grep -qF "$owner" "$EQUIPO"; then
+    reportar "$pieza" "owner '$owner' no existe en EQUIPO.md"
   fi
 }
 
