@@ -3,7 +3,7 @@
 ## 0. Encabezado
 
 - Issue: #58
-- Dueño: Erik Alfonso Beltrán Ramírez (Líder, infra).
+- Dueño: Emmanuel Valenzuela Cruz (`Agent3835`); Erik (`reeinharddd`) apoya y revisa.
 - Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
@@ -12,7 +12,13 @@
 - Nota (2026-10-19): ADR-0017 pasó el ER a **draw.io** (`.drawio` + SVG exportado
   por página, `ingenieria/DIAGRAMAS.md`); Mermaid queda para flujos y secuencias.
 
-## 1. Contexto que te damos (tú decides el qué)
+## 1. Contexto
+
+**Punto de partida (2026-11-03):** el borrador v0 ya está en `main`
+(`docs/ingenieria/DIAGRAMA-BD-v0.drawio` + texto derivado, ADR-0017, PR #99) y el
+vocabulario canónico en inglés vive en el mapa de derivación de `CASO.md`
+(#83 cerrado). Lo que falta: completar el diagrama con el caso cerrado, el
+DDL/migración Prisma, vistas y triggers. que te damos (tú decides el qué)
 
 Despliegue: una compañía corre su propio sistema; en él conviven sus instalaciones; jamás se mezclan compañías. Tu diagrama debe sostener eso.
 

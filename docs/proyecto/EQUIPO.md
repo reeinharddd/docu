@@ -27,18 +27,20 @@ su brief y el estado en su issue.
 
 | Persona | Carril | Entregables | Cierra | Brief |
 |---|---|---|---|---|
-| Erik | A. Caso | Diseño del caso cerrado con mapa de derivación (#83) | 6-nov | `briefs/BRIEF-83-caso-c1.md` |
-| Erik | B. Plataforma frontend | Base del frontend en `main`: atomic, routing, kit, tests, CI (#84) | 10-nov | `briefs/BRIEF-84-plataforma-frontend.md` |
-| Erik | C/D. Infra IA y BD | Motores de IA montados (#85) y ER híbrido con DDL, vistas, triggers y migración (#58, #60, #62, #23) | 12-nov | `briefs/BRIEF-58-diagrama-v0.md`, `briefs/BRIEF-60-arquitectura-modelo.md`, `briefs/BRIEF-62-modelo-datos.md` |
+| Erik | ~~A. Caso~~ **cerrado 2026-11-03** | Caso cerrado con mapa de derivación (#83) | 3-nov | `briefs/BRIEF-83-caso-c1.md` |
+| Erik | B. Plataforma frontend | Base del frontend en `main`: atomic, routing, kit, tests, CI (#84) — desbloquea a Kira (#11) hoy | 10-nov (se adelanta) | `briefs/BRIEF-84-plataforma-frontend.md` |
+| Emmanuel | D. Base de datos (conduce) | ER híbrido con DDL, vistas, triggers y migración (#58), con apoyo de Erik; después #60 y #62 | 12-nov | `briefs/BRIEF-58-diagrama-v0.md`, `briefs/BRIEF-60-arquitectura-modelo.md`, `briefs/BRIEF-62-modelo-datos.md` |
+| Erik | C. Infra IA + D (apoyo) | Motores de IA montados (#85), contrato congelado (#23, sin brief: gate del hito), apoyo y revisión del ER | 12-nov | `briefs/BRIEF-85-integracion-ia.md` |
 | Erik | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas (#85) | 18-nov | `briefs/BRIEF-85-integracion-ia.md` |
 | Erik | Método y gestión | SDD/TDD con guardas (#87), limpieza documental (#88), demo del 24-nov (#89), final (#6), revisión de todos los PR | 20-nov / 3-dic | `briefs/BRIEF-87-sdd-tdd.md`, `briefs/BRIEF-89-demo-24-nov.md` |
-| Emmanuel | G. Backend | Pruebas de API (#45), ingesta (#12), pipeline (#3), worker (#46), solo-insert (#44), RBAC y reglas (#5), seed (#59), verificación de punta a punta (#7) | 19-nov | `briefs/BRIEF-45-pruebas-api.md`, `briefs/BRIEF-12-api-nestjs.md`, `briefs/BRIEF-03-pipeline-ingesta.md` |
+| Emmanuel | G. Backend | Suite de API con el método (#45), ingesta (#12), pipeline (#3), worker (#46), solo-insert (#44), RBAC y reglas (#5), seed (#59), verificación de punta a punta (#7) | 19-nov | `briefs/BRIEF-45-pruebas-api.md`, `briefs/BRIEF-12-api-nestjs.md`, `briefs/BRIEF-03-pipeline-ingesta.md` |
 | Kira | H. Frontend | Mockups funcionales con datos reales (#11) y pantallas del caso contra la API real (#4) | 18-nov | `briefs/BRIEF-11-prototipos-ui-ux.md`, `briefs/BRIEF-04-frontend-angular.md` |
 | Carlos | F. Dataset | Generador determinista y dataset del mes con manifiesto SHA-256 (#61), replicabilidad (#86), reglas y evidencias (#5) | 19-nov | `briefs/BRIEF-61-generador-dataset.md`, `briefs/BRIEF-86-replicabilidad.md` |
 
-Erik lleva el caso, la plataforma, la IA y la BD, y además revisa todos los
-PRs: es el cuello de botella declarado del plan, con orden interno
-A → B → C → D → E y guardarraíl de des-recorte (`gestion/REPLAN-2026-10-30.md`
+Reparto del 2026-11-03: Erik construye #84 hoy para que Kira arranque #11;
+Emmanuel conduce el ER (#58) con apoyo de Erik; Erik revisa todos los PRs
+y sigue como cuello de botella declarado con orden interno B → C → D → E
+y guardarraíl de des-recorte (`gestion/REPLAN-2026-10-30.md`
 §7).
 
 #39 (reporte y alerta, RF-05) sigue con Emmanuel (`Agent3835`) en la vertical:

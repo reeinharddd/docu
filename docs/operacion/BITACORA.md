@@ -88,6 +88,46 @@ gh api repos/reeinharddd/docu/issues/39/dependencies/blocked_by --jq '[.[].numbe
 
 ---
 
+## 2026-11-03 (vuelta 3) — #83 y #87 cerrados, reparto de carriles y briefs alineados
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** los dos interruptores del camino crítico quedaron cerrados y el
+reparto se ajustó a la forma de trabajar (rama por persona, el líder ayuda).
+
+### Cerrados
+
+- **#83** (caso C1): PR #101 fusionada — `CASO.md` con personas ve/hace/
+  no-puede, flujos F1–F7, fallo→resolución→efecto, **mapa de derivación**
+  (flujo→pantalla→endpoint→dato→regla→guion) con vocabulario canónico en
+  inglés y guiones G1–G6, criterios de Hecho. Libera #58, #61, #11.
+- **#87** (SDD/TDD): PR #102 fusionada — ADR-0018 aceptada, reglas
+  (`docs/gestion/SDD-TDD.md`), plantilla `SPEC.md`, PR template con spec +
+  test rojo, workflow `sdd-tdd` (puertas spec/tdd, demostradas en vivo contra
+  su propia PR), `scripts/tdd-gate.sh`, hook `tdd-aviso`, etiquetas
+  `sin-spec`/`sin-test`. Libera #45 y #84.
+
+### Reparto ajustado (cambio de dueño, decisión del líder)
+
+- **#84 (plataforma frontend): Erik** lo construye hoy (infraestructura y
+  arquitectura) para que **Kira arranque #11 hoy/mañana**; BRIEF-84 alineado
+  (dueño Erik; Kira colabora en estética y hereda la base).
+- **#58 (ER v1): Emmanuel conduce**, Erik apoya y revisa; BRIEF-58 y
+  EQUIPO.md/PLAN-EPICAS alineados. Punto de partida documentado: el borrador
+  v0 ya está en `main` (ADR-0017) y el vocabulario en inglés vive en el mapa
+  de derivación de `CASO.md`.
+- **#58 asignado a `Agent3835` en GitHub** (antes `reeinharddd`).
+- Secuencia de backend confirmada: #45 (suite = "mockup" del backend, tests
+  primero) → #12 (API completa) → #3 (pipeline).
+
+### Cómo verificar
+
+```bash
+gh issue view 83 --json state -q .state   # CLOSED
+gh issue view 87 --json state -q .state   # CLOSED
+gh issue view 58 --json assignees -q '[.assignees[].login] | join(",")'  # Agent3835
+gh api repos/reeinharddd/docu/commits/8cddf85 --jq .commit.message | head -1
+```
+
 *Bitácora iniciada el 2026-11-03. Entrada nueva = fecha nueva al final.*
 
 ## 2026-11-03 (vuelta 2) — Verificación total, fixes de texto y configs de rama

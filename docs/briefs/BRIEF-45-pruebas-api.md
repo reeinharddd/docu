@@ -7,7 +7,7 @@
 - Fechas: 2026-11-02 → 2026-11-12 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / Backend / calidad
 - Requisitos: RNF-04, RNF-07
-- Bloqueado por: — · Bloquea a: #12, #3, #85, #86
+- Bloqueado por: #87 (cerrado 2026-11-03; ADR-0018 define el método) · Bloquea a: #12, #3, #85, #86
 
 ## 1. Contexto
 
