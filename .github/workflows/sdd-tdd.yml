@@ -1,0 +1,41 @@
+name: sdd-tdd
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: La PR enlaza su spec (brief) o es mantenimiento
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          if printf '%s' "$LABELS" | grep -q 'sin-issue'; then
+            echo "Mantenimiento (sin-issue): la spec es el propio PR."
+          elif printf '%s' "$LABELS" | grep -q 'sin-spec'; then
+            echo "::notice::PR sin spec, marcada con sin-spec."
+          elif printf '%s' "$BODY" | grep -q 'docs/briefs/BRIEF-'; then
+            echo "Spec enlazada."
+          else
+            echo "::error::El cuerpo de la PR debe enlazar su spec (docs/briefs/BRIEF-*.md) o llevar la etiqueta sin-spec (ADR-0018)."
+            exit 1
+          fi
+  tdd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Codigo de API sin test no entra
+        env:
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          if printf '%s' "$LABELS" | grep -q 'sin-test'; then
+            echo "::notice::PR sin test, marcada con sin-test."
+            exit 0
+          fi
+          bash scripts/tdd-gate.sh "origin/${{ github.base_ref }}"

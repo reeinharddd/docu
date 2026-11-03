@@ -49,6 +49,7 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0015](ADR-0015-core-del-harness.md) | El harness tiene un core: conocimiento y cumplimiento verificables | Aceptada | 2026-10-17 |
 | [0016](ADR-0016-diagramas-como-texto-mermaid.md) | Los diagramas son texto (Mermaid) y viven en el repositorio | Reemplazada por ADR-0017 | 2026-10-18 |
 | [0017](ADR-0017-drawio-para-el-er.md) | El ER de la base de datos se dibuja en draw.io; los flujos siguen en Mermaid; todo diagrama vive en el repo, en texto y trazable | Aceptada | 2026-10-19 |
+| [0018](ADR-0018-sdd-y-tdd-como-metodo-de-trabajo.md) | SDD y TDD como método de trabajo, con puertas automáticas que lo hacen cumplir | Aceptada | 2026-11-03 |
 
 ## Reglas de esta carpeta
 
