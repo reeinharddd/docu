@@ -1,26 +1,32 @@
-# AGENTS.md — Reglas del playground
+<p align="center">
+<strong>docu</strong><br>
+<sub>Configuración 1 · Baja SterilPack · DOCU — Repositorio de Documentación Digital</sub><br>
+<sub>Marca: <code>#5B2A86</code> · acento: <code>#B0215F</code> · texto: <code>#24172F</code></sub>
+</p>
 
-> Plantilla universal. Copiar a `playground/AGENTS.md` y adaptar.
-> Mismo estándar para playground y main.
+# AGENTS.md — Playground rules
 
-## Qué puedo hacer sin pedir permiso
-- Cambiar paleta, tipografía, espaciado
-- Modificar layouts, textos, imágenes
-- Probar variaciones de componentes
-- Añadir o quitar pantallas del prototipo
+> Universal template. Copy to `playground/AGENTS.md` and adapt.
+> Same standard for playground and main.
 
-## Qué se propone por PR a docs/diseno/
-- Decisiones de marca (paleta final, tipografía final)
-- Componentes nuevos o modificados
-- Cambios en el flujo de navegación
+## What you can do without asking
+- Change palette, typography, spacing
+- Modify layouts, texts, images
+- Try component variations
+- Add or remove screens from the prototype
 
-## Qué está prohibido
-- Fusionar esta rama a main
-- Tocar apps/ o cualquier código de producto
-- Añadir lógica de negocio (API, BD, servicios)
-- Usar el nombre real de la planta
+## What goes to `docs/diseno/` via PR
+- Brand decisions (final palette, final typography)
+- New or modified components
+- Changes to the navigation flow
 
-## Comandos
-- Arranque: `cd playground && bun install && bun run start`
-- Captura: `bun run capture` (snapmcp)
-- Verificación: `bun run verify` (en main, no aquí)
+## What is forbidden
+- Merging this branch into `main`
+- Touching `apps/` or any product code
+- Adding business logic (API, DB, services)
+- Using the real plant name
+
+## Commands
+- Start: `cd playground && bun install && bun run start`
+- Capture: `bun run capture` (snapmcp)
+- Verification: `bun run verify` (on main, not here)
