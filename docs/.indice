@@ -8,6 +8,7 @@ docs/briefs/BRIEF-06-demo-final.md
 docs/briefs/BRIEF-07-configuracion-1.md
 docs/briefs/BRIEF-11-prototipos-ui-ux.md
 docs/briefs/BRIEF-12-api-nestjs.md
+docs/briefs/BRIEF-39-reporte-alerta.md
 docs/briefs/BRIEF-44-solo-insert.md
 docs/briefs/BRIEF-45-pruebas-api.md
 docs/briefs/BRIEF-46-worker-bullmq.md
@@ -81,6 +82,7 @@ docs/integraciones/GITHUB-GESTION.md
 docs/integraciones/HERRAMIENTAS-AGENTE.md
 docs/integraciones/INVESTIGACION-HERRAMIENTAS.md
 docs/integraciones/MCP.md
+docs/operacion/BITACORA.md
 docs/operacion/BOOTSTRAP.md
 docs/plantillas/ADR.md
 docs/plantillas/AGENTS.md
@@ -90,6 +92,7 @@ docs/plantillas/DESIGN.md
 docs/plantillas/design-system.md
 docs/plantillas/EVIDENCIA.md
 docs/plantillas/FICHA.md
+docs/plantillas/MARCA.md
 docs/plantillas/RFC.md
 docs/plantillas/ROLES.md
 docs/proyecto/CASO.md

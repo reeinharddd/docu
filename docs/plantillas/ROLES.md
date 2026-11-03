@@ -1,3 +1,9 @@
+<p align="center">
+<strong>docu</strong><br>
+<sub>Configuración 1 · Baja SterilPack · DOCU — Repositorio de Documentación Digital</sub><br>
+<sub>Marca: <code>#5B2A86</code> · acento: <code>#B0215F</code> · texto: <code>#24172F</code></sub>
+</p>
+
 # Plantilla ROLES — matriz de perfiles y mapeo a puestos
 
 > Para #29 y las que la usen (#5, #7). Español. Sin código, solo datos

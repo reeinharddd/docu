@@ -1,6 +1,6 @@
 #!/bin/sh
-# DOCU doctor: dice que falta para trabajar, sin fallar. Exit 0 siempre salvo
-# error de invocacion. Salida legible: OK / FALTA / AVISO.
+# DOCU doctor: reports what is missing to work, without failing. Exit 0 always unless
+# invocation error. Readable output: OK / FALTA / AVISO.
 set -u
 cd "$(dirname "$0")/.."
 
@@ -36,8 +36,8 @@ else
   falta_line "Biome no instalado. Corre 'bun install' (esta declarado en devDependencies)"
 fi
 
-# Solo cuenta como fallo un comando ejecutable con @latest, no la prosa que
-# explica por que esta prohibido.
+# Only an executable command with @latest counts as a failure, not the prose that
+# explains why it is forbidden.
 if grep -rEn '`[^`]*(bunx|npm|pnpm|bun) +[a-z@][^`]*@latest' docs/ README.md AGENTS.md 2>/dev/null | grep -v 'que esta prohibido\|era `8\.0\|instalaria una release'; then
   falta_line "Comando con @latest en la documentacion. Fijar version: ADR-0007 punto 5"
 else
@@ -95,7 +95,7 @@ if bash scripts/doc-index.sh >/dev/null 2>&1; then ok_line "indice de docs hones
 
 line ""
 line "== harness =="
-if bash scripts/harness-check.sh >/dev/null 2>&1; then ok_line "harness: metadata y catalogo en verde"; else falta_line "harness-check falla: revisa dueno/disparador/proposito o CAPACIDADES.md"; fi
+if bash scripts/harness-check.sh >/dev/null 2>&1; then ok_line "harness: metadata y catalogo en verde"; else falta_line "harness-check falla: revisa owner/trigger/purpose o CAPACIDADES.md"; fi
 
 line ""
 line "== higiene git =="

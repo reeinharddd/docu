@@ -1,35 +1,39 @@
 ---
 name: docu-documentar
-description: Como se escribe y se ubica la documentacion de DOCU - taxonomia por tipo, ADR, briefs, indice verificable y capas de autoridad. Usar antes de crear, mover o editar cualquier archivo en docs/.
-dueno: reeinharddd
-disparador: antes de crear, mover o editar cualquier archivo en docs/
-proposito: Reglas de taxonomia, ADR, briefs e indice de la documentacion
+description: How documentation is written and placed in DOCU - taxonomy by type, ADR, briefs, verifiable index and authority layers. Use before creating, moving or editing any file in docs/.
 ---
+<!--
+owner: reeinharddd
+trigger: before touching docs/
+purpose: Taxonomy, ADR, briefs and the document index
+-->
 
-# Documentar en DOCU
+# Documenting in DOCU
 
-Ley del sistema: `docs/README.md`. Esta skill resume lo que mas se olvida.
+System law: `docs/README.md`. This skill summarizes what is most often
+forgotten.
 
-## Donde va cada cosa
+## Where each thing goes
 
-| Si es... | Va en |
+| If it is... | It goes in |
 |---|---|
-| Por que se eligio X sobre Y | `docs/decisiones/ADR-NNNN-*.md` (plantilla `docs/plantillas/ADR.md`) |
-| Como esta construido hoy | `docs/ingenieria/` |
-| Como se usa y se ve | `docs/diseno/` (sin nombres de archivos de codigo) |
-| Como se levanta o se rompe | `docs/operacion/` |
-| Como se habla con un sistema externo | `docs/integraciones/` |
-| Delegacion de una tarea | `docs/briefs/BRIEF-<issue>-<slug>.md` |
-| Entregas de la materia | Drive (vivo); no se versionan en el repo |
-| Estado de una tarea | Issue de GitHub, nunca un documento |
-| Contexto de una sesion | Memoria del agente, nunca un documento |
+| Why X was chosen over Y | `docs/decisiones/ADR-NNNN-*.md` (template `docs/plantillas/ADR.md`) |
+| How it is built today | `docs/ingenieria/` |
+| How it is used and looks | `docs/diseno/` (no code filenames) |
+| How to start it or how it breaks | `docs/operacion/` |
+| How to talk to an external system | `docs/integraciones/` |
+| Delegation of a task | `docs/briefs/BRIEF-<issue>-<slug>.md` |
+| Course deliverables | Drive (live); not versioned in the repo |
+| Task status | GitHub Issue, never a document |
+| Session context | Agent memory, never a document |
 
-## Reglas
+## Rules
 
-1. Espanol en docs, ingles en codigo y configuracion.
-2. Un ADR no se reescribe: se escribe el siguiente con `Reemplazada por`.
-3. La arquitectura describe el presente; el futuro va como ADR o issue.
-4. Nada de secretos ni valores de `.env`, solo nombres de variables.
-5. Versiones mencionadas = versiones reales de los `package.json`.
-6. Todo archivo nuevo o borrado en `docs/` se refleja con `bash scripts/doc-index.sh --fix`. CI falla si el indice miente.
-7. Cada documento tiene dueno en `docs/proyecto/EQUIPO.md`.
+1. Spanish in docs, English in code, configuration and agent-consumed files
+   (`AGENTS.md`, `CLAUDE.md`, `.opencode/`).
+2. An ADR is never rewritten: write the next one with `Reemplazada por`.
+3. Architecture describes the present; the future goes as an ADR or an issue.
+4. No secrets or `.env` values, only variable names.
+5. Any version mentioned = the real version in the `package.json` files.
+6. Every new or deleted file in `docs/` is reflected with `bash scripts/doc-index.sh --fix`. CI fails if the index lies.
+7. Every document has an owner in `docs/proyecto/EQUIPO.md`.

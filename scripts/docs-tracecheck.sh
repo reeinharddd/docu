@@ -1,6 +1,6 @@
 #!/bin/sh
-# Falla si un RF/RNF citado en briefs/gestión/equipo no está definido en
-# REQUISITOS.md, o si el índice documental está desactualizado.
+# Fails if an RF/RNF cited in briefs/gestion/equipo is not defined in
+# REQUISITOS.md, or if the document index is stale.
 set -u
 cd "$(dirname "$0")/.."
 out=$(mktemp)

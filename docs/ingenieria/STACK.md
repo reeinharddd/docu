@@ -1,6 +1,8 @@
 # Stack tecnológico
 
-Estado: vigente. Versiones verificadas contra `bun.lock` el 2026-10-05.
+Estado: vigente. Versiones verificadas contra `bun.lock` el 2026-10-05 y de
+nuevo contra el manifiesto el 2026-11-03. Lo que no está instalado hoy está
+marcado como **M1**; nada aquí promete lo que no existe todavía.
 
 Este archivo es la ficha técnica. Dos cosas y solo dos:
 
@@ -20,7 +22,11 @@ registrada.
 
 Versiones confirmadas en el lockfile. "Fijada" significa versión exacta en el
 `package.json`; "rango" significa que el lockfile fija la resolución pero el
-manifiesto permite moverse dentro del rango.
+manifiesto permite moverse dentro del rango. Lo marcado **M1** (Prisma,
+PostgreSQL, pgvector) está decidido pero todavía **no está instalado**: llega
+con el modelo de datos y el pipeline. Las imágenes de Docker usan tags
+flotantes a propósito (desarrollo) y son un punto a fijar antes de un
+despliegue compartido.
 
 ### Base de ejecución
 
@@ -62,10 +68,10 @@ manifiesto permite moverse dentro del rango.
 
 | Pieza | Versión | Fijada | Sitio oficial | Repositorio |
 |---|---|---|---|---|
-| PostgreSQL | 18 (parche vigente 18.4) | imagen con tag flotante | <https://www.postgresql.org> | <https://github.com/postgres/postgres> |
-| pgvector | la que traiga la imagen | tag flotante | <https://github.com/pgvector/pgvector> | mismo |
-| Prisma CLI y cliente | 7.10.0 | sí | <https://www.prisma.io> | <https://github.com/prisma/prisma> |
-| `@prisma/adapter-pg` | 7.10.0 | rango `^7.10.0` | <https://www.prisma.io/docs/orm/v7> | mismo |
+| PostgreSQL (M1, no instalado) | 18 (parche vigente 18.4) | imagen con tag flotante | <https://www.postgresql.org> | <https://github.com/postgres/postgres> |
+| pgvector (M1, no instalado) | la que traiga la imagen | tag flotante | <https://github.com/pgvector/pgvector> | mismo |
+| Prisma CLI y cliente (M1, no instalado) | 7.10.0 | pendiente de fijar en M1 | <https://www.prisma.io> | <https://github.com/prisma/prisma> |
+| `@prisma/adapter-pg` (M1, no instalado) | 7.10.0 | pendiente de fijar en M1 | <https://www.prisma.io/docs/orm/v7> | mismo |
 | `pg` (driver) | 8.23.1 | rango `^8.23.1` | <https://node-postgres.com> | <https://github.com/brianc/node-postgres> |
 
 ### Caché y cola
@@ -231,23 +237,24 @@ Documentación:
 
 Documentación: <https://biomejs.dev>
 
-Formato activado, **linter desactivado**: el archivo de configuración fija
-`preset: "none"` para las reglas, así que hoy "lint en verde" significa "el
-formato está bien". No hay ninguna regla de análisis activo.
-
-*Remarca, no aplicado*: activar el conjunto recomendado en un PR aparte,
-porque genera cambios en el código existente y eso no debe mezclarse con una
-funcionalidad.
+El formateador está activado y el linter corre con `preset: "recommended"`,
+aplicado por `bun run lint` (`biome check --error-on-warnings`): un aviso es
+fallo. `bun run doctor` comprueba que la versión instalada coincide con el
+`$schema` de `biome.json`, así que la deriva vuelve a ser detectable. La
+combinación exacta es la de la Remarca 1: `@biomejs/biome@2.5.4` fijado como
+dependencia, schema `2.5.4`, y subir ambos en el mismo PR o ninguno.
 
 ### 2.7 CI
 
 | Job | Qué hace hoy |
 |---|---|
-| `guardas` | Instala, verifica que `.env` no esté en el repo, gitleaks, Biome, tipos, valida el Compose |
-| `smoke` | Arranca la API, consulta el health y prueba la cola |
+| `guardas` | Instala, verifica que `.env` no esté en el repo, gitleaks, Biome, tipos, valida el Compose, `doc-index`, `harness:check`, `diagramas:check`, `docs-linkcheck`, `docs-briefcheck`, `docs-tracecheck`, pruebas web |
+| `diagramas` | Re-exporta los SVG del ER y falla si el `.drawio` cambió y el texto/SVG no (digest de la imagen) |
+| `smoke` | Arranca la API contra Postgres y Redis de servicio y prueba la cola |
 
-No se ejecutan las pruebas del front ni el lint de plantillas, aunque ambas
-cosas pasan hoy. *Remarca: añadirlas cuando se implemente la capa de pruebas.*
+Las pruebas web sí corren en CI (`bun --filter web test`); las de la API
+todavía no existen (0 archivos) aunque el CI arranque y consulte `/health`.
+*Remarca: exigir la suite de API en `verify`/CI con SDD/TDD (#45/#87).*
 
 ---
 

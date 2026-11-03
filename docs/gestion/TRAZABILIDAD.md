@@ -1,11 +1,14 @@
 # Gestión: trazabilidad requisito → épica → issue → PR → evidencia
 
-Estado: vigente. Verificado contra GitHub el 2026-10-31, tras la replanificación
-v2 (`gestion/REPLAN-2026-10-30.md`): 35 issues abiertos (27 heredados + 8
-nuevos: #83 a #90), 29 cerrados, 6 milestones abiertos (C1 modelo y BD 12-nov,
-C1 vertical completa 19-nov, Avances profesor 24-nov, C1 final 3-dic, Post-C1
-sin fecha, Contrato de datos congelado 12-nov) y 4 cerrados. La migración desde
-Monday está en
+Estado: vigente. Verificado contra GitHub el 2026-11-03 (auditoría total):
+32 issues abiertos (25 con milestone + 7 épicas sin milestone a propósito),
+30 cerrados, 5 milestones abiertos (C1 modelo y BD 12-nov con 9 abiertos,
+C1 vertical completa 19-nov con 13, Avances profesor 24-nov con 1, C1 final
+3-dic con 1, Post-C1 sin fecha con 1) y 5 cerrados — incluye `Contrato de
+datos congelado`, cerrado vacío el 2026-11-03 por ser reliquia de Monday (su
+alcance real vive en `C1 modelo y BD`: #62 y #23). Los contadores de la API
+de milestones mienten (stale): los números de arriba se miden con queries
+directas, no con `open_issues`. La migración desde Monday está en
 (`decisiones/ADR-0008-github-como-gestor-del-equipo.md`).
 
 ## La cadena
@@ -45,8 +48,8 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | 2 | `RF-08` sin etiqueta en Configuración 2 | — | **Cerrado**: #8 lleva `RF-08` |
 | 3 | #7, #9, #13, #30 sin requisito | — | **Cerrado**: `RF-08`, `RNF-02`/`RNF-07`, `RNF-07`, `RNF-07` (tomados de los criterios de cada issue) |
 | 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto: RF-08 es transversal (modelo, seed, contrato y configuración) |
-| 7 | Dependencias vacías | — | **Cerrado**: 31 *blocked by* nativos de la v2 (ver `PLAN-EPICAS.md`) |
-| 8 | #18–#26 sin etiquetas propias | Heredan requisito, épica y sprint del padre (#3, #4, #5, #9, #12). Monday dado de baja total el 2026-10-09: nada vive ahí, todo se opera en GitHub | **Cerrado** |
+| 7 | Dependencias vacías o invertidas | — | **Cerrado 2026-11-03**: los *blocked by* que apuntaban a issues cerrados (#9, #10, #17, #32, #41) se retiraron; las aristas invertidas se corrigieron (#60 y #62 ya no esperan a #59; #61 espera a #23, #39 espera a #46). El grafo de `PLAN-EPICAS.md` ahora es igual al de GitHub |
+| 8 | #18–#26 sin etiquetas propias | Heredan requisito, épica y sprint del padre (#3, #4, #5, #9, #12). Monday dado de baja total el 2026-10-09: nada vive ahí, todo se opera en GitHub | **Cerrado**; #18/#19/#20 (sub-issues auto de #3 con cronograma heredado) se cerraron *not planned* el 2026-11-03 |
 
 ## Reglas
 

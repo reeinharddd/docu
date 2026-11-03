@@ -1,10 +1,10 @@
-// Sincroniza el Project de GitHub con las etiquetas y el estado de los issues.
-// Las etiquetas son la fuente: epica:*, prioridad:*, sprint:N. Los campos del
-// Project (Épica, Prioridad, Sprint, Status, Inicio, Fin) se derivan de ellas
-// para poder agrupar y planear. Idempotente: solo escribe lo que cambió.
+// Syncs the GitHub Project with the issues' labels and state.
+// Labels are the source: epica:*, prioridad:*, sprint:N. The Project fields
+// (Épica, Prioridad, Sprint, Status, Inicio, Fin) are derived from them
+// so the board can group and plan. Idempotent: writes only what changed.
 //
 // Local:  GH_TOKEN=$(env -u GITHUB_TOKEN gh auth token) bun run project:sync
-// CI:     .github/workflows/project-sync.yml con el secreto PROJECT_TOKEN.
+// CI:     .github/workflows/project-sync.yml with the PROJECT_TOKEN secret.
 
 const OWNER = process.env.PROJECT_OWNER ?? 'reeinharddd'
 const REPO = process.env.PROJECT_REPO ?? 'docu'
@@ -13,7 +13,7 @@ const TOKEN = process.env.PROJECT_TOKEN || process.env.GH_TOKEN
 const DRY = process.argv.includes('--dry-run')
 
 if (!TOKEN) {
-  console.log('Sin PROJECT_TOKEN ni GH_TOKEN: no hay nada que sincronizar.')
+  console.log('No PROJECT_TOKEN or GH_TOKEN: nothing to sync.')
   process.exit(0)
 }
 
@@ -190,7 +190,7 @@ const set = async (
 for (const issue of issues) {
   let item = items.get(issue.number)
   if (!item) {
-    console.log(`#${issue.number}: se agrega al Project`)
+    console.log(`#${issue.number}: added to Project`)
     writes++
     if (DRY) continue
     const d = await gql<{ addProjectV2ItemById: { item: { id: string } } }>(

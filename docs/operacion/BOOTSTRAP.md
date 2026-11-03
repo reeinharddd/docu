@@ -1,9 +1,9 @@
 # Operación: arranque y diagnóstico
 
 Estado: vigente. Clon limpio + `cp .env.example .env` + `bun install
---frozen-lockfile` deja `typecheck`, `lint`, `compose:check` e índice documental
-en verde. `smoke:api` exige `bun run dev` con Docker arriba; sin infra es fallo
-esperado, no defecto del repo.
+--frozen-lockfile` deja `typecheck`, `lint`, `compose:check`, `harness:check`,
+`diagramas:check` e índice documental en verde. `smoke:api` exige Docker con
+la infra arriba; sin infra es fallo esperado, no defecto del repo.
 Este archivo reemplaza las instrucciones de arranque del `README.md`.
 
 ## Primera vez: un solo comando
@@ -127,15 +127,18 @@ y el estado del árbol de Git.
 bun run verify
 ```
 
-Encadena, en orden: `lint` → `typecheck` →
-`compose:check` → índice documental → pruebas web → `smoke:api`. Es el mismo
-criterio que CI, con los mismos comandos, para que local y remoto no discrepen.
+Encadena, en orden: `lint` → `typecheck` → `compose:check` →
+`harness:check` → `diagramas:check` → índice documental → pruebas web →
+`smoke:api`. Es el mismo criterio que CI, con los mismos comandos, para que
+local y remoto no discrepen.
 
 | Puerta | Qué es |
 |---|---|
 | `bun run lint` | Biome con `recommended`. `--error-on-warnings`: un aviso es fallo |
 | `bun run typecheck` | TypeScript estricto en `apps/api` y `apps/web` |
 | `bun run compose:check` | El Compose es válido |
+| `bun run harness:check` | Metadata y catálogo del harness en verde |
+| `bun run diagramas:check` | Mermaid válidos; el pipeline `drawio`→texto→CI sin desincronizar |
 | índice documental | `bash scripts/doc-index.sh` |
 | pruebas web | Vitest |
 | `bun run smoke:api` | La API arranca y `/health` responde `ok` |
@@ -149,7 +152,7 @@ cosas no hay "ya quedó" (`docs/REGLAS.md`).
 |---|---|---|
 | Local | Desarrollo diario. Postgres y Redis en Docker | Operativo |
 | Devcontainer | Editor sin herramientas del host | Operativo. `postCreateCommand` = `bun install` |
-| GitHub Actions | Puerta automática | Operativo, 2 trabajos: `guardas` y `smoke` |
+| GitHub Actions | Puerta automática | Operativo, 3 trabajos: `guardas`, `diagramas` y `smoke` |
 
 ## Cuando algo se rompe
 

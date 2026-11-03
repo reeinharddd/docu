@@ -1,6 +1,6 @@
 # Integración: servidores MCP
 
-Estado: vigente. Verificado el 2026-10-06.
+Estado: vigente. Verificado el 2026-11-03.
 Configuración del proyecto: `.mcp.json`, versionada. Credenciales por variable de
 entorno, nunca en el archivo.
 
@@ -33,8 +33,9 @@ un token extra y el costo de contexto de un servidor completo.
 
 ## Capacidades base del equipo (las 3 listas para todos)
 
-`.mcp.json` sigue vacío: la base no vive ahí sino una capa por pieza, toda
-reproducible desde la clonada:
+`.mcp.json` es el catálogo versionado del equipo: core (engram, github vía
+`gh`, drive) más extras delimitados y apagados. El runtime (`opencode.json`,
+clave `mcp`) trae la parte ejecutable: engram y drive; github no necesita MCP.
 
 | Capacidad | Dónde se configura | Estado |
 |---|---|---|
@@ -73,11 +74,11 @@ Un servidor que solo pasa 1–4 y falla 5 no entra: se rompe sin avisar.
 
 ## Dónde se declara
 
-`.mcp.json` en la raíz del repositorio:
+`.mcp.json` en la raíz del repositorio, con dos zonas:
 
-```json
-{ "mcpServers": {} }
-```
+- **Core**: engram, github (vía `gh`, sin MCP) y drive, con su `scope: core`.
+- **Extras**: cada candidato con `scope: extra`, `enabled: false` y su
+  `trigger` (la tarea o etapa que lo enciende).
 
 Se versiona el archivo, no el estado de la máquina. Lo local
 (`.mcp.local.json`, `.claude/`) está en `.gitignore`; de `.opencode/` solo se

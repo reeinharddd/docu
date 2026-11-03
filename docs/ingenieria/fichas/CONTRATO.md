@@ -1,11 +1,11 @@
 # Contrato común de fichas de documentos (issue #9)
 
-Estado: propuesta para aprobación 17-oct. Dueño: Carlos.
+Estado: aprobada 2026-10-17 (issue #9 cerrado). Dueño: Carlos.
 Alcance: contrato que cumplen las 6 fichas. Sin generador (#61),
 sin muestras manuales, sin afirmar campos del modelo de datos
 (no hay esquema implementado; las fichas proponen
-contratos lógicos). Consume la matriz de `ROLES.md` (rama
-`feat/29-9-matriz-dataset`), no la corrige.
+contratos lógicos). Consume la matriz de `ROLES.md`
+(fusionada en `main` por el issue #29), no la corrige.
 
 ## 1. Las seis familias
 
@@ -178,5 +178,5 @@ reinventa.
 ## Referencias
 
 - `../../proyecto/CASO.md` (identificadores de reglas 2026-10-12),
-  `../../proyecto/REQUISITOS.md`, `../../proyecto/ROLES.md` (rama #29)
+  `../../proyecto/REQUISITOS.md`, `../../proyecto/ROLES.md` (issue #29)
 - Brief: `../../briefs/historico/BRIEF-09-dataset-pruebas.md`

@@ -1,4 +1,4 @@
-# DOCU E1 — entorno base. Servicios de datos hoy; api/worker se conectan en M1/E2.
+# DOCU E1 — base environment. Data services today; api/worker connect in M1/E2.
 name: docu
 services:
   db:
@@ -30,8 +30,8 @@ services:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       retries: 10
-  # api:      # M1 — build: ../apps/api, puerto 3000, depende db+redis sanos
-  # worker:   # E2 — misma imagen api, comando worker (BullMQ + tesseract dentro)
+  # api:      # M1 — build: ../apps/api, port 3000, depends on healthy db+redis
+  # worker:   # E2 — same api image, worker command (BullMQ + tesseract inside)
 volumes:
   docu_pgdata:
   docu_redisdata:

@@ -1,8 +1,5 @@
 ---
 name: ecc-prisma-patterns
-dueno: reeinharddd
-disparador: al escribir esquema o consultas Prisma
-proposito: Patrones y trampas de Prisma ORM
 description: Prisma ORM patterns for TypeScript backends — schema design, query optimization, transactions, pagination, and critical traps like updateMany returning count not records, $transaction timeouts, migrate dev resetting the DB, @updatedAt skipped on bulk writes, and serverless connection exhaustion. Use when writing a Prisma schema or query, or debugging transactions, migrations, or serverless connection limits.
 metadata:
   origin: ECC
@@ -10,8 +7,13 @@ metadata:
   commit: 8384d60
   version: 2.2.3
   license: MIT
-  adaptacion: DOCU usa Prisma 7.10.0 con driver adapter (@prisma/adapter-pg); ante duda manda docs/ingenieria/STACK.md
+  adaptacion: DOCU uses Prisma 7.10.0 with the driver adapter (@prisma/adapter-pg); when in doubt, docs/ingenieria/STACK.md wins
 ---
+<!--
+owner: reeinharddd
+trigger: when writing Prisma schemas or queries
+purpose: Patterns and traps of the Prisma ORM
+-->
 
 # Prisma Patterns
 

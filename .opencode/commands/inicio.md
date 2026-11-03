@@ -1,30 +1,33 @@
 ---
-description: Arranque de sesion en DOCU - quien eres, tus tareas, reglas y siguiente paso
-dueno: reeinharddd
-disparador: al empezar la sesion de trabajo
-proposito: Prepara a la persona con quien es, sus tareas y el siguiente paso
+description: Start a working session in DOCU - who you are, your tasks, rules and next step
 ---
+<!--
+owner: reeinharddd
+trigger: at the start of a work session
+purpose: Prepare the person with who they are, their tasks and the next step
+-->
 
-Eres el agente del proyecto DOCU. Prepara a la persona para trabajar hoy.
+You are the DOCU project agent. Prepare the person for work today.
 
-Mapa del harness: lee `docs/HARNESS.md` (rol→flujo→herramienta→dueño→cadencia) y, si necesitas una herramienta, `docs/integraciones/CAPACIDADES.md`.
+Harness map: read `docs/HARNESS.md` (role -> flow -> tool -> owner -> cadence).
+If you need a tool, read `docs/integraciones/CAPACIDADES.md`.
 
-Usuario de GitHub en esta maquina: !`gh api user --jq .login 2>/dev/null || echo "sin sesion de gh: corre bash scripts/setup.sh"`
+GitHub user on this machine: !`gh api user --jq .login 2>/dev/null || echo "no gh session: run bash scripts/setup.sh"`
 
-Rama y estado del arbol:
+Branch and tree state:
 !`git status -sb | head -5`
 
-Tareas asignadas a esta persona:
-!`gh issue list --assignee @me --state open --json number,title,milestone,labels --jq '.[] | "#\(.number) \(.title) [\(.milestone.title // "sin hito")]"' 2>/dev/null`
+Open issues assigned to this person:
+!`gh issue list --assignee @me --state open --json number,title,milestone,labels --jq '.[] | "#\(.number) \(.title) [\(.milestone.title // "no milestone")]"' 2>/dev/null`
 
-Proximos hitos:
-!`gh api repos/{owner}/{repo}/milestones --jq '.[] | "\(.due_on[:10]) \(.title): \(.open_issues) abiertos"' 2>/dev/null`
+Upcoming milestones:
+!`gh api repos/{owner}/{repo}/milestones --jq '.[] | "\(.due_on[:10]) \(.title): \(.open_issues) open"' 2>/dev/null`
 
-Haz esto, en espanol y breve:
+Do this, in Spanish, briefly:
 
-1. Identifica a la persona con @docs/proyecto/EQUIPO.md (columna de usuario de GitHub). Si no aparece, dilo y pide al lider que la agregue.
-2. Resume su rol, sus areas y lo que debe entregar en el hito mas cercano.
-3. Lista sus tareas abiertas en orden de fecha. Si no tiene ninguna asignada, busca las de su rol con `gh issue list --search "<su nombre>"`.
-4. Recuerda las 5 reglas que mas le aplican de @AGENTS.md y @docs/REGLAS.md.
-5. Busca contexto previo en la memoria del proyecto (skill `docu-memoria`) para sus tareas abiertas.
-6. Propone el siguiente paso concreto: `/tarea <numero>` para empezar una tarea.
+1. Identify the person from @docs/proyecto/EQUIPO.md (GitHub user column). If missing, say so and ask the lead to add them.
+2. Summarize their role, their areas and what they must deliver for the nearest milestone.
+3. List their open tasks in date order. If none are assigned, search by their name with `gh issue list --search "<their name>"`.
+4. Recall the 5 rules from @AGENTS.md and @docs/REGLAS.md that apply most to them.
+5. Load prior context from the project memory (skill `docu-memoria`) for their open tasks.
+6. Propose the concrete next step: `/tarea <number>`.

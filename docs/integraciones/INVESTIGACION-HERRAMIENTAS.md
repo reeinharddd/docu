@@ -118,7 +118,7 @@ verificable de ninguno en esta consulta. Sin fuente, no hay candidato.
 
 **Veredicto: superpowers no se declara como dependencia del proyecto.** Se usa
 en el entorno del equipo, fuera del repositorio, y en ese papel no viola nada.
-Lo que no puede hacer es_replace el contrato del repositorio. La tensión está
+Lo que no puede hacer es reemplazar el contrato del repositorio. La tensión está
 documentada aquí para que sea visible, no para discutirla de nuevo cada semana.
 
 > Evolución 2026-10-10: el equipo acordó opencode como entorno oficial y propone
@@ -139,7 +139,7 @@ esta investigación añade, verificado:
 - Proveedores en nube: **no confirmados en esta consulta.** No se verificaron
   precios, límites de datos ni condiciones de retención. Sin eso, y sin la
   autorización explícita que `integraciones/ACCESOS.md` exige para
-  `IA_NUBE_ACTIVADA`, no se proposes ninguno.
+  `IA_NUBE_ACTIVADA`, no se propone ninguno.
 
 **Veredicto: ninguna herramienta de modelos entra ahora.** El trabajo real es
 elegir el modelo y escribir el ADR, no instalar nada.
@@ -200,7 +200,7 @@ por estrellas es ordenar por ruido.
 | Herramienta | Coste de contexto | Credenciales | Mantenimiento | Deprecación |
 |---|---|---|---|---|
 | Skills de Prisma | Bajo: se cargan por tarea | Ninguna | Alto, oficial | Baja, siguen a Prisma |
-| Skills de Angular | Bajo | Ninguna | Alto, oficial | Media:/license sinclarar |
+| Skills de Angular | Bajo | Ninguna | Alto, oficial | Media: licencia sin aclarar |
 | Engram | Medio: entra el contexto de sesión | Propia, del proyecto | Medio | Media: no es estándar del stack |
 
 ## 7. Preguntas abiertas

@@ -79,7 +79,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 |---|---|---|
 | `HARNESS.md` | Mapa del harness: rol→flujo→herramienta→dueño→cadencia, los dos ciclos y el runbook de evolución | vigente |
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
-| `decisiones/` | ADRs de ingeniería, 15 aceptadas, 1 reemplazada y 1 en propuesta | en progreso |
+| `decisiones/` | ADRs de ingeniería: 16 aceptadas y ADR-0016 reemplazada por ADR-0017; ninguna en propuesta | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA, alcance de la solución, `fichas/` (contrato de documentos del caso), estándar de diagramas y ER de C1 (`DIAGRAMA-BD-v0.drawio` + texto derivado) | en progreso |
 | `diseno/` | Identidad de marca (acta y PDF de exploración) y design system (tokens, tipografía, componentes base) | en construcción |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
@@ -87,7 +87,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 | `gestion/` | Plan por épicas, ritmo semanal, trazabilidad, replanificación de C1 (2026-10-30) y brief de reconciliación | completo |
 | `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
-| `plantillas/` | BRIEF, ADR, evidencia, RFC, contrato de módulos | completo |
+| `plantillas/` | BRIEF, ADR, RFC, evidencia, contrato de módulos, roles, agente, design system, ficha, DESIGN | completo |
 
 Los directorios marcados `pendiente` están vacíos a propósito: se crean cuando
 el producto los necesite, y hasta entonces el índice dice la verdad en vez de

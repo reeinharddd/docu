@@ -1,3 +1,9 @@
+<p align="center">
+<strong>docu</strong><br>
+<sub>Configuración 1 · Baja SterilPack · DOCU — Repositorio de Documentación Digital</sub><br>
+<sub>Marca: <code>#5B2A86</code> · acento: <code>#B0215F</code> · texto: <code>#24172F</code></sub>
+</p>
+
 # Plantilla de ADR
 
 Se copia a `docs/decisiones/ADR-NNNN-slug.md` con el siguiente número libre.

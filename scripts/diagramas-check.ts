@@ -1,19 +1,19 @@
 #!/usr/bin/env bun
 /**
- * diagramas-check — valida que los diagramas del repo no estén rotos.
+ * diagramas-check — validates that the repo's diagrams are not broken.
  *
- * 1. Mermaid: extrae cada bloque ```mermaid de los .md (y cada .mmd) y lo pasa
- *    por el parser. Falla con archivo:línea si alguno está roto.
- * 2. draw.io: comprueba que cada `ingenieria/*.drawio` sea XML válido, que tenga
- *    páginas y que cada página tenga su SVG exportado en `ingenieria/diagramas/`
- *    (y que no sobre ningún SVG huérfano).
- * 3. Trazabilidad fuente→texto: el `.md` derivado declara el SHA-256 del
- *    `.drawio`, y toda tabla del diagrama tiene que estar en la matriz de clases
- *    del `.md` (y al revés). Editar el diagrama obliga a actualizar el texto: no
- *    se desincronizan en silencio.
+ * 1. Mermaid: extracts every ```mermaid block from .md files (and every .mmd)
+ *    and runs it through the parser. Fails with file:line if any is broken.
+ * 2. draw.io: checks that every `ingenieria/*.drawio` is valid XML, has pages,
+ *    and that each page has its exported SVG in `ingenieria/diagramas/`
+ *    (and that no orphan SVG is left behind).
+ * 3. Source-to-text traceability: the derived `.md` declares the SHA-256 of the
+ *    `.drawio`, and every table in the diagram must be in the class matrix of
+ *    the `.md` (and vice versa). Editing the diagram forces updating the text:
+ *    they cannot drift silently.
  *
- * Estándar: docs/ingenieria/DIAGRAMAS.md (ADR-0017). Corre en `bun run verify` y
- * en CI. No renderiza a imagen: el export del ER es `bun run diagramas:drawio`.
+ * Standard: docs/ingenieria/DIAGRAMAS.md (ADR-0017). Runs in `bun run verify`
+ * and in CI. Does not render to an image: the ER export is `bun run diagramas:drawio`.
  */
 import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -112,7 +112,7 @@ for (const b of bloques) {
   }
 }
 
-// ── draw.io: cada página del .drawio tiene su SVG exportado ────────────────
+// ── draw.io: every page of the .drawio has its exported SVG ────────────────
 const DRAWIO_DIR = 'docs/ingenieria'
 const SVG_DIR = join(DRAWIO_DIR, 'diagramas')
 const esperados = new Set<string>()
@@ -150,7 +150,7 @@ for (const e of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
     }
   }
 
-  // ── trazabilidad: el .md derivado declara el hash y las tablas ─────────────
+  // ── traceability: the derived .md declares the hash and the tables ─────────────
   const tablasUnicas = [
     ...new Set(
       [

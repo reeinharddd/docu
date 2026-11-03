@@ -1,6 +1,6 @@
 # Harness de DOCU: cómo trabajamos con agentes
 
-Estado: vigente. Última actualización: 2026-10-17. Dueño: Erik (`reeinharddd`).
+Estado: vigente. Última actualización: 2026-11-03. Dueño: Erik (`reeinharddd`).
 
 Este es el **mapa del harness**: la vista única de cómo se trabaja en DOCU, con
 agentes o a mano. No reescribe los documentos vigentes: los ata. Su compañero es
@@ -66,11 +66,12 @@ frontmatter y se verifican por revisión en el PR.
 
 | Operación | Quién aprueba | Cómo se documenta | Cómo se verifica |
 |---|---|---|---|
-| Alta de comando/skill/subagente | Erik | frontmatter (`dueno`, `disparador`, `proposito`) + fila en `CAPACIDADES.md` | `harness-check` en verde |
+| Alta de comando/skill/subagente | Erik | metadata `owner`/`trigger`/`purpose` (frontmatter o bloque `<!-- -->`; los campos no documentados se envían al proveedor como `options` y rompen) + fila en `CAPACIDADES.md` | `harness-check` en verde |
 | Alta de MCP | Erik | `opencode.json` (`mcp`) + fila en `CAPACIDADES.md` (sección MCP) | `doctor` y revisión en el PR |
 | Bump de pin (superpowers, skills vendorizadas) | Erik | subir `commit` en `UPSTREAMS.json` y en el `metadata` de la skill; PR | `harness-check` + prueba de la skill |
 | Baja / deprecación | Erik | estado `deprecado` en `CAPACIDADES.md`; si toca arquitectura, ADR | `harness-check` y `doc-index` en verde |
-| Cambio de dueño | Erik | `dueno` en el frontmatter + `proyecto/EQUIPO.md` | `harness-check` (el dueño debe existir en `EQUIPO.md`) |
+| Cambio de dueño | Erik | `owner` en el frontmatter + `proyecto/EQUIPO.md` | `harness-check` (el dueño debe existir en `EQUIPO.md`) |
+| Arranque de rama de feature | Cada quien | `scripts/rama-env.sh <issue>`: rama + workspace local `.docu/rama/<slug>/` (gitignored, nunca se commitea; regla en `GITHUB-GESTION.md` §Configs de rama) | rama correcta + diff hacia `main` sin rutas de config local |
 
 Un cambio de pin de dependencia de primer nivel, o cualquier alta que fije una
 política, además pide **ADR** (`plantillas/ADR.md`).

@@ -1,8 +1,5 @@
 ---
 name: pp-code-reviewer
-dueno: reeinharddd
-disparador: al revisar cambios locales o en quality review
-proposito: Revision de codigo por confianza
 description: Review code for bugs, logic errors, security vulnerabilities, code quality issues, and adherence to project conventions, using confidence-based filtering to report only high-priority issues that truly matter. Use this skill when reviewing a small set of changes locally (such as unstaged diff), when dispatched as a sub-task during feature-dev quality review, or when the user wants a critique of a specific file or function.
 license: Apache-2.0 (modified; see UPSTREAMS.json)
 metadata:
@@ -10,8 +7,13 @@ metadata:
   repo: https://github.com/waybarrios/opencode-power-pack
   commit: 9dccb6d
   version: 0.5.0
-  adaptacion: DOCU calibra bloqueador/importante/menor y exige evidencia (docs/REGLAS.md); secretos como [REDACTED] coincide con ACCESOS.md
+  adaptacion: DOCU calibrates blocker/important/minor and requires evidence (docs/REGLAS.md); secrets as [REDACTED] matches ACCESOS.md
 ---
+<!--
+owner: reeinharddd
+trigger: when reviewing local changes or doing a quality review
+purpose: Review code by confidence
+-->
 
 # Code Reviewer
 

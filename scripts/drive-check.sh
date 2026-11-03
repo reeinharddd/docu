@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# DOCU drive-check: verifica lectura de Google Drive en vivo, solo lectura.
-# Exit 0: carpeta + 3 etapas resuelven. Exit 2: omitido (sin credenciales o sin
-# red). Exit 1: credenciales presentes pero lectura falla. Nunca imprime secretos.
+# DOCU drive-check: verifies live, read-only Google Drive access.
+# Exit 0: folder + 3 stages resolve. Exit 2: skipped (no credentials or no
+# network). Exit 1: credentials present but read fails. Never prints secrets.
 set -u
 cd "$(dirname "$0")/.."
 

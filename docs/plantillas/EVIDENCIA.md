@@ -1,3 +1,9 @@
+<p align="center">
+<strong>docu</strong><br>
+<sub>Configuración 1 · Baja SterilPack · DOCU — Repositorio de Documentación Digital</sub><br>
+<sub>Marca: <code>#5B2A86</code> · acento: <code>#B0215F</code> · texto: <code>#24172F</code></sub>
+</p>
+
 # Plantilla de evidencia
 
 La evidencia es lo que convierte "ya quedó" en hecho (REGLAS.md 7). Se adjunta

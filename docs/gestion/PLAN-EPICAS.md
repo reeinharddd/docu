@@ -104,23 +104,29 @@ Las dependencias de la v2, registradas en GitHub y verificables con
 | #58 ER v1 | #83 Caso | El ER deriva del caso cerrado |
 | #60 Arquitectura | #58 | La arquitectura describe el modelo ya decidido |
 | #62 Modelo | #58 | El modelo documentado describe el ER ya cerrado |
-| #23 Contrato | #62, #61 | El contrato congelado necesita modelo y dataset |
+| #23 Contrato | #62 | El contrato congelado necesita el modelo documentado; el dataset lo valida después (13–17 nov, RIESGOS: se congela con corpus disponible si se atrasa) |
 | #59 Seed | #58, #61 | El seed necesita el DDL y los archivos del dataset |
 | #44 Solo-insert | #58 | El solo-insert se instala sobre el esquema |
 | #45 Pruebas API | #87 SDD/TDD | La puerta TDD necesita el método definido |
-| #12 API de ingesta | #45 | La API se construye con la suite primero |
+| #12 API de ingesta | #60, #62, #45 | La API implementa la arquitectura y el contrato, y se construye con la suite primero |
 | #3 Pipeline | #12 | El pipeline usa la API de ingesta |
 | #46 Worker | #3 | El worker procesa lo que el pipeline encola |
+| #39 Reporte y alerta | #3, #46 | El reporte corre en la cola `reportes`/`alertas` del worker sobre el pipeline completo |
 | #5 RBAC | #58 | Los permisos se calculan sobre el modelo |
-| #61 Dataset | #83, #58 | El dataset sale del caso y respeta el DDL |
+| #61 Dataset | #83, #58, #23 | El dataset sale del caso, respeta el DDL y se emite contra el contrato congelado |
 | #84 Plataforma FE | #87 | La plataforma se construye con el método y las guardas |
 | #85 IA | #58, #61 | La IA corre sobre el DDL y se mide con el corpus |
 | #86 Replicabilidad | #61, #59 | La replicabilidad encadena dataset y seed |
 | #7 C1 de punta a punta | #12, #3, #59, #85 | La verificación de punta a punta necesita todo |
 | #11 Mockups | #83, #84 | Los mockups salen del caso y de la plataforma |
-| #4 Frontend | #11, #12 | Las pantallas reales consumen la API |
+| #4 Frontend | #23, #3, #11, #12 | Las pantallas reales consumen la API que implementa el contrato |
 | #89 Demo 24-nov | #7, #4, #85 | La demo necesita la vertical completa |
 | #6 Demo final | #89 | La final se apoya en la demo de avances |
+
+Dependencias retiradas el 2026-11-03 (auditoría): las aristas que apuntaban a
+issues ya cerrados (#9, #10, #17, #32, #41) y las invertidas (#60 y #62
+esperando a #59; #23 esperando a #61) — eran ruido que hacía el hito del
+12-nov inalcanzable en GitHub.
 
 Dentro del carril D (#60, #62 y #23 bloqueados por #58) las dependencias
 expresan el **orden de derivación**, no semanas de espera: el carril se

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# DOCU memory-export: exporta la memoria del proyecto a un archivo de revisión
-# en /tmp para convertir lo valioso en docs vía PR. Nunca se commitea un export:
-# la memoria indexa, el repo manda (docs/integraciones/ENGRAM.md).
+# DOCU memory-export: exports the project memory to a review file in
+# /tmp to turn what matters into docs via PR. Never commit an export:
+# memory indexes, the repo rules (docs/integraciones/ENGRAM.md).
 set -u
 cd "$(dirname "$0")/.."
 command -v engram >/dev/null || { echo "FALLO: engram no instalado"; exit 1; }

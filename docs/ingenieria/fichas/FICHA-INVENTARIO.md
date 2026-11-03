@@ -1,6 +1,6 @@
 # Ficha: `inventario` (issue #9)
 
-Estado: propuesta para aprobación 17-oct. Cumple el contrato de
+Estado: aprobada 2026-10-17 (issue #9 cerrado). Cumple el contrato de
 `CONTRATO.md`. Dueño del proceso: Pedro; revisa Andrés.
 
 ## 1. Propósito

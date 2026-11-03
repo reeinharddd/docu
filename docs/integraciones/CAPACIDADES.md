@@ -1,6 +1,6 @@
 # Capacidades del harness
 
-Estado: vigente. Última actualización: 2026-10-17. Dueño: Erik (`reeinharddd`).
+Estado: vigente. Última actualización: 2026-11-03. Dueño: Erik (`reeinharddd`).
 
 Índice **vivo** de las piezas del harness. Si una pieza falta aquí, gana el
 archivo y se corrige el índice: `scripts/harness-check.sh` cruza esta tabla con
