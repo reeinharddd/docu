@@ -1,16 +1,16 @@
 #!/bin/sh
-# El indice de docs es la ley (docs/README.md). Este script lo hace verificable:
-# todo lo listado debe existir y todo lo que existe debe estar listado.
+# The docs index is the law (docs/README.md). This script makes it verifiable:
+# everything listed must exist and everything that exists must be listed.
 set -u
 cd "$(dirname "$0")/.."
 INDICE=docs/.indice
 
 listar() { grep -v '^[[:space:]]*#' "$INDICE" 2>/dev/null | grep -v '^[[:space:]]*$' | sed 's/[[:space:]]*$//' | sort; }
-# Se usa find, no `git ls-files`: un documento sin stagear tambien esta en disco
-# y tambien obliga a estar listado. Con git, escribir un doc y olvidarse del
-# indice pasaba desapercibido justo en la ventana donde se cuelan los errores.
-# Los briefs de issues ya cerrados se archivan en docs/briefs/historico/ y NO
-# entran al indice central (docs/README.md §Briefs): son historial, no vigentes.
+# find is used, not `git ls-files`: an unstaged document is still on disk
+# and still must be listed. With git, write a doc and forget the index
+# went unnoticed exactly in the window where mistakes slip in.
+# Briefs of closed issues are archived in docs/briefs/historico/ and do NOT
+# enter the central index (docs/README.md §Briefs): they are history, not current.
 disco() { find docs -type f -name '*.md' -not -path 'docs/briefs/historico/*' | sed 's|^\./||' | sort; }
 
 if [ "${1:-}" = "--fix" ]; then

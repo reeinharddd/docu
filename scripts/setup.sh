@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# DOCU setup: deja una maquina lista para trabajar en el repo con un solo
-# comando. Idempotente: se puede correr las veces que haga falta.
-# Linux, macOS y Windows con WSL2. Nada requiere sudo salvo que se indique.
+# DOCU setup: gets a machine ready to work in this repo with a single
+# command. Idempotent: safe to run as many times as needed.
+# Linux, macOS and Windows with WSL2. Nothing requires sudo unless noted.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

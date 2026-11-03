@@ -1,6 +1,6 @@
 #!/bin/sh
-# Falla si un brief no trae el encabezado mínimo §0. Acepta Issue: o Issues:.
-# Cada brief cubre un issue (un entregable); #13 absorbe #30/#36 a propósito.
+# Fails if a brief is missing the minimum §0 header. Accepts Issue: or Issues:.
+# Each brief covers one issue (one deliverable); #13 absorbs #30/#36 on purpose.
 set -u
 cd "$(dirname "$0")/.."
 out=$(mktemp)

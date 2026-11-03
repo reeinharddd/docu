@@ -1,8 +1,8 @@
 #!/bin/sh
-# Falla si un enlace markdown relativo [texto](ruta) apunta a un archivo que
-# no existe en disco. Solo errores objetivos: http(s), mailto, anclas puras,
-# refs de nota ([x][y]) y bloques de código cercados (ejemplos, no enlaces
-# navegables) no se revisan. Estilo: sh + for-in, como doc-index.sh.
+# Fails if a relative markdown link [text](path) points to a file that
+# does not exist on disk. Only objective errors: http(s), mailto, pure anchors,
+# note refs ([x][y]) and fenced code blocks (examples, not navigable links)
+# are not checked. Style: sh + for-in, like doc-index.sh.
 set -u
 cd "$(dirname "$0")/.."
 out=$(mktemp)

@@ -1,6 +1,6 @@
-// DOCU E1 — smoke de BullMQ sobre bun: encola 1 trabajo 'ping',
-// un worker lo procesa y el script sale con el resultado.
-// Conexiones separadas: Queue, Worker y QueueEvents (el worker bloquea la suya).
+// DOCU E1 — BullMQ smoke on bun: enqueues 1 'ping' job,
+// a worker processes it and the script exits with the result.
+// Separate connections: Queue, Worker and QueueEvents (the worker blocks its own).
 import { Queue, QueueEvents, Worker } from 'bullmq'
 import { Redis } from 'ioredis'
 

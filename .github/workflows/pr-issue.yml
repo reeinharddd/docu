@@ -9,7 +9,7 @@ jobs:
   enlace:
     runs-on: ubuntu-latest
     steps:
-      - name: El PR cierra un issue o lleva la etiqueta sin-issue
+      - name: The PR closes an issue or carries the sin-issue label
         env:
           BODY: ${{ github.event.pull_request.body }}
           LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
@@ -17,8 +17,8 @@ jobs:
           if printf '%s' "$BODY" | grep -Eiq '(closes|fixes|resolves|cierra) #[0-9]+'; then
             echo "PR enlazado a issue."
           elif printf '%s' "$LABELS" | grep -q 'sin-issue'; then
-            echo "::notice::PR sin issue, marcado con sin-issue."
+            echo "::notice::PR without issue, marked with sin-issue."
           else
-            echo "::error::El cuerpo del PR debe decir 'Closes #N' (REGLAS 7) o llevar la etiqueta sin-issue."
+            echo "::error::PR body must say 'Closes #N' (RULE 7) or carry the sin-issue label."
             exit 1
           fi

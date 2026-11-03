@@ -8,7 +8,7 @@ build/
 dataset/config1/*
 !dataset/config1/.gitkeep
 !dataset/config1/README.md
-# Los esquemas del contrato (#9) SI se versionan: son diseno, no dataset generado
+# The contract schemas (#9) ARE versioned: they are design, not generated dataset
 !dataset/config1/esquemas/
 !dataset/config1/esquemas/**
 dataset/config2/*
@@ -18,12 +18,12 @@ coverage/
 *.log
 .DS_Store
 
-# Estado local de desarrollo (logs, doctor, caches del arranque)
+# Local development state (logs, doctor, startup caches)
 .docu/
 
-# Estado local de agentes. La configuracion compartida SI se versiona
+# Local agent state. Shared config IS versioned
 # (opencode.json, .opencode/commands, .opencode/skills, .mcp.json, CLAUDE.md,
-# AGENTS.md); lo personal no.
+# AGENTS.md); personal state is not.
 .claude/
 .cursor/
 .codex/
@@ -35,9 +35,9 @@ coverage/
 **/settings.local.json
 **/.mcp.local.json
 
-# Archivos de trabajo temporales
+# Temporary work files
 *.tmp
 
-# Exports de memoria: revisión personal en /tmp, jamás al repo
+# Memory exports: personal review in /tmp, never to the repo
 engram-export.json
 memory-review-*.json

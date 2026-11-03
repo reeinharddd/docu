@@ -1,9 +1,9 @@
 #!/bin/sh
-# Exporta cada página de cada docs/ingenieria/*.drawio a un SVG derivado en
-# docs/ingenieria/diagramas/<base>-<pagina>.svg, usando draw.io Desktop headless
-# dentro de Docker. Reproduce lo que se ve en app.diagrams.net, así que el SVG
-# comiteado no depende de la máquina de quien edita. Estándar: DIAGRAMAS.md §4
-# (ADR-0017). Necesita Docker; si no está, no corre (no es parte de `verify`).
+# Exports each page of every docs/ingenieria/*.drawio to a derived SVG in
+# docs/ingenieria/diagramas/<base>-<page>.svg, using draw.io Desktop headless
+# inside Docker. It reproduces what app.diagrams.net shows, so the committed
+# SVG does not depend on the editor's machine. Standard: DIAGRAMAS.md §4
+# (ADR-0017). Requires Docker; if absent it does not run (not part of `verify`).
 set -eu
 cd "$(dirname "$0")/.."
 

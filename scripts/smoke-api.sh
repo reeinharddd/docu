@@ -1,15 +1,15 @@
 #!/bin/sh
-# Arranca la API y consulta /health esperando por condicion, no por tiempo fijo.
-# Motivo: un `sleep 12` esconde el fallo. Esto falla si la API no levanta.
+# Starts the API and queries /health waiting for a condition, not for a fixed time.
+# Why: `sleep 12` hides the failure. This fails if the API does not come up.
 #
-# Salida: 0 = ok, 1 = la API no responde, 2 = falta infraestructura (no es fallo).
+# Output: 0 = ok, 1 = API does not respond, 2 = missing infrastructure (not a failure).
 set -u
 cd "$(dirname "$0")/../apps/api"
 log=/tmp/docu-smoke-api.log
 puerto=${PORT_API:-3000}
 
-# La API lee el .env de la raiz del monorepo. Sin esto, DATABASE_URL llega vacio
-# y falla el SCRAM de Postgres. Mismo criterio que scripts/dev.sh.
+# The API reads the .env at the monorepo root. Without this, DATABASE_URL arrives empty
+# and Postgres SCRAM fails. Same criteria as scripts/dev.sh.
 if [ -f ../../.env ]; then
   bun --env-file ../../.env src/main.ts >"$log" 2>&1 &
 else

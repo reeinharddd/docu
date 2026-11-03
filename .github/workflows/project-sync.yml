@@ -16,7 +16,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Sin PROJECT_TOKEN no hay sync
+      - name: No PROJECT_TOKEN, no sync
         id: token
         env:
           PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
