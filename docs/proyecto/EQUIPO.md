@@ -1,6 +1,6 @@
 # Equipo, responsabilidades y propiedad de la documentación
 
-Estado: vigente. Última actualización: 2026-10-31. Plan vigente:
+Estado: vigente. Última actualización: 2026-11-03. Plan vigente:
 `gestion/REPLAN-2026-10-30.md` (v2, ocho carriles en paralelo). Hitos: modelo y
 BD 12-nov · vertical completa 19-nov · demo con el profesor 24-nov · final
 3-dic.
@@ -41,7 +41,9 @@ PRs: es el cuello de botella declarado del plan, con orden interno
 A → B → C → D → E y guardarraíl de des-recorte (`gestion/REPLAN-2026-10-30.md`
 §7).
 
-#39 (reporte y alerta, RF-05) sigue con Emmanuel (`Agent3835`), después de #7.
+#39 (reporte y alerta, RF-05) sigue con Emmanuel (`Agent3835`) en la vertical:
+cronograma 2026-11-13 → 2026-11-18, bloqueado por #3 (pipeline) y #46 (colas
+`reportes`/`alertas`); su brief está en `briefs/BRIEF-39-reporte-alerta.md`.
 Kira (`kirxllix`) y Carlos (`WearyBerry`) tienen sus issues asignados. #36 se
 cerró como no planificado (el diagrama de casos de uso no se hará). #34
 (manuales) se cerró como no planificado; los manuales se absorben en #6.
@@ -79,7 +81,7 @@ en Engram, no se commitea (`docu-memoria`, `integraciones/ENGRAM.md`).
 
 ## Propiedad de las herramientas del harness
 
-Regla: cada pieza del harness declara su dueño en el frontmatter (`dueno`), y ese
+Regla: cada pieza del harness declara su dueño en la metadata (`owner`, en el frontmatter o en un bloque `<!-- -->` si el runtime lo rechaza), y ese
 valor debe existir en este archivo. `scripts/harness-check.sh` lo verifica en CI.
 El índice vivo está en `integraciones/CAPACIDADES.md`; el mapa, en `HARNESS.md`.
 
@@ -92,7 +94,7 @@ El índice vivo está en `integraciones/CAPACIDADES.md`; el mapa, en `HARNESS.md
 | Catálogo MCP (`opencode.json`) | Erik |
 | Scripts del harness (`scripts/*`) | Erik |
 
-Cambiar de dueño una herramienta es un PR que toca su `dueno` y esta tabla a la
+Cambiar de dueño una herramienta es un PR que toca su `owner` y esta tabla a la
 vez. Detalle del proceso en `HARNESS.md` §5.
 
 ## Forma de trabajo

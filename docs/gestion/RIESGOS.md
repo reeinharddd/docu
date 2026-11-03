@@ -11,8 +11,8 @@ Estado: vigente. Registro vivo. Ver `VISION.md` §Riesgos.
 | Alcance Could frena Must | Tableros/voz en demo | Erik | Recorte MoSCoW por escrito en demo | abierto; con la reestructuración el alcance nuevo es el caso de ejemplo cerrado |
 | Acelerar con IA sin red de seguridad | PR sin pruebas o sin spec cuando ya hay TDD | Erik | SDD y TDD en el brief de cada entregable; pruebas de API en CI (#45) | abierto (decisión del líder 2026-10-30) |
 | Reestructurar sin cerrar el caso de ejemplo | El brief nuevo no fija criterios de Hecho del caso de ejemplo antes del 31-oct | Erik | Un brief por entregable; la exposición se arma sobre lo cerrado, no sobre lo pendiente | **Cerrado en la v2**: el caso cierra el 6-nov (#83) y su mapa de derivación es la entrada del ER, la plataforma y el dataset |
-| Erik acumula frentes y revisa todo | Más de un frente suyo abierto a la vez | Orden interno A → B → C → D → E; nada nuevo después del 14-nov; guardarraíl de des-recorte (plan v2 §7) | abierto (plan v2) |
-| La demo del 24-nov falla en vivo | Un fallo aparece en el ensayo del 20-nov | Freeze el 18-nov, ensayo el 20-nov, video de respaldo, modo degradado escrito, demo sin internet | abierto (plan v2) |
-| La IA no alcanza en CPU | Páginas/min por debajo del umbral en el corpus de C1 | Se mide en el carril de infra IA; si no alcanza, la demo usa el corpus medido y se dice | abierto (plan v2) |
-| La plataforma frontend bloquea a Kira | La base no está en `main` el 10-nov | Kira avanza con la spec de UI desde el 6-nov; el bloqueo real es de código, no de diseño | abierto (plan v2) |
-| Dos modelos de datos en el repo | `MODELO-DATOS.md` contradice al ER | El híbrido manda; `MODELO-DATOS.md` se reescribe en el PR del ER (#58) | abierto (plan v2) |
+| Erik acumula frentes y revisa todo | Más de un frente suyo abierto a la vez | Erik | Orden interno A → B → C → D → E; nada nuevo después del 14-nov; guardarraíl de des-recorte (plan v2 §7) | abierto (plan v2) |
+| La demo del 24-nov falla en vivo | Un fallo aparece en el ensayo del 20-nov | Erik | Freeze el 18-nov, ensayo el 20-nov, video de respaldo, modo degradado escrito, demo sin internet | abierto (plan v2) |
+| La IA no alcanza en CPU | Páginas/min por debajo del umbral en el corpus de C1 | Erik | Se mide en el carril de infra IA; si no alcanza, la demo usa el corpus medido y se dice | abierto (plan v2) |
+| La plataforma frontend bloquea a Kira | La base no está en `main` el 10-nov | Erik / Kira | Kira avanza con la spec de UI desde el 6-nov; el bloqueo real es de código, no de diseño | abierto (plan v2) |
+| Dos modelos de datos en el repo | `MODELO-DATOS.md` contradice al ER | Erik | El híbrido manda; `MODELO-DATOS.md` se reescribe en el PR del ER (#58) | abierto (plan v2) |

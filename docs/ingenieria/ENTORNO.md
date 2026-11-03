@@ -61,10 +61,10 @@ servicio del job. Es el mismo schema, otro host.
 
 ## Puertas
 
-`bun run verify` encadena lint, tipos, `compose config`,
-honestidad del índice documental, pruebas web y el arranque real de la API. CI
-corre los mismos scripts con las mismas versiones fijadas, así que local y
-remoto no pueden divergir.
+`bun run verify` encadena lint, tipos, `compose config`, `harness:check`,
+`diagramas:check`, honestidad del índice documental, pruebas web y el arranque
+real de la API. CI corre los mismos scripts con las mismas versiones fijadas,
+así que local y remoto no pueden divergir.
 
 | Puerta | Comando | Estado |
 |---|---|---|

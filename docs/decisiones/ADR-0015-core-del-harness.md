@@ -2,6 +2,10 @@
 
 Fecha: 2026-10-17 · Estado: Aceptada · Decide: Erik · Revisa: el equipo
 
+> Vigencia 2026-11-03: las rutas `docs/superpowers/specs/…` y `docs/superpowers/plans/…`
+> que aparecen abajo fueron borradas del árbol el 2026-11-01 (barrido, PR #94); quedan
+> solo en el historial de git. La decisión y sus consecuencias no cambian.
+
 ## Contexto
 
 ADR-0007 fijó el principio (el contrato del agente y sus herramientas son parte
@@ -32,7 +36,7 @@ cumplimiento (que no se pueda hacer mal), verificable en CI.** Concretos:
    evolución). `docs/integraciones/CAPACIDADES.md` es el índice vivo de
    herramientas. A ambos apunta la iniciación (`AGENTS.md`, `docs/README.md`).
 2. **Metadata viva.** Cada pieza del harness (comando, subagente, skill propia o
-   vendorizada) declara en su frontmatter `dueno`, `disparador` y `proposito`;
+   vendorizada) declara en su frontmatter `owner`, `trigger` y `purpose`;
    las vendorizadas, además, su procedencia (`metadata.repo/commit/version`, ya
    existente).
 3. **Verificación.** `scripts/harness-check.sh` cruza la metadata contra

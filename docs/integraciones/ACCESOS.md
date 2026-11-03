@@ -1,6 +1,6 @@
 # Accesos e integraciones
 
-Estado: vigente. Última actualización: 2026-10-06.
+Estado: vigente. Última actualización: 2026-11-03.
 
 Este documento dice qué credenciales necesita el proyecto, de dónde salen, qué
 se puede hacer con cada una y quién las autoriza. No contiene valores: un
@@ -31,6 +31,7 @@ detecta.
 | `GOOGLE_REFRESH_TOKEN` | Token de refresco OAuth de Drive | El líder lo entrega |
 | `GOOGLE_DRIVE_FOLDER` | Carpeta de entregas en Drive | No es secreto |
 | `ENGRAM_PROJECT` | Nombre del proyecto de memoria (canónico del binario) | No es secreto |
+| `FIRECRAWL_API_KEY` | Crawling sistemático (extra, apagado por defecto) | El líder lo autoriza por hito |
 
 ## Gestión del trabajo: GitHub
 
@@ -81,13 +82,13 @@ Política de escritura: `integraciones/ENGRAM.md`.
 
 ## Servidores MCP del proyecto
 
-**Ninguno activo.** `.mcp.json` se versiona vacío a propósito: hoy ninguna
-candidata pasa los siete criterios de `integraciones/HERRAMIENTAS-AGENTE.md`, y
-un MCP a medias es peor que ninguno. El veredicto por herramienta, con el
-criterio que falla, está en `integraciones/MCP.md`.
+**Core activo (Engram, Drive lectura, GitHub vía `gh`), extras delimitados y
+apagados.** `.mcp.json` es el catálogo versionado del equipo: core + extras
+con `enabled: false` hasta su disparador (ver `integraciones/MCP.md`). Las
+credenciales de un extra entran aquí cuando ese extra se enciende.
 
 El día que uno entre: se declara en `.mcp.json` con revisión exacta, su credencial
-como variable de entorno en `.env.example`, y su fila en esta tabla.
+como variable de entorno en `.env.example`, y su fila en la tabla de arriba.
 
 ## Lo que un agente puede hacer sin preguntar
 

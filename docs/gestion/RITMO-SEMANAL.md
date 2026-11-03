@@ -38,14 +38,14 @@ Issues y Project (`integraciones/GITHUB-GESTION.md`).
 
 ## Fechas fijadas
 
-Sprints (`GITHUB-GESTION.md`, no se redefinen): S2 diseño y método 31 oct–6 nov,
+Sprints (`GITHUB-GESTION.md`, no se redefinen): S2 diseño y método 2–6 nov,
 S3 modelo e implementación 7–19 nov, S4 demo y final 20 nov–3 dic. Semanas de
 lunes a domingo: un brief puede durar días o varias semanas; mandan sus fechas,
 la semana solo marca el ritmo de syncs.
 
 | Fecha | Qué | Dónde |
 |---|---|---|
-| 2026-10-31 | Arrancan el caso, la plataforma frontend y el generador del dataset | #83, #84, #61 |
+| 2026-11-02 | Arrancan el caso, la plataforma frontend y el generador del dataset | #83, #84, #61 |
 | 2026-11-06 | Caso cerrado, método (SDD/TDD) y limpieza documental | #83, #87, #88 |
 | 2026-11-10 | Plataforma frontend en `main` | #84 |
 | **2026-11-12** | **Modelo y base de datos congelados; contrato con SHA** | Milestone `C1 modelo y BD`, #58, #60, #62, #23 |

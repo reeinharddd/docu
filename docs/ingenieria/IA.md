@@ -187,7 +187,9 @@ para un modelo reducido), y un modelo distinto producirá una dimensión distint
 Propuesta vigente en [EMBEDDINGS.md](EMBEDDINGS.md): **Qwen3-Embedding-0.6B**
 (Apache 2.0, salida MRL a 768, contexto 32 K) o **EmbeddingGemma 308M** (768
 nativas, CPU); alternativas en [EMBEDDINGS-MERCADO.md](EMBEDDINGS-MERCADO.md).
-Se **congela en M1** con medición propia (recall@k) y pasa a **ADR-0015**. Si el modelo elegido entrega 384 o 128
+Se **congela en M1** con medición propia (recall@k) y queda registrada en el
+ADR de integración IA que acompañe a ese hito (ADR-0018/0020, todavía no
+escritos). Si el modelo elegido entrega 384 o 128
 dimensiones, la columna nace como `vector(384)` o `vector(128)`, porque todavía no
 hay esquema ni datos de producción.
 

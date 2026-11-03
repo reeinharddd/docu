@@ -3,6 +3,9 @@
 Fecha: 2026-10-06 · Estado: Aceptada
 > Vigencia 2026-10-30: los hitos y fechas que este ADR menciona fueron sustituidos por
 > `docs/gestion/REPLAN-2026-10-30.md` §9. La decisión no cambia; lo que cambió es el calendario.
+> Vigencia 2026-11-03: `integraciones/MONDAY.md` nunca existió en el repositorio; la autoridad
+> operativa es este ADR + `integraciones/GITHUB-GESTION.md`. Cualquier referencia a ese archivo
+> se considera obsoleta.
 Decide: Erik · Revisa: Erik (excepción autorizada: equipo de 4, sin revisor disponible)
 
 ## Contexto

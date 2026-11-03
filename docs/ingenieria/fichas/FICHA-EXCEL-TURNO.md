@@ -1,6 +1,6 @@
 # Ficha: `excel_turno` (issue #9)
 
-Estado: propuesta para aprobación 17-oct. Cumple el contrato de
+Estado: aprobada 2026-10-17 (issue #9 cerrado). Cumple el contrato de
 `CONTRATO.md`. Dueño del proceso: Carmen; revisa Jorge.
 
 ## 1. Propósito

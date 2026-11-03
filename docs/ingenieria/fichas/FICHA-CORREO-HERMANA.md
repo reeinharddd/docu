@@ -1,6 +1,6 @@
 # Ficha: `correo_hermana` (issue #9)
 
-Estado: propuesta para aprobación 17-oct. Cumple el contrato de
+Estado: aprobada 2026-10-17 (issue #9 cerrado). Cumple el contrato de
 `CONTRATO.md`. Dueño del proceso: Ana (cambios de programa); revisa el
 responsable afectado.
 
