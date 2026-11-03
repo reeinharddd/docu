@@ -41,7 +41,7 @@ trabajo: qué escribe y con qué `estado` deja cada entidad.
 |---|---|---|
 | Entrada inválida | | |
 | Entidad no encontrada | | |
-| Regla `BLOQUEO` violada | | `Cuarentena`, `Alerta` |
+| Regla `BLOQUEO` violada | | `Quarantine`, `Alert` |
 | Dependencia caída | | `Bitacora` |
 
 Un error de negocio no es un 500. Y todo error con efecto sobre datos va a

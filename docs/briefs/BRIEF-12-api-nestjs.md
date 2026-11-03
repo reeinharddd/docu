@@ -34,7 +34,7 @@ Fase A (esqueleto, 13→14-nov): módulos, config, health, validación global; a
 
 ## 4. Actividades específicas
 
-1. Crear módulos por dominio (`auth`, `ingesta`, `oficial`) sobre el esqueleto actual. Terminado: `GET /health` responde ok.
+1. Crear módulos por dominio (`auth`, `sources`, `official-records`) sobre el esqueleto actual. Terminado: `GET /health` responde ok.
 2. Cablear validación global y apagado limpio. Terminado: campo extra rechazado + `SIGTERM` cierra conexiones.
 3. Modelar Prisma desde el diagrama v1 aprobado del #7. Terminado: `prisma validate` verde + migración.
 4. Implementar ingesta: subir → hash `sha256` → familia → estado. Terminado: 1 archivo por familia con su hash.

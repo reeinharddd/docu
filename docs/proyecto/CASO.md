@@ -1,6 +1,6 @@
 # Caso de negocio: Baja SterilPack
 
-Estado: vigente como Configuración 1. Última actualización: 2026-10-15.
+Estado: vigente como Configuración 1. Última actualización: 2026-11-03.
 
 Este documento es la realidad de la planta: qué es, quién la mueve, qué duele y
 el incidente que originó DOCU. La matriz de permisos vive en `ROLES.md` (#29);
@@ -9,7 +9,7 @@ caso, en `../ingenieria/ALCANCE-SOLUCION.md`.
 
 Planta **sintética** de empaque médico flexible: no existe, no hay
 levantamiento real ni entrevistas. El caso se define en este archivo y Carlos
-genera el dataset en paralelo (#9). Despliegue por compañía: una compañía corre
+genera el dataset en paralelo (#61, contrato en #9). Despliegue por compañía: una compañía corre
 su propio sistema y en él pueden convivir sus plantas. El nombre real de
 cualquier planta de referencia nunca aparece en entregas ni en el repositorio.
 
@@ -39,6 +39,29 @@ equivocada o llegada tardía.
 - Corporativo en sitio sin reportar a planta: RH, Contaduría.
 - **Planeación (1-2 personas) decide qué línea entra cuándo y con qué
   material.** Es quien vive el problema.
+
+## Personas del caso: quién puede qué
+
+Resumen operativo del reparto; la matriz completa y formal vive en
+`ROLES.md` (#29) — este cuadro no la duplica, la resume para leer el caso.
+"Ve" = alcance de lectura; "Hace" = acciones que DOCU le permite; "No puede"
+= lo que otra persona o regla le niega (sin ambigüedad).
+
+| Persona | Rol | Ve | Hace | No puede | Flujos |
+|---|---|---|---|---|---|
+| Ana | Planeadora | Su programa, bloqueos de sus órdenes y lo oficial de Materiales | Emite y mantiene el programa, replanifica (R-P4), confirma su dato oficial | Liberar calidad ni ver escaneados ajenos a su flujo | F1, F5, F6 |
+| Sergio | Aux. de planeación | Sus descargas y documentos de su flujo | Sube descargas externas (promesas, inventario SAP, embarques), consulta | Modificar el programa de Ana ni confirmar datos ajenos | F1 (apoya) |
+| Pedro | Jefe de Almacén | Inventario y recepciones de Almacén | Valida stock, cuenta, confirma el conteo (R-T1) | Programar ni liberar calidad | F2, F6 |
+| Luis | Almacenista de recepción | Sus recepciones | Registra rollo, medida, certificado y condición; deja pendiente lo que falta | Marcar un rollo como asignable sin certificado (R-P1) ni con medida distinta (R-P2) | F2 |
+| Marta | Jefa de Calidad | Escaneados, liberaciones y cuarentena de calidad | **Única** que libera QA (R-Q1) y confirma dato oficial de calidad | Tocar el programa de Planeación | F4, F6 |
+| Jorge | Jefe de Producción | Órdenes, asignación y estado de rollos asignables | Asigna máquina/material, da seguimiento al turno | Auto-liberarse (R-Q1) ni programar | F3 (apoya), F7 |
+| Carmen | Operadora TP-01 | Su turno y su máquina | Sube el Excel de turno con merma y motivo de paro (R-A1) | Ver otras máquinas ni confirmar datos ajenos | F3 |
+| Miguel | Jefe de Mantenimiento e Ingeniería | Paros y cambios de ingeniería | Sube correos de cambio, consulta paros por máquina | Tocar calidad ni planeación | F7 (soporte) |
+| Andrés | Jefe de Materiales (jefe de Ana y Pedro) | Todo su dominio: planeación, compras, almacén, inventarios | Aprueba replans, ve consolidado de su dominio | Liberar calidad | F1, F5, F6 (vista jefe) |
+
+Fuera del ciclo activo del caso (pero en el sistema): Roberto (corporativo,
+reportes consolidados), Laura (gerente de planta, admin) y Juan (facilities,
+scope fino). Detalle en `ROLES.md`.
 
 ## Flujo de lote (trazabilidad total)
 
@@ -73,9 +96,69 @@ cuatro archivos.
 `correo_hermana`, `escaneado`. Cada familia trae su propio esquema y su propio
 parser; añadir una familia es configuración, no código (RF-08).
 
+## Flujos del caso, paso a paso
+
+Cada paso declara **entrada → acción → salida** con el documento o la
+conversación que se intercambia. Estos flujos son la materia prima del mapa de
+derivación; los identificadores `D-*` son el inventario de artefactos de la
+sección siguiente.
+
+### F1 — Programa semanal (Ana, con apoyo de Sergio)
+
+| # | Entrada | Acción | Salida |
+|---|---|---|---|
+| 1 | D-01 pedido (CRM), D-02 orden+BOM (SAP), D-03 stock (SAP) — vía descarga de Sergio | Ana junta 3–4 fuentes a mano en el Excel Frankenstein | D-05 programa semanal (`programa_planeacion`) |
+| 2 | D-05 + D-03/D-04 (inventario y promesas) | Ana asigna máquina/material/turno; valida contra stock mental | D-05 con asignaciones; los bloqueos de regla no existen aún |
+| 3 | D-06 correo de la hermana (si llegó) | Hoy: nadie lo cruza; el programa queda pegado a un inventario viejo | Desfase programa↔realidad (R-P4 sin mecanismo) |
+
+### F2 — Recepción de rollo (Luis, jefe Pedro)
+
+| # | Entrada | Acción | Salida |
+|---|---|---|---|
+| 1 | Trailer de la hermana | Luis descarga y cuenta; compara contra aviso | Discrepancia detectada a mano (4 de 6, calibre menor) |
+| 2 | D-08 certificado (PDF), D-09 etiqueta (física/escaneo) | Luis registra en D-10 recepción (`recepcion_rollo`); si falta certificado anota "pendiente" y sigue | Rollo registrado sin bloqueo (R-P1/R-P2 sin mecanismo) |
+| 3 | D-10 | Pedro cuadra contra D-11 conteo físico (`inventario`) | Stock con dos verdades: SAP vs piso (R-P3/R-T1 a ojo) |
+
+### F3 — Turno en piso (Carmen; Jorge asigna)
+
+| # | Entrada | Acción | Salida |
+|---|---|---|---|
+| 1 | D-05 programa del día | Jorge asigna máquina/material; Carmen monta | Montaje según programa (aunque el rollo no sirva) |
+| 2 | Corrida en TP-01; D-12 dataPARC en paralelo | Carmen registra en D-13 excel de turno: buenas, merma, paros (`excel_turno`) | Paro > 30 min a veces sin motivo (R-A1 sin mecanismo) |
+| 3 | Fin de turno | Carmen entrega su Excel; nadie lo cruza con recepción ni programa | Datos de piso aislados |
+
+### F4 — Liberación de calidad (Marta)
+
+| # | Entrada | Acción | Salida |
+|---|---|---|---|
+| 1 | Muestra del lote; D-15 hoja de verificación / peel test (escaneo) | Marta prueba y llena su hoja | D-15 escaneado, papel |
+| 2 | D-15 + D-08 certificado | Marta decide liberar o frenar (R-Q1: solo Calidad) | D-16 liberación QA (registro/firma); si falta papel, la línea espera (patrón crónico de certificados tardíos) |
+
+### F5 — Cambio de la hermana (correo → replan)
+
+| # | Entrada | Acción | Salida |
+|---|---|---|---|
+| 1 | D-06 correo de la hermana (recorta cantidad, cambia calibre, avisa retraso) | Hoy: llega a Ana/Andrés y se lee; no se cruza con nada | Ninguna acción estructurada; el programa queda desfasado (R-P4 sin mecanismo) |
+| 2 | Reunión o llamada de Andrés con Ana | Replan a mano de las órdenes afectadas | D-05 re-hecho a mano; el cambio anterior se pierde de vista |
+
+### F6 — Reporte del día (Ana y Calidad)
+
+| # | Entrada | Acción | Salida |
+|---|---|---|---|
+| 1 | D-13 (piso), D-10/D-11 (almacén), D-05 (programa), D-06 (correos) | Abrir los 4 archivos y cuadrar cifras a mano | D-18 reporte consolidado, con discrepancias sin explicar |
+| 2 | Pregunta "¿de qué rollo salió esta orden?" | Buscar en papeles y memoria | Nadie reconstruye rollo → orden → máquina → turno |
+
+### F7 — El incidente: rollo fantasma (transversal)
+
+La cronología completa (viernes→lunes) y la cascada con números están en
+"El incidente que originó DOCU". En términos de flujos: F5 dejó el aviso sin
+cruzar (paso 1), F2 registró el rollo sin certificado como pendiente, F3 montó
+un rollo que no servía y paró la línea, F4 frenó sin certificado (R-Q1), y F6
+no pudo reconstruir qué pasó. Cada fallo típico del caso aparece en ≥1 flujo.
+
 ## Reglas del caso
 
-Las reglas son **datos** en `ReglaValidacion`, no código. Bloquean o avisan.
+Las reglas son **datos** en `ValidationRule` (ADR-0009), no código. Bloquean o avisan.
 
 | Código | Severidad | Regla |
 |---|---|---|
@@ -94,6 +177,23 @@ El documento de caso histórico usa otra nomenclatura (`R-S1` = stock mínimo,
 certificado **o** medida distinta a BOM"). **Se descarta**: valen los códigos de
 la tabla de arriba, con `R-P1` = solo certificado y `R-P2` = medida distinta.
 Ninguna regla existe bajo dos códigos. Seed, dataset y validación usan estos.
+
+## Fallo → resolución → efecto en el diseño
+
+Cada fallo del caso (crónicos §"El mes simulado" + incidente) con su
+resolución y el efecto concreto que esa resolución tiene en el diseño. Si un
+fallo no tiene efecto de diseño, no entra: es ruido, no requerimiento.
+
+| Fallo | Resolución con DOCU | Efecto en el diseño |
+|---|---|---|
+| Rollo sin certificado se programa | R-P1 bloquea en la validación de recepción; el rollo queda "no asignable" | Estado de asignabilidad por rollo en el ER; bandeja de cuarentena con motivo y regla visible (G2) |
+| Medida distinta a la pedida | R-P2 compara etiqueta vs BOM/orden | Campos `medida_pedida` y `medida_recibida` comparables en el ER; resultado en la validación |
+| Inventario que no cuadra (SAP vs piso) | Ambas verdades entran como fuentes distintas y quedan fechadas; R-P3/R-T1 bloquean la orden si el material no alcanza | Stock con fuente y fecha (no un número único); bloqueo visible en Programa (G4) |
+| Correo de la hermana que nadie cruza | El correo es una familia más (`correo_hermana`); R-P4 dispara replan y **pausa el reporte viejo** | Relación correo→orden(es) afectadas en el ER; mecanismo de pausa de reporte (#39) |
+| Paro > 30 min sin motivo | R-A1 exige motivo en el Excel de turno | Campo motivo obligatorio condicional en `excel_turno`; valida en la cadena |
+| Producción se auto-libera | R-Q1: solo Calidad confirma la liberación | Permiso de confirmación por rol (RBAC `ROLES.md`); DatoOficial lleva quién confirmó |
+| Reporte que se arma a mano con 4 archivos | El reporte se genera del encadenamiento rollo→orden→máquina→turno→documento | Lineage consultable (G5); cifras del reporte que citan su fuente (RF-04) |
+| Nadie sabe qué órdenes cuelgan de un rollo | El lineage responde al instante; DOCU propone el rollo sustituto | Consulta por rollo/orden en Búsqueda; sustituto propuesto, humano dispone |
 
 ## El incidente que originó DOCU: el rollo fantasma
 
@@ -171,9 +271,7 @@ El **lunes 26-oct**, con el patrón crónico ya encima, cae el **incidente nuevo
 (el rollo fantasma, arriba): el mismo tipo de falla, pero sin margen.
 
 El detalle operativo del dataset (volúmenes por familia, ruido y reparto
-válido/inválido/ambiguo) vive en `../ingenieria/fichas/CONTRATO.md` (§8–§10).
-
-## El mismo lunes, con DOCU
+válido/inválido/ambiguo) vive en `../ingenieria/fichas/CONTRATO.md` (§8–§10).## El mismo lunes, con DOCU
 
 Misma cronología, otra salida:
 
@@ -190,6 +288,67 @@ Misma cronología, otra salida:
 La diferencia no es magia: el correo, la recepción, el programa y el piso —que
 hoy viven en cuatro archivos— quedan **cruzados**, y el humano decide con la foto
 completa. DOCU propone; el humano dispone (ADR-0006).
+
+## Mapa de derivación: flujo → pantalla → endpoint → dato → regla → guion
+
+Este mapa es el **contrato de entrada de los carriles B (frontend), D (BD),
+F (dataset) y H (mockups)**: cada flujo produce qué pantalla, qué endpoint,
+qué dato, qué regla y qué guion de la demo. Las pantallas y endpoints son los
+previstos en `../ingenieria/ALCANCE-SOLUCION.md` §2; los guiones (G1–G6) se
+corren con el dataset de C1 (`CONTRATO.md` §8).
+
+**Idioma de los identificadores (regla del repo):** todo lo que es código —
+endpoints, entidades, tablas, colas, campos — va en **inglés**; el documento
+explica en español. Las pantallas de la UI y el vocabulario del negocio
+(rollo, turno, merma) siguen en español (RNF-01). Los slugs de familia del
+contrato (`excel_turno`, `recepcion_rollo`, …) son datos aprobados del caso
+(#9) y no cambian. El ER (#58) usa este vocabulario tal cual:
+
+| Código | Entidad lógica | En el caso es |
+|---|---|---|
+| `OriginalFile` | archivo original subido, solo-insert | cada archivo que entra a DOCU |
+| `Document` | documento lógico (`document_id` del contrato) | D-01…D-20 |
+| `OfficialRecord` | dato oficial confirmado | la cifra que cita su fuente |
+| `OriginHistory` | historial de origen | de dónde salió cada dato |
+| `ValidationRule` | regla declarativa (datos, no código) | R-P1…R-T1 |
+| `Quarantine` | cuarentena con motivo | lo detenido con su regla |
+| `AuditLog` | bitácora | quién subió y quién confirmó |
+| `ProductionSchedule` | el programa semanal | el Excel Frankenstein de Ana, saneado |
+| `ProductionOrder` | orden de producción | lo que cuelga de un rollo |
+| `Material` | material y stock | film, Tyvek, foil |
+| `Roll` | rollo | `R-017`, `R-019` |
+| `GoodsReceipt` | recepción de material | lo que registra Luis |
+| `Machine` | máquina | `TP-01`, `TP-02`, `TB-*` |
+| `Shift` | turno | T1/T2/T3 |
+| `Downtime` | paro con motivo | los ~45 min del incidente |
+| `Scrap` | merma | los ~36 kg del incidente |
+| `QualityRelease` | liberación de calidad | lo que firma Marta |
+| `ScanRecord` | lo extraído de un escaneado | hojas de verificación, peel test |
+| `SisterChange` | cambio notificado por la planta hermana | el correo del viernes |
+| `Report` | reporte derivado | el reporte del día |
+| `User` / `Role` / `Permission` | personas y permisos | la matriz de `ROLES.md` |
+
+| Flujo | Pantalla(s) | Endpoint(s) previstos | Dato(s) lógico(s) que exige el ER | Regla(s) | Guion |
+|---|---|---|---|---|---|
+| F1 Programa semanal | Programa | `POST /v1/sources/:id/sync` (SAP mock), `GET /v1/official-records` | `ProductionSchedule`, `ProductionOrder`, `Material`/stock, `Machine`, `Shift` | R-P1, R-P2, R-P3 (bloqueos visibles) | G4 |
+| F2 Recepción de rollo | Captura | `POST /v1/files`, `GET /v1/files/:id/validation` | `Roll`, `GoodsReceipt`, certificado como `Document` (D-08/D-09/D-10), estado `assignable` del rollo | R-P1, R-P2 | G2 |
+| F3 Turno en piso | Captura | `POST /v1/files` (lote 120 excels), worker procesa | `Shift`, `Scrap`, `Downtime` con motivo, `Machine` | R-A1 | G1 |
+| F4 Liberación de calidad | Captura + Bandeja | `POST /v1/files` (escaneado), `POST /v1/inbox/:id/confirm` | `QualityRelease`, `ScanRecord` (D-15/D-16), permiso de confirmación por rol | R-Q1 | G3 |
+| F5 Cambio de la hermana | Captura + Programa | `POST /v1/files` (correo), R-P4 al validar | `SisterChange`, relación con `ProductionOrder` afectada, pausa de reporte | R-P4 | G5 |
+| F6 Reporte del día | Reporte + Búsqueda | `GET /v1/reports/...`, `GET /v1/lineage/:id` | `Report` derivado; cada cifra cita `OriginHistory` | — (agregado sobre oficiales) | G6 |
+| F7 Rollo fantasma (transversal) | Bandeja + Búsqueda + Programa | `GET /v1/quarantine`, `GET /v1/lineage/:id`, `GET /v1/official-records` | Encadenamiento `Roll→ProductionOrder→Machine→Shift→Document` (el corazón del ER) | R-P1, R-P2, R-Q1, R-P4 | G5 |
+| F8 Consulta con trazabilidad (nueva con DOCU) | Búsqueda | `GET /v1/lineage/:id`, `GET /v1/official-records`, `POST /v1/auth/login` | `OfficialRecord`, `OriginHistory`, `ValidationRule`, `AuditLog` | — | G5, G6 |
+
+Guiones de demo (todos corren sobre el mes simulado, sin datos externos):
+
+| Guion | Qué se demuestra | Flujo | Fecha del dataset |
+|---|---|---|---|
+| G1 | Subida en lote de los 120 excels de turno; clasificación y validación; el paro sin motivo (R-A1) cae a revisión | F3 | semana 3 del mes |
+| G2 | Recepción del sábado: `R-017` sin certificado cae en cuarentena por R-P1, con motivo visible; el original queda intacto | F2 | 24-oct (sábado previo al incidente) |
+| G3 | Marta confirma la liberación QA; el dato oficial queda con origen, regla y quién confirmó | F4 | semana 4 |
+| G4 | El programa muestra bloqueos vivos: rollo no asignable, material que no alcanza | F1 | semana 4 |
+| G5 | Trazabilidad del rollo fantasma: del correo del viernes a las órdenes en riesgo, rollo→orden→máquina→turno→documento | F5, F7, F8 | 23–26 oct |
+| G6 | Reporte del día generado solo, cada cifra cita fuente; la alerta (#39) dispara al cruzar el umbral | F6 | 26-oct |
 
 ## Ecosistema documental del "antes"
 
@@ -282,6 +441,29 @@ distintas plantas intentando lecturas, escrituras y reportes cruzados — todo l
 de la otra planta debe fallar — más `git diff` de código vacío y la salida del
 reporte, todo adjunto al PR de #8. Sin reintroducir `Empresa` multi-tenant: el
 despliegue ya es por compañía, el aislamiento es por instalación en el servidor.
+
+## Criterios de Hecho del caso
+
+Verificables por un tercero leyendo este documento y los que cita. El caso
+está **cerrado** cuando todo esto se cumple:
+
+1. Cada flujo (F1–F7) tiene pasos con entrada, acción y salida, y cada paso
+   nombra el documento (`D-*`) o la conversación que se intercambia.
+2. Cada flujo aparece en el mapa de derivación con al menos una pantalla, un
+   endpoint y un guion de demo.
+3. Las 7 reglas (`R-P1`–`R-T1`) aparecen en al menos un flujo y en al menos un
+   fallo con resolución y efecto de diseño.
+4. Las 6 familias del catálogo (`programa_planeacion`, `recepcion_rollo`,
+   `inventario`, `excel_turno`, `correo_hermana`, `escaneado`) aparecen en al
+   menos un flujo.
+5. Las 8 personas activas del ciclo (+ su jefe) tienen fila con ve/hace/
+   no-puede, coherente con la matriz formal de `ROLES.md`.
+6. Cada fallo del caso tiene resolución y efecto de diseño declarado.
+7. Los guiones G1–G6 se pueden correr con el dataset de C1
+   (`../ingenieria/fichas/CONTRATO.md` §8), sin datos fuera del mes simulado
+   ni del inventario `D-*`.
+8. `REQUISITOS.md` no contradice este documento: su trazabilidad apunta a
+   `gestion/TRAZABILIDAD.md` y las fechas duras son las milestones vivas.
 
 ## Referencias
 

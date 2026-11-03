@@ -1,5 +1,9 @@
 # ADR 0009 — Las reglas del caso son datos en `ReglaValidacion`, no código
 
+> Vigencia 2026-11-03: los identificadores de código van en inglés. El ER (#58) nombra
+> esta entidad `ValidationRule`; el concepto y la decisión no cambian. El vocabulario
+> canónico completo vive en `docs/proyecto/CASO.md` (mapa de derivación).
+
 Fecha: 2026-10-06 · Estado: Aceptada
 Decide: Erik · Revisa: Emmanuel (dueño del módulo de reglas)
 

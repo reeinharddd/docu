@@ -21,7 +21,7 @@ Todo lo pesado (OCR, ingesta, reportes, alertas) pasa por aquí. Si sale bien, #
 
 | Entregable | Evidencia |
 |---|---|
-| Worker con 4 colas | `apps/api/src/worker.ts`: `ingesta`, `texto`, `reportes`, `alertas`; conexiones Redis separadas |
+| Worker con 4 colas | `apps/api/src/worker.ts`: `ingest`, `text`, `reports`, `alerts` (identificadores en inglés); conexiones Redis separadas |
 | Reintentos + cuarentena | Backoff con jitter; al agotarse, cuarentena con motivo (nunca se pierde el job en silencio) |
 | Salud visible | `/health` reporta si el worker vive y profundidad por cola |
 

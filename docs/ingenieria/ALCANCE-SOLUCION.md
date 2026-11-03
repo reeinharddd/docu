@@ -24,21 +24,24 @@ mecanismos y en qué idiomas.
 ## 2. Superficie de API (prevista)
 
 Un módulo por dominio (convención de `API.md`), todo bajo `/v1`. La API
-**encola**; el worker procesa (ADR-0011).
+**encola**; el worker procesa (ADR-0011). Identificadores de código en inglés
+(regla del repo); la explicación en español.
 
 | Módulo | Rutas previstas | Qué hace |
 |---|---|---|
-| `archivos` | `POST /v1/archivos` | Subida, `sha256`, crea `ArchivoOriginal` (solo-insert) |
-| `ingesta` | `POST /v1/fuentes/:id/sync` | Trae de una fuente (simulada) y la mete al mismo pipeline |
-| `clasificacion` | `GET /v1/archivos/:id/clasificacion` | Propuesta de familia + confianza (IA propone) |
-| `validacion` | `GET /v1/archivos/:id/validacion` | Resultado de la cadena de reglas declarativas |
-| `cuarentena` | `GET /v1/cuarentena` | Bandeja de lo detenido, con motivo y código de regla |
-| `confirmacion` | `POST /v1/bandeja/:id/confirmar` | Humano confirma → `DatoOficial` + `HistorialOrigen` |
-| `oficiales` | `GET /v1/oficiales` | Dato confirmado, con su fuente y responsable |
-| `trazabilidad` | `GET /v1/lineage/:id` | Rollo → orden → máquina → turno → documento |
+| `files` | `POST /v1/files` | Subida, `sha256`, crea `OriginalFile` (solo-insert) |
+| `sources` | `POST /v1/sources/:id/sync` | Trae de una fuente (simulada) y la mete al mismo pipeline |
+| `classification` | `GET /v1/files/:id/classification` | Propuesta de familia + confianza (IA propone) |
+| `validation` | `GET /v1/files/:id/validation` | Resultado de la cadena de reglas declarativas |
+| `quarantine` | `GET /v1/quarantine` | Bandeja de lo detenido, con motivo y código de regla |
+| `confirmation` | `POST /v1/inbox/:id/confirm` | Humano confirma → `OfficialRecord` + `OriginHistory` |
+| `official-records` | `GET /v1/official-records` | Dato confirmado, con su fuente y responsable |
+| `lineage` | `GET /v1/lineage/:id` | Rollo → orden → máquina → turno → documento |
 | `auth` | `POST /v1/auth/login` | Sesión y roles (RBAC en servidor) |
-| `reportes` | `GET /v1/reportes/...` | Reportes base (turno/día) |
+| `reports` | `GET /v1/reports/...` | Reportes base (turno/día) |
 
+El vocabulario canónico de entidades (inglés, con su equivalente del caso)
+está en `../proyecto/CASO.md` §Mapa de derivación; el ER (#58) lo adopta.
 Decisiones ya anotadas como pendientes en `API.md` (autenticación y token,
 versionado, formato de error único, paginación, contrato de ingesta e
 idempotencia, OpenAPI como artefacto) se resuelven aquí antes de M1.

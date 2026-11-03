@@ -43,29 +43,20 @@ aunque cueste.
 
 ## Trazabilidad requisito → módulo → épica
 
-| RF | Módulo | Issue | Sprint |
-|---|---|---|---|
-| RF-01 | `sources/ingestión` | #12 API NestJS | Sprint 1 |
-| RF-01, RF-02 | `sources/ingestión` | #3 Pipeline de ingesta, OCR y clasificación | Sprint 2 |
-| RF-03 | `canonical/lineage` | #12 API NestJS | Sprint 1 |
-| RF-03, RF-04 | `discover/mapping` + front | #4 Frontend Angular | Sprint 2 |
-| RF-04 | `agent/tools` | #4 Frontend Angular (parcial) | Sprint 2 |
-| RF-05 | `agent/tools` | #39 Reporte recurrente y alerta | Sprint 3 |
-| RF-06 | `auth/governance` | #10 Arquitectura y entorno base | Sprint 1 |
-| RF-06, RF-02 | `auth/governance` | #5 RBAC, bitácora y reglas declarativas | Sprint 2 |
-| RF-07 | `canonical/lineage` | transversal (Could), diferido fuera de la entrega actual por decisión del líder 2026-10-12 | — |
-| RF-08 | `discover/mapping` | #8 Configuración 2 | Sprint 3 |
-| RNF-07 | transversal | #6 Pruebas, evidencias y cierre | Sprint 4 |
+La trazabilidad viva (requisito → épica → issue → PR → evidencia, con sprints
+y fechas de la v2) vive en **`gestion/TRAZABILIDAD.md`** y se consulta con
+`gh issue list --label <RF>`. Este documento no la duplica: una sola fuente
+verificable.
 
 ### Huecos y fechas
 
 Los huecos de trazabilidad vivos están en `gestion/TRAZABILIDAD.md` y se
 consultan con `gh issue list --label req:pendiente`. Las fechas duras son
-milestones de GitHub y se listan en `gestion/RITMO-SEMANAL.md`; las dos más
-cercanas con impacto en diseño son **2026-11-12, modelo y base de datos
-congelados** (milestone `C1 modelo y BD`, con el contrato de datos dentro) y
-**2026-11-24, demo de avances con el profesor** (milestone `Avances profesor`),
-verificadas en GitHub el 2026-10-31.
+milestones de GitHub y se listan en `gestion/RITMO-SEMANAL.md`; las tres con
+mayor impacto en diseño son **2026-11-12, modelo y base de datos congelados**
+(milestone `C1 modelo y BD`), **2026-11-24, demo de avances con el profesor**
+(milestone `Avances profesor`) y **2026-12-03, presentación final**
+(milestone `C1 final`), verificadas en GitHub el 2026-11-03.
 
 ## Pruebas que exige cada requisito
 

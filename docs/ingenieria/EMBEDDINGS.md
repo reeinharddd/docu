@@ -27,7 +27,7 @@ rompen RNF-03 (offline).
 ## 2. Por qué Qwen3 y no otro
 
 El contrato **`vector(768)` ya está fijado** en el esquema y en los docs
-([MODELO-DATOS.md](MODELO-DATOS.md) §`DatoOficial`, [BRIEF-58](../briefs/BRIEF-58-diagrama-v0.md),
+(`OfficialRecord`, antes `DatoOficial`; vocabulario en [CASO.md](../proyecto/CASO.md) mapa de derivación, [BRIEF-58](../briefs/BRIEF-58-diagrama-v0.md),
 [IA.md](IA.md) §6, [INVESTIGACION-HERRAMIENTAS.md](../integraciones/INVESTIGACION-HERRAMIENTAS.md)).
 Elegir un modelo que **produzca 768** evita migrar la columna y reindexar.
 
@@ -55,14 +55,14 @@ embeber en el borde.
   ([MODELO-DATOS.md](MODELO-DATOS.md)). Nace **sin poblar**; se llena cuando hay
   modelo fijado y benchmark (riesgo ya anotado en MODELO-DATOS §riesgos).
 - **Quién lo produce:** el proceso **`worker`** (ADR-0011), al crear o confirmar un
-  `DatoOficial`. La API solo encola.
+  `OfficialRecord`. La API solo encola.
 - **Cómo se consulta:** búsqueda semántica = consulta en lenguaje natural →
-  vecinos más cercanos por **coseno** (`<=>`) sobre `DatoOficial` **confirmados**,
+  vecinos más cercanos por **coseno** (`<=>`) sobre `OfficialRecord` **confirmados**,
   con índice **HNSW** (`vector_cosine_ops`).
 - **Orden de la búsqueda:** primero **`tsvector`** (Must, texto completo); el
   embedding es una **segunda capa** (Should) que no reemplaza al texto
   ([IA.md](IA.md) §6). Si el embedding falta, la búsqueda textual sigue funcionando.
-- **Chunking:** un embeddings es **por registro** (un `DatoOficial` = un hecho), no
+- **Chunking:** un embeddings es **por registro** (un `OfficialRecord` = un hecho), no
   por documento entero: el texto a embeber es corto (campos/ficha), así que el tope
   de contexto es holgado salvo en campos libres muy largos.
 
