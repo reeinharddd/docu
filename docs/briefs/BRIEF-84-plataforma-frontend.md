@@ -3,7 +3,7 @@
 ## 0. Encabezado
 
 - Issue: #84 — https://github.com/reeinharddd/docu/issues/84
-- Dueño: Kira Angel López (`kirxllix`)
+- Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`); Kira Angel López (`kirxllix`) colabora en la estética y hereda la base
 - Fechas: 2026-11-02 → 2026-11-10 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / plataforma
 - Requisitos: RNF-01
@@ -67,7 +67,7 @@ construir pantallas, no decidir infraestructura de estilos.
 
 ## 7. Cómo trabajar
 
-- La IA propone la base; Kira decide la estética final con Erik en el sync.
+- Erik construye la base (infraestructura y arquitectura); Kira afina la estética y arranca #11 en cuanto la base aterrice.
 - Nada de CSS global: si dos pantallas lo necesitan, es un token.
 - PRs pequeños, 1 revisor (Erik), evidencia adjunta.
 
