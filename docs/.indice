@@ -42,6 +42,7 @@ docs/decisiones/ADR-0014-instalacion-single-company.md
 docs/decisiones/ADR-0015-core-del-harness.md
 docs/decisiones/ADR-0016-diagramas-como-texto-mermaid.md
 docs/decisiones/ADR-0017-drawio-para-el-er.md
+docs/decisiones/ADR-0018-sdd-y-tdd-como-metodo-de-trabajo.md
 docs/decisiones/README.md
 docs/diseno/DESIGN-SYSTEM.md
 docs/diseno/README.md
@@ -49,6 +50,7 @@ docs/gestion/PLAN-EPICAS.md
 docs/gestion/REPLAN-2026-10-30.md
 docs/gestion/RIESGOS.md
 docs/gestion/RITMO-SEMANAL.md
+docs/gestion/SDD-TDD.md
 docs/gestion/TRAZABILIDAD.md
 docs/HARNESS.md
 docs/ingenieria/ALCANCE-SOLUCION.md
@@ -95,6 +97,7 @@ docs/plantillas/FICHA.md
 docs/plantillas/MARCA.md
 docs/plantillas/RFC.md
 docs/plantillas/ROLES.md
+docs/plantillas/SPEC.md
 docs/proyecto/CASO.md
 docs/proyecto/EQUIPO.md
 docs/proyecto/REQUISITOS.md

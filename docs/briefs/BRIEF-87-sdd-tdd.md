@@ -7,7 +7,7 @@
 - Fechas: 2026-11-02 → 2026-11-06 · Sprint 2 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / proceso
 - Requisitos: RNF-05, RNF-07
-- Bloqueado por: — · Bloquea a: #88, #89
+- Bloqueado por: — · Bloquea a: #45 (pruebas API), #84 (plataforma FE)
 
 ## 1. Contexto
 

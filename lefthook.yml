@@ -9,6 +9,9 @@ pre-commit:
     diagramas:
       glob: "*.{md,mmd,drawio}"
       run: bun scripts/diagramas-check.ts
+    tdd-aviso:
+      glob: "apps/api/**/*.ts"
+      run: bash scripts/tdd-gate.sh --aviso
 commit-msg:
   commands:
     formato:
