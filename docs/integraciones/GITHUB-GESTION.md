@@ -26,7 +26,7 @@ mantiene dos veces el mismo dato.
 | Prioridad | Etiqueta `prioridad:*` → campo `Prioridad` | `prioridad:critica` |
 | Área | Etiqueta `epica:*` → campo `Épica` | `epica:diseno` |
 | Requisito | Etiqueta `RF-0n` / `RNF-0n`; si falta, `req:pendiente` | `RF-01` |
-| Dependencia | *Blocked by* nativo | #4 bloqueada por #11 y #12 |
+| Dependencia | *Blocked by* nativo | #4 bloqueada por #11, #12 y #23 |
 | Bloqueo > 24 h | Etiqueta `bloqueado` | — |
 | Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-11-13 → 2026-11-18` |
 | Brief | Comentario fijado en el issue con el enlace; el issue manda el estado, el brief el detalle | `BRIEF-11` |
@@ -62,7 +62,7 @@ mantiene dos veces el mismo dato.
 | `Status` | Cerrado → `Listo`. PR abierto que lo cierra → `En revisión`. Nuevo → `Por hacer`. `En progreso` lo mueve la persona al empezar |
 | `Épica` | `epica:*` del issue o de su padre |
 | `Prioridad` | `prioridad:*` del issue o de su padre |
-| `Sprint` | `sprint:N` → iteraciones: S1 12–23 oct (replan 2026-10-09), S2 19 oct–6 nov, S3 9–20 nov, S4 23 nov–4 dic. S1/S2 se solapan 19–23 oct por el replan aprobado; los sprints no se redefinen ni se mueven para hacer coincidir fechas |
+| `Sprint` | `sprint:N` → iteraciones: S1 12–23 oct (replan 2026-10-09, cerrado), S2 2–6 nov, S3 7–19 nov, S4 20 nov–3 dic |
 | `Inicio`, `Fin` | Línea `Cronograma` del cuerpo, solo si el campo está vacío |
 | `Estimación (h)` | A mano, opcional |
 | Nativos | Assignees, Labels, Milestone, Parent issue, Sub-issues progress, Linked pull requests |
@@ -77,6 +77,30 @@ mantiene dos veces el mismo dato.
 4. PR con `Closes #N`. El check `pr-issue` falla si falta (salvo etiqueta
    `sin-issue` para mantenimiento).
 5. Al abrir el PR pasa sola a `En revisión`; al fusionarlo, a `Listo`.
+
+## Configs de rama (nunca se commitean)
+
+Cada rama de feature trabaja con su propia config local de tarea, y **solo el
+entregable viaja en el merge**. El principio: lo que la tarea *necesita* se
+declara en el brief (§6) y eso sí se commitea; cómo se satisface en *tu
+máquina* vive fuera del repositorio, así un PR no puede llevar configs ni por
+accidente.
+
+- `scripts/rama-env.sh <issue>` crea la rama (`gh issue develop`) y arma
+  `.docu/rama/<slug>/` con los overrides locales (`COMPOSE_PROJECT_NAME`
+  propio por rama, puertos y URLs si hay choque) y las notas de tarea. Esa
+  carpeta está en `.gitignore`: jamás entra a un PR.
+- Los MCPs opt-in se encienden por tarea en la config global personal o como
+  cambio local sin commitear (`integraciones/MCP.md`).
+- `.env`, `*.local`, `settings.local.json` y `.docu/` son de máquina. La
+  infraestructura de datos ya es local por diseño (`ACCESOS.md`): cada
+  máquina responde por su propia base, así el paralelismo no choca.
+- Regla dura: si un diff hacia `main` toca rutas de config local
+  (`.env*`, `*.local`, `.docu/`), está mal — se saca del commit antes de
+  abrir el PR.
+- Al cerrar la rama (merge o not planned), la config local muere con ella:
+  `rm -rf .docu/rama/<slug>`. Nada de esa carpeta se extrae hacia `docs/`:
+  si algo valió la pena, va por PR como documento o memoria (`ENGRAM.md`).
 
 ## Comandos
 

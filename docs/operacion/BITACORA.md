@@ -1,0 +1,139 @@
+<p align="center">
+<strong>docu</strong><br>
+<sub>Configuración 1 · Baja SterilPack · DOCU — Repositorio de Documentación Digital</sub><br>
+<sub>Marca: <code>#5B2A86</code> · acento: <code>#B0215F</code> · texto: <code>#24172F</code></sub>
+</p>
+
+# Bitácora del repositorio
+
+Log de trabajo sobre el **repositorio y la gestión** (no del producto: eso es
+la `Bitacora` de la base, solo-insert). Append-only: cada entrada lleva fecha,
+qué, por qué y cómo verificarlo. Nada se edita ni se borra; si algo cambia de
+verdad, la entrada siguiente lo dice.
+
+---
+
+## 2026-11-03 — Auditoría total y alineación del repo
+
+**Quién:** Erik (`reeinharddd`) con el agente, a petición del líder.
+**Qué:** auditoría de los 282 archivos del repo (docs, código, config) más el
+estado en vivo de GitHub; luego ejecución de las correcciones aprobadas.
+
+### Hallazgos principales (auditoría, solo lectura)
+
+| # | Hallazgo | Severidad |
+|---|---|---|
+| 1 | Milestone `C1 modelo y BD` (12-nov) inalcanzable tal como estaba cableada: #62 y #23 bloqueados por #59 (18-nov); #60 y #62 también ← #59; #23 ← #61 (17-nov) | Crítica |
+| 2 | `apps/web` es el esqueleto Angular sin tocar: `app.html` placeholder, routes vacías, 4 features stub | Alta (esperada: el front no ha empezado) |
+| 3 | Sub-issues auto de #3 (#18, #19, #20) abiertos, asignados al líder, cronograma heredado de octubre | Alta |
+| 4 | #90 abierto con fechas vencidas aunque la reconciliación (#92–#99) ya estaba fusionada | Media |
+| 5 | Milestone fantasma `Contrato de datos congelado` (0 ítems, reliquia de Monday) | Media |
+| 6 | Dependencias sobre issues cerrados (#9, #10, #17, #32, #41) y aristas invertidas | Media |
+| 7 | Docs que mentían: README raíz (verify/dev con prisma inexistente), STACK (lockfile, linter, CI), BOOTSTRAP (2 jobs vs 3), GITHUB-GESTION (sprints del plan viejo), RITMO (31-oct vs 2-nov), RIESGOS (tabla rota), docs/README (conteo de ADRs), IA.md (ADR-0015 equivocada) | Media |
+| 8 | CODEOWNERS inválido en `/infra/`; etiqueta `seguridad` exigida por SECURITY.md no existía | Media |
+| 9 | Frontmatter con claves no documentadas (`dueno`, `disparador`, `proposito`) en agentes, comandos y skills: opencode las manda como `options` al proveedor y la llamada falla (subagentes rotos) | Alta |
+| 10 | ~~Épica del Project vacía~~ **Falso hallazgo**: artefacto de lectura (`gh project item-list --format json` corrompe la "É"); vía GraphQL está llena en 62/62 | — |
+
+### Acciones en GitHub (todas registradas en el issue/milestone)
+
+- Cerrados **#18, #19, #20** como *not planned* (sub-issues auto de #3; el
+  alcance real vive en #12/#3/#46).
+- Cerrado **#90** como *completed* con evidencia (PRs #92–#99 fusionados).
+- Cerrado el milestone **`Contrato de datos congelado`** (vacío; motivo en su
+  descripción). Nunca se borra: queda el registro.
+- Creada la etiqueta **`seguridad`** (SECURITY.md ya es ejecutable).
+- Dependencias corregidas: retiradas 12 aristas (5 a issues cerrados, 3
+  invertidas, 4 ruido); añadidas **#61 ← #23** (el dataset se emite contra el
+  contrato) y **#39 ← #46** (el reporte corre en la cola del worker).
+- **#39** alineado: cronograma 2026-11-13 → 2026-11-18 (issue = tablero =
+  EQUIPO.md), brief enlazado y comentario fijado.
+- Repo: descripción y topics actualizados (branding).
+
+### Acciones en el repo
+
+- **Idioma por capa (decisión del líder):** todo lo que consume el agente en
+  inglés — `AGENTS.md`, `CLAUDE.md`, 6 comandos, 2 subagentes, 3 skills
+  propias, adaptaciones vendor, `.mcp.json`, comentarios de scripts/config.
+  Lo humano sigue en español (`docs/`, README, plantillas). Claves de metadata
+  normalizadas a `owner` / `trigger` / `purpose`.
+- **Subagentes reparados:** las claves desconocidas del frontmatter se movieron
+  a un bloque `<!-- -->` (opencode enruta campos desconocidos al proveedor como
+  `options` y la API los rechaza). `harness-check.sh` ahora lee ambas formas.
+- **Branding documental:** encabezado DOCU + paleta en las 10 plantillas
+  (`docs/plantillas/`) y nuevo `docs/plantillas/MARCA.md` con la regla.
+- **Docs en verdad:** README raíz reescrito; STACK honesto (Prisma/Postgres
+  marcados M1, no instalados; linter y CI descritos como son); BOOTSTRAP,
+  ENTORNO, GITHUB-GESTION, RITMO, RIESGOS, TRAZABILIDAD, PLAN-EPICAS
+  (dependencias = GitHub), IA.md, ADR-0008/0015 (notas de vigencia),
+  ARQUITECTURA (#12-A → #12).
+- **BRIEF-39** creado (RF-05, Emmanuel) e indexado.
+
+### Cómo verificar
+
+```bash
+bun run verify                       # puertas en verde
+gh issue list --state closed --reason "not planned"   # #18 #19 #20
+gh api repos/reeinharddd/docu/milestones --jq '.[] | select(.title=="Contrato de datos congelado") | .state'  # closed
+gh label list | grep seguridad
+gh api repos/reeinharddd/docu/issues/39/dependencies/blocked_by --jq '[.[].number]'  # 3, 46
+```
+
+### Pendiente (explícito, no olvidado)
+
+- Commit de todo este trabajo: **pendiente de aprobación del líder** (REGLAS 10).
+- BD (#58/#60/#62/#23), frontend (#84/#11) y backend (#45/#12/#3) **no han
+  empezado** — cada issue ya tiene su brief y dependencias limpias para
+  arrancar.
+- Pruebas de API (#45/#87) siguen siendo el hueco de calidad #1.
+
+---
+
+*Bitácora iniciada el 2026-11-03. Entrada nueva = fecha nueva al final.*
+
+## 2026-11-03 (vuelta 2) — Verificación total, fixes de texto y configs de rama
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** segunda vuelta de verificación (reporte puro) y luego aplicación de
+los fixes aprobados, más la metodología de rama.
+
+### Verificación
+
+`bun run verify` completo en verde (lint 61, typecheck ×2, compose, harness 15,
+diagramas 5+2+10, índice, pruebas web 2/2, smoke `/health`). Los 6 gates de
+docs en verde. Conclusión: sin basura documental — cada doc tiene función; el
+caso Baja SterilPack es consistente (6 familias = 6 fichas = 18 esquemas,
+7 reglas con cobertura, 60 turnos, incidente 26-oct, ~205 archivos ≈ los 200
+de IA.md).
+
+### Fixes aplicados
+
+1. `MCP.md`: ya no dice "`.mcp.json` sigue vacío"; describe el catálogo real
+   (core + extras con `trigger`).
+2. `ACCESOS.md`: sección MCP corregida (core activo, extras apagados) y
+   `FIRECRAWL_API_KEY` añadida a la tabla.
+3. Las 7 fichas: `Estado: aprobada 2026-10-17 (issue #9 cerrado)` (eran
+   "propuesta").
+4. `INVESTIGACION-HERRAMIENTAS.md`: 3 manchas de texto corrupto reparadas.
+5. `CONTRATO.md`: referencias a la rama `feat/29-...` → al issue #29 (ya
+   fusionado); los briefs históricos conservan sus ramas por diseño.
+6. `REPLAN`: "generador desde el 31-oct" → "desde el arranque del plan (2-nov)".
+7. Skill `docu-documentar`: la regla de idioma incluye la capa agente.
+8. `/cerrar`: paso nuevo — guardar memoria al cerrar sesión (`docu-memoria`).
+
+### Metodología de rama (nuevo)
+
+- `scripts/rama-env.sh <issue>`: crea la rama con `gh issue develop` y arma
+  `.docu/rama/<slug>/` (gitignored) con overrides locales y notas.
+- Regla escrita en `GITHUB-GESTION.md` §Configs de rama: el entregable viaja
+  en el merge; la config local nunca (está en `.gitignore`, un PR no puede
+  llevarla); al cerrar la rama, la config muere con ella.
+- Fila nueva en `HARNESS.md` (operación, cómo se documenta, cómo se verifica).
+
+### Cómo verificar
+
+```bash
+git grep -n 'sigue vacío' docs/integraciones/MCP.md      # sin resultados
+git grep -n 'Estado: propuesta para aprobación' docs/    # sin resultados
+git grep -n 'es_replace' docs/                            # sin resultados
+bash -n scripts/rama-env.sh                               # sintaxis OK
+```
