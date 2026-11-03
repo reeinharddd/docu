@@ -46,7 +46,7 @@ en línea, lo que demuestra que la cola funciona; falta el proceso real.
 | API | Postgres | driver `pg` directo (hoy solo `/health`) | `DATABASE_URL` del entorno | `/health` y el `doctor` |
 | API | Redis | BullMQ `Queue` con ioredis | Jobs `{ archivoId, sha256, familia }` | Job en retry, luego cuarentena con motivo |
 | Worker | Redis | BullMQ `Worker` y `QueueEvents` | Conexiones separadas: **nunca** compartir | El worker no arranca; `/health` no lo detecta todavía |
-| Worker | Postgres | Prisma | Resultado del job: `DatoOficial`, `Cuarentena`, `HistorialOrigen` | Todo error debe dejar motivo |
+| Worker | Postgres | Prisma | Resultado del job: `OfficialRecord`, `Quarantine`, `OriginHistory` | Todo error debe dejar motivo |
 | Worker | Modelo IA | HTTP a Ollama en localhost o API en nube | Salida forzada a JSON Schema | Sin confianza alta: a cuarentena, no a oficial |
 | Todos | GitHub | Git + PR + CI | Ramas `feat/<ID>-<slug>`, 1 revisor | CI en rojo bloquea el merge |
 
@@ -55,19 +55,19 @@ en línea, lo que demuestra que la cola funciona; falta el proceso real.
 1. El usuario arrastra el archivo en la pantalla de captura. Angular lo sube
    por HTTP; no hay lógica de negocio en el front.
 2. La API calcula el `sha256`, busca si ya existe ese original y crea
-   `ArchivoOriginal` con estado `RECIBIDO`. **El original no se modifica jamás.**
+   `OriginalFile` con estado `RECEIVED`. **El original no se modifica jamás.**
 3. La API encola un job con el identificador del archivo y responde. El front
    ya puede mostrar "en proceso".
 4. El worker toma el job y ejecuta la cadena de validación en orden: tipo de
-   archivo → esquema de la familia → reglas declarativas de `ReglaValidacion`.
+   archivo → esquema de la familia → reglas declarativas de `ValidationRule`.
 5. Si una regla `BLOQUEO` falla, se detiene la cadena y se crea
-   `Cuarentena` con motivo y código de regla. Si todo pasa, el archivo queda
+   `Quarantine` con motivo y código de regla (`reason`, `ruleCode`). Si todo pasa, el archivo queda
    listo para revisión humana.
 6. El modelo IA propone familia y confianza. Si la confianza no alcanza el
-   umbral, va a cuarentena; nunca a `DatoOficial`.
+   umbral, va a cuarentena; nunca a `OfficialRecord`.
 7. Una persona revisa en la bandeja y confirma. Solo entonces se escribe
-   `DatoOficial` con `confirmadoPorId` y `fechaConfirmacion`, más una fila en
-   `HistorialOrigen` con fuente, regla y responsable.
+   `OfficialRecord` con `confirmedById` y `confirmedAt`, más una fila en
+   `OriginHistory` con fuente, regla y responsable.
 8. Cada paso 4 a 7 deja fila en `Bitacora`. Nada se edita ni se borra.
 
 Los pasos 4 a 7 son los que todavía no existen. Es el trabajo de M1 y E2.

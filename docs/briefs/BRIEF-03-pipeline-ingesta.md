@@ -36,7 +36,7 @@ Fase A (diseño worker + colas, tras #32): estructura sin OCR final. Fase B (int
 1. Definir colas y reintentos (sin frenar pantallas, RNF-04). Terminado: job lento no bloquea API.
 2. Conectar motor OCR elegido en #32 con versiones fijadas. Terminado: misma corrida, mismo CSV.
 3. Implementar clasificación por familia con confianza + umbral a humano. Terminado: ≥ 80 % medido, resto a cuarentena con motivo.
-4. Implementar validación en cadena con `ReglaValidacion` como datos. Terminado: 1 caso por regla.
+4. Implementar validación en cadena con `ValidationRule` como datos. Terminado: 1 caso por regla.
 5. Integrar con ingesta (#12) y bandeja (#4). Terminado: flujo subir→confirmar→consultar en vivo.
 
 ## 5. Entradas y salidas

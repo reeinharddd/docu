@@ -1,5 +1,9 @@
 # ADR 0011 — La API encola, el worker procesa y la IA propone dentro del worker
 
+> Vigencia 2026-11-03: los identificadores de código van en inglés (regla del repo).
+> Las colas se nombran `ingest`, `text`, `reports`, `alerts`; los nombres en español de
+> este ADR quedan como referencia histórica de la decisión.
+
 Fecha: 2026-10-06 · Estado: Aceptada
 Decide: Erik · Revisa: Emmanuel
 

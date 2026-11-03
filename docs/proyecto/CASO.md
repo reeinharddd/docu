@@ -158,7 +158,7 @@ no pudo reconstruir qué pasó. Cada fallo típico del caso aparece en ≥1 fluj
 
 ## Reglas del caso
 
-Las reglas son **datos** en `ReglaValidacion`, no código. Bloquean o avisan.
+Las reglas son **datos** en `ValidationRule` (ADR-0009), no código. Bloquean o avisan.
 
 | Código | Severidad | Regla |
 |---|---|---|
@@ -294,20 +294,50 @@ completa. DOCU propone; el humano dispone (ADR-0006).
 Este mapa es el **contrato de entrada de los carriles B (frontend), D (BD),
 F (dataset) y H (mockups)**: cada flujo produce qué pantalla, qué endpoint,
 qué dato, qué regla y qué guion de la demo. Las pantallas y endpoints son los
-previstos en `../ingenieria/ALCANCE-SOLUCION.md` §2; los datos son entidades
-lógicas — el ER (#58) decide nombres, llaves y tipos, no este mapa. Los
-guiones (G1–G6) se corren con el dataset de C1 (`CONTRATO.md` §8).
+previstos en `../ingenieria/ALCANCE-SOLUCION.md` §2; los guiones (G1–G6) se
+corren con el dataset de C1 (`CONTRATO.md` §8).
+
+**Idioma de los identificadores (regla del repo):** todo lo que es código —
+endpoints, entidades, tablas, colas, campos — va en **inglés**; el documento
+explica en español. Las pantallas de la UI y el vocabulario del negocio
+(rollo, turno, merma) siguen en español (RNF-01). Los slugs de familia del
+contrato (`excel_turno`, `recepcion_rollo`, …) son datos aprobados del caso
+(#9) y no cambian. El ER (#58) usa este vocabulario tal cual:
+
+| Código | Entidad lógica | En el caso es |
+|---|---|---|
+| `OriginalFile` | archivo original subido, solo-insert | cada archivo que entra a DOCU |
+| `Document` | documento lógico (`document_id` del contrato) | D-01…D-20 |
+| `OfficialRecord` | dato oficial confirmado | la cifra que cita su fuente |
+| `OriginHistory` | historial de origen | de dónde salió cada dato |
+| `ValidationRule` | regla declarativa (datos, no código) | R-P1…R-T1 |
+| `Quarantine` | cuarentena con motivo | lo detenido con su regla |
+| `AuditLog` | bitácora | quién subió y quién confirmó |
+| `ProductionSchedule` | el programa semanal | el Excel Frankenstein de Ana, saneado |
+| `ProductionOrder` | orden de producción | lo que cuelga de un rollo |
+| `Material` | material y stock | film, Tyvek, foil |
+| `Roll` | rollo | `R-017`, `R-019` |
+| `GoodsReceipt` | recepción de material | lo que registra Luis |
+| `Machine` | máquina | `TP-01`, `TP-02`, `TB-*` |
+| `Shift` | turno | T1/T2/T3 |
+| `Downtime` | paro con motivo | los ~45 min del incidente |
+| `Scrap` | merma | los ~36 kg del incidente |
+| `QualityRelease` | liberación de calidad | lo que firma Marta |
+| `ScanRecord` | lo extraído de un escaneado | hojas de verificación, peel test |
+| `SisterChange` | cambio notificado por la planta hermana | el correo del viernes |
+| `Report` | reporte derivado | el reporte del día |
+| `User` / `Role` / `Permission` | personas y permisos | la matriz de `ROLES.md` |
 
 | Flujo | Pantalla(s) | Endpoint(s) previstos | Dato(s) lógico(s) que exige el ER | Regla(s) | Guion |
 |---|---|---|---|---|---|
-| F1 Programa semanal | Programa | `POST /v1/fuentes/:id/sync` (SAP mock), `GET /v1/oficiales` | `Programa`, `OrdenProduccion`, `Material`/stock, `Maquina`, `Turno` | R-P1, R-P2, R-P3 (bloqueos visibles) | G4 |
-| F2 Recepción de rollo | Captura | `POST /v1/archivos`, `GET /v1/archivos/:id/validacion` | `Rollo`, `Recepcion`, certificado como `Documento` (D-08/D-09/D-10), `estado_asignable` | R-P1, R-P2 | G2 |
-| F3 Turno en piso | Captura | `POST /v1/archivos` (lote 120 excels), worker procesa | `Turno`, `Merma`, `Paro` con motivo, `Maquina` | R-A1 | G1 |
-| F4 Liberación de calidad | Captura + Bandeja | `POST /v1/archivos` (escaneado), `POST /v1/bandeja/:id/confirmar` | `LiberacionQA`, `Escaneado` (D-15/D-16), permiso de confirmación por rol | R-Q1 | G3 |
-| F5 Cambio de la hermana | Captura + Programa | `POST /v1/archivos` (correo), R-P4 al validar | `CambioHermana`, relación con `Orden` afectada, pausa de reporte | R-P4 | G5 |
-| F6 Reporte del día | Reporte + Búsqueda | `GET /v1/reportes/...`, `GET /v1/lineage/:id` | `Reporte` derivado; cada cifra cita `HistorialOrigen` | — (agregado sobre oficiales) | G6 |
-| F7 Rollo fantasma (transversal) | Bandeja + Búsqueda + Programa | `GET /v1/cuarentena`, `GET /v1/lineage/:id`, `GET /v1/oficiales` | Encadenamiento `Rollo→Orden→Maquina→Turno→Documento` (el corazón del ER) | R-P1, R-P2, R-Q1, R-P4 | G5 |
-| F8 Consulta con trazabilidad (nueva con DOCU) | Búsqueda | `GET /v1/lineage/:id`, `GET /v1/oficiales`, `POST /v1/auth/login` | `DatoOficial`, `HistorialOrigen`, `ReglaValidacion`, `Bitacora` | — | G5, G6 |
+| F1 Programa semanal | Programa | `POST /v1/sources/:id/sync` (SAP mock), `GET /v1/official-records` | `ProductionSchedule`, `ProductionOrder`, `Material`/stock, `Machine`, `Shift` | R-P1, R-P2, R-P3 (bloqueos visibles) | G4 |
+| F2 Recepción de rollo | Captura | `POST /v1/files`, `GET /v1/files/:id/validation` | `Roll`, `GoodsReceipt`, certificado como `Document` (D-08/D-09/D-10), estado `assignable` del rollo | R-P1, R-P2 | G2 |
+| F3 Turno en piso | Captura | `POST /v1/files` (lote 120 excels), worker procesa | `Shift`, `Scrap`, `Downtime` con motivo, `Machine` | R-A1 | G1 |
+| F4 Liberación de calidad | Captura + Bandeja | `POST /v1/files` (escaneado), `POST /v1/inbox/:id/confirm` | `QualityRelease`, `ScanRecord` (D-15/D-16), permiso de confirmación por rol | R-Q1 | G3 |
+| F5 Cambio de la hermana | Captura + Programa | `POST /v1/files` (correo), R-P4 al validar | `SisterChange`, relación con `ProductionOrder` afectada, pausa de reporte | R-P4 | G5 |
+| F6 Reporte del día | Reporte + Búsqueda | `GET /v1/reports/...`, `GET /v1/lineage/:id` | `Report` derivado; cada cifra cita `OriginHistory` | — (agregado sobre oficiales) | G6 |
+| F7 Rollo fantasma (transversal) | Bandeja + Búsqueda + Programa | `GET /v1/quarantine`, `GET /v1/lineage/:id`, `GET /v1/official-records` | Encadenamiento `Roll→ProductionOrder→Machine→Shift→Document` (el corazón del ER) | R-P1, R-P2, R-Q1, R-P4 | G5 |
+| F8 Consulta con trazabilidad (nueva con DOCU) | Búsqueda | `GET /v1/lineage/:id`, `GET /v1/official-records`, `POST /v1/auth/login` | `OfficialRecord`, `OriginHistory`, `ValidationRule`, `AuditLog` | — | G5, G6 |
 
 Guiones de demo (todos corren sobre el mes simulado, sin datos externos):
 

@@ -111,7 +111,7 @@ Las dependencias de la v2, registradas en GitHub y verificables con
 | #12 API de ingesta | #60, #62, #45 | La API implementa la arquitectura y el contrato, y se construye con la suite primero |
 | #3 Pipeline | #12 | El pipeline usa la API de ingesta |
 | #46 Worker | #3 | El worker procesa lo que el pipeline encola |
-| #39 Reporte y alerta | #3, #46 | El reporte corre en la cola `reportes`/`alertas` del worker sobre el pipeline completo |
+| #39 Reporte y alerta | #3, #46 | El reporte corre en las colas `reports`/`alerts` del worker sobre el pipeline completo |
 | #5 RBAC | #58 | Los permisos se calculan sobre el modelo |
 | #61 Dataset | #83, #58, #23 | El dataset sale del caso, respeta el DDL y se emite contra el contrato congelado |
 | #84 Plataforma FE | #87 | La plataforma se construye con el método y las guardas |

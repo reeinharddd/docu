@@ -1,5 +1,9 @@
 # ADR 0010 — Bitácora, historial de origen y originales son solo-insert
 
+> Vigencia 2026-11-03: los identificadores de código van en inglés. El ER (#58) nombra
+> `Bitacora` como `AuditLog`, `HistorialOrigen` como `OriginHistory` y `ArchivoOriginal`
+> como `OriginalFile`; la política solo-insert y la decisión no cambian.
+
 Fecha: 2026-10-06 · Estado: Aceptada
 Decide: Erik · Revisa: Emmanuel
 

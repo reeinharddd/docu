@@ -33,7 +33,7 @@ una prueba de vida, no una capa de datos. El ORM y el esquema llegan en M1
 3. **Nada de lógica de negocio en el controlador.** El controlador valida y
    delegue; la regla vive en el servicio.
 4. **Append-only se respeta en servicio y en base.** `Bitacora`,
-   `HistorialOrigen` y `ArchivoOriginal` no se actualizan ni se borran.
+   `OriginHistory` y `OriginalFile` no se actualizan ni se borran (solo-insert, ADR-0010).
 
 ## Lo que hay que decidir antes de M1
 

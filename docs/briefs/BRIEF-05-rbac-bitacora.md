@@ -26,7 +26,7 @@ Autorización efectiva en servidor + bitácora completa + reglas como datos.
 |---|---|
 | Guards por rol y alcance (propio, departamento, instalación) | Prueba: usuario de la instalación 2 no lee ni escribe la instalación 1, incluidas rutas indirectas |
 | Bitácora append-only (quién subió, quién confirmó) | Tabla con actor, acción, entidad, detalle; nada la edita ni borra |
-| Reglas R-P1..T1 evaluables desde `ReglaValidacion` | 1 caso por regla ejecutado por el evaluador, no por `if` |
+| Reglas R-P1..T1 evaluables desde `ValidationRule` | 1 caso por regla ejecutado por el evaluador, no por `if` |
 | Prueba "un departamento no lee otro" (#26) | Caso verde en el PR |
 
 ## 4. Actividades específicas

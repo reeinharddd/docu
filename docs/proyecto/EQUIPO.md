@@ -43,7 +43,7 @@ A → B → C → D → E y guardarraíl de des-recorte (`gestion/REPLAN-2026-10
 
 #39 (reporte y alerta, RF-05) sigue con Emmanuel (`Agent3835`) en la vertical:
 cronograma 2026-11-13 → 2026-11-18, bloqueado por #3 (pipeline) y #46 (colas
-`reportes`/`alertas`); su brief está en `briefs/BRIEF-39-reporte-alerta.md`.
+`reports`/`alerts`); su brief está en `briefs/BRIEF-39-reporte-alerta.md`.
 Kira (`kirxllix`) y Carlos (`WearyBerry`) tienen sus issues asignados. #36 se
 cerró como no planificado (el diagrama de casos de uso no se hará). #34
 (manuales) se cerró como no planificado; los manuales se absorben en #6.

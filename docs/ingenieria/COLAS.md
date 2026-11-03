@@ -30,7 +30,7 @@ Redis acepta el patrón de cola antes de que haya un worker que dependa de él.
 | Trabajo | Notas |
 |---|---|
 | OCR por lotes | El mas caro. Exige `originales/` intacto y `RECIBIDO → VALIDADO` |
-| Validación por familia | Reglas declarativas de `ReglaValidacion`, `BLOQUEO` frena |
+| Validación por familia | Reglas declarativas de `ValidationRule`, `BLOQUEO` frena |
 | Reintentos | Un fallo no puede frenar las pantallas |
 
 `docs/decisiones/ADR-0005` fija BullMQ. Redis está en su lugar y en su versión,

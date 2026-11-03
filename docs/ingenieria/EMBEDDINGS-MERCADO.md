@@ -12,7 +12,7 @@ está probado todavía en DOCU.
 
 | Etapa del proceso | RF | Qué se necesita | Issue |
 |---|---|---|---|
-| Búsqueda semántica | Should | Vector de `DatoOficial` + pgvector, consulta en lenguaje natural | #4 |
+| Búsqueda semántica | Should | Vector de `OfficialRecord` + pgvector, consulta en lenguaje natural | #4 |
 | Búsqueda textual completa | Must | `tsvector` (no depende de embeddings) | transversal |
 | Clasificación / mapeo | RF-01, RF-03 | Embeddings + kNN como señal auxiliar de scoring | #3, #5 |
 

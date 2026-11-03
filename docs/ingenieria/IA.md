@@ -55,7 +55,7 @@ donde entra la incertidumbre y donde se decide si hace falta un modelo o no.
 | Esquema esperado de ese archivo | `ConfigFamilia.esquema` |
 | Estrategia de validación a aplicar | Registro de estrategias por familia |
 | Familia del dato oficial y su clave de negocio | `DatoOficial.familia` y `DatoOficial.claveNegocio` |
-| Si el archivo es válido, va a cuarentena o a revisión | `estado` y fila en `Cuarentena` con `reglaCodigo` |
+| Si el archivo es válido, va a cuarentena o a revisión | `status` y fila en `Quarantine` con `ruleCode` (entidades del ER: `docs/proyecto/CASO.md`, mapa de derivación) |
 
 ### Señales disponibles, en orden de fuerza
 
@@ -152,7 +152,7 @@ el responsable de la tarea, pero estas son las que se evaluaron:
 | **Mistral** | Alternativa para texto en español | Buena adherencia a instrucciones |
 | **Qwen** | Alternativa con fuerte soporte en español | Útil si los otros fallan en el dataset |
 | **gpt-oss** | Alternativa abierta de tamaño medio | Sirve si se quiere comparar contra un modelo mayor |
-| **embeddinggemma** u otro de embeddings | Genera el vector de `DatoOficial` | Ver la advertencia de dimensión abajo |
+| **embeddinggemma** u otro de embeddings | Genera el vector de `OfficialRecord` | Ver la advertencia de dimensión abajo |
 
 El **scoring y la decisión** no se sirven por Ollama: corren en proceso en el
 worker con **Laya** (ONNX), detallado en [OCR.md](OCR.md) §6.
@@ -179,7 +179,7 @@ no puede justificarse con un dato, no se toma: se usa local.
 
 ## 6. Advertencia técnica: la dimensión del embedding
 
-El vector de `DatoOficial` se mide en 768 dimensiones como **contrato propuesto**.
+El vector de `OfficialRecord` se mide en 768 dimensiones como **contrato propuesto**.
 La dimensión **tiene que coincidir con la del modelo de embeddings elegido**.
 Ollama permite pedir una dimensión concreta en `/api/embed` (por ejemplo, 128
 para un modelo reducido), y un modelo distinto producirá una dimensión distinta.
@@ -202,7 +202,7 @@ del modelo; el embedding es **Should**. Orden correcto: primero `tsvector`
 | Métrica | Objetivo | Cómo se verifica |
 |---|---|---|
 | Precisión de clasificación | ≥ 80% sobre 200 archivos sintéticos | Script de C1 con salida CSV por corrida |
-| Cobertura de cuarentena con motivo | 100% de lo dudoso | Cada fila de `Cuarentena` tiene `motivo` y `reglaCodigo` |
+| Cobertura de cuarentena con motivo | 100% de lo dudoso | Cada fila de `Quarantine` tiene `reason` y `ruleCode` |
 | Determinismo | Corridas repetidas dan el mismo resultado | `temperature: 0`, `seed` fijo, versión del modelo registrada |
 | Exactitud de OCR | ≥ 90% de campos clave, CER ≤ 10% | Fase 1 con genéricos + fase 2 con 40 escaneados sintéticos contra ground truth (motor: [OCR.md](OCR.md)) |
 

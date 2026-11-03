@@ -138,7 +138,7 @@ rol lo mencione): `organizacion` → `instalacion` → `departamento` → `propi
 | R-A1 paro > 30 min exige motivo | BLOQUEO | quien registra el turno (`member`) pone motivo; su `manager` lo ve |
 | R-T1 stock mínimo bloquea orden | BLOQUEO | `member` reporta stock; programa bloqueado |
 
-Las reglas viven como datos en `ReglaValidacion` (ADR-0009), nunca como `if`.
+Las reglas viven como datos en `ValidationRule` (ADR-0009; entidad renombrada del histórico `ReglaValidacion`), nunca como `if`.
 
 Distinción formal: **escribir** en dominio propio (un `member` sube
 sus recepciones) vs **mutar estado** sobre dominios ajenos. Lo
