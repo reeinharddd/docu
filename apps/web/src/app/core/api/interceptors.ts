@@ -1,5 +1,6 @@
 import { HttpErrorResponse, type HttpInterceptorFn } from '@angular/common/http'
 import { inject } from '@angular/core'
+import { Router } from '@angular/router'
 import { catchError, throwError } from 'rxjs'
 import { AuthService } from '../auth/auth.service'
 import { API_BASE_URL } from '../config/api-url'
@@ -7,6 +8,12 @@ import { API_BASE_URL } from '../config/api-url'
 /**
  * Single place for cross-cutting HTTP behavior. Screens never see raw URLs,
  * tokens or error shapes.
+ *
+ * Coordination flows (the contract lives in
+ * docs/ingenieria/ALCANCE-SOLUCION.md §2.1):
+ * - 401 outside /auth/login: the session died -> clear it and go to /login.
+ * - 401 from /auth/login itself: bad credentials, stay on the page.
+ * - 403: not allowed to see it -> /forbidden.
  */
 export const apiInterceptors: HttpInterceptorFn[] = [
   /** Prepends the central API base to relative paths. */
@@ -24,14 +31,26 @@ export const apiInterceptors: HttpInterceptorFn[] = [
     return next(req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }))
   },
 
-  /** Normalizes failures so the UI can render one actionable message. */
-  (req, next) =>
-    next(req).pipe(
+  /** Normalizes failures and runs the 401/403 coordination flows. */
+  (req, next) => {
+    const router = inject(Router)
+    const auth = inject(AuthService)
+    return next(req).pipe(
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse) {
           console.error(`[api] ${req.method} ${req.url} -> ${error.status}`)
+          const isLogin = req.url.includes('/auth/login')
+          if (error.status === 401 && !isLogin) {
+            auth.signOut()
+            void router.navigate(['/login'], {
+              queryParams: { return: router.url },
+            })
+          } else if (error.status === 403) {
+            void router.navigate(['/forbidden'])
+          }
         }
         return throwError(() => error)
       }),
-    ),
+    )
+  },
 ]

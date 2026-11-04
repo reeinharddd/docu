@@ -56,4 +56,38 @@ describe('ApiClient', () => {
     client.get('/quarantine').subscribe()
     http.expectOne('/v1/quarantine').flush([])
   })
+
+  it('maps a backend ApiError body to the error message and code', async () => {
+    const estados: unknown[] = []
+    client.get<unknown>('/quarantine').subscribe((s) => estados.push(s))
+    http
+      .expectOne('/v1/quarantine')
+      .flush(
+        { code: 'VALIDATION_ERROR', message: 'El rollo no tiene certificado.' },
+        { status: 422, statusText: 'Unprocessable Entity' },
+      )
+    expect(estados).toEqual([
+      { status: 'loading' },
+      {
+        status: 'error',
+        code: 'VALIDATION_ERROR',
+        message: 'El rollo no tiene certificado.',
+      },
+    ])
+  })
+
+  it('uses the generic message when the body is not an ApiError', async () => {
+    const estados: unknown[] = []
+    client.get<unknown>('/quarantine').subscribe((s) => estados.push(s))
+    http
+      .expectOne('/v1/quarantine')
+      .flush('oops', { status: 500, statusText: 'Server Error' })
+    expect(estados).toEqual([
+      { status: 'loading' },
+      {
+        status: 'error',
+        message: expect.stringContaining('No se pudo consultar'),
+      },
+    ])
+  })
 })

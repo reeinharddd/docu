@@ -39,6 +39,17 @@ export class AuthService {
     })
   }
 
+  /** Test helper: demo session carrying a token (interceptor tests). */
+  setSessionWithToken(token: string): void {
+    const current = this._session()
+    this._session.set({
+      user: current?.user ?? 'ana',
+      department: current?.department ?? 'planeacion',
+      token,
+      permissions: current?.permissions ?? [...DEMO_PERMISSIONS],
+    })
+  }
+
   signOut(): void {
     this._session.set(null)
   }

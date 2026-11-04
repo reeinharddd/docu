@@ -111,9 +111,14 @@ permisos reales (`authGuard`, `requiresPermission`, `/login`, `/forbidden`,
 wildcard), interceptores (base de API, token, errores), kit de UI atómico
 (`PageHeader`, `StateView`, `StatusBadge`), tipos transversales con el backend
 (mismo TypeScript: `Session`, `Permission`), patrones de prueba y la skill
-`docu-frontend` que fija las convenciones. Los datos de demo están marcados
-como efímeros: nada demo llega a la versión final, todo será dinámico desde
-el backend real (#12).
+`docu-frontend` que fija las convenciones. Además, el **mecanismo de
+coordinación front ↔ backend** quedó fijado (ALCANCE-SOLUCION §2.1): sobre
+único de errores (`ApiError` transversal, 7 códigos estables), flujos 401/403
+en el interceptor, toasts de acciones separados de las lecturas, contrato de
+subida de archivos y guardas de seguridad (token en memoria, nada de bypass
+de sanitización, el servidor es la autoridad). Los datos de demo están
+marcados como efímeros: nada demo llega a la versión final, todo será
+dinámico desde el backend real (#12).
 
 ## 9. Riesgos nombrados
 

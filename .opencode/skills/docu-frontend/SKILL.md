@@ -39,7 +39,17 @@ Source of truth: `docs/briefs/BRIEF-84-plataforma-frontend.md` (the base) and
 5. **DEMO data is transient**: `signInDemo()`, `DEMO_PERMISSIONS` and any
    hardcoded fixture are marked DEMO ONLY and die when #12 lands. The final
    version is fully dynamic from the backend.
-6. **Tests first** (ADR-0018): a screen without its spec does not enter.
+6. **Errors follow the `ApiError` contract** (`core/models/api-error.ts`):
+   codes are stable values, `message` is Spanish and safe to show. The
+   401/403 flows live in the interceptors — never handle them per screen.
+7. **Notifications (toasts) are for ACTIONS**, reads speak through
+   `StateView`. Use `NotificationService.notify(message, kind)` after a
+   mutation succeeds or fails — never inside a read.
+8. **Security frontier**: token in memory only (never `localStorage`), never
+   `bypassSecurityTrust`/`innerHTML`, no secrets in the front, client
+   validation is UX (the server is the authority). Contract:
+   `docs/ingenieria/ALCANCE-SOLUCION.md` §2.1.
+9. **Tests first** (ADR-0018): a screen without its spec does not enter.
    Route specs use `RouterTestingHarness.navigateByUrl`; HTTP specs use
    `HttpTestingController`; presentational specs use `setInput`.
 

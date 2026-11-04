@@ -46,6 +46,54 @@ Decisiones ya anotadas como pendientes en `API.md` (autenticación y token,
 versionado, formato de error único, paginación, contrato de ingesta e
 idempotencia, OpenAPI como artefacto) se resuelven aquí antes de M1.
 
+### 2.1 Contrato de coordinación front ↔ backend
+
+La frontera donde más se rompen los proyectos. Vale para ambas partes; lo
+cumple el backend (#12) y lo consume el frontend (ya implementado en
+`apps/web/src/app/core/`).
+
+**Formato único de error.** Todo no-2xx devuelve el mismo sobre
+(`ApiError`, tipos transversales en `apps/web/src/app/core/models/api-error.ts`):
+
+```json
+{ "code": "VALIDATION_ERROR", "message": "El rollo no tiene certificado.", "details": {} }
+```
+
+| `code` | HTTP | Cuándo |
+|---|---|---|
+| `VALIDATION_ERROR` | 422 | Una regla o el esquema de la familia no pasa |
+| `UNAUTHENTICATED` | 401 | Sin sesión o sesión vencida |
+| `FORBIDDEN` | 403 | Con sesión, sin permiso (RBAC del servidor) |
+| `NOT_FOUND` | 404 | Recurso inexistente o fuera de alcance de la planta |
+| `CONFLICT` | 409 | Duplicado (`sha256` ya existe) o cambio de formato |
+| `RATE_LIMITED` | 429 | Demasiadas peticiones (lote de ingesta) |
+| `INTERNAL` | 5xx | Falla del servidor — **sin stack traces ni detalles internos** |
+
+`message` es humano y en español (RNF-01), seguro de mostrar. Los códigos son
+valores estables del contrato, no textos.
+
+**Flujos coordinados 401/403** (implementados en el `errorInterceptor`):
+401 fuera de `/auth/login` → la sesión muere y el front va a `/login` con
+`return`; 401 desde `/auth/login` → credenciales malas, sin redirect;
+403 → `/forbidden`.
+
+**Notificaciones.** Los toasts son de la UI y hablan de **acciones**
+(documento confirmado, regla que bloqueó); las lecturas hablan por `ApiState`
+(`StateView`). En C1 el backend no manda toasts; las alertas de #39 llegan
+como datos de dominio, no como notificaciones.
+
+**Subida de archivos (RF-01).** `POST /v1/files` con `multipart/form-data`.
+El cliente valida tamaño y tipo por UX; **el servidor valida de verdad**
+(tamaño, tipo, familia por clasificación). Respuestas: `201` con
+`{ archivoId, sha256 }` o `422` con el sobre de error. Reintentos del lote
+los maneja la cola del worker (ADR-0011), no el navegador.
+
+**Guardas de seguridad en la frontera.** Token solo en memoria (signals;
+nunca `localStorage` — XSS). Nada de `bypassSecurityTrust` ni `innerHTML`
+(Angular sanitiza por defecto). Sin secretos ni claves en el front. El
+servidor es la única autoridad de reglas y permisos: la validación del
+cliente es UX, no seguridad. CORS: mismo origen en C1 (un solo host, RNF-06).
+
 ## 3. Mecanismos de ingesta
 
 Dos entradas, un solo pipeline:
