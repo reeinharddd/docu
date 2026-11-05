@@ -11,7 +11,7 @@
 
 ## 1. Contexto
 
-El frontend actual está en estado inicial: rutas vacías, componentes skeleton, sin tokens en `styles.css`. Este brief construye las 4 pantallas completas con navegación, consumo de API y pruebas e2e.
+El frontend actual está en estado inicial: rutas vacías, componentes skeleton, sin tokens en `styles.css`. Este brief construye las 5 pantallas completas con navegación, consumo de API y pruebas e2e.
 
 ## 2. Por qué importa tu parte
 
@@ -19,11 +19,11 @@ Es la primera implementación real del producto. Si el frontend no consume la AP
 
 ## 3. Objetivo y resultado esperado
 
-Aplicación Angular + Tailwind funcional con las 4 pantallas, navegación, consumo de API y pruebas e2e.
+Aplicación Angular + Tailwind funcional con las 5 pantallas, navegación, consumo de API y pruebas e2e.
 
 | Entregable | Evidencia |
 |---|---|
-| 4 pantallas funcionales (captura, bandeja, Programa Oficial, búsqueda) | Navegación real entre pantallas |
+| 5 pantallas funcionales (captura, bandeja, Programa Oficial, búsqueda, Reporte del día) | Navegación real entre pantallas |
 | Rutas y navegación configuradas | `app.routes.ts` con rutas |
 | Consumo de API M1/E2 | Servicios con httpResource |
 | Tokens de design system aplicados | `@theme` en `styles.css` |
@@ -34,7 +34,7 @@ Aplicación Angular + Tailwind funcional con las 4 pantallas, navegación, consu
 
 ## 4. Actividades específicas
 
-1. Configurar rutas y navegación entre las 4 pantallas. Terminado: `app.routes.ts` con rutas funcionales.
+1. Configurar rutas y navegación entre las 5 pantallas. Terminado: `app.routes.ts` con rutas funcionales.
 2. Aplicar tokens de design system a `styles.css` (@theme). Terminado: tokens de #41 fase 2 aplicados.
 3. Construir pantalla de captura con validación inmediata. Terminado: formulario con validación y estados.
 4. Construir bandeja de revisión/cuarentena con motivo visible y acción de confirmar. Terminado: tabla con filtros y acciones.
@@ -52,16 +52,16 @@ Total estimado: F1 15–20 h; F2/F3 15–20 h.
 ## 5. Entradas y salidas
 
 - Recibe: design system de #41 fase 2, prototipos de #11, API M1/E2.
-- Entrega: frontend funcional con 4 pantallas, navegación, consumo de API, pruebas e2e.
+- Entrega: frontend funcional con 5 pantallas, navegación, consumo de API, pruebas e2e.
 
 ## 6. Referencias y caja de herramientas
 
 - `docs/diseno/DESIGN-SYSTEM.md` — tokens y componentes base
-- `docs/briefs/BRIEF-11-prototipos-ui-ux.md` — prototipos de las 4 pantallas
+- `docs/briefs/BRIEF-11-prototipos-ui-ux.md` — prototipos de las 5 pantallas
 - `docs/ingenieria/STACK.md` — Angular 22 + Tailwind 4
 - Angular 22 zoneless, señales, @defer, httpResource
 
-### Explorar en playground (componentes y patrones)
+### Explorar componentes y patrones
 - [shadcn/ui](https://ui.shadcn.com/) — Patrones de componentes. **Cuándo:** componentes de calidad.
 - [PrimeNG](https://primeng.org/) — UI kit Angular. **Cuándo:** componentes Angular.
 - [Angular Material](https://material.angular.io/) — UI kit Angular. **Cuándo:** Material Design.
@@ -90,7 +90,7 @@ Total estimado: F1 15–20 h; F2/F3 15–20 h.
 
 ## 8. Criterios de aceptación
 
-- [ ] 4 pantallas funcionales (captura, bandeja, Programa Oficial, búsqueda)
+- [ ] 5 pantallas funcionales (captura, bandeja, Programa Oficial, búsqueda, Reporte del día)
 - [ ] Rutas y navegación configuradas
 - [ ] Consumo de API M1/E2 con httpResource
 - [ ] Tokens de design system aplicados (@theme en styles.css)
@@ -104,7 +104,7 @@ Total estimado: F1 15–20 h; F2/F3 15–20 h.
 
 ### 8.1 Contrato, pruebas y criterio de listo
 
-**Contrato.** Cuatro pantallas contra la API real: captura, bandeja de revisión,
+**Contrato.** Cinco pantallas contra la API real: captura, bandeja de revisión,
 programa oficial y búsqueda. Cada cifra que se muestra cita su fuente y su
 cálculo.
 
@@ -119,12 +119,12 @@ cálculo.
    departamento, **then** la API lo rechaza y la pantalla lo explica.
 
 **Plan de pruebas.** Tests web (`bun --filter web test`), suite de la API en
-verde (#45) y recorrido manual de las cuatro pantallas con el dataset real.
+verde (#45) y recorrido manual de las cinco pantallas con el dataset real.
 
-**Evidencia.** Capturas de las cuatro pantallas con datos reales, video corto
+**Evidencia.** Capturas de las cinco pantallas con datos reales, video corto
 del recorrido y el PR con `Closes #4`.
 
-**Listo cuando.** Las cuatro pantallas funcionan contra la API real, sin
+**Listo cuando.** Las cinco pantallas funcionan contra la API real, sin
 datos de maqueta.
 
 ## 9. Riesgos nombrados
@@ -137,7 +137,7 @@ datos de maqueta.
 
 Los datos son reales del dataset del mes (#61) y la vertical se entrega completa el 18-nov.
 
-- F1 (§3–§8): 4 pantallas + e2e del flujo subir → confirmar → consultar.
+- F1 (§3–§8): 5 pantallas + e2e del flujo subir → confirmar → consultar.
 - F2: login, registro, gestión de usuarios, RBAC por rol, bitácora visible (usa #5 cuando exista; mientras tanto, mocks con la forma del contrato).
 - F3: config de instalación (C2), dashboard, alertas con datos de prueba.
 
@@ -162,7 +162,7 @@ Sprint 2 cierra 2026-11-20. Revisión de avances en syncs de lunes y viernes.
 
 ## 12. Recursos por actividad
 
-### Explorar en playground (componentes y patrones)
+### Explorar componentes y patrones
 - [shadcn/ui](https://ui.shadcn.com/) — Patrones de componentes. **Cuándo:** componentes de calidad.
 - [PrimeNG](https://primeng.org/) — UI kit Angular. **Cuándo:** componentes Angular.
 - [Angular Material](https://material.angular.io/) — UI kit Angular. **Cuándo:** Material Design.
@@ -182,5 +182,5 @@ Sprint 2 cierra 2026-11-20. Revisión de avances en syncs de lunes y viernes.
 - [axe DevTools](https://www.deque.com/axe/) — Verificación automática. **Cuándo:** auditar accesibilidad.
 
 
-> [4] Frontend del caso contra la API real — kirxllix, 17→18-nov. Captura, bandeja de revisión, programa oficial y búsqueda funcionando contra la API, sobre la plataforma de #84. Entradas recibidas de la plataforma (#84), de la API (#12) y de los mockups (#11). Entregable: las cuatro pantallas funcionando contra la API. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-04-frontend-angular.md`.
+> [4] Frontend del caso contra la API real — kirxllix, 17→18-nov. Captura, bandeja de revisión, programa oficial, búsqueda y Reporte del día funcionando contra la API, sobre la plataforma de #84. Entradas recibidas de la plataforma (#84), de la API (#12) y de los mockups (#11). Entregable: las cinco pantallas funcionando contra la API. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-04-frontend-angular.md`.
 

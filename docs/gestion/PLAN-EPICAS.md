@@ -132,9 +132,11 @@ Dentro del carril D (#60, #62 y #23 bloqueados por #58) las dependencias
 expresan el **orden de derivación**, no semanas de espera: el carril se
 entrega entero el 12-nov.
 
-El taller de diseño es la rama huérfana `design/kira-playground`: **nunca se
-fusiona**. A `main` solo llegan `docs/diseno/*`, `docs/diseno/tokens.json` y
-capturas; el código del taller se queda (`BRIEF-11`, `BRIEF-41-fase2`).
+El taller de diseño (`design/kira-playground`) quedó **abandonado**: no se
+restaura. Las pantallas de #11 se construyen en la app real, en la rama
+`feat/11-prototipos-ui-ux`, y a `main` llegan con su código, sus specs,
+`docs/diseno/*` y las capturas (`BRIEF-11`). Los tres carriles que arrancan
+ahora y sus reglas están en `gestion/CARRILES.md`.
 
 ## Riesgos
 

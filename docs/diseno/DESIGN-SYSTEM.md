@@ -1,8 +1,11 @@
 # DOCU · Design system (dirección Vínculo)
 
 > Estado: **v1.0** (tokens + componentes + pantalla de ejemplo) · entregada en `main` · Issue #41 (fases 1 y 2) · Dueña: Kira · Cierre: 2026-10-29
-> Nombres de tokens en inglés (regla 5 de `playground/CONSISTENCIA.md`); textos de pantalla en español.
+> Nombres de tokens en inglés (regla 5 del taller de diseño); textos de pantalla en español.
 > Fuente de verdad: `tokens.json` (DTCG 2025.10).
+> El taller `design/kira-playground` quedó abandonado: lo que se mentiona aquí
+> como "taller" es histórico. Hoy los tokens se consumen en `apps/web`
+> (plataforma #84) y las pantallas se construyen en `feat/11-prototipos-ui-ux`.
 
 ## 0. Acta de marca
 
@@ -300,6 +303,6 @@ Prototipo sin API ni BD: datos de ejemplo en memoria. Las otras tres pantallas (
 | Archivo | Dónde | Contenido |
 |---|---|---|
 | `DESIGN-SYSTEM.md` | `docs/diseno/` (main) | Este documento |
-| `tokens.json` | `docs/diseno/` (main) y `playground/tokens/` | Fuente de verdad, DTCG 2025.10. #4 lo mapea a `@theme` de Tailwind 4 en `apps/web` cuando arranque. |
-| `tokens.css` | Solo `playground/tokens/` | Variables CSS del taller (claro/oscuro). No viaja a main. |
+| `tokens.json` | `docs/diseno/` (main) | Fuente de verdad, DTCG 2025.10. La plataforma (#84) lo mapea a `@theme` de Tailwind 4 en `apps/web`. |
+| `tokens.css` | `apps/web/src/styles/` (vía #84) | Variables CSS que consume la app (claro/oscuro). |
 | `capturas/` | `docs/diseno/capturas/` (main) | Evidencia antes/después, componentes y pantalla de ejemplo |

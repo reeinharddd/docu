@@ -20,52 +20,53 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { JSDOM } from 'jsdom'
 
-const DIRECTORIOS = ['docs']
-const MD_RAIZ = ['README.md', 'AGENTS.md', 'CLAUDE.md']
+const DIRECTORIES = ['docs']
+const ROOT_MD = ['README.md', 'AGENTS.md', 'CLAUDE.md']
 
-type Bloque = { archivo: string; linea: number; fuente: string }
+type Block = { file: string; line: number; source: string }
 
-function caminar(dir: string, out: string[] = []): string[] {
-  for (const e of readdirSync(dir, { withFileTypes: true })) {
-    if (e.name === 'node_modules' || e.name === '.git') continue
-    const p = join(dir, e.name)
-    if (e.isDirectory()) caminar(p, out)
-    else if (e.name.endsWith('.md') || e.name.endsWith('.mmd')) out.push(p)
+function walk(dir: string, out: string[] = []): string[] {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'node_modules' || entry.name === '.git') continue
+    const path = join(dir, entry.name)
+    if (entry.isDirectory()) walk(path, out)
+    else if (entry.name.endsWith('.md') || entry.name.endsWith('.mmd'))
+      out.push(path)
   }
   return out
 }
 
-function bloquesDe(archivo: string): Bloque[] {
-  const lineas = readFileSync(archivo, 'utf8').split('\n')
-  if (archivo.endsWith('.mmd')) {
-    return [{ archivo, linea: 1, fuente: lineas.join('\n') }]
+function blocksOf(file: string): Block[] {
+  const lines = readFileSync(file, 'utf8').split('\n')
+  if (file.endsWith('.mmd')) {
+    return [{ file, line: 1, source: lines.join('\n') }]
   }
-  const out: Bloque[] = []
-  let dentro = false
-  let inicio = 0
-  let buf: string[] = []
-  for (let i = 0; i < lineas.length; i++) {
-    const l = lineas[i]
-    if (!dentro && /^\s*```mermaid\b/.test(l)) {
-      dentro = true
-      inicio = i + 2
-      buf = []
+  const out: Block[] = []
+  let inside = false
+  let start = 0
+  let buffer: string[] = []
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i]
+    if (!inside && /^\s*```mermaid\b/.test(l)) {
+      inside = true
+      start = i + 2
+      buffer = []
       continue
     }
-    if (dentro && /^\s*```\s*$/.test(l)) {
-      dentro = false
-      out.push({ archivo, linea: inicio, fuente: buf.join('\n') })
+    if (inside && /^\s*```\s*$/.test(l)) {
+      inside = false
+      out.push({ file, line: start, source: buffer.join('\n') })
       continue
     }
-    if (dentro) buf.push(l)
+    if (inside) buffer.push(l)
   }
   return out
 }
 
-/** Un bloque con solo directivas/comentarios no es un diagrama: se ignora. */
-function soloDirectivas(src: string): boolean {
+/** A block with only directives/comments is not a diagram: it is ignored. */
+function onlyDirectives(source: string): boolean {
   return (
-    src
+    source
       .replace(/%%\{[\s\S]*?\}%%/g, '')
       .replace(/%%[^\n]*/g, '')
       .trim().length === 0
@@ -83,9 +84,9 @@ const dom = new JSDOM('<!doctype html><html><body></body></html>')
 const mermaid = (await import('mermaid')).default
 mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' })
 
-const archivos = [
-  ...DIRECTORIOS.flatMap((d) => caminar(d)),
-  ...MD_RAIZ.filter((f) => {
+const files = [
+  ...DIRECTORIES.flatMap((d) => walk(d)),
+  ...ROOT_MD.filter((f) => {
     try {
       readFileSync(f, 'utf8')
       return true
@@ -95,66 +96,62 @@ const archivos = [
   }),
 ]
 
-const bloques = archivos
-  .flatMap(bloquesDe)
-  .filter((b) => !soloDirectivas(b.fuente))
+const blocks = files.flatMap(blocksOf).filter((b) => !onlyDirectives(b.source))
 
-let rotos = 0
-for (const b of bloques) {
+let broken = 0
+for (const b of blocks) {
   try {
-    await mermaid.parse(b.fuente)
+    await mermaid.parse(b.source)
   } catch (e) {
-    rotos++
+    broken++
     const msg = String((e as Error)?.message ?? e)
       .replace(/\s+/g, ' ')
       .slice(0, 200)
-    console.error(`✗ ${b.archivo}:${b.linea} — ${msg}`)
+    console.error(`✗ ${b.file}:${b.line} — ${msg}`)
   }
 }
 
 // ── draw.io: every page of the .drawio has its exported SVG ────────────────
 const DRAWIO_DIR = 'docs/ingenieria'
 const SVG_DIR = join(DRAWIO_DIR, 'diagramas')
-const esperados = new Set<string>()
-let paginas = 0
-let problemas = 0
-let tablasTotales = 0
+const expected = new Set<string>()
+let pages = 0
+let problems = 0
+let totalTables = 0
 
-for (const e of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
-  if (!e.isFile() || !e.name.endsWith('.drawio')) continue
-  const archivo = join(DRAWIO_DIR, e.name)
-  const base = e.name.slice(0, -'.drawio'.length)
-  const doc = new JSDOM(readFileSync(archivo, 'utf8'), {
+for (const entry of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
+  if (!entry.isFile() || !entry.name.endsWith('.drawio')) continue
+  const file = join(DRAWIO_DIR, entry.name)
+  const base = entry.name.slice(0, -'.drawio'.length)
+  const doc = new JSDOM(readFileSync(file, 'utf8'), {
     contentType: 'text/xml',
   }).window.document
   if (doc.querySelector('parsererror')) {
-    problemas++
-    console.error(`✗ ${archivo} — XML inválido`)
+    problems++
+    console.error(`✗ ${file} — invalid XML`)
     continue
   }
   const total = doc.querySelectorAll('diagram').length
   if (total === 0) {
-    problemas++
-    console.error(`✗ ${archivo} — sin <diagram>`)
+    problems++
+    console.error(`✗ ${file} — no <diagram>`)
     continue
   }
   for (let i = 1; i <= total; i++) {
-    paginas++
-    const nombre = `${base}-${i}.svg`
-    esperados.add(nombre)
-    if (!existsSync(join(SVG_DIR, nombre))) {
-      problemas++
-      console.error(
-        `✗ ${archivo} — página ${i} sin export: ${SVG_DIR}/${nombre}`,
-      )
+    pages++
+    const name = `${base}-${i}.svg`
+    expected.add(name)
+    if (!existsSync(join(SVG_DIR, name))) {
+      problems++
+      console.error(`✗ ${file} — page ${i} without export: ${SVG_DIR}/${name}`)
     }
   }
 
   // ── traceability: the derived .md declares the hash and the tables ─────────────
-  const tablasUnicas = [
+  const uniqueTables = [
     ...new Set(
       [
-        ...readFileSync(archivo, 'utf8').matchAll(
+        ...readFileSync(file, 'utf8').matchAll(
           /<mxCell[^>]*\bvalue="([^"]+)"[^>]*\bstyle="[^"]*shape=table[;"]/g,
         ),
       ]
@@ -162,49 +159,49 @@ for (const e of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
         .filter((v) => /^[a-z][a-z0-9_]*$/.test(v)),
     ),
   ]
-  tablasTotales += tablasUnicas.length
+  totalTables += uniqueTables.length
 
-  const md = join(DRAWIO_DIR, `${base}.md`)
-  if (!existsSync(md)) {
-    problemas++
-    console.error(`✗ ${archivo} — sin texto derivado: ${md}`)
+  const mdFile = join(DRAWIO_DIR, `${base}.md`)
+  if (!existsSync(mdFile)) {
+    problems++
+    console.error(`✗ ${file} — no derived text: ${mdFile}`)
   } else {
-    const texto = readFileSync(md, 'utf8')
+    const text = readFileSync(mdFile, 'utf8')
 
-    const hash = createHash('sha256')
-      .update(readFileSync(archivo))
-      .digest('hex')
-    const declarado = texto.match(/SHA-256 de la fuente:\s*`([0-9a-f]{64})`/i)
-    if (!declarado) {
-      problemas++
-      console.error(`✗ ${md} — no declara el SHA-256 de la fuente`)
-    } else if (declarado[1] !== hash) {
-      problemas++
+    const hash = createHash('sha256').update(readFileSync(file)).digest('hex')
+    // The marker and the section title below are Spanish on purpose: they match
+    // the wording of the derived document, which is human-consumed.
+    const declared = text.match(/SHA-256 de la fuente:\s*`([0-9a-f]{64})`/i)
+    if (!declared) {
+      problems++
+      console.error(`✗ ${mdFile} — does not declare the source SHA-256`)
+    } else if (declared[1] !== hash) {
+      problems++
       console.error(
-        `✗ ${md} — SHA-256 desactualizado: dice ${declarado[1]}, la fuente es ${hash}`,
+        `✗ ${mdFile} — stale SHA-256: declares ${declared[1]}, source is ${hash}`,
       )
     }
 
-    const seccion =
-      texto.split('## Matriz de clases')[1]?.split('\n## ')[0] ?? ''
-    const delTexto = new Set(
-      [...seccion.matchAll(/^\|\s*`([a-z][a-z0-9_]*)`\s*\|/gm)].map(
+    const section =
+      text.split('## Matriz de clases')[1]?.split('\n## ')[0] ?? ''
+    const inText = new Set(
+      [...section.matchAll(/^\|\s*`([a-z][a-z0-9_]*)`\s*\|/gm)].map(
         (m) => m[1],
       ),
     )
-    for (const t of tablasUnicas) {
-      if (!delTexto.has(t)) {
-        problemas++
+    for (const t of uniqueTables) {
+      if (!inText.has(t)) {
+        problems++
         console.error(
-          `✗ ${md} — la tabla \`${t}\` del diagrama no está en la matriz de clases`,
+          `✗ ${mdFile} — table \`${t}\` in the diagram is not in the class matrix`,
         )
       }
     }
-    for (const t of delTexto) {
-      if (!tablasUnicas.includes(t)) {
-        problemas++
+    for (const t of inText) {
+      if (!uniqueTables.includes(t)) {
+        problems++
         console.error(
-          `✗ ${md} — la tabla \`${t}\` de la matriz no está en el diagrama`,
+          `✗ ${mdFile} — table \`${t}\` in the matrix is not in the diagram`,
         )
       }
     }
@@ -212,20 +209,20 @@ for (const e of readdirSync(DRAWIO_DIR, { withFileTypes: true })) {
 }
 
 if (existsSync(SVG_DIR)) {
-  for (const e of readdirSync(SVG_DIR)) {
-    if (e.endsWith('.svg') && !esperados.has(e)) {
-      problemas++
-      console.error(`✗ ${SVG_DIR}/${e} — SVG sin página en el .drawio`)
+  for (const entry of readdirSync(SVG_DIR)) {
+    if (entry.endsWith('.svg') && !expected.has(entry)) {
+      problems++
+      console.error(`✗ ${SVG_DIR}/${entry} — SVG with no page in the .drawio`)
     }
   }
 }
 
-if (rotos > 0 || problemas > 0) {
-  console.error(`diagramas: ${bloques.length} bloques mermaid, ${rotos} rotos`)
-  console.error(`drawio: ${paginas} páginas, ${problemas} problemas`)
+if (broken > 0 || problems > 0) {
+  console.error(`diagrams: ${blocks.length} mermaid blocks, ${broken} broken`)
+  console.error(`drawio: ${pages} pages, ${problems} problems`)
   process.exit(1)
 }
-console.log(`diagramas: ${bloques.length} bloques mermaid, 0 rotos`)
+console.log(`diagrams: ${blocks.length} mermaid blocks, 0 broken`)
 console.log(
-  `drawio: ${paginas} páginas, ${tablasTotales} tablas trazadas al texto, 0 problemas`,
+  `drawio: ${pages} pages, ${totalTables} tables traced to text, 0 problems`,
 )

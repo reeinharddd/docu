@@ -36,7 +36,7 @@ de que esta sea creíble.
 
 1. Escribir el guion minuto a minuto con la pantalla o la respuesta que se ve
    en cada paso. Terminado: no hay paso sin pantalla, cifra o documento.
-2. Preparar la evidencia: capturas de las cuatro pantallas con datos reales,
+2. Preparar la evidencia: capturas de las cinco pantallas con datos reales,
    video del flujo y la salida de `bun run verify`. Terminado: todo está en el
    PR de demo y en un Drive con acceso.
 3. Ensayar el 20-nov con el equipo. Terminado: el acta del ensayo dice qué

@@ -19,31 +19,31 @@ api_pid=$!
 cleanup() { kill "$api_pid" 2>/dev/null; wait "$api_pid" 2>/dev/null; }
 trap cleanup EXIT INT TERM
 
-diagnostico() {
+diagnose() {
   if grep -qi "SCRAM\|password must be\|Can't reach database server\|ECONNREFUSED.*5432" "$log"; then
-    echo "Causa: la API no alcanza PostgreSQL. Levanta infra:"
+    echo "Cause: the API cannot reach PostgreSQL. Start infra:"
     echo "  docker compose -f infra/docker-compose.yml --env-file .env up -d --wait"
   elif grep -qi 'ECONNREFUSED.*6379' "$log"; then
-    echo "Causa: la API no alcanza Redis. Levanta infra con el mismo compose."
+    echo "Cause: the API cannot reach Redis. Start infra with the same compose."
   fi
   tail -25 "$log"
 }
 
-intentos=60
+attempts=60
 i=0
-while [ "$i" -lt "$intentos" ]; do
+while [ "$i" -lt "$attempts" ]; do
   if ! kill -0 "$api_pid" 2>/dev/null; then
-    echo "FALLA: la API termino antes de responder"
-    diagnostico
+    echo "FAIL: the API exited before responding"
+    diagnose
     exit 1
   fi
   if curl -sf "http://localhost:$puerto/health" 2>/dev/null | grep -q '"status":"ok"'; then
-    echo "OK: /health responde ok"
+    echo "OK: /health responds ok"
     exit 0
   fi
   i=$((i+1)); sleep 0.5
 done
 
-echo "FALLA: /health no respondio ok en 30s"
-diagnostico
+echo "FAIL: /health did not respond ok in 30s"
+diagnose
 exit 1

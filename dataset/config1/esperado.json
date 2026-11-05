@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "source": "docs/ingenieria/fichas/CONTRATO.md §8 (volumen) y §9 (ruido)",
+  "window": {
+    "from": "2026-10-05",
+    "to": "2026-10-30",
+    "business_days": 20,
+    "shifts": 60
+  },
+  "corpus": {
+    "root": "corpus",
+    "layout": "<family>/<file>",
+    "note": "Todo archivo generado cuelga de corpus/<family>/. Lo que no sea una familia conocida se cuenta como ruido."
+  },
+  "files_per_family": {
+    "excel_turno": 120,
+    "recepcion_rollo": 14,
+    "programa_planeacion": 2,
+    "inventario": 2,
+    "correo_hermana": 16,
+    "escaneado": 16
+  },
+  "revisions_per_family": {
+    "programa_planeacion": 6,
+    "inventario": 6
+  },
+  "noise": {
+    "min": 30,
+    "max": 40
+  },
+  "total_files": 170
+}

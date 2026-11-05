@@ -4,9 +4,9 @@
 # memory indexes, the repo rules (docs/integraciones/ENGRAM.md).
 set -u
 cd "$(dirname "$0")/.."
-command -v engram >/dev/null || { echo "FALLO: engram no instalado"; exit 1; }
-salida="/tmp/docu-memory/memory-review-$(date +%F).json"
+command -v engram >/dev/null || { echo "FAIL: engram is not installed"; exit 1; }
+output="/tmp/docu-memory/memory-review-$(date +%F).json"
 mkdir -p /tmp/docu-memory
-engram export "$salida" --project docu || exit 1
-echo "exportado: $salida"
-echo "siguiente: revísalo, convierte lo valioso en docs con PR, borra el archivo."
+engram export "$output" --project docu || exit 1
+echo "exported: $output"
+echo "next: review it, turn what matters into docs with a PR, delete the file."

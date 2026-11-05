@@ -79,12 +79,12 @@ sin listar. Corre en CI y en `bun run doctor`.
 |---|---|---|
 | `HARNESS.md` | Mapa del harness: rol→flujo→herramienta→dueño→cadencia, los dos ciclos y el runbook de evolución | vigente |
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
-| `decisiones/` | ADRs de ingeniería: 16 aceptadas y ADR-0016 reemplazada por ADR-0017; ninguna en propuesta | en progreso |
+| `decisiones/` | ADRs de ingeniería: 17 aceptadas y ADR-0016 reemplazada por ADR-0017; ninguna en propuesta | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA, alcance de la solución, `fichas/` (contrato de documentos del caso), estándar de diagramas y ER de C1 (`DIAGRAMA-BD-v0.drawio` + texto derivado) | en progreso |
 | `diseno/` | Identidad de marca (acta y PDF de exploración) y design system (tokens, tipografía, componentes base) | en construcción |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |
 | `integraciones/` | Accesos, gestión en GitHub, Drive, Engram, MCP, herramientas del agente, investigación | completo |
-| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad, replanificación de C1 (2026-10-30) y brief de reconciliación | completo |
+| `gestion/` | Plan por épicas, ritmo semanal, trazabilidad, replanificación de C1 (2026-10-30), carriles en marcha (`CARRILES.md`) y brief de reconciliación | completo |
 | `briefs/` | Delegaciones **activas** (issue abierto); las de issues cerrados se archivan en `briefs/historico/`, fuera del índice central | activo |
 | `recursos/` | Caja de herramientas por actividad (índice curado) | activo |
 | `plantillas/` | BRIEF, ADR, RFC, evidencia, contrato de módulos, roles, agente, design system, ficha, DESIGN | completo |
@@ -94,8 +94,9 @@ el producto los necesite, y hasta entonces el índice dice la verdad en vez de
 prometer archivos que no existen.
 
 `diseno/` ya tiene marca y design system (#41). Las pantallas y el flujo de #11
-se construyen en el taller `design/kira-playground` (rama huérfana) y llegan a
-`main` como `FLUJO.md` y `CATEGORIAS.md`.
+se construyen en la app real, en la rama `feat/11-prototipos-ui-ux`, y llegan a
+`main` con su código, `FLUJO.md` y `CATEGORIAS.md`. Los tres carriles de C1 y
+sus reglas de arranque están en `gestion/CARRILES.md`.
 
 El ER de la base tiene dos formatos y una sola fuente: el `.drawio` es la fuente
 (ADR-0017) y el texto derivado se verifica contra él con `bun run diagramas:check`.
