@@ -11,10 +11,10 @@ for f in $(find docs README.md AGENTS.md -type f -name '*.md' 2>/dev/null); do
   dir=$(dirname "$f")
   for t in $(awk '/^```/{salta=!salta; next} !salta' "$f" | grep -o '\]([^)]*)' | sed 's/^](//;s/)$//' | cut -d'#' -f1 | grep -v '^$' | grep -v '^https\?://' | grep -v '^mailto:' | grep -v '^#'); do
     case "$t" in
-      /*) [ -e ".$t" ] || echo "ROTO $f -> $t" >> "$out" ;;
-      *) [ -e "$dir/$t" ] || [ -e "$t" ] || echo "ROTO $f -> $t" >> "$out" ;;
+      /*) [ -e ".$t" ] || echo "BROKEN $f -> $t" >> "$out" ;;
+      *) [ -e "$dir/$t" ] || [ -e "$t" ] || echo "BROKEN $f -> $t" >> "$out" ;;
     esac
   done
 done
-if [ -s "$out" ]; then cat "$out"; echo "links: FALLA"; exit 1; fi
+if [ -s "$out" ]; then cat "$out"; echo "links: FAIL"; exit 1; fi
 echo "links: OK"

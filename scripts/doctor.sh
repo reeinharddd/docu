@@ -1,17 +1,17 @@
 #!/bin/sh
 # DOCU doctor: reports what is missing to work, without failing. Exit 0 always unless
-# invocation error. Readable output: OK / FALTA / AVISO.
+# invocation error. Readable output: OK / MISSING / WARN.
 set -u
 cd "$(dirname "$0")/.."
 
-ok=0; falta=0; aviso=0
-verde=''; rojo=''; amarillo=''; fin=''
-if [ -t 1 ]; then verde=$(printf '\033[32m'); rojo=$(printf '\033[31m'); amarillo=$(printf '\033[33m'); fin=$(printf '\033[0m'); fi
+ok=0; missing=0; warn=0
+green=''; red=''; yellow=''; end=''
+if [ -t 1 ]; then green=$(printf '\033[32m'); red=$(printf '\033[31m'); yellow=$(printf '\033[33m'); end=$(printf '\033[0m'); fi
 
 line() { printf '%s\n' "$1"; }
-ok_line()   { ok=$((ok+1));     line "${verde}OK${fin}     $1"; }
-falta_line(){ falta=$((falta+1)); line "${rojo}FALTA${fin}  $1"; }
-aviso_line(){ aviso=$((aviso+1)); line "${amarillo}AVISO${fin}  $1"; }
+ok_line()     { ok=$((ok+1));     line "${green}OK${end}     $1"; }
+missing_line(){ missing=$((missing+1)); line "${red}MISSING${end}  $1"; }
+warn_line()   { warn=$((warn+1)); line "${yellow}WARN${end}  $1"; }
 
 line "== runtime =="
 want_bun=$(bun -e 'console.log((require("./package.json").packageManager||"").replace("bun@",""))' 2>/dev/null)
@@ -19,97 +19,97 @@ have_bun=$(bun --version 2>/dev/null)
 want_mm=$(printf '%s' "$want_bun" | cut -d. -f1,2)
 have_mm=$(printf '%s' "$have_bun" | cut -d. -f1,2)
 if [ "$want_bun" = "$have_bun" ]; then
-  ok_line "Bun $have_bun (fijado en package.json)"
+  ok_line "Bun $have_bun (pinned in package.json)"
 elif [ "$want_mm" = "$have_mm" ]; then
-  aviso_line "Bun $have_bun != $want_bun fijado en packageManager (mismo major.minor; el patch no suele romper nada)"
+  warn_line "Bun $have_bun != $want_bun pinned in packageManager (same major.minor; the patch usually breaks nothing)"
 else
-  falta_line "Bun $have_bun != $want_bun fijado en packageManager"
+  missing_line "Bun $have_bun != $want_bun pinned in packageManager"
 fi
 
 line ""
-line "== herramientas fijadas =="
+line "== pinned tools =="
 schema_biome=$(sed -n 's#.*schemas/\([0-9.]*\)/schema.json.*#\1#p' biome.json)
 if [ -x node_modules/.bin/biome ]; then
   have_biome=$(bun node_modules/.bin/biome --version 2>/dev/null | sed 's/^Version: //')
-  if [ "$have_biome" = "$schema_biome" ]; then ok_line "Biome $have_biome local = schema $schema_biome"; else falta_line "Biome local $have_biome != schema $schema_biome"; fi
+  if [ "$have_biome" = "$schema_biome" ]; then ok_line "Biome $have_biome local = schema $schema_biome"; else missing_line "Local Biome $have_biome != schema $schema_biome"; fi
 else
-  falta_line "Biome no instalado. Corre 'bun install' (esta declarado en devDependencies)"
+  missing_line "Biome not installed. Run 'bun install' (it is declared in devDependencies)"
 fi
 
 # Only an executable command with @latest counts as a failure, not the prose that
 # explains why it is forbidden.
 if grep -rEn '`[^`]*(bunx|npm|pnpm|bun) +[a-z@][^`]*@latest' docs/ README.md AGENTS.md 2>/dev/null | grep -v 'que esta prohibido\|era `8\.0\|instalaria una release'; then
-  falta_line "Comando con @latest en la documentacion. Fijar version: ADR-0007 punto 5"
+  missing_line "Command with @latest in the documentation. Pin the version: ADR-0007 point 5"
 else
-  ok_line "Ningun comando documentado usa @latest"
+  ok_line "No documented command uses @latest"
 fi
 
 line ""
-line "== entorno =="
-if [ -f .env ]; then ok_line ".env existe (no se commitea)"; else falta_line ".env no existe. Se crea solo con 'bun run dev' o: cp .env.example .env"; fi
+line "== environment =="
+if [ -f .env ]; then ok_line ".env exists (never committed)"; else missing_line ".env does not exist. It is created by 'bun run dev' or: cp .env.example .env"; fi
 for k in DATABASE_URL REDIS_URL JWT_SECRET GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROJECT; do
-  if [ -f .env ] && grep -q "^${k}=" .env; then :; else aviso_line "variable ausente en .env: $k"; fi
+  if [ -f .env ] && grep -q "^${k}=" .env; then :; else warn_line "variable missing in .env: $k"; fi
 done
 
-if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then ok_line "gh con sesion ($(gh api user --jq .login 2>/dev/null))"; else falta_line "gh sin instalar o sin sesion. Corre: bun run setup"; fi
-if command -v opencode >/dev/null 2>&1; then ok_line "opencode instalado"; else aviso_line "opencode no instalado. Corre: bun run setup"; fi
-if command -v engram >/dev/null 2>&1; then ok_line "engram $(engram --version 2>/dev/null | head -1)"; else aviso_line "engram no instalado. Memoria del proyecto sin CLI: ver docs/operacion/BOOTSTRAP.md"; fi
+if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then ok_line "gh logged in ($(gh api user --jq .login 2>/dev/null))"; else missing_line "gh not installed or not logged in. Run: bun run setup"; fi
+if command -v opencode >/dev/null 2>&1; then ok_line "opencode installed"; else warn_line "opencode not installed. Run: bun run setup"; fi
+if command -v engram >/dev/null 2>&1; then ok_line "engram $(engram --version 2>/dev/null | head -1)"; else warn_line "engram not installed. Project memory without CLI: see docs/operacion/BOOTSTRAP.md"; fi
 if bash scripts/drive-check.sh >/dev/null 2>&1; then
-  ok_line "drive: carpeta + 3 etapas resuelven en vivo"
+  ok_line "drive: folder + 3 stages resolve live"
 else
   code=$?
   if [ "$code" -eq 2 ]; then
-    aviso_line "drive omitido (sin OAuth o sin red). Lo entrega el líder: docs/integraciones/DRIVE.md"
+    warn_line "drive skipped (no OAuth or no network). The team lead provides it: docs/integraciones/DRIVE.md"
   else
-    falta_line "drive con credenciales pero sin lectura. Revisa OAuth: docs/integraciones/DRIVE.md"
+    missing_line "drive has credentials but cannot read. Check OAuth: docs/integraciones/DRIVE.md"
   fi
 fi
-for f in .opencode/commands/inicio.md .opencode/skills/docu-gestion/SKILL.md; do [ -f "$f" ] && ok_line "agente: $f" || falta_line "agente: falta $f"; done
-if [ -f .opencode/opencode.jsonc ] || [ -f .opencode/opencode.json ]; then aviso_line ".opencode/opencode.json(c) local es legacy: opencode no lo lee, el contrato es opencode.json de la raiz"; else ok_line "sin config local de opencode (manda opencode.json)"; fi
+for f in .opencode/commands/inicio.md .opencode/skills/docu-gestion/SKILL.md; do [ -f "$f" ] && ok_line "agent: $f" || missing_line "agent: missing $f"; done
+if [ -f .opencode/opencode.jsonc ] || [ -f .opencode/opencode.json ]; then warn_line ".opencode/opencode.json(c) local is legacy: opencode does not read it, the contract is opencode.json at the root"; else ok_line "no local opencode config (opencode.json is the authority)"; fi
 
-if command -v docker >/dev/null 2>&1; then ok_line "docker $(docker --version | sed 's/.*version //;s/,.*//')"; else falta_line "docker no instalado"; fi
+if command -v docker >/dev/null 2>&1; then ok_line "docker $(docker --version | sed 's/.*version //;s/,.*//')"; else missing_line "docker not installed"; fi
 
 line ""
-line "== gates ejecutables =="
-if bun run lint >/dev/null 2>&1; then ok_line "bun run lint (biome, linter recommended)"; else falta_line "bun run lint falla"; fi
-if bun run typecheck >/dev/null 2>&1; then ok_line "bun run typecheck"; else falta_line "bun run typecheck falla"; fi
-if bun run compose:check >/dev/null 2>&1; then ok_line "compose config"; else falta_line "docker compose config falla"; fi
+line "== executable gates =="
+if bun run lint >/dev/null 2>&1; then ok_line "bun run lint (biome, linter recommended)"; else missing_line "bun run lint fails"; fi
+if bun run typecheck >/dev/null 2>&1; then ok_line "bun run typecheck"; else missing_line "bun run typecheck fails"; fi
+if bun run compose:check >/dev/null 2>&1; then ok_line "compose config"; else missing_line "docker compose config fails"; fi
 if bun run smoke:api >/dev/null 2>&1; then
-  ok_line "smoke:api (/health responde ok)"
+  ok_line "smoke:api (/health responds ok)"
 else
   code=$?
   if [ "$code" -eq 2 ]; then
-    aviso_line "smoke:api omitido, falta infraestructura. 'docker compose -f infra/docker-compose.yml --env-file .env up -d --wait'"
+    warn_line "smoke:api skipped, missing infrastructure. 'docker compose -f infra/docker-compose.yml --env-file .env up -d --wait'"
   else
-    falta_line "smoke:api falla: la API no levanta o /health no responde. Ver bash scripts/smoke-api.sh"
+    missing_line "smoke:api fails: the API does not start or /health does not respond. See bash scripts/smoke-api.sh"
   fi
 fi
 n_web=$(find apps/web/src -name '*.spec.ts' 2>/dev/null | wc -l | tr -d ' ')
 n_api=$(find apps/api/src -name '*.spec.ts' 2>/dev/null | wc -l | tr -d ' ')
-if [ "$n_web" -gt 0 ]; then ok_line "pruebas web: $n_web archivo(s)"; else aviso_line "apps/web sin pruebas"; fi
-if [ "$n_api" -gt 0 ]; then ok_line "pruebas api: $n_api archivo(s)"; else aviso_line "apps/api sin pruebas. RNF-07 no se sostiene sin ellas (RNF-07, Sprint 4)"; fi
+if [ "$n_web" -gt 0 ]; then ok_line "web tests: $n_web file(s)"; else warn_line "apps/web without tests"; fi
+if [ "$n_api" -gt 0 ]; then ok_line "api tests: $n_api file(s)"; else warn_line "apps/api without tests. RNF-07 does not hold without them (RNF-07, Sprint 4)"; fi
 
 line ""
-line "== indice documental =="
-if bash scripts/doc-index.sh >/dev/null 2>&1; then ok_line "indice de docs honesto (docs/.indice)"; else falta_line "docs/.indice no coincide con el disco. Corre: bash scripts/doc-index.sh --fix"; fi
+line "== docs index =="
+if bash scripts/doc-index.sh >/dev/null 2>&1; then ok_line "docs index is honest (docs/.indice)"; else missing_line "docs/.indice does not match disk. Fix it: bash scripts/doc-index.sh --fix"; fi
 
 line ""
 line "== harness =="
-if bash scripts/harness-check.sh >/dev/null 2>&1; then ok_line "harness: metadata y catalogo en verde"; else falta_line "harness-check falla: revisa owner/trigger/purpose o CAPACIDADES.md"; fi
+if bash scripts/harness-check.sh >/dev/null 2>&1; then ok_line "harness: metadata and catalog green"; else missing_line "harness-check fails: review owner/trigger/purpose or CAPACIDADES.md"; fi
 
 line ""
-line "== higiene git =="
-raiz=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
-sucios=$(cd "$raiz" && git status --porcelain | grep -v '^?? node_modules' | wc -l | tr -d ' ')
-[ "$sucios" -eq 0 ] && ok_line "arbol limpio" || aviso_line "$sucios ruta(s) sin commitear en la rama $(cd "$raiz" && git rev-parse --abbrev-ref HEAD)"
+line "== git hygiene =="
+root=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
+dirty=$(cd "$root" && git status --porcelain | grep -v '^?? node_modules' | wc -l | tr -d ' ')
+[ "$dirty" -eq 0 ] && ok_line "clean tree" || warn_line "$dirty path(s) uncommitted on branch $(cd "$root" && git rev-parse --abbrev-ref HEAD)"
 for p in .claude .cursor .codex; do
-  if [ -e "$raiz/$p" ]; then
-    if git -C "$raiz" check-ignore -q "$p" 2>/dev/null; then aviso_line "$p/ existe localmente y esta en .gitignore (correcto)"; else falta_line "$p/ existe y NO esta en .gitignore"; fi
+  if [ -e "$root/$p" ]; then
+    if git -C "$root" check-ignore -q "$p" 2>/dev/null; then warn_line "$p/ exists locally and is in .gitignore (correct)"; else missing_line "$p/ exists and is NOT in .gitignore"; fi
   fi
 done
 
 line ""
 line "-------------------------------------------"
-line "OK=$ok  FALTA=$falta  AVISO=$aviso"
-if [ "$falta" -gt 0 ]; then line "Corrige FALTA antes de trabajar. AVISO no bloquea."; else line "Entorno operable."; fi
+line "OK=$ok  MISSING=$missing  WARN=$warn"
+if [ "$missing" -gt 0 ]; then line "Fix MISSING before working. WARN does not block."; else line "Environment operable."; fi
 exit 0

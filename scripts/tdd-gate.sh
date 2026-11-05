@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # DOCU tdd-gate: the TDD door (BRIEF-87, ADR-0018).
-# Fails when the diff adds/changes API source code without any accompanying
-# spec file. Escapes: label `sin-test` (checked by the CI workflow, not here).
+# Fails when the diff adds/changes source code (API or dataset generator)
+# without any accompanying spec file. Escapes: label `sin-test` (checked by
+# the CI workflow, not here).
 # Modes:
 #   tdd-gate.sh [base]     CI mode: diff base...HEAD (default origin/main)
 #   tdd-gate.sh --aviso    pre-commit mode: checks STAGED files, warns, never fails
@@ -25,26 +26,26 @@ case "$mode" in
   stdin)  files=$(cat) ;;
 esac
 
-src=$(printf '%s\n' "$files" | grep -E '^apps/api/src/.*\.ts$' | grep -v '\.spec\.ts$' || true)
-spec=$(printf '%s\n' "$files" | grep -E '^apps/api/.*\.spec\.ts$' || true)
+src=$(printf '%s\n' "$files" | grep -E '^(apps/api/src|dataset)/.*\.ts$' | grep -v '\.spec\.ts$' || true)
+spec=$(printf '%s\n' "$files" | grep -E '^(apps/api|dataset)/.*\.spec\.ts$' || true)
 
 if [ -z "$src" ]; then
-  echo "tdd-gate: sin codigo de API en el diff; puerta TDD no aplica."
+  echo "tdd-gate: no API or generator code in the diff; TDD gate does not apply."
   exit 0
 fi
 
 if [ -n "$spec" ]; then
-  echo "tdd-gate: codigo de API con specs en el diff:"
+  echo "tdd-gate: code with specs in the diff:"
   printf '%s\n' "$spec" | sed 's/^/  ok: /'
   exit 0
 fi
 
-msg="tdd-gate: codigo de API sin ningun test en el diff:"
-printf '%s\n' "$src" | sed 's/^/  falta test: /'
+msg="tdd-gate: code without any test in the diff:"
+printf '%s\n' "$src" | sed 's/^/  missing test: /'
 if [ "$mode" = "aviso" ]; then
-  echo "$msg (aviso: recuerda el test rojo antes del verde; si es intencional, etiqueta sin-test en el PR)" >&2
+  echo "$msg (warning: red test before green code; if intentional, label the PR sin-test with the reason)" >&2
   exit 0
 fi
 echo "$msg" >&2
-echo '  Regla: test rojo antes del codigo verde (ADR-0018). Si no aplica, etiqueta `sin-test` en el PR con motivo.' >&2
+echo '  Rule: red test before green code (ADR-0018). If it does not apply, label the PR `sin-test` with the reason.' >&2
 exit 1
