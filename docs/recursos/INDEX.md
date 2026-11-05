@@ -126,7 +126,7 @@
 | Stitch | stitch.withgoogle.com | Genera UI desde texto y exporta a Figma | Necesitas iterar rápido |
 | Penpot MCP | penpot.app/ai/ai-workflows | Workflows AI con tokens y componentes | Si kira elige Penpot, conecta con agentes |
 
-## 4. Prototipar flujo (4 pantallas, navegación, estados)
+## 4. Prototipar flujo (5 pantallas, navegación, estados)
 
 | Recurso | URL | Descripción | Cuándo usarlo |
 |---|---|---|---|

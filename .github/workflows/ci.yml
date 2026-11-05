@@ -5,6 +5,7 @@ on:
     paths:
       - "apps/**"
       - "infra/**"
+      - "dataset/**"
       - "docs/**"
       - "scripts/**"
       - ".github/**"
@@ -18,6 +19,7 @@ on:
     paths:
       - "apps/**"
       - "infra/**"
+      - "dataset/**"
       - "docs/**"
       - "scripts/**"
       - ".github/**"
@@ -56,6 +58,8 @@ jobs:
       - run: bash scripts/doc-index.sh
       - run: bun run harness:check
       - run: bun run diagramas:check
+      - run: bun run dataset:check
+      - run: bun run prisma:check
       - run: bash scripts/docs-linkcheck.sh
       - run: bash scripts/docs-briefcheck.sh
       - run: bash scripts/docs-tracecheck.sh

@@ -9,11 +9,11 @@
 set -u
 cd "$(dirname "$0")/.."
 
-EQUIPO=docs/proyecto/EQUIPO.md
-hallazgos=0
+TEAM=docs/proyecto/EQUIPO.md
+findings=0
 total=0
 
-fm() {
+frontmatter() {
   awk '
     /^---[[:space:]]*$/ { c++; next }
     c == 1 { print; next }
@@ -23,66 +23,66 @@ fm() {
   ' "$1"
 }
 
-reportar() { echo "HALLAZGO: $1: $2"; hallazgos=$((hallazgos+1)); }
+report() { echo "FINDING: $1: $2"; findings=$((findings+1)); }
 
-check_pieza() {
-  pieza=$1
-  es_vendor=$2
+check_piece() {
+  piece=$1
+  vendor=$2
   total=$((total+1))
-  bloque=$(fm "$pieza")
-  if [ -z "$bloque" ]; then
-    reportar "$pieza" "sin frontmatter"
+  block=$(frontmatter "$piece")
+  if [ -z "$block" ]; then
+    report "$piece" "no frontmatter"
     return
   fi
-  for campo in owner trigger purpose; do
-    printf '%s\n' "$bloque" | grep -q "^$campo:" || reportar "$pieza" "falta $campo"
+  for field in owner trigger purpose; do
+    printf '%s\n' "$block" | grep -q "^$field:" || report "$piece" "missing $field"
   done
-  if [ "$es_vendor" = 1 ]; then
-    printf '%s\n' "$bloque" | grep -q "^metadata:" || reportar "$pieza" "falta metadata (vendor)"
-    for campo in repo commit version; do
-      printf '%s\n' "$bloque" | grep -q "^  $campo:" || reportar "$pieza" "falta metadata.$campo (vendor)"
+  if [ "$vendor" = 1 ]; then
+    printf '%s\n' "$block" | grep -q "^metadata:" || report "$piece" "missing metadata (vendor)"
+    for field in repo commit version; do
+      printf '%s\n' "$block" | grep -q "^  $field:" || report "$piece" "missing metadata.$field (vendor)"
     done
   fi
-  owner=$(printf '%s\n' "$bloque" | sed -n 's/^owner:[[:space:]]*//p')
-  if [ -n "$owner" ] && ! grep -qF "$owner" "$EQUIPO"; then
-    reportar "$pieza" "owner '$owner' no existe en EQUIPO.md"
+  owner=$(printf '%s\n' "$block" | sed -n 's/^owner:[[:space:]]*//p')
+  if [ -n "$owner" ] && ! grep -qF "$owner" "$TEAM"; then
+    report "$piece" "owner '$owner' does not exist in EQUIPO.md"
   fi
 }
 
-es_vendor() {
+is_vendor() {
   case "$1" in
     .opencode/skills/vendor/*) return 0 ;;
     *) return 1 ;;
   esac
 }
 
-descubrir() {
+discover() {
   find .opencode/commands -type f -name '*.md' 2>/dev/null
   find .opencode/agents -type f -name '*.md' 2>/dev/null
   find .opencode/skills -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' 2>/dev/null
   find .opencode/skills/vendor -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' 2>/dev/null
 }
 
-descubiertas=$(descubrir | sort -u)
-for pieza in $descubiertas; do
-  if es_vendor "$pieza"; then check_pieza "$pieza" 1; else check_pieza "$pieza" 0; fi
+discovered=$(discover | sort -u)
+for piece in $discovered; do
+  if is_vendor "$piece"; then check_piece "$piece" 1; else check_piece "$piece" 0; fi
 done
 
-INDICE=docs/integraciones/CAPACIDADES.md
-if [ -f "$INDICE" ]; then
-  en_indice=$(grep -o '^| `\.opencode/[^`]*`' "$INDICE" | sed 's/^| `//; s/`$//' | sort -u)
-  for pieza in $descubiertas; do
-    printf '%s\n' "$en_indice" | grep -qxF "$pieza" || reportar "$pieza" "no aparece en CAPACIDADES.md (huerfana)"
+INDEX=docs/integraciones/CAPACIDADES.md
+if [ -f "$INDEX" ]; then
+  in_index=$(grep -o '^| `\.opencode/[^`]*`' "$INDEX" | sed 's/^| `//; s/`$//' | sort -u)
+  for piece in $discovered; do
+    printf '%s\n' "$in_index" | grep -qxF "$piece" || report "$piece" "not listed in CAPACIDADES.md (orphan)"
   done
-  for pieza in $en_indice; do
-    [ -e "$pieza" ] || reportar "$pieza" "listada en CAPACIDADES.md pero no existe en disco (fantasma)"
+  for piece in $in_index; do
+    [ -e "$piece" ] || report "$piece" "listed in CAPACIDADES.md but missing on disk (ghost)"
   done
 else
-  reportar "$INDICE" "no existe (indice vivo del harness)"
+  report "$INDEX" "missing (live harness index)"
 fi
 
-if [ "$hallazgos" -gt 0 ]; then
-  echo "harness-check: $hallazgos hallazgo(s) sobre $total piezas"
+if [ "$findings" -gt 0 ]; then
+  echo "harness-check: $findings finding(s) over $total pieces"
   exit 1
 fi
-echo "harness: $total piezas, 0 hallazgos"
+echo "harness: $total pieces, 0 findings"

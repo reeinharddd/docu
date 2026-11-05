@@ -113,8 +113,8 @@ Health check: `GET /health` debe responder `ok` con pg y redis conectados.
 ## Diagnóstico
 
 `bun run doctor` es de solo lectura, no arregla nada y nunca sale con error.
-Reporta `OK` / `FALTA` / `AVISO` por pieza y cierra con el resumen. Si marca
-`FALTA`, el entorno no es operable: corrige antes de escribir código.
+Reporta `OK` / `MISSING` / `WARN` por pieza y cierra con el resumen. Si marca
+`MISSING`, el entorno no es operable: corrige antes de escribir código.
 
 Lo que comprueba: versión de Bun contra `packageManager`, versión local de
 Biome contra el `$schema` de `biome.json`, `.env` y variables
@@ -128,9 +128,9 @@ bun run verify
 ```
 
 Encadena, en orden: `lint` → `typecheck` → `compose:check` →
-`harness:check` → `diagramas:check` → índice documental → pruebas web →
-`smoke:api`. Es el mismo criterio que CI, con los mismos comandos, para que
-local y remoto no discrepen.
+`harness:check` → `diagramas:check` → `dataset:check` → índice documental →
+pruebas web → `smoke:api`. Es el mismo criterio que CI, con los mismos
+comandos, para que local y remoto no discrepen.
 
 | Puerta | Qué es |
 |---|---|
@@ -139,6 +139,7 @@ local y remoto no discrepen.
 | `bun run compose:check` | El Compose es válido |
 | `bun run harness:check` | Metadata y catálogo del harness en verde |
 | `bun run diagramas:check` | Mermaid válidos; el pipeline `drawio`→texto→CI sin desincronizar |
+| `bun run dataset:check` | Los 6 esquemas del dataset siguen completos y el corpus es reproducible (semilla + manifiesto SHA-256) |
 | índice documental | `bash scripts/doc-index.sh` |
 | pruebas web | Vitest |
 | `bun run smoke:api` | La API arranca y `/health` responde `ok` |
@@ -162,7 +163,7 @@ cosas no hay "ya quedó" (`docs/REGLAS.md`).
 | `.env` no existe | Primer arranque | `bun run setup` |
 | `gh` sin sesión o sin scope `project` | Token viejo | `gh auth refresh -s project` |
 | `opencode` o `bun` no se encuentran | Terminal abierta antes del setup | Abre una terminal nueva |
-| `FALTA` en las variables de Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
+| `MISSING` en las variables de Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
 | Puerto ocupado | Otro proceso | Cambia `PG_PORT` / `REDIS_PORT` / `PORT_API` en `.env` |
 | La API no responde en `/health` | Falta Redis o la BD | Revisa los logs de `bun run dev` |
 | Drive devuelve una carpeta vacía | `fields` sin el envoltorio `files(...)`, o HTTP 400 no chequeado | Ver `integraciones/DRIVE.md` |

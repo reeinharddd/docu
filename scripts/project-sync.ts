@@ -93,7 +93,7 @@ const project = await gql<{
 const projectId = project.user.projectV2.id
 const field = (name: string) => {
   const f = project.user.projectV2.fields.nodes.find((x) => x.name === name)
-  if (!f) throw new Error(`El Project no tiene el campo ${name}`)
+  if (!f) throw new Error(`The Project has no field ${name}`)
   return f
 }
 const F = {
@@ -262,5 +262,5 @@ for (const issue of issues) {
 }
 
 console.log(
-  `${issues.length} issues revisados, ${writes} cambios${DRY ? ' (dry-run)' : ''}.`,
+  `${issues.length} issues reviewed, ${writes} change(s)${DRY ? ' (dry-run)' : ''}.`,
 )

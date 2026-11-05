@@ -11,6 +11,12 @@ dataset/config1/*
 # The contract schemas (#9) ARE versioned: they are design, not generated dataset
 !dataset/config1/esquemas/
 !dataset/config1/esquemas/**
+# The reproducibility contract (#61) IS versioned: seed + manifest hash
+!dataset/config1/semilla/
+!dataset/config1/semilla/**
+!dataset/config1/manifiesto.sha256
+# The approved volume (CONTRATO.md §8/§9) IS versioned: it is the contract
+!dataset/config1/esperado.json
 dataset/config2/*
 !dataset/config2/.gitkeep
 !dataset/config2/README.md

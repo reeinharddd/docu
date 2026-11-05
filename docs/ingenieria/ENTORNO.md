@@ -62,15 +62,18 @@ servicio del job. Es el mismo schema, otro host.
 ## Puertas
 
 `bun run verify` encadena lint, tipos, `compose config`, `harness:check`,
-`diagramas:check`, honestidad del índice documental, pruebas web y el arranque
-real de la API. CI corre los mismos scripts con las mismas versiones fijadas,
-así que local y remoto no pueden divergir.
+`diagramas:check`, `dataset:check`, honestidad del índice documental, pruebas
+web y el arranque real de la API. CI corre los mismos scripts con las mismas
+versiones fijadas, así que local y remoto no pueden divergir.
 
 | Puerta | Comando | Estado |
 |---|---|---|
 | Lint | `bun run lint` | Verde. Biome `2.5.4` con `recommended` y `--error-on-warnings` |
 | Tipos | `bun run typecheck` | Verde en `apps/api` y `apps/web` |
 | Compose | `bun run compose:check` | Verde |
+| Harness | `bun run harness:check` | Verde: metadata y catálogo del harness |
+| Diagramas | `bun run diagramas:check` | Verde: Mermaid + `drawio`→texto→SVG |
+| Dataset | `bun run dataset:check` | Verde: 6 familias de esquemas; semilla y manifiesto cuando existan |
 | Índice documental | `bash scripts/doc-index.sh` | Verde |
 | Pruebas web | `bun --filter web test` | Verde: 1 archivo, 2 pruebas |
 | Pruebas api | — | **No existe. 0 archivos** |

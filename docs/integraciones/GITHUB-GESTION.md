@@ -30,18 +30,19 @@ mantiene dos veces el mismo dato.
 | Bloqueo > 24 h | Etiqueta `bloqueado` | — |
 | Cronograma | Línea `Cronograma` del cuerpo → `Inicio` y `Fin` | `2026-11-13 → 2026-11-18` |
 | Brief | Comentario fijado en el issue con el enlace; el issue manda el estado, el brief el detalle | `BRIEF-11` |
-| Taller de diseño | Rama huérfana `design/kira-playground`; nunca se fusiona; a `main` solo docs y tokens | #11, #41 |
+| Pantallas (#11) | Rama `feat/11-prototipos-ui-ux` desde `main`; el código de las pantallas sí viaja a `main` por PR | #11 |
 | Evidencia | PR con `Closes #N` + adjunto | — |
 
-## Briefs y taller de diseño
+## Briefs y ramas de trabajo
 
 - Cada issue de tarea enlaza su brief en un comentario fijado (y en el cuerpo si
   el brief cambia). El brief explica el cómo; el issue manda el estado.
-- El diseño se explora en `design/kira-playground`, rama huérfana que **nunca**
-  se fusiona. A `main` solo viajan `docs/diseno/*`, `docs/diseno/tokens.json`
-  aprobado y capturas; el código del taller se queda (ADR-0012).
-- Promoción: `playground/PROMOCION.md`; PR desde una rama creada en `main` con
-  `Closes #N`.
+- El diseño ya no vive en un taller aparte: la rama `design/kira-playground`
+  quedó abandonada. Las pantallas se construyen en la app real, en la rama
+  `feat/11-prototipos-ui-ux`, y a `main` viajan el código, las specs,
+  `docs/diseno/*` y las capturas (`BRIEF-11`).
+- Cada carril arranca con `bash scripts/rama-env.sh <issue> feat/<issue>-<slug>`
+  y su PR sale de esa rama con `Closes #N` (`gestion/CARRILES.md`).
 
 ## Épicas
 
