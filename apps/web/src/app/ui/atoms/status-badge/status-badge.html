@@ -1,0 +1,17 @@
+<span
+  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+  [attr.data-kind]="kind()"
+  [class.bg-official-bg]="kind() === 'official'"
+  [class.text-official]="kind() === 'official'"
+  [class.bg-pending-bg]="kind() === 'pending'"
+  [class.text-pending]="kind() === 'pending'"
+  [class.bg-quarantine-bg]="kind() === 'quarantine'"
+  [class.text-quarantine]="kind() === 'quarantine'"
+  [class.bg-ai-bg]="kind() === 'ai'"
+  [class.text-ai]="kind() === 'ai'"
+  [class.border]="kind() === 'ai'"
+  [class.border-dashed]="kind() === 'ai'"
+  [class.border-ai-border]="kind() === 'ai'"
+>
+  <ng-content />
+</span>

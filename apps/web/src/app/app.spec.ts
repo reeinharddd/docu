@@ -1,23 +1,45 @@
+import { provideZonelessChangeDetection } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
+import { provideRouter } from '@angular/router'
 import { App } from './app'
+import { routes } from './app.routes'
 
-describe('App', () => {
+describe('App (plataforma shell)', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideZonelessChangeDetection(), provideRouter(routes)],
     }).compileComponents()
   })
 
-  it('should create the app', () => {
+  it('creates the app', () => {
     const fixture = TestBed.createComponent(App)
-    const app = fixture.componentInstance
-    expect(app).toBeTruthy()
+    expect(fixture.componentInstance).toBeTruthy()
   })
 
-  it('should render title', async () => {
+  it('shows the docu wordmark with the accented u', async () => {
     const fixture = TestBed.createComponent(App)
     await fixture.whenStable()
-    const compiled = fixture.nativeElement as HTMLElement
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, web')
+    const el = fixture.nativeElement as HTMLElement
+    const wordmark = el.querySelector('[data-test="wordmark"]')
+    expect(wordmark?.textContent).toContain('docu')
+    expect(el.querySelector('[data-test="wordmark-accent"]')).toBeTruthy()
+  })
+
+  it('navigates with the 4 case routes', async () => {
+    const fixture = TestBed.createComponent(App)
+    await fixture.whenStable()
+    const el = fixture.nativeElement as HTMLElement
+    const links = Array.from(el.querySelectorAll('nav a'))
+    const rutas = links.map((a) => a.getAttribute('href'))
+    expect(rutas).toEqual(['/capture', '/inbox', '/schedule', '/search'])
+  })
+
+  it('points the wordmark to the capture route', async () => {
+    const fixture = TestBed.createComponent(App)
+    await fixture.whenStable()
+    const el = fixture.nativeElement as HTMLElement
+    const wordmark = el.querySelector('[data-test="wordmark"]')
+    expect(wordmark?.getAttribute('href')).toBe('/capture')
   })
 })

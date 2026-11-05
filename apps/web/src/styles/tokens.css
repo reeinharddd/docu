@@ -1,0 +1,142 @@
+/*
+ * Tokens del design system DOCU (docs/diseno/tokens.json, DTCG).
+ * Única fuente de color, tipografía, espacio, radio y sombra.
+ * Nada de colores sueltos en las pantallas (BRIEF-84).
+ */
+@theme {
+  /* Tipografía: Figtree cuerpo/display, Sora solo wordmark, JetBrains Mono cifras */
+  --font-logo: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Figtree", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Escala modular 1.25, base 16px */
+  --text-xs: 0.8rem;
+  --text-xs--line-height: 1.4;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.3;
+  --text-xl: 1.563rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 1.953rem;
+  --text-2xl--line-height: 1.2;
+  --text-3xl: 2.441rem;
+  --text-3xl--line-height: 1.15;
+  --text-4xl: 3.052rem;
+  --text-4xl--line-height: 1.1;
+
+  /* Marca: violeta (brand) y rosa (acento) */
+  --color-brand-50: #faf5fd;
+  --color-brand-100: #f0e4f8;
+  --color-brand-200: #dfc7ee;
+  --color-brand-300: #c9a7f0;
+  --color-brand-400: #a97bd8;
+  --color-brand-500: #8b52c2;
+  --color-brand-600: #7535a8;
+  --color-brand-700: #5b2a86;
+  --color-brand-800: #411365;
+  --color-brand-900: #2e004d;
+  --color-accent-50: #fff1f4;
+  --color-accent-100: #fedee6;
+  --color-accent-200: #ffbbce;
+  --color-accent-300: #f591b0;
+  --color-accent-400: #d9668d;
+  --color-accent-500: #bf3d6f;
+  --color-accent-600: #b0215f;
+  --color-accent-700: #8d0a48;
+  --color-accent-800: #5d012d;
+  --color-accent-900: #40001d;
+
+  /* Radios y sombras */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --shadow-sm: 0 1px 2px rgb(36 23 47 / 0.06);
+  --shadow-md: 0 4px 12px rgb(36 23 47 / 0.08), 0 1px 3px rgb(36 23 47 / 0.06);
+  --shadow-lg: 0 12px 32px rgb(36 23 47 / 0.12), 0 2px 6px rgb(36 23 47 / 0.06);
+
+  /* Tokens semánticos: se resuelven en tiempo de ejecución para poder
+     alternar claro/oscuro sin tocar las pantallas (ver :root abajo). */
+  --color-canvas: var(--doku-bg-canvas);
+  --color-surface: var(--doku-bg-surface);
+  --color-subtle: var(--doku-bg-subtle);
+  --color-brand-soft: var(--doku-bg-brand-soft);
+  --color-line: var(--doku-border-default);
+  --color-line-input: var(--doku-border-input);
+  --color-ink: var(--doku-text-primary);
+  --color-ink-2: var(--doku-text-secondary);
+  --color-ink-3: var(--doku-text-muted);
+  --color-brand-text: var(--doku-text-brand);
+  --color-link: var(--doku-text-link);
+  --color-on-brand: var(--doku-text-on-brand);
+  --color-action: var(--doku-action-primary);
+  --color-action-hover: var(--doku-action-primary-hover);
+  --color-ring: var(--doku-focus-ring);
+  --color-official: var(--doku-status-official-text);
+  --color-official-bg: var(--doku-status-official-bg);
+  --color-pending: var(--doku-status-pending-text);
+  --color-pending-bg: var(--doku-status-pending-bg);
+  --color-quarantine: var(--doku-status-quarantine-text);
+  --color-quarantine-bg: var(--doku-status-quarantine-bg);
+  --color-ai: var(--doku-status-ai-text);
+  --color-ai-bg: var(--doku-status-ai-bg);
+  --color-ai-border: var(--doku-status-ai-border);
+}
+
+:root {
+  --doku-bg-canvas: #fcf8fb;
+  --doku-bg-surface: #ffffff;
+  --doku-bg-subtle: #fbe4ee;
+  --doku-bg-brand-soft: #f7f3fe;
+  --doku-border-default: #ead7e4;
+  --doku-border-input: #76737a;
+  --doku-text-primary: #24172f;
+  --doku-text-secondary: #59565e;
+  --doku-text-muted: #6b6870;
+  --doku-text-brand: #5b2a86;
+  --doku-text-link: #b0215f;
+  --doku-text-on-brand: #ffffff;
+  --doku-action-primary: #5b2a86;
+  --doku-action-primary-hover: #411365;
+  --doku-focus-ring: #b0215f;
+  --doku-status-official-text: #1f7a3a;
+  --doku-status-official-bg: #e4f4e8;
+  --doku-status-pending-text: #8a5300;
+  --doku-status-pending-bg: #fdf0dc;
+  --doku-status-quarantine-text: #a8360a;
+  --doku-status-quarantine-bg: #fdebe4;
+  --doku-status-ai-text: #5b2a86;
+  --doku-status-ai-bg: #f7f3fe;
+  --doku-status-ai-border: #865faf;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --doku-bg-canvas: #1a1224;
+    --doku-bg-surface: #241a30;
+    --doku-bg-subtle: #30223f;
+    --doku-bg-brand-soft: #2c1f3e;
+    --doku-border-default: #3d2f4f;
+    --doku-border-input: #9a8fa6;
+    --doku-text-primary: #f3eaf6;
+    --doku-text-secondary: #c9bfd0;
+    --doku-text-muted: #aba1b3;
+    --doku-text-brand: #c9a7f0;
+    --doku-text-link: #f591b0;
+    --doku-text-on-brand: #1a1224;
+    --doku-action-primary: #c9a7f0;
+    --doku-action-primary-hover: #ddc4fc;
+    --doku-focus-ring: #f591b0;
+    --doku-status-official-text: #6fd08c;
+    --doku-status-official-bg: #16301f;
+    --doku-status-pending-text: #f2b35c;
+    --doku-status-pending-bg: #33240e;
+    --doku-status-quarantine-text: #ff9470;
+    --doku-status-quarantine-bg: #3a1a12;
+    --doku-status-ai-text: #c9a7f0;
+    --doku-status-ai-bg: #2c1f3e;
+    --doku-status-ai-border: #a280c8;
+  }
+}

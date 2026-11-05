@@ -91,7 +91,7 @@ El índice vivo está en `integraciones/CAPACIDADES.md`; el mapa, en `HARNESS.md
 |---|---|
 | Comandos `.opencode/commands/*` (6) | Erik |
 | Subagentes `.opencode/agents/*` (2) | Erik |
-| Skills propias `.opencode/skills/docu-*` (3) | Erik |
+| Skills propias `.opencode/skills/docu-*` (4) | Erik |
 | Skills vendorizadas `.opencode/skills/vendor/*` (4) | Erik |
 | Catálogo MCP (`opencode.json`) | Erik |
 | Scripts del harness (`scripts/*`) | Erik |

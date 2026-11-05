@@ -34,6 +34,7 @@ secciones de MCP y scripts son informativas (no llevan frontmatter propio).
 | `.opencode/skills/docu-documentar/SKILL.md` | skill | Erik | antes de tocar `docs/` | Taxonomía, ADR, briefs e índice documental | propio | activo |
 | `.opencode/skills/docu-gestion/SKILL.md` | skill | Erik | antes de tocar un issue | Convenciones de gestión en GitHub Issues | propio | activo |
 | `.opencode/skills/docu-memoria/SKILL.md` | skill | Erik | al empezar y al cerrar trabajo | Cómo usar Engram (memoria del proyecto) | propio | activo |
+| `.opencode/skills/docu-frontend/SKILL.md` | skill | Erik | al construir o revisar `apps/web` | Convenciones y patrones del frontend (estructura, tokens, ApiState, RBAC, pruebas) | propio | activo |
 
 ## Skills vendorizadas
 

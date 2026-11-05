@@ -1,0 +1,38 @@
+@if (state().status === 'loading') {
+  <div
+    class="flex w-full flex-col items-center gap-2 rounded-lg border border-dashed border-line bg-surface px-6 py-12 text-center text-ink-2"
+    data-test="loading"
+    aria-busy="true"
+    role="status"
+  >
+    <span
+      class="size-6 animate-spin rounded-full border-2 border-line border-t-brand-text"
+      aria-hidden="true"
+    ></span>
+    <p>Cargando…</p>
+  </div>
+} @else if (state().status === 'empty') {
+  <div
+    class="flex w-full flex-col items-center gap-2 rounded-lg border border-dashed border-line bg-surface px-6 py-12 text-center text-ink-2"
+    data-test="empty"
+    role="status"
+  >
+    <p>Sin registros por ahora.</p>
+    <p class="text-xs text-ink-3">
+      Cuando haya datos confirmados, aparecen aquí.
+    </p>
+  </div>
+} @else if (state().status === 'error') {
+  <div
+    class="flex w-full flex-col items-center gap-2 rounded-lg border border-quarantine-bg bg-surface px-6 py-12 text-center text-ink"
+    data-test="error"
+    role="alert"
+  >
+    <p>{{ message() }}</p>
+    <app-button variant="secondary" data-test="retry" (click)="retry.emit()">
+      Reintentar
+    </app-button>
+  </div>
+} @else {
+  <ng-content />
+}
