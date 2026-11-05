@@ -7,18 +7,20 @@
 - Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
-- Bloqueado por: #83 (caso cerrado) · Bloquea a: #60, #62, #23, #44, #5, #59, #61, #85
+- Bloqueado por: #83 (caso, **cerrado** el 3-nov con PR #101) · Bloquea a: #59, #60, #62, #44, #5, #61, #85
 - Nota (2026-10-18): ADR-0016 cambió el entregable de "DBML + PNG" a **Mermaid**.
 - Nota (2026-10-19): ADR-0017 pasó el ER a **draw.io** (`.drawio` + SVG exportado
   por página, `ingenieria/DIAGRAMAS.md`); Mermaid queda para flujos y secuencias.
 
 ## 1. Contexto
 
-**Punto de partida (2026-11-03):** el borrador v0 ya está en `main`
+**Punto de partida (2026-11-05):** el borrador v0 está en `main`
 (`docs/ingenieria/DIAGRAMA-BD-v0.drawio` + texto derivado, ADR-0017, PR #99) y el
 vocabulario canónico en inglés vive en el mapa de derivación de `CASO.md`
-(#83 cerrado). Lo que falta: completar el diagrama con el caso cerrado, el
-DDL/migración Prisma, vistas y triggers. que te damos (tú decides el qué)
+(#83 cerrado). Eso es la **Fase 1** (área `core`: 10 tablas, 2 páginas, SHA-256
+verde en `bun run diagramas:check`). Lo que falta es el resto: **5 de las 6
+fases**, el **DDL**, las **vistas**, los **triggers**, la **migración aplicada**
+y el **ADR-0019** que afirma el modelo híbrido.
 
 Despliegue: una compañía corre su propio sistema; en él conviven sus instalaciones; jamás se mezclan compañías. Tu diagrama debe sostener eso.
 
@@ -26,7 +28,7 @@ Del caso (`CASO.md`): 6 familias de archivo, 7 reglas R-P1..T1 ya decididas (12-
 
 Del stack: PostgreSQL 18 + pgvector (`uuid`, `text`, `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`, uniques, índices, `CHECK`). Local/offline: PCs en la misma red, sin nube, mínimos recursos. Nada puede exigir internet ni hardware especial.
 
-Restricciones duras: sin `Empresa` multi-tenant; no hay esquema implementado todavía; reglas, familias, roles y umbrales viven como datos, nunca como `if`; bitácora/historial/originales son solo-insert.
+Restricciones duras: sin `Empresa` multi-tenant; reglas, familias, roles y umbrales viven como datos, nunca como `if`; bitácora/historial/originales son solo-insert.
 
 ## 2. Lo que debes pensar (antes de dibujar)
 
@@ -40,13 +42,34 @@ Piensa también: ¿dónde muere un dato inválido y con qué motivo? ¿Qué es �
 
 ## 3. Objetivo y resultado esperado
 
+### Ya está (no lo rehaces, lo extiendes)
+
+| Pieza | Estado | Evidencia |
+|---|---|---|
+| Área `core` del ER | Hecho: 10 tablas (`facility`, `department`, `app_user`, `role`, `user_role`, `permission`, `role_permission`, `domain`, `user_domain`, `access_grant`), 2 páginas, 22 aristas | `docs/ingenieria/DIAGRAMA-BD-v0.drawio` + `DIAGRAMA-BD-v0.md` |
+| Trazabilidad diagrama ↔ texto | Verde: SHA-256 declarado, matriz de clases bidireccional, un SVG por página | `bun run diagramas:check` → `2 pages, 10 tables traced to text, 0 problems` |
+| Toolchain de Prisma | Listo: Prisma 7.10.0 + `@prisma/adapter-pg` + `pg`, `apps/api/prisma.config.ts`, scripts `db:*` | ADR-0004, `apps/api/package.json` |
+
+### Falta (tu entregable)
+
 | Entregable | Evidencia |
 |---|---|
-| Diagrama v0 afirmado | `docs/ingenieria/DIAGRAMA-BD-v0.md` (draw.io, ER por área, SVG embebido) visible en el PR; aprobado en #58 |
+| ER completo (áreas `ingest`, `graph`, `truth`, `config`, `platform`) | `DIAGRAMA-BD-v0.drawio` + texto derivado con las tablas nuevas, cada una en el registro de decisiones y en la matriz de clases |
 | Registro de decisiones | Por cada tabla: qué clase de dato guarda, por qué existe, qué constraint lleva y por qué |
 | Matriz de clases | Cada tabla marcada: fija, dinámica o manual |
+| DDL y migración | `apps/api/prisma/schema.prisma` (datasource **sin** `url`, `embedding Unsupported("vector(768)")?`) + `apps/api/prisma/migrations/0_baseline/migration.sql` con `CREATE EXTENSION IF NOT EXISTS vector` |
+| Vistas y triggers | Vistas de lectura (oficial, lineage) y triggers de solo-insert en la migración; su porqué en el registro |
+| Migración aplicada en base limpia | Salida de `bun run db:migrate` (o `db:deploy`) sobre el Postgres de Docker, pegada en el PR |
+| ADR-0019 | `docs/decisiones/ADR-0019-*.md` con la plantilla `docs/plantillas/ADR.md`: afirma el modelo híbrido (dominio genérico + tablas del sistema) |
+| `MODELO-DATOS.md` al día | Reescrito en el mismo PR para que case con el ER (hoy nombra tablas en camelCase que no existen en el diagrama) |
+| Contrato con SHA | El `.drawio` declara su SHA-256 y el texto derivado lo verifica: `bun run diagramas:check` en verde |
 
 Tú propones las tablas. La revisión del 12-nov las afirma o las devuelve con motivos.
+
+**Pendiente que ya está detectado y es tuyo:** `access_grant.target_entity_id`
+apunta a `entity(id)`, y `entity` pertenece a una fase que todavía no está en
+el diagrama. O la das de alta en este PR o dejas la FK sin referencias
+declarando por qué.
 
 ## 4. Cómo verificar tu propuesta
 
@@ -54,10 +77,12 @@ Tú propones las tablas. La revisión del 12-nov las afirma o las devuelve con m
 2. Cada unique/`CHECK`/FK responde a una regla del caso o a una amenaza (instalación que lee otra, inválido que pasa, historia que se reescribe). Terminado: trazabilidad regla→constraint.
 3. El ER se ve en el PR (draw.io + SVG, ADR-0017); si hace falta probar el núcleo, se usa https://postgres.new. Terminado: diagrama visible en el PR.
 4. Nada exige nube ni hardware especial. Terminado: checklist offline en el PR.
+5. La migración aplica en una base limpia y el gate de Prisma pasa. Terminado: salida de `bun run prisma:check` en verde en el PR.
 
 ## 5. Entradas y salidas
 
-- Recibe: `CASO.md`, `REQUISITOS.md` (RF-06/08), ADR-0009/0010/0011, memorias del equipo en Engram (búscalas antes de decidir).
+- Recibe: `CASO.md`, `REQUISITOS.md` (RF-06/08), ADR-0009/0010/0011/0014/0004,
+  memorias del equipo en Engram (búscalas antes de decidir).
 - Entrega: a #59 y a Erik, por PR desde `feat/58-diagrama-v0`.
 
 ## 6. Caja de herramientas (tú eliges cuáles usar)
@@ -84,16 +109,22 @@ Para decidir solo, sin depender de nadie:
   la API encola y el worker procesa: no diseñes para un monolito síncrono.
 - ADR-0014 (`docs/decisiones/ADR-0014-instalacion-single-company.md`) —
   raíz Instalación single-company: sin tabla `Empresa` multi-tenant.
-- `docs/ingenieria/STACK.md` §2.4 — tipos permitidos (`uuid`, `text`,
-  `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`), uniques, índices,
-  `CHECK`. PostgreSQL 18 + pgvector: https://www.postgresql.org/docs/18/ ·
-  https://github.com/pgvector/pgvector.
+- ADR-0004 (`docs/decisiones/ADR-0004-prisma-postgresql-pgvector.md`) — el
+  toolchain ya está instalado y es la ley: Prisma 7.10.0 con
+  `@prisma/adapter-pg`, la URL de la base **solo** en `prisma.config.ts`, el
+  `datasource` sin `url`, `embedding Unsupported("vector(768)")?` y la
+  migración inicial en `prisma/migrations/0_baseline/migration.sql`.
+- `docs/ingenieria/DIAGRAMA-BD-v0.md` §0.5 — los tipos permitidos
+  (`uuid`, `text`, `bigint`, `timestamptz`, `date`, `jsonb`, `vector(768)`,
+  uniques, índices, `CHECK`; enums por `CHECK`, no tipo nativo).
+  `docs/ingenieria/STACK.md` §2.4 es la referencia de Prisma 7 y Postgres 18,
+  no la lista de tipos.
 - Diagramas: ER en draw.io (`.drawio` + SVG exportado, ADR-0017); flujos en
   Mermaid (ADR-0016). Ver `ingenieria/DIAGRAMAS.md`. Núcleo ejecutable en https://postgres.new y JSON
   anidados en https://jsoncrack.com son opcionales, no entregable.
 - Patrones y trampas (solo lectura): skill `ecc-prisma-patterns`; memoria
   del equipo en Engram (búscala con `/inicio` antes de decidir); guía de
-  docs con `docu-documentar`.
+  docs con `docu-documentar`; plantilla de ADR en `docs/plantillas/ADR.md`.
 - `docs/gestion/PLAN-EPICAS.md` orden 6 — qué espera #59 de ti: un v0
   afirmado sobre el que iterar, no un modelo perfecto.
 
@@ -104,19 +135,34 @@ en draw.io (ADR-0017).
 
 ## 7. Cómo trabajar
 
-- `bash scripts/setup.sh`, `opencode`, `/inicio`, `/tarea 58`. Rama `feat/58-diagrama-v0`.
+- `bash scripts/setup.sh`, `opencode`, `/inicio`, `/tarea 58`. Rama
+  `feat/58-diagrama-v0` (desde `main`, con `scripts/rama-env.sh`).
+- **Paso 0 (listo, no lo repitas):** el toolchain está instalado. Desde
+  `apps/api`: `bun run db:validate`, `bun run db:generate`, `bun run db:migrate`.
+  La URL de la base sale del `.env` de la raíz por `prisma.config.ts`; no
+  exportes variables a mano.
+- **Puertas de tu PR:** `bun run diagramas:check` (el `.drawio` y el texto
+  derivado no pueden desincronizarse), `bun run prisma:check` (schema válido,
+  cliente generado, migración baseline con la extensión `vector`), `bun run lint`,
+  `bun run typecheck` y `bun run verify` completo. La migración se prueba en
+  una base limpia.
 - EMMANUEL NO DEBE: inventar datos de planta; simular entrevistas.
 - EMMANUEL SÍ DEBE: decidir y justificar por escrito; `.env` fuera del repo.
 - Duda 30 min en el issue; bloqueo >24 h con `bloqueado`. 1 issue En progreso.
 
 ## 8. Criterios de aceptación
 
-- [ ] El ER (draw.io, SVG embebido) se ve en el PR; cada tabla con clase y porqué registrados.
+- [ ] El ER completo (6 áreas) se ve en el PR; cada tabla con clase y porqué registrados.
 - [ ] Trazabilidad regla→constraint completa; R-P1..T1 como datos.
+- [ ] `schema.prisma` valida y genera cliente: salida de `bun run prisma:check` en verde.
+- [ ] La migración `0_baseline` aplica en base limpia y crea la extensión `vector`.
+- [ ] Vistas y triggers en la migración, con su prueba de solo-insert.
+- [ ] ADR-0019 en el repo con estado `Propuesta` → `Aceptada` al aprobarse.
+- [ ] `MODELO-DATOS.md` reescrito para que case con el ER.
 - [ ] Capturas `postgres.new` adjuntas; checklist offline.
 - [ ] Afirmado del equipo en #58 el 12-nov.
 
-No es done si: hay tablas sin porqué; aparece `Empresa`; el diagrama no está en draw.io (ADR-0017).
+No es done si: hay tablas sin porqué; aparece `Empresa`; el diagrama no está en draw.io (ADR-0017); la migración no aplica en limpio.
 
 ### 8.1 Contrato, pruebas y criterio de listo
 
@@ -124,7 +170,7 @@ No es done si: hay tablas sin porqué; aparece `Empresa`; el diagrama no está e
 `entity`, `relation`) para lo que el caso no anticipa, más las tablas
 concretas y estables del sistema (`ingest`, `truth`, `config`, `platform`). El
 archivo `.drawio` es la fuente; el texto derivado es lo que se lee y lo que se
-revisa.
+revisa; la migración es lo que corre.
 
 **Criterios (Given/When/Then).**
 
@@ -135,13 +181,16 @@ revisa.
    un histórico o una bitácora, **then** la base lo rechaza (solo-insert).
 3. **Given** el texto derivado, **when** alguien lo compara con el `.drawio`,
    **then** coinciden tabla por tabla, y `bun run diagramas:check` lo confirma.
+4. **Given** el schema y la migración, **when** se corre `bun run prisma:check`
+   en CI, **then** valida el schema, genera el cliente y encuentra la baseline.
 
 **Plan de pruebas.** `bun run diagramas:check` (texto derivado vs fuente),
-migración de Prisma aplicada en limpio, prueba de solo-insert sobre la base
-levantada y prueba de la familia nueva.
+`bun run prisma:check` (schema + cliente + baseline), migración de Prisma
+aplicada en base limpia, prueba de solo-insert sobre la base levantada y
+prueba de la familia nueva.
 
 **Evidencia.** El `.drawio`, el texto derivado, la salida de la migración, el
-resultado de `diagramas:check` y las dos pruebas de schema.
+resultado de `diagramas:check` y de `prisma:check`, y las dos pruebas de schema.
 
 **Listo cuando.** ER afirmado, migración aplicada, vistas y triggers
 funcionando, y el contrato con su SHA (eso cierra #62 y #23).
@@ -150,12 +199,15 @@ funcionando, y el contrato con su SHA (eso cierra #62 y #23).
 
 El dataset revela formas que el v0 no previó. No es bloqueo: eso lo absorbe #59.
 
+Riesgo de hoy: el ER va en 6 fases y solo 1 está hecha. Mitigación: el 12-nov se
+afirma **lo que esté**, con el resto escrito como fase pendiente en el ADR-0019
+y en el registro de decisiones; no se entrega un modelo a medias sin saying
+qué falta.
+
 ## 10. Revisión
 
 Jueves 12-nov en el sync, con Carlos y Emmanuel: afirmación o devolución motivada. Después: #60, #62 y #23.
 
 ## Versión corta (descripción del issue)
 
-
-> [58] ER v1 — reeinharddd, 2→12-nov. Diseño completo de la base: ER híbrido, DDL, enums, vistas, triggers y migración aplicada. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §3 y de docs/ingenieria/DIAGRAMA-BD-v0.md. Entregable: draw.io fuente + texto derivado + migración aplicada + contrato con SHA. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-58-diagrama-v0.md`.
-
+> [58] ER v1 — Agent3835, 2→12-nov. Diseño completo de la base: ER híbrido, DDL, enums, vistas, triggers y migración aplicada. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §3 y de docs/ingenieria/DIAGRAMA-BD-v0.md. Entregable: draw.io fuente + texto derivado + migración aplicada + contrato con SHA. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-58-diagrama-v0.md`.
