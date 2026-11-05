@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router'
 import { RouterTestingHarness } from '@angular/router/testing'
 import { appConfig } from './app.config'
 import { routes } from './app.routes'
-import { AuthService } from './core/auth/auth.service'
+import { AuthService } from './core/services/auth/auth.service'
 
 describe('Case routes', () => {
   beforeEach(async () => {
@@ -28,6 +28,25 @@ describe('Case routes', () => {
       expect(h1?.textContent).toContain(titulo)
     })
   }
+
+  it('every feature owns its routes through a lazy loadChildren', () => {
+    const features = [
+      'capture',
+      'inbox',
+      'schedule',
+      'search',
+      'login',
+      'forbidden',
+    ]
+    for (const feature of features) {
+      const route = routes.find((r) => r.path === feature)
+      expect(route, `route /${feature} exists`).toBeTruthy()
+      expect(
+        route?.loadChildren,
+        `route /${feature} is feature-owned`,
+      ).toBeTypeOf('function')
+    }
+  })
 
   it('redirects the root to /capture', async () => {
     const harness = await RouterTestingHarness.create()

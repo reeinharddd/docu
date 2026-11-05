@@ -21,9 +21,9 @@ describe('App (plataforma shell)', () => {
     const fixture = TestBed.createComponent(App)
     await fixture.whenStable()
     const el = fixture.nativeElement as HTMLElement
-    const wordmark = el.querySelector('.wordmark')
+    const wordmark = el.querySelector('[data-test="wordmark"]')
     expect(wordmark?.textContent).toContain('docu')
-    expect(el.querySelector('.wordmark-u')).toBeTruthy()
+    expect(el.querySelector('[data-test="wordmark-accent"]')).toBeTruthy()
   })
 
   it('navigates with the 4 case routes', async () => {
@@ -33,5 +33,13 @@ describe('App (plataforma shell)', () => {
     const links = Array.from(el.querySelectorAll('nav a'))
     const rutas = links.map((a) => a.getAttribute('href'))
     expect(rutas).toEqual(['/capture', '/inbox', '/schedule', '/search'])
+  })
+
+  it('points the wordmark to the capture route', async () => {
+    const fixture = TestBed.createComponent(App)
+    await fixture.whenStable()
+    const el = fixture.nativeElement as HTMLElement
+    const wordmark = el.querySelector('[data-test="wordmark"]')
+    expect(wordmark?.getAttribute('href')).toBe('/capture')
   })
 })

@@ -10,7 +10,7 @@ import {
 } from '@angular/core'
 import { provideRouter } from '@angular/router'
 import { routes } from './app.routes'
-import { apiInterceptors } from './core/api/interceptors'
+import { apiInterceptors } from './core/middleware/api/interceptors'
 
 export const appConfig: ApplicationConfig = {
   providers: [

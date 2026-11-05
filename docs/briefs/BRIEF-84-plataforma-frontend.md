@@ -29,10 +29,11 @@ construir pantallas, no decidir infraestructura de estilos.
 | Entregable | Evidencia |
 |---|---|
 | Tokens y layout base | Variables de Tailwind v4, tipografía, espaciado y contenedores, en `apps/web/src/styles/` |
-| Estructura de rutas | `captura`, `bandeja`, `programa-oficial`, `busqueda`, con layout y navegación |
+| Estructura de rutas | Cada feature es dueño de sus rutas (`features/<dominio>/<dominio>.routes.ts`); `app.routes.ts` solo las monta. Rutas del caso: `capture`, `inbox`, `schedule`, `search`, más `login` y `forbidden` |
 | Cliente de API | Un servicio tipado que llama a la API real y maneja error, carga y vacío |
 | Pruebas | Al menos una prueba por ruta y una del cliente, con el runner del proyecto |
 | Estilo sin CSS global | Solo estilos de componente; nada de CSS global salvo los tokens |
+| Kit de UI atómico | `Button`, `PageHeader`, `StateView`, `StatusBadge` y toasts: una pantalla nunca escribe el CSS de un botón |
 
 ## 4. Actividades específicas
 
@@ -74,10 +75,12 @@ construir pantallas, no decidir infraestructura de estilos.
 ## 8. Criterios de aceptación
 
 - [ ] Las cuatro rutas del caso existen y se navega entre ellas.
+- [ ] Cada feature declara sus propias rutas (archivo `<dominio>.routes.ts`) y la app solo las monta.
 - [ ] Los tokens están definidos y ninguna pantalla usa colores sueltos.
 - [ ] El cliente de API maneja carga, error y vacío.
 - [ ] El runner de pruebas corre y hay al menos una prueba por ruta.
 - [ ] Cero CSS global fuera de los tokens.
+- [ ] No hay CSS de botón en las pantallas: todas usan el componente atómico `Button`.
 
 ### 8.1 Contrato, pruebas y criterio de listo
 
@@ -119,6 +122,41 @@ subida de archivos y guardas de seguridad (token en memoria, nada de bypass
 de sanitización, el servidor es la autoridad). Los datos de demo están
 marcados como efímeros: nada demo llega a la versión final, todo será
 dinámico desde el backend real (#12).
+
+**Arquitectura por dominios (decisión del líder, 2026-11-04).** Una feature es
+un dominio y es dueña de su parte: sus rutas, sus vistas y, cuando los haya,
+su servicio y sus tipos. `core/` guarda lo transversal y se ordena **por tipo
+primero y por dominio después**. La estructura queda así:
+
+```text
+apps/web/src/app/
+├── core/
+│   ├── types/               # contratos transversales: api-error, api-state, permissions
+│   ├── services/            # servicios transversales: api/, auth/, notifications/
+│   ├── middleware/          # guards e interceptores: auth/, permissions/, api/
+│   └── config/              # api-url
+├── features/<dominio>/      # un dominio = una feature
+│   ├── <dominio>.routes.ts  # sus rutas, su título y su permiso
+│   └── views/               # sus vistas (data/ y model/ cuando existan)
+└── ui/
+    ├── atoms/               # button, status-badge
+    ├── molecules/           # page-header, state-view
+    └── organisms/           # toasts
+```
+
+Reglas que fija esta arquitectura:
+
+- `app.routes.ts` solo monta features (lazy `loadChildren`); cada feature
+  declara el permiso que necesita y sus rutas quedan trazables a un archivo.
+- Los niveles de UI no se mezclan: un átomo no importa una molécula, una
+  molécula compone átomos, un organismo se monta en la app.
+- **Solo Tailwind**: las utilidades van en el template y los tokens en
+  `styles/tokens.css`. Ningún componente tiene archivo `.css` propio; los
+  estilos del host van en `host: { class: ... }`.
+- Identificadores y clases en inglés; el texto de la interfaz en español.
+- El CSS de los botones vive en el átomo (`ui/atoms/button/`), no en las
+  pantallas: si cambia un botón, cambian todos.
+
 
 ## 9. Riesgos nombrados
 

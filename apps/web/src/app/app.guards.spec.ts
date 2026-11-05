@@ -3,7 +3,7 @@ import { provideRouter, Router } from '@angular/router'
 import { RouterTestingHarness } from '@angular/router/testing'
 import { appConfig } from './app.config'
 import { routes } from './app.routes'
-import { AuthService } from './core/auth/auth.service'
+import { AuthService } from './core/services/auth/auth.service'
 
 describe('Guards and permissions (RBAC from ROLES.md)', () => {
   beforeEach(async () => {

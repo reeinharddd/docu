@@ -1,0 +1,20 @@
+@for (notice of notices(); track notice.id) {
+  <div
+    class="flex items-center justify-between gap-3 rounded-md border border-line bg-surface px-4 py-3 text-base text-ink shadow-md"
+    [attr.data-kind]="notice.kind"
+    role="status"
+    [class.border-official]="notice.kind === 'success'"
+    [class.bg-official-bg]="notice.kind === 'success'"
+    [class.border-quarantine]="notice.kind === 'error'"
+    [class.bg-quarantine-bg]="notice.kind === 'error'"
+    [class.border-pending]="notice.kind === 'warning'"
+    [class.bg-pending-bg]="notice.kind === 'warning'"
+    [class.border-ai-border]="notice.kind === 'info'"
+    [class.bg-ai-bg]="notice.kind === 'info'"
+  >
+    <p>{{ notice.message }}</p>
+    <app-button variant="ghost" ariaLabel="Cerrar aviso" (click)="dismiss(notice.id)">
+      ×
+    </app-button>
+  </div>
+}

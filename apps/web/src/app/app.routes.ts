@@ -1,54 +1,51 @@
 import type { Routes } from '@angular/router'
-import { authGuard, requiresPermission } from './core/auth/guards'
-import { ROUTE_PERMISSIONS } from './core/auth/permissions'
+import { authGuard } from './core/middleware/auth/guards'
 
 /**
- * Route map of the case. Every protected route pairs with a permission key
- * (ROUTE_PERMISSIONS); titles are UI-facing and stay in Spanish (RNF-01).
+ * Route map of the case. Each feature owns its own routes (URL, title and
+ * permission) in its own <feature>.routes.ts; this file only mounts them.
+ * Protected features pass through authGuard here; the permission check
+ * lives with the feature that needs it.
  */
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'capture' },
   {
-    path: 'capture',
-    title: 'Captura · DOCU',
-    canActivate: [authGuard, requiresPermission(ROUTE_PERMISSIONS.capture)],
-    loadComponent: () =>
-      import('./features/capture/capture-page').then((m) => m.CapturePage),
-  },
-  {
-    path: 'inbox',
-    title: 'Bandeja · DOCU',
-    canActivate: [authGuard, requiresPermission(ROUTE_PERMISSIONS.inbox)],
-    loadComponent: () =>
-      import('./features/inbox/inbox-page').then((m) => m.InboxPage),
-  },
-  {
-    path: 'schedule',
-    title: 'Programa · DOCU',
-    canActivate: [authGuard, requiresPermission(ROUTE_PERMISSIONS.schedule)],
-    loadComponent: () =>
-      import('./features/schedule/schedule-page').then((m) => m.SchedulePage),
-  },
-  {
-    path: 'search',
-    title: 'Búsqueda · DOCU',
-    canActivate: [authGuard, requiresPermission(ROUTE_PERMISSIONS.search)],
-    loadComponent: () =>
-      import('./features/search/search-page').then((m) => m.SearchPage),
-  },
-  {
     path: 'login',
-    title: 'Acceso · DOCU',
-    loadComponent: () =>
-      import('./features/login/login-page').then((m) => m.LoginPage),
+    loadChildren: () =>
+      import('./features/login/login.routes').then((m) => m.loginRoutes),
   },
   {
     path: 'forbidden',
-    title: 'Sin permiso · DOCU',
-    loadComponent: () =>
-      import('./features/forbidden/forbidden-page').then(
-        (m) => m.ForbiddenPage,
+    loadChildren: () =>
+      import('./features/forbidden/forbidden.routes').then(
+        (m) => m.forbiddenRoutes,
       ),
+  },
+  {
+    path: 'capture',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/capture/capture.routes').then((m) => m.captureRoutes),
+  },
+  {
+    path: 'inbox',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/inbox/inbox.routes').then((m) => m.inboxRoutes),
+  },
+  {
+    path: 'schedule',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/schedule/schedule.routes').then(
+        (m) => m.scheduleRoutes,
+      ),
+  },
+  {
+    path: 'search',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/search/search.routes').then((m) => m.searchRoutes),
   },
   { path: '**', redirectTo: 'capture' },
 ]

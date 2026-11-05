@@ -53,7 +53,7 @@ cumple el backend (#12) y lo consume el frontend (ya implementado en
 `apps/web/src/app/core/`).
 
 **Formato único de error.** Todo no-2xx devuelve el mismo sobre
-(`ApiError`, tipos transversales en `apps/web/src/app/core/models/api-error.ts`):
+(`ApiError`, tipos transversales en `apps/web/src/app/core/types/api-error.ts`):
 
 ```json
 { "code": "VALIDATION_ERROR", "message": "El rollo no tiene certificado.", "details": {} }
