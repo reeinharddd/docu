@@ -10,7 +10,7 @@
 
 - Issue: #39
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-13 → 2026-11-19 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Backend / reportes y alertas.
 - Requisitos: RF-05, RNF-04
 - Bloqueado por: #3 (pipeline), #46 (colas `reports`/`alerts`) · Bloquea a: #7 (verificación punta a punta)

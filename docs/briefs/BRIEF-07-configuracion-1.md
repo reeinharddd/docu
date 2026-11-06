@@ -4,10 +4,10 @@
 
 - Issue: #7
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-11-13 → 2026-11-19 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-13 → 2026-11-20 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: media / historia / Base de datos / base de datos.
 - Requisitos: RF-08
-- Bloqueado por: #12, #3, #59, #85 · Bloquea a: #8, #89
+- Bloqueado por: #12, #3, #39, #44, #46, #59, #85 · Bloquea a: #8, #89
 
 ## 1. Contexto
 
@@ -124,5 +124,5 @@ Jueves 19-nov con Erik y Carlos: demo de carga + reporte. Después: #89 (demo) y
 ## Versión corta (descripción del issue)
 
 
-> [7] C1 de punta a punta — Agent3835, 13→19-nov. La historia que demuestra que el sistema funciona con el dataset del mes, de la carga a la revisión. Entradas recibidas del dataset (#61), del seed (#59) y del pipeline (#3). Entregable: carga del dataset y verificación de punta a punta, con la evidencia. Revisión el 19-nov. Detalle: `docs/briefs/BRIEF-07-configuracion-1.md`.
+> [7] C1 de punta a punta — Agent3835, 13→20-nov. La historia que demuestra que el sistema funciona con el dataset del mes, de la carga a la revisión. Entradas recibidas del dataset (#61), del seed (#59) y del pipeline (#3). Entregable: carga del dataset y verificación de punta a punta, con la evidencia. Revisión el 20-nov. Detalle: `docs/briefs/BRIEF-07-configuracion-1.md`.
 

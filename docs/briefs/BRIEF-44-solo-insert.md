@@ -4,7 +4,7 @@
 
 - Issue: #44 — https://github.com/reeinharddd/docu/issues/44
 - Dueño: Emmanuel Valenzuela Cruz (`Agent3835`)
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-12 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos
 - Requisitos: RF-02, RF-08
 - Bloqueado por: #58 · Bloquea a: #7
@@ -115,4 +115,4 @@ prueba. Después: #7 (vertical completa, 19-nov) y la demo.
 
 ## Versión corta (descripción del issue)
 
-> [44] Solo-insert — Agent3835, 13→18-nov. Originales, historial y bitácora inmutables en la base, con la vía de corrección por fila nueva. Entradas recibidas de ADR-0010 y del ER aprobado (#58). Entregable: triggers y permisos con sus pruebas, y la regla documentada. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-44-solo-insert.md`.
+> [44] Solo-insert — Agent3835, 12→18-nov. Originales, historial y bitácora inmutables en la base, con la vía de corrección por fila nueva. Entradas recibidas de ADR-0010 y del ER aprobado (#58). Entregable: triggers y permisos con sus pruebas, y la regla documentada. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-44-solo-insert.md`.

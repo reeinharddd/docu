@@ -4,10 +4,10 @@
 
 - Issue: #62
 - Dueño: Erik.
-- Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov).
+- Fechas: 2026-11-11 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov).
 - Prioridad / Tipo / Épica: alta / tarea / Infraestructura.
 - Requisitos: RNF-05 (mantenibilidad).
-- Bloqueado por: #59 · Bloquea a: #12, #3
+- Bloqueado por: #58 (ER y DDL de C1) · Bloquea a: #12, #23
 
 ## 1. Contexto
 
@@ -84,5 +84,5 @@ Jueves 12-nov en el sync. Después: el backend y la IA construyen.
 ## Versión corta
 
 
-> [62] Modelo de datos — reeinharddd, 2→12-nov. Documentar el modelo híbrido y congelar el contrato de datos con su SHA. Entradas recibidas de docs/ingenieria/DIAGRAMA-BD-v0.md y de docs/proyecto/REQUISITOS.md. Entregable: modelo documentado, coherente con el ER, y contrato con SHA. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-62-modelo-datos.md`.
+> [62] Modelo de datos — reeinharddd, 11→12-nov. Documentar el modelo híbrido y congelar el contrato de datos con su SHA. Entradas recibidas de docs/ingenieria/DIAGRAMA-BD-v0.md y de docs/proyecto/REQUISITOS.md. Entregable: modelo documentado, coherente con el ER, y contrato con SHA. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-62-modelo-datos.md`.
 

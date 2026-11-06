@@ -4,10 +4,10 @@
 
 - Issue: #85 — https://github.com/reeinharddd/docu/issues/85
 - Dueño: Erik Alfonso Beltrán Ramírez (`reeinharddd`)
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-13 → 2026-11-17 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Infraestructura / ia
 - Requisitos: RF-02, RF-03
-- Bloqueado por: #60 · Bloquea a: #7, #3
+- Bloqueado por: #58 (DDL), #61 (corpus); entradas de #60 (arquitectura) · Bloquea a: #3, #7, #89
 
 ## 1. Contexto
 
@@ -107,7 +107,7 @@ medidos, y #7 puede correr la vertical completa sin sorpresas de rendimiento.
 ## 9. Riesgos nombrados
 
 Que el coste se dispare con el corpus completo: la mitigación es el presupuesto
-por llamada y la caché por hash, y el freeze del 18-nov como fecha de
+por llamada y la caché por hash, y el freeze del 19-nov como fecha de
 bloqueo.
 
 ## 10. Revisión
@@ -117,4 +117,4 @@ motivos. Después: #7 (vertical completa, 19-nov) y #3 (pipeline).
 
 ## Versión corta (descripción del issue)
 
-> [85] Integración de IA — reeinharddd, 13→18-nov. OCR y propuesta como configuración, con presupuesto, caché y métricas. Entradas recibidas de la arquitectura (#60), del DDL (#58) y del dataset del mes (#61). Entregable: motores configurables y medidos, con la tabla de coste y tiempo por familia. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-85-integracion-ia.md`.
+> [85] Integración de IA — reeinharddd, 13→17-nov. OCR y propuesta como configuración, con presupuesto, caché y métricas. Entradas recibidas de la arquitectura (#60), del DDL (#58) y del dataset del mes (#61). Entregable: motores configurables y medidos, con la tabla de coste y tiempo por familia. Revisión el 17-nov. Detalle: `docs/briefs/BRIEF-85-integracion-ia.md`.

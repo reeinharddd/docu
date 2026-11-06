@@ -4,7 +4,7 @@
 
 - Issue: #58
 - Dueño: Emmanuel Valenzuela Cruz (`Agent3835`); Erik (`reeinharddd`) apoya y revisa.
-- Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov)
+- Fechas: 2026-11-02 → 2026-11-10 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
 - Bloqueado por: #83 (caso, **cerrado** el 3-nov con PR #101) · Bloquea a: #59, #60, #62, #44, #5, #61, #85
@@ -210,4 +210,4 @@ Jueves 12-nov en el sync, con Carlos y Emmanuel: afirmación o devolución motiv
 
 ## Versión corta (descripción del issue)
 
-> [58] ER v1 — Agent3835, 2→12-nov. Diseño completo de la base: ER híbrido, DDL, enums, vistas, triggers y migración aplicada. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §3 y de docs/ingenieria/DIAGRAMA-BD-v0.md. Entregable: draw.io fuente + texto derivado + migración aplicada + contrato con SHA. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-58-diagrama-v0.md`.
+> [58] ER v1 — Agent3835, 2→10-nov. Diseño completo de la base: ER híbrido, DDL, enums, vistas, triggers y migración aplicada. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §3 y de docs/ingenieria/DIAGRAMA-BD-v0.md. Entregable: draw.io fuente + texto derivado + migración aplicada + contrato con SHA. Revisión el 10-nov. Detalle: `docs/briefs/BRIEF-58-diagrama-v0.md`.

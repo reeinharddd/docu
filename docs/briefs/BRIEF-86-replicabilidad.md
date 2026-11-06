@@ -4,10 +4,10 @@
 
 - Issue: #86 — https://github.com/reeinharddd/docu/issues/86
 - Dueño: Carlos Ariel Martín Rojas (`WearyBerry`)
-- Fechas: 2026-11-17 → 2026-11-19 · Sprint 4 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-16 → 2026-11-19 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / QA-Documentación / replicabilidad
 - Requisitos: RNF-02, RNF-07
-- Bloqueado por: #61, #59, #45 · Bloquea a: #89
+- Bloqueado por: #45, #59, #61 · Bloquea a: — (entrega los insumos de #89)
 
 ## 1. Contexto
 
@@ -119,4 +119,4 @@ devuelve con motivos. Después: #89 (demo del 24-nov) lo usa como plan B.
 
 ## Versión corta (descripción del issue)
 
-> [86] Replicabilidad — WearyBerry, 17→19-nov. Que otra persona ejecute el caso de principio a fin sin ayuda, con un guion probado en frío. Entradas recibidas del dataset (#61), del seed (#59) y del arranque (#45). Entregable: guion de una pasada, corrida en frío medida y script ejecutable. Revisión el 19-nov. Detalle: `docs/briefs/BRIEF-86-replicabilidad.md`.
+> [86] Replicabilidad — WearyBerry, 16→19-nov. Que otra persona ejecute el caso de principio a fin sin ayuda, con un guion probado en frío. Entradas recibidas del dataset (#61), del seed (#59) y del arranque (#45). Entregable: guion de una pasada, corrida en frío medida y script ejecutable. Revisión el 19-nov. Detalle: `docs/briefs/BRIEF-86-replicabilidad.md`.

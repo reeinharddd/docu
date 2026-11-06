@@ -4,10 +4,10 @@
 
 - Issue: #60
 - Dueño: Erik.
-- Fechas: 2026-11-02 → 2026-11-12 · Sprint 3 · hito `C1 modelo y BD` (12-nov).
+- Fechas: 2026-11-05 → 2026-11-11 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov).
 - Prioridad / Tipo / Épica: alta / tarea / Infraestructura.
 - Requisitos: RF-08.
-- Bloqueado por: #58 (modelo ya decidido) · Bloquea a: #12, #85
+- Bloqueado por: #58 (modelo ya decidido) · Bloquea a: #12
 
 ## 1. Contexto
 
@@ -83,5 +83,5 @@ Jueves 12-nov en el sync. Después: #62 modelo y #12 esqueleto.
 ## Versión corta
 
 
-> [60] Arquitectura y API — reeinharddd, 2→12-nov. Arquitectura del sistema y contratos de la API de C1, ya decididos el modelo y el alcance. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §4 y del ER aprobado (#58). Entregable: documento de arquitectura con los endpoints de C1 y sus reglas de error. Revisión el 12-nov. Detalle: `docs/briefs/BRIEF-60-arquitectura-modelo.md`.
+> [60] Arquitectura y API — reeinharddd, 5→11-nov. Arquitectura del sistema y contratos de la API de C1, ya decididos el modelo y el alcance. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §4 y del ER aprobado (#58). Entregable: documento de arquitectura con los endpoints de C1 y sus reglas de error. Revisión el 11-nov. Detalle: `docs/briefs/BRIEF-60-arquitectura-modelo.md`.
 

@@ -79,6 +79,18 @@ mantiene dos veces el mismo dato.
    `sin-issue` para mantenimiento).
 5. Al abrir el PR pasa sola a `En revisión`; al fusionarlo, a `Listo`.
 
+## Qué significa `bloqueado por`
+
+`bloqueado por` es **dependencia de integración**, no barrera para empezar. Un
+issue se construye en paralelo —contra el contrato, el DDL o las specs— y no
+cierra hasta que su bloqueador entrega. Por eso hay entregas el mismo día que
+llega lo integrado: ese día es el día de la integración.
+
+Consecuencia práctica: el calendario son **estimaciones**. El líder ve el estado
+de todos los bloques y ajusta el orden, el alcance y las fechas en el tablero
+para que las piezas conecten sin fricción. El detalle del calendario vigente
+está en `docs/gestion/REPLAN-2026-10-30.md` y `docs/gestion/CARRILES.md`.
+
 ## Configs de rama (nunca se commitean)
 
 Cada rama de feature trabaja con su propia config local de tarea, y **solo el

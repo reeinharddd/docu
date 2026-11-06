@@ -4,7 +4,7 @@
 
 - Issue: #5
 - Dueño: Emmanuel Valenzuela Cruz + Carlos Ariel Martín Rojas (Erik revisa)
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-12 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Autenticación / permisos.
 - Requisitos: RF-02, RF-06, RNF-03
 - Bloqueado por: #58 · Bloquea a: #4, #39
@@ -97,5 +97,5 @@ Syncs con Erik; demo de escalada rechazada + bitácora al cerrar. Después: #4 p
 ## Versión corta (descripción del issue)
 
 
-> [5] RBAC y reglas — Agent3835 y WearyBerry, 13→18-nov. Permisos en el servidor, bitácora de cambios y reglas de validación declarativas, sin lógica del caso en el código. Entradas recibidas de ADR-0009 y de las familias de docs/ingenieria/fichas/. Entregable: permisos aplicados, bitácora funcionando y reglas cargadas como datos. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-05-rbac-bitacora.md`.
+> [5] RBAC y reglas — Agent3835 y WearyBerry, 12→18-nov. Permisos en el servidor, bitácora de cambios y reglas de validación declarativas, sin lógica del caso en el código. Entradas recibidas de ADR-0009 y de las familias de docs/ingenieria/fichas/. Entregable: permisos aplicados, bitácora funcionando y reglas cargadas como datos. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-05-rbac-bitacora.md`.
 

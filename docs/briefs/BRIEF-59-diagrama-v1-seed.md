@@ -4,7 +4,7 @@
 
 - Issue: #59
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-11-17 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-16 → 2026-11-17 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Base de datos / base de datos.
 - Requisitos: RF-08
 - Bloqueado por: #58, #61 · Bloquea a: #7, #86
@@ -83,7 +83,7 @@ cuadra con el manifiesto.
 
 ## 9. Riesgos nombrados
 
-Dataset incompleto al 17-nov. Mitigación: syncs 17/18; desde el 18-nov sin dataset completo es bloqueo (frena el seed y #7).
+Dataset incompleto al 16-nov. Mitigación: syncs 16/17; desde el 17-nov sin dataset completo es bloqueo (frena el seed y #7).
 
 ## 10. Revisión
 
@@ -92,5 +92,5 @@ Miércoles 18-nov en el sync: demo del seed con dos corridas idénticas. Despué
 ## Versión corta (descripción del issue)
 
 
-> [59] Seed reproducible — Agent3835, 17→18-nov. Seed determinista que carga el dataset en la base sin depender del orden ni del estado previo. Entradas recibidas de docs/ingenieria/fichas/CONTRATO.md y del manifiesto SHA-256 del dataset. Entregable: seed idempotente, con la evidencia de que dos corridas dan el mismo resultado. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-59-diagrama-v1-seed.md`.
+> [59] Seed reproducible — Agent3835, 16→17-nov. Seed determinista que carga el dataset en la base sin depender del orden ni del estado previo. Entradas recibidas de docs/ingenieria/fichas/CONTRATO.md y del manifiesto SHA-256 del dataset. Entregable: seed idempotente, con la evidencia de que dos corridas dan el mismo resultado. Revisión el 17-nov. Detalle: `docs/briefs/BRIEF-59-diagrama-v1-seed.md`.
 

@@ -2,7 +2,7 @@
 
 Estado: vigente. Última actualización: 2026-11-05. Plan vigente:
 `gestion/REPLAN-2026-10-30.md` (v2). Hitos: modelo y BD 12-nov · vertical
-completa 19-nov · demo con el profesor 24-nov · final 3-dic.
+completa 20-nov · demo con el profesor 24-nov · final 3-dic.
 
 Esta página es el arranque de los **tres carriles que arrancan ahora** (el plan
 completo de C1 tiene ocho; ver `gestion/REPLAN-2026-10-30.md`). El detalle de
@@ -13,12 +13,35 @@ cada tarea está en su brief; el estado real vive en el issue, nunca aquí.
 | Carril | Persona | Issue | Rama | Fechas | Entregable | Revisa |
 |---|---|---|---|---|---|---|
 | H. Frontend | Kira (`kirxllix`) | #11 | `feat/11-prototipos-ui-ux` | 13→16-nov | Cinco pantallas funcionales del flujo del caso (captura, bandeja, programa, búsqueda, reporte), con specs, `FLUJO.md` y `CATEGORIAS.md` | Erik |
-| D. Base de datos | Emmanuel (`Agent3835`) | #58 | `feat/58-diagrama-v0` | 2→12-nov | ER híbrido (draw.io + texto derivado), DDL, vistas, triggers, migración aplicada y contrato con SHA | Erik |
-| F. Dataset | Carlos (`WearyBerry`) | #61 | `feat/61-generador-dataset` | 3→17-nov | Generador determinista con specs, semilla versionada, manifiesto SHA-256 y el corpus del mes | Erik |
+| D. Base de datos | Emmanuel (`Agent3835`) | #58 | `feat/58-diagrama-v0` | 2→**10**-nov | ER híbrido (draw.io + texto derivado), DDL, vistas, triggers, migración aplicada y contrato con SHA | Erik |
+| F. Dataset | Carlos (`WearyBerry`) | #61 | `feat/61-generador-dataset` | 3→**16**-nov | Generador determinista con specs, semilla versionada, manifiesto SHA-256 y el corpus del mes | Erik |
 
-Erik conduce el resto (plataforma #84, IA #85, guardas #87, limpieza #88, demo
-#89) y **revisa todos los PRs**. Las tres ramas existen desde `main`; nadie
-trabaja en `main`.
+Erik conduce el resto (arquitectura #60, modelo #62, plataforma #84, IA #85,
+guardas #87, limpieza #88, demo #89) y **revisa todos los PRs** (issue #106).
+Las tres ramas existen desde `main`; nadie trabaja en `main`.
+
+## Estado de hoy (5-nov)
+
+- Los tres carriles están **en proceso**: en el Project v1 los issues #11, #58 y
+  #61 están en `En progreso`, con rama creada desde `main`, brief publicado y
+  las instrucciones de arranque en el issue.
+- Pendiente de cada dueño: el primer commit en su rama y el PR con
+  `Closes #N`, evidencia y `bun run verify` en verde.
+- Lo que sigue en la cadena: el ER (#58, 10-nov) destraba el modelo y el
+  contrato (#62, 12-nov); con eso arranca el backend (#12, #3, #46, 12-nov) y
+  la emisión del corpus (#61, 12→16-nov).
+
+## Cómo se trabaja
+
+1. **`bloqueado por` es dependencia de integración, no barrera para empezar.**
+   Cada bloque se construye en paralelo, contra el contrato, el DDL o las
+   specs; no cierra hasta que su bloqueador entrega. El día de entrega es el
+   día de la integración.
+2. **Las fechas son estimaciones.** Con apoyo de IA se espera anticiparlas.
+   El líder ve todos los bloques y ajusta el orden y las fechas en el tablero
+   para que las piezas conecten sin fricción.
+3. **Una persona, un issue `En progreso`** en el tablero (regla de higiene del
+   tracker, no de serialización del trabajo).
 
 ## Reglas de los carriles
 

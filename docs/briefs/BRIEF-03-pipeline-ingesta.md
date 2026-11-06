@@ -4,10 +4,10 @@
 
 - Issue: #3
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-12 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: crítica / tarea / Backend / ingesta.
 - Requisitos: RF-01, RF-02
-- Bloqueado por: #12 · Bloquea a: #46, #7
+- Bloqueado por: #12 (API de ingesta), #85 (OCR y propuesta) · Bloquea a: #4, #7, #39, #46
 
 ## 1. Contexto
 
@@ -103,5 +103,5 @@ Syncs con Emmanuel (revisor) y Carlos (dataset). Demo de cadena al cerrar fase B
 ## Versión corta (descripción del issue)
 
 
-> [3] Pipeline: archivo → reglas → oficial — Agent3835, 13→18-nov. El archivo entra, las reglas lo validan y sale el oficial, con frontend y backend conectados. Entradas recibidas de la API de ingesta (#12), del OCR (#85) y del worker (#46). Entregable: pipeline corriendo de punta a punta sobre el dataset del mes. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-03-pipeline-ingesta.md`.
+> [3] Pipeline: archivo → reglas → oficial — Agent3835, 12→18-nov. El archivo entra, las reglas lo validan y sale el oficial, con frontend y backend conectados. Entradas recibidas de la API de ingesta (#12), del OCR (#85) y del worker (#46). Entregable: pipeline corriendo de punta a punta sobre el dataset del mes. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-03-pipeline-ingesta.md`.
 

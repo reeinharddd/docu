@@ -4,10 +4,10 @@
 
 - Issue: #11 (las categorías se definen aquí; #28 quedó cerrado como no planificado)
 - Dueño: Kira
-- Fechas: 2026-11-13 → **2026-11-16** · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-13 → 2026-11-16 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Diseño / diseño
 - Requisitos: RF-01, RF-02, RF-03, RF-04, RF-05, RNF-01 (RF-06 lo implementa #5)
-- Bloqueado por: #84 (plataforma frontend, PR #104) · Bloquea a: #4 Frontend Angular
+- Bloqueado por: #84 (plataforma frontend, entregada en PR #104) · Bloquea a: #4 Frontend Angular, #89 demo
 - Rama: `feat/11-prototipos-ui-ux` (desde `main`)
 
 ## 0.1 Dónde se trabaja y qué viaja a `main`

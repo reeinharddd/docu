@@ -4,10 +4,10 @@
 
 - Issue: #61
 - Dueño: Carlos (`WearyBerry`); Erik (`reeinharddd`) apoya y revisa.
-- Fechas: 2026-11-03 → **2026-11-17** · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-03 → 2026-11-16 · Sprint 2 → 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Datos / generacion
 - Requisitos: RF-08, RNF-02, RNF-07
-- Bloqueado por: #83 (caso, **cerrado** el 3-nov con PR #101) · Bloquea a: #72, #12, #38, #19
+- Bloqueado por: #23 (contrato congelado), #58 (ER); #83 cerrado el 3-nov con PR #101 · Bloquea a: #59, #85, #86
 - Dependencias que no bloquean el arranque: #58 (familias y reglas finales) y
   #23 (catálogo de reglas). Bloquean la **emisión final**, no el generador.
 - Rama: `feat/61-generador-dataset` (desde `main`)
@@ -212,4 +212,4 @@ modelo. Después: #72, #12, #38 y #19.
 
 ## Versión corta (descripción del issue)
 
-> [61] Generador de dataset — WearyBerry, 3→17-nov. Corpus del mes de octubre (5–30-oct, 60 turnos) emitido de forma reproducible a partir de semilla + plantillas versionadas: 170 archivos de las 6 familias más 30–40 de ruido, con los 6 fallos crónicos y el incidente del 26-oct sembrados, y las 7 reglas con caso válido, inválido y ambiguo. El corpus generado no se versiona: viajan la semilla, las plantillas, `esperado.json`, el manifiesto y el generador. Entradas recibidas de docs/ingenieria/fichas/CONTRATO.md §7–§9 y de los 18 JSON Schemas de dataset/config1/esquemas/. Entregable: `dataset/generar.ts`, `dataset/plantillas/`, semilla, manifiesto, `docs/ingenieria/PRUEBAS.md` y `bun run dataset:check` en verde con los conteos de `esperado.json`. Revisión el 17-nov. Detalle: `docs/briefs/BRIEF-61-generador-dataset.md`.
+> [61] Generador de dataset — WearyBerry, 3→16-nov. Corpus del mes de octubre (5–30-oct, 60 turnos) emitido de forma reproducible a partir de semilla + plantillas versionadas: 170 archivos de las 6 familias más 30–40 de ruido, con los 6 fallos crónicos y el incidente del 26-oct sembrados, y las 7 reglas con caso válido, inválido y ambiguo. El corpus generado no se versiona: viajan la semilla, las plantillas, `esperado.json`, el manifiesto y el generador. Entradas recibidas de docs/ingenieria/fichas/CONTRATO.md §7–§9 y de los 18 JSON Schemas de dataset/config1/esquemas/. Entregable: `dataset/generar.ts`, `dataset/plantillas/`, semilla, manifiesto, `docs/ingenieria/PRUEBAS.md` y `bun run dataset:check` en verde con los conteos de `esperado.json`. Revisión el 16-nov. Detalle: `docs/briefs/BRIEF-61-generador-dataset.md`.

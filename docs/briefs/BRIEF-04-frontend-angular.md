@@ -7,7 +7,7 @@
 - Fechas: 2026-11-17 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Frontend / frontend
 - Requisitos: RF-01, RF-03, RF-04; RNF-01
-- Bloqueado por: #11, #12 · Bloquea a: #89
+- Bloqueado por: #3, #11, #12, #23 · Bloquea a: #89
 
 ## 1. Contexto
 
@@ -135,7 +135,7 @@ datos de maqueta.
 
 ## 9.1. Alcance completo (el producto, no solo MVP)
 
-Los datos son reales del dataset del mes (#61) y la vertical se entrega completa el 18-nov.
+Los datos son reales del dataset del mes (#61) y la vertical se entrega completa el 20-nov.
 
 - F1 (§3–§8): 5 pantallas + e2e del flujo subir → confirmar → consultar.
 - F2: login, registro, gestión de usuarios, RBAC por rol, bitácora visible (usa #5 cuando exista; mientras tanto, mocks con la forma del contrato).
@@ -182,5 +182,5 @@ Sprint 2 cierra 2026-11-20. Revisión de avances en syncs de lunes y viernes.
 - [axe DevTools](https://www.deque.com/axe/) — Verificación automática. **Cuándo:** auditar accesibilidad.
 
 
-> [4] Frontend del caso contra la API real — kirxllix, 17→18-nov. Captura, bandeja de revisión, programa oficial, búsqueda y Reporte del día funcionando contra la API, sobre la plataforma de #84. Entradas recibidas de la plataforma (#84), de la API (#12) y de los mockups (#11). Entregable: las cinco pantallas funcionando contra la API. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-04-frontend-angular.md`.
+> [4] Frontend del caso contra la API real — kirxllix, 17→19-nov. Captura, bandeja de revisión, programa oficial, búsqueda y Reporte del día funcionando contra la API, sobre la plataforma de #84. Entradas recibidas de la plataforma (#84), de la API (#12) y de los mockups (#11). Entregable: las cinco pantallas funcionando contra la API. Revisión el 19-nov. Detalle: `docs/briefs/BRIEF-04-frontend-angular.md`.
 

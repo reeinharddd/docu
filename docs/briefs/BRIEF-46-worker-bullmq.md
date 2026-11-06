@@ -4,10 +4,10 @@
 
 - Issue: #46
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-12 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Backend / worker.
 - Requisitos: RF-01, RNF-04
-- Bloqueado por: #3 (el pipeline encola) · Bloquea a: #39, #7
+- Bloqueado por: #3 (el pipeline encola) · Bloquea a: #7, #39
 
 ## 1. Contexto
 
@@ -95,5 +95,5 @@ Redis caído en local frena todo. Mitigación: `REDIS_PORT` en `.env`, `doctor` 
 ## Versión corta (descripción del issue)
 
 
-> [46] Worker BullMQ — Agent3835, 13→18-nov. Worker con colas por tipo de trabajo, para que el trabajo pesado no bloquee las pantallas. Entradas recibidas de la arquitectura (#60), del pipeline (#3) y de docs/ingenieria/OCR.md. Entregable: worker con sus colas y reintentos, probado. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-46-worker-bullmq.md`.
+> [46] Worker BullMQ — Agent3835, 12→18-nov. Worker con colas por tipo de trabajo, para que el trabajo pesado no bloquee las pantallas. Entradas recibidas de la arquitectura (#60), del pipeline (#3) y de docs/ingenieria/OCR.md. Entregable: worker con sus colas y reintentos, probado. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-46-worker-bullmq.md`.
 

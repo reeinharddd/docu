@@ -4,10 +4,10 @@
 
 - Issue: #12
 - Dueño: Emmanuel Valenzuela Cruz (Backend).
-- Fechas: 2026-11-13 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (19-nov)
+- Fechas: 2026-11-12 → 2026-11-18 · Sprint 3 · hito `C1 vertical completa` (20-nov)
 - Prioridad / Tipo / Épica / Módulo: alta / tarea / Backend / api.
 - Requisitos: RF-01, RF-03
-- Bloqueado por: #45 (la puerta TDD) · Bloquea a: #3, #4, #7
+- Bloqueado por: #45 (la puerta TDD), #60 (arquitectura), #62 (modelo) · Bloquea a: #3, #4, #7
 - Nota: el endpoint de ingesta no espera al pipeline: se construye con la suite primero, sobre el DDL ya aplicado (#58).
 
 ## 1. Contexto
@@ -106,5 +106,5 @@ Syncs lunes/viernes con Erik; demo de endpoints al cerrar fase B. Después: #4 c
 ## Versión corta (descripción del issue)
 
 
-> [12] API de ingesta — Agent3835, 13→18-nov. Endpoint de ingesta que valida por familia y deja el dato oficial listo para revisión. Entradas recibidas de la arquitectura (#60), del contrato de datos y de las reglas de validación. Entregable: endpoint de ingesta probado, con la suite de #45 en verde. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-12-api-nestjs.md`.
+> [12] API de ingesta — Agent3835, 12→18-nov. Endpoint de ingesta que valida por familia y deja el dato oficial listo para revisión. Entradas recibidas de la arquitectura (#60), del contrato de datos y de las reglas de validación. Entregable: endpoint de ingesta probado, con la suite de #45 en verde. Revisión el 18-nov. Detalle: `docs/briefs/BRIEF-12-api-nestjs.md`.
 
