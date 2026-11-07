@@ -1,0 +1,658 @@
+// ER v1 de C1 (issue #58). El .drawio es la fuente y este archivo es su lectura
+// ejecutable: ambos se verifican contra el texto derivado
+// (docs/ingenieria/DIAGRAMA-BD-v0.md) con `bun run diagramas:check`.
+//
+// El modelo es híbrido (ADR-0019): un dominio genérico (graph.entity_type,
+// graph.entity, graph.relation) para lo que cada instalación declare, más las
+// tablas concretas y estables del sistema (ingest, truth, config, platform).
+//
+// Aquí no vive vocabulario de ningún cliente: los tipos de entidad, las familias
+// y los códigos de regla los declara cada instalación como datos. Lo único
+// fijo es el vocabulario del motor (roles, permisos, alcances, severidades,
+// estados y colas), y ese se declara con CHECK en la migración.
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["core", "ingest", "graph", "truth", "config", "platform"]
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ─── core · identidad, organización y autorización ────────────────────────────
+
+model Facility {
+  id               String   @id @default(uuid()) @db.Uuid
+  parentFacilityId String?  @map("parent_facility_id") @db.Uuid
+  code             String   @db.Text
+  name             String   @db.Text
+  timezone         String   @default("America/Mexico_City") @db.Text
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  parentFacility   Facility?         @relation("facility_hierarchy", fields: [parentFacilityId], references: [id])
+  childFacilities  Facility[]        @relation("facility_hierarchy")
+  departments      Department[]
+  users            AppUser[]
+  domains          Domain[]
+  grants           AccessGrant[]
+  sourceFiles      SourceFile[]
+  parsedRecords    ParsedRecord[]
+  quarantines      Quarantine[]
+  ocrResults       OcrResult[]
+  entityTypes      EntityType[]
+  entities         Entity[]
+  relations        Relation[]
+  originHistory    OriginHistory[]
+  auditLogs        AuditLog[]
+  familyConfigs    FamilyConfig[]
+  validationRules  ValidationRule[]
+  memoryEmbeddings MemoryEmbedding[]
+  jobRuns          JobRun[]
+  sessions         Session[]
+  engramRefs       EngramRef[]
+
+  @@unique([code])
+  @@map("facility")
+  @@schema("core")
+}
+
+model Department {
+  id                 String   @id @default(uuid()) @db.Uuid
+  facilityId         String   @map("facility_id") @db.Uuid
+  parentDepartmentId String?  @map("parent_department_id") @db.Uuid
+  code               String   @db.Text
+  name               String   @db.Text
+  isActive           Boolean  @default(true) @map("is_active")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility         Facility     @relation(fields: [facilityId], references: [id])
+  parentDepartment Department?  @relation("department_hierarchy", fields: [parentDepartmentId], references: [id])
+  childDepartments Department[] @relation("department_hierarchy")
+  users            AppUser[]
+
+  @@unique([facilityId, code])
+  @@index([facilityId])
+  @@map("department")
+  @@schema("core")
+}
+
+model AppUser {
+  id                String    @id @default(uuid()) @db.Uuid
+  facilityId        String    @map("facility_id") @db.Uuid
+  departmentId      String?   @map("department_id") @db.Uuid
+  username          String    @db.Text
+  email             String    @db.Text
+  fullName          String    @map("full_name") @db.Text
+  position          String    @db.Text
+  relationType      String    @default("interno") @map("relation_type") @db.Text
+  reportsToId       String?   @map("reports_to_id") @db.Uuid
+  reportsToExternal String?   @map("reports_to_external") @db.Text
+  scope             String    @db.Text
+  status            String    @default("activo") @db.Text
+  validUntil        DateTime? @map("valid_until") @db.Timestamptz(6)
+  passwordHash      String?   @map("password_hash") @db.Text
+  lastLoginAt       DateTime? @map("last_login_at") @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+  createdById       String?   @map("created_by_id") @db.Uuid
+  updatedById       String?   @map("updated_by_id") @db.Uuid
+
+  facility       Facility    @relation(fields: [facilityId], references: [id])
+  department     Department? @relation(fields: [departmentId], references: [id])
+  reportsTo      AppUser?    @relation("user_reports_to", fields: [reportsToId], references: [id])
+  reportsToUsers AppUser[]   @relation("user_reports_to")
+  createdBy      AppUser?    @relation("user_created_by", fields: [createdById], references: [id])
+  createdUsers   AppUser[]   @relation("user_created_by")
+  updatedBy      AppUser?    @relation("user_updated_by", fields: [updatedById], references: [id])
+  updatedUsers   AppUser[]   @relation("user_updated_by")
+
+  roles                  UserRole[]
+  userRolesGranted       UserRole[]       @relation("user_role_granted_by")
+  domains                UserDomain[]
+  grantsReceived         AccessGrant[]    @relation("grant_grantee")
+  grantsGiven            AccessGrant[]    @relation("grant_granted_by")
+  grantsDelegated        AccessGrant[]    @relation("grant_delegated_from")
+  filesReceived          SourceFile[]
+  parsedRecordsCreated   ParsedRecord[]
+  quarantinesResolved    Quarantine[]
+  entityTypesCreated     EntityType[]
+  entitiesCreated        Entity[]         @relation("entity_created_by")
+  entitiesUpdated        Entity[]         @relation("entity_updated_by")
+  entitiesConfirmed      Entity[]         @relation("entity_confirmed_by")
+  relationsCreated       Relation[]
+  originHistoryConfirmed OriginHistory[]  @relation("origin_confirmed_by")
+  originHistoryCreated   OriginHistory[]  @relation("origin_created_by")
+  auditLogs              AuditLog[]
+  familyConfigsCreated   FamilyConfig[]   @relation("family_created_by")
+  familyConfigsUpdated   FamilyConfig[]   @relation("family_updated_by")
+  validationRulesCreated ValidationRule[] @relation("rule_created_by")
+  validationRulesUpdated ValidationRule[] @relation("rule_updated_by")
+  sessions               Session[]
+  engramRefsCreated      EngramRef[]
+
+  @@unique([facilityId, username])
+  @@unique([facilityId, email])
+  @@index([facilityId])
+  @@index([departmentId])
+  @@index([reportsToId])
+  @@map("app_user")
+  @@schema("core")
+}
+
+model Role {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @db.Text
+  name        String  @db.Text
+  description String? @db.Text
+  isSystem    Boolean @default(false) @map("is_system")
+
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@unique([code])
+  @@map("role")
+  @@schema("core")
+}
+
+model UserRole {
+  appUserId   String   @map("app_user_id") @db.Uuid
+  roleId      String   @map("role_id") @db.Uuid
+  grantedAt   DateTime @default(now()) @map("granted_at") @db.Timestamptz(6)
+  grantedById String?  @map("granted_by_id") @db.Uuid
+
+  appUser   AppUser  @relation(fields: [appUserId], references: [id])
+  role      Role     @relation(fields: [roleId], references: [id])
+  grantedBy AppUser? @relation("user_role_granted_by", fields: [grantedById], references: [id])
+
+  @@id([appUserId, roleId])
+  @@map("user_role")
+  @@schema("core")
+}
+
+model Permission {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @db.Text
+  name        String  @db.Text
+  description String? @db.Text
+
+  rolePermissions RolePermission[]
+  grants          AccessGrant[]
+
+  @@unique([code])
+  @@map("permission")
+  @@schema("core")
+}
+
+model RolePermission {
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+  @@map("role_permission")
+  @@schema("core")
+}
+
+model Domain {
+  id         String   @id @default(uuid()) @db.Uuid
+  facilityId String   @map("facility_id") @db.Uuid
+  code       String   @db.Text
+  name       String   @db.Text
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility Facility      @relation(fields: [facilityId], references: [id])
+  users    UserDomain[]
+  grants   AccessGrant[]
+
+  @@unique([facilityId, code])
+  @@index([facilityId])
+  @@map("domain")
+  @@schema("core")
+}
+
+model UserDomain {
+  appUserId String @map("app_user_id") @db.Uuid
+  domainId  String @map("domain_id") @db.Uuid
+
+  appUser AppUser @relation(fields: [appUserId], references: [id])
+  domain  Domain  @relation(fields: [domainId], references: [id])
+
+  @@id([appUserId, domainId])
+  @@map("user_domain")
+  @@schema("core")
+}
+
+model AccessGrant {
+  id              String   @id @default(uuid()) @db.Uuid
+  facilityId      String   @map("facility_id") @db.Uuid
+  granteeId       String   @map("grantee_id") @db.Uuid
+  permissionId    String   @map("permission_id") @db.Uuid
+  scope           String   @db.Text
+  domainId        String?  @map("domain_id") @db.Uuid
+  targetEntityId  String?  @map("target_entity_id") @db.Uuid
+  isDenial        Boolean  @default(false) @map("is_denial")
+  isEmergency     Boolean  @default(false) @map("is_emergency")
+  delegatedFromId String?  @map("delegated_from_id") @db.Uuid
+  reason          String   @db.Text
+  validFrom       DateTime @default(now()) @map("valid_from") @db.Timestamptz(6)
+  validUntil      DateTime @map("valid_until") @db.Timestamptz(6)
+  grantedById     String   @map("granted_by_id") @db.Uuid
+  grantedAt       DateTime @default(now()) @map("granted_at") @db.Timestamptz(6)
+
+  facility      Facility   @relation(fields: [facilityId], references: [id])
+  grantee       AppUser    @relation("grant_grantee", fields: [granteeId], references: [id])
+  permission    Permission @relation(fields: [permissionId], references: [id])
+  domain        Domain?    @relation(fields: [domainId], references: [id])
+  targetEntity  Entity?    @relation(fields: [targetEntityId], references: [id])
+  delegatedFrom AppUser?   @relation("grant_delegated_from", fields: [delegatedFromId], references: [id])
+  grantedBy     AppUser    @relation("grant_granted_by", fields: [grantedById], references: [id])
+
+  @@index([facilityId])
+  @@index([granteeId, permissionId])
+  @@index([targetEntityId])
+  @@map("access_grant")
+  @@schema("core")
+}
+
+// ─── ingest · archivos, parseo, OCR y cuarentena ─────────────────────────────
+
+model SourceFile {
+  id             String   @id @default(uuid()) @db.Uuid
+  facilityId     String   @map("facility_id") @db.Uuid
+  familyConfigId String   @map("family_config_id") @db.Uuid
+  originalName   String   @map("original_name") @db.Text
+  sha256         String   @db.Text
+  mimeType       String   @map("mime_type") @db.Text
+  byteSize       BigInt   @map("byte_size")
+  storagePath    String   @map("storage_path") @db.Text
+  isOcrRequired  Boolean  @default(false) @map("is_ocr_required")
+  receivedAt     DateTime @default(now()) @map("received_at") @db.Timestamptz(6)
+  receivedById   String   @map("received_by_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility         Facility          @relation(fields: [facilityId], references: [id])
+  familyConfig     FamilyConfig      @relation(fields: [familyConfigId], references: [id])
+  receivedBy       AppUser           @relation(fields: [receivedById], references: [id])
+  parsedRecords    ParsedRecord[]
+  quarantines      Quarantine[]
+  ocrResults       OcrResult[]
+  entities         Entity[]
+  originHistory    OriginHistory[]
+  memoryEmbeddings MemoryEmbedding[]
+
+  @@unique([facilityId, sha256])
+  @@index([facilityId])
+  @@index([familyConfigId])
+  @@index([facilityId, receivedAt])
+  @@map("source_file")
+  @@schema("ingest")
+}
+
+model ParsedRecord {
+  id             String   @id @default(uuid()) @db.Uuid
+  facilityId     String   @map("facility_id") @db.Uuid
+  sourceFileId   String   @map("source_file_id") @db.Uuid
+  recordIndex    BigInt   @map("record_index")
+  familyConfigId String   @map("family_config_id") @db.Uuid
+  payload        Json
+  status         String   @default("parsed") @db.Text
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdById    String   @map("created_by_id") @db.Uuid
+
+  facility      Facility        @relation(fields: [facilityId], references: [id])
+  sourceFile    SourceFile      @relation(fields: [sourceFileId], references: [id])
+  familyConfig  FamilyConfig    @relation(fields: [familyConfigId], references: [id])
+  createdBy     AppUser         @relation(fields: [createdById], references: [id])
+  quarantines   Quarantine[]
+  ocrResults    OcrResult[]
+  originHistory OriginHistory[]
+
+  @@unique([sourceFileId, recordIndex])
+  @@index([facilityId])
+  @@index([familyConfigId])
+  @@index([sourceFileId])
+  @@map("parsed_record")
+  @@schema("ingest")
+}
+
+model Quarantine {
+  id             String    @id @default(uuid()) @db.Uuid
+  facilityId     String    @map("facility_id") @db.Uuid
+  sourceFileId   String?   @map("source_file_id") @db.Uuid
+  parsedRecordId String?   @map("parsed_record_id") @db.Uuid
+  ruleCode       String    @map("rule_code") @db.Text
+  severity       String    @db.Text
+  reason         String    @db.Text
+  status         String    @default("pending") @db.Text
+  resolvedById   String?   @map("resolved_by_id") @db.Uuid
+  resolvedAt     DateTime? @map("resolved_at") @db.Timestamptz(6)
+  resolutionNote String?   @map("resolution_note") @db.Text
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility     Facility      @relation(fields: [facilityId], references: [id])
+  sourceFile   SourceFile?   @relation(fields: [sourceFileId], references: [id])
+  parsedRecord ParsedRecord? @relation(fields: [parsedRecordId], references: [id])
+  resolvedBy   AppUser?      @relation(fields: [resolvedById], references: [id])
+
+  @@index([facilityId])
+  @@index([facilityId, status])
+  @@index([ruleCode])
+  @@index([sourceFileId])
+  @@index([parsedRecordId])
+  @@map("quarantine")
+  @@schema("ingest")
+}
+
+model OcrResult {
+  id             String   @id @default(uuid()) @db.Uuid
+  facilityId     String   @map("facility_id") @db.Uuid
+  sourceFileId   String   @map("source_file_id") @db.Uuid
+  parsedRecordId String?  @map("parsed_record_id") @db.Uuid
+  pageNumber     BigInt   @default(1) @map("page_number")
+  engine         String   @db.Text
+  engineVersion  String   @map("engine_version") @db.Text
+  language       String   @db.Text
+  textContent    String   @map("text_content") @db.Text
+  metrics        Json     @default("{}")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  facility     Facility      @relation(fields: [facilityId], references: [id])
+  sourceFile   SourceFile    @relation(fields: [sourceFileId], references: [id])
+  parsedRecord ParsedRecord? @relation(fields: [parsedRecordId], references: [id])
+
+  @@unique([sourceFileId, pageNumber])
+  @@index([facilityId])
+  @@index([sourceFileId])
+  @@map("ocr_result")
+  @@schema("ingest")
+}
+
+// ─── graph · dominio genérico declarado por cada instalación ────────────────
+
+model EntityType {
+  id               String   @id @default(uuid()) @db.Uuid
+  facilityId       String   @map("facility_id") @db.Uuid
+  code             String   @db.Text
+  name             String   @db.Text
+  schemaDefinition Json     @map("schema_definition")
+  isSystem         Boolean  @default(false) @map("is_system")
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  createdById      String   @map("created_by_id") @db.Uuid
+
+  facility  Facility @relation(fields: [facilityId], references: [id])
+  createdBy AppUser  @relation(fields: [createdById], references: [id])
+  entities  Entity[]
+
+  @@unique([facilityId, code])
+  @@index([facilityId])
+  @@map("entity_type")
+  @@schema("graph")
+}
+
+model Entity {
+  id            String    @id @default(uuid()) @db.Uuid
+  facilityId    String    @map("facility_id") @db.Uuid
+  entityTypeId  String    @map("entity_type_id") @db.Uuid
+  code          String    @db.Text
+  data          Json      @default("{}")
+  status        String    @default("draft") @db.Text
+  confirmedById String?   @map("confirmed_by_id") @db.Uuid
+  confirmedAt   DateTime? @map("confirmed_at") @db.Timestamptz(6)
+  sourceFileId  String?   @map("source_file_id") @db.Uuid
+  version       BigInt    @default(1)
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+  createdById   String    @map("created_by_id") @db.Uuid
+  updatedById   String?   @map("updated_by_id") @db.Uuid
+
+  facility          Facility          @relation(fields: [facilityId], references: [id])
+  entityType        EntityType        @relation(fields: [entityTypeId], references: [id])
+  confirmedBy       AppUser?          @relation("entity_confirmed_by", fields: [confirmedById], references: [id])
+  createdBy         AppUser           @relation("entity_created_by", fields: [createdById], references: [id])
+  updatedBy         AppUser?          @relation("entity_updated_by", fields: [updatedById], references: [id])
+  sourceFile        SourceFile?       @relation(fields: [sourceFileId], references: [id])
+  grants            AccessGrant[]
+  outgoingRelations Relation[]        @relation("relation_source")
+  incomingRelations Relation[]        @relation("relation_target")
+  originHistory     OriginHistory[]
+  memoryEmbeddings  MemoryEmbedding[]
+  engramRefs        EngramRef[]
+
+  @@unique([facilityId, entityTypeId, code])
+  @@index([facilityId])
+  @@index([entityTypeId])
+  @@index([facilityId, status])
+  @@index([sourceFileId])
+  @@index([confirmedById])
+  @@map("entity")
+  @@schema("graph")
+}
+
+model Relation {
+  id             String   @id @default(uuid()) @db.Uuid
+  facilityId     String   @map("facility_id") @db.Uuid
+  sourceEntityId String   @map("source_entity_id") @db.Uuid
+  targetEntityId String   @map("target_entity_id") @db.Uuid
+  relationType   String   @map("relation_type") @db.Text
+  role           String?  @db.Text
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdById    String   @map("created_by_id") @db.Uuid
+
+  facility     Facility @relation(fields: [facilityId], references: [id])
+  sourceEntity Entity   @relation("relation_source", fields: [sourceEntityId], references: [id])
+  targetEntity Entity   @relation("relation_target", fields: [targetEntityId], references: [id])
+  createdBy    AppUser  @relation(fields: [createdById], references: [id])
+
+  @@unique([sourceEntityId, targetEntityId, relationType])
+  @@index([facilityId])
+  @@index([targetEntityId, relationType])
+  @@map("relation")
+  @@schema("graph")
+}
+
+// ─── truth · verdad histórica y auditoría (solo-insert) ──────────────────────
+
+model OriginHistory {
+  id             String   @id @default(uuid()) @db.Uuid
+  facilityId     String   @map("facility_id") @db.Uuid
+  entityId       String   @map("entity_id") @db.Uuid
+  version        BigInt
+  sourceFileId   String   @map("source_file_id") @db.Uuid
+  parsedRecordId String?  @map("parsed_record_id") @db.Uuid
+  ruleCode       String?  @map("rule_code") @db.Text
+  ruleSeverity   String?  @map("rule_severity") @db.Text
+  calculation    Json?
+  confirmedById  String?  @map("confirmed_by_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdById    String   @map("created_by_id") @db.Uuid
+
+  facility     Facility      @relation(fields: [facilityId], references: [id])
+  entity       Entity        @relation(fields: [entityId], references: [id])
+  sourceFile   SourceFile    @relation(fields: [sourceFileId], references: [id])
+  parsedRecord ParsedRecord? @relation(fields: [parsedRecordId], references: [id])
+  confirmedBy  AppUser?      @relation("origin_confirmed_by", fields: [confirmedById], references: [id])
+  createdBy    AppUser       @relation("origin_created_by", fields: [createdById], references: [id])
+
+  @@unique([entityId, version])
+  @@index([facilityId])
+  @@index([entityId])
+  @@index([sourceFileId])
+  @@map("origin_history")
+  @@schema("truth")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  facilityId  String   @map("facility_id") @db.Uuid
+  actorId     String?  @map("actor_id") @db.Uuid
+  action      String   @db.Text
+  targetTable String   @map("target_table") @db.Text
+  targetId    String   @map("target_id") @db.Uuid
+  details     Json     @default("{}")
+  ipAddress   String?  @map("ip_address") @db.Text
+  userAgent   String?  @map("user_agent") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility Facility @relation(fields: [facilityId], references: [id])
+  actor    AppUser? @relation(fields: [actorId], references: [id])
+
+  @@index([facilityId])
+  @@index([targetTable, targetId])
+  @@index([actorId])
+  @@map("audit_log")
+  @@schema("truth")
+}
+
+// ─── config · configuración y reglas como datos ──────────────────────────────
+
+model FamilyConfig {
+  id               String   @id @default(uuid()) @db.Uuid
+  facilityId       String   @map("facility_id") @db.Uuid
+  familyCode       String   @map("family_code") @db.Text
+  name             String   @db.Text
+  schemaDefinition Json     @map("schema_definition")
+  parserKey        String   @map("parser_key") @db.Text
+  isOcrRequired    Boolean  @default(false) @map("is_ocr_required")
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  createdById      String   @map("created_by_id") @db.Uuid
+  updatedById      String?  @map("updated_by_id") @db.Uuid
+
+  facility      Facility       @relation(fields: [facilityId], references: [id])
+  createdBy     AppUser        @relation("family_created_by", fields: [createdById], references: [id])
+  updatedBy     AppUser?       @relation("family_updated_by", fields: [updatedById], references: [id])
+  sourceFiles   SourceFile[]
+  parsedRecords ParsedRecord[]
+
+  @@unique([facilityId, familyCode])
+  @@index([facilityId])
+  @@map("family_config")
+  @@schema("config")
+}
+
+model ValidationRule {
+  id          String   @id @default(uuid()) @db.Uuid
+  facilityId  String   @map("facility_id") @db.Uuid
+  code        String   @db.Text
+  name        String   @db.Text
+  severity    String   @db.Text
+  expression  Json
+  message     String   @db.Text
+  appliesTo   Json     @default("{}") @map("applies_to")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  createdById String   @map("created_by_id") @db.Uuid
+  updatedById String?  @map("updated_by_id") @db.Uuid
+
+  facility  Facility @relation(fields: [facilityId], references: [id])
+  createdBy AppUser  @relation("rule_created_by", fields: [createdById], references: [id])
+  updatedBy AppUser? @relation("rule_updated_by", fields: [updatedById], references: [id])
+
+  @@unique([facilityId, code])
+  @@index([facilityId])
+  @@map("validation_rule")
+  @@schema("config")
+}
+
+// ─── platform · datos de plataforma ──────────────────────────────────────────
+
+model MemoryEmbedding {
+  id           String                     @id @default(uuid()) @db.Uuid
+  facilityId   String                     @map("facility_id") @db.Uuid
+  entityId     String?                    @map("entity_id") @db.Uuid
+  sourceFileId String?                    @map("source_file_id") @db.Uuid
+  chunk        String                     @db.Text
+  embedding    Unsupported("vector(768)")
+  modelName    String                     @map("model") @db.Text
+  createdAt    DateTime                   @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility   Facility    @relation(fields: [facilityId], references: [id])
+  entity     Entity?     @relation(fields: [entityId], references: [id])
+  sourceFile SourceFile? @relation(fields: [sourceFileId], references: [id])
+
+  @@index([facilityId])
+  @@index([entityId])
+  @@index([sourceFileId])
+  // El índice vectorial HNSW no se declara aquí: Prisma 7.10 no modela el tipo
+  // Hnsw ni el operator class de pgvector. Vive en la migración 0_baseline y
+  // el gate de schema lo verifica (scripts/schema-test.sh).
+  @@map("memory_embedding")
+  @@schema("platform")
+}
+
+model JobRun {
+  id         String    @id @default(uuid()) @db.Uuid
+  facilityId String    @map("facility_id") @db.Uuid
+  queue      String    @db.Text
+  jobId      String    @map("job_id") @db.Text
+  status     String    @default("queued") @db.Text
+  attempt    BigInt    @default(0)
+  input      Json      @default("{}")
+  output     Json?
+  error      String?   @db.Text
+  startedAt  DateTime? @map("started_at") @db.Timestamptz(6)
+  finishedAt DateTime? @map("finished_at") @db.Timestamptz(6)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  facility Facility @relation(fields: [facilityId], references: [id])
+
+  @@unique([queue, jobId])
+  @@index([facilityId])
+  @@index([facilityId, status])
+  @@map("job_run")
+  @@schema("platform")
+}
+
+model Session {
+  id         String    @id @default(uuid()) @db.Uuid
+  facilityId String    @map("facility_id") @db.Uuid
+  appUserId  String    @map("app_user_id") @db.Uuid
+  tokenHash  String    @unique @map("token_hash") @db.Text
+  issuedAt   DateTime  @default(now()) @map("issued_at") @db.Timestamptz(6)
+  expiresAt  DateTime  @map("expires_at") @db.Timestamptz(6)
+  lastSeenAt DateTime? @map("last_seen_at") @db.Timestamptz(6)
+  revokedAt  DateTime? @map("revoked_at") @db.Timestamptz(6)
+  ipAddress  String?   @map("ip_address") @db.Text
+  userAgent  String?   @map("user_agent") @db.Text
+
+  facility Facility @relation(fields: [facilityId], references: [id])
+  appUser  AppUser  @relation(fields: [appUserId], references: [id])
+
+  @@index([facilityId])
+  @@index([appUserId])
+  @@index([expiresAt])
+  @@map("session")
+  @@schema("platform")
+}
+
+model EngramRef {
+  id            String   @id @default(uuid()) @db.Uuid
+  facilityId    String   @map("facility_id") @db.Uuid
+  project       String   @db.Text
+  observationId String   @map("observation_id") @db.Text
+  kind          String   @db.Text
+  summary       String   @db.Text
+  entityId      String?  @map("entity_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdById   String?  @map("created_by_id") @db.Uuid
+
+  facility  Facility @relation(fields: [facilityId], references: [id])
+  entity    Entity?  @relation(fields: [entityId], references: [id])
+  createdBy AppUser? @relation(fields: [createdById], references: [id])
+
+  @@unique([facilityId, project, observationId])
+  @@index([facilityId])
+  @@index([entityId])
+  @@map("engram_ref")
+  @@schema("platform")
+}

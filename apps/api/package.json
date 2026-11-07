@@ -8,7 +8,8 @@
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:migrate": "prisma migrate dev",
-    "db:deploy": "prisma migrate deploy"
+    "db:deploy": "prisma migrate deploy",
+    "db:test": "bun scripts/schema-test.ts"
   },
   "dependencies": {
     "@nestjs/common": "12.1.2",

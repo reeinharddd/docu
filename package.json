@@ -26,6 +26,8 @@
     "db:validate": "bun --filter @docu/api db:validate",
     "db:generate": "bun --filter @docu/api db:generate",
     "db:migrate": "bun --filter @docu/api db:migrate",
+    "db:deploy": "bun --filter @docu/api db:deploy",
+    "db:test": "bun --filter @docu/api db:test",
     "docs:links": "bash scripts/docs-linkcheck.sh",
     "docs:briefs": "bash scripts/docs-briefcheck.sh",
     "docs:trace": "bash scripts/docs-tracecheck.sh",
