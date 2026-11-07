@@ -79,7 +79,7 @@ sin listar. Corre en CI y en `bun run doctor`.
 |---|---|---|
 | `HARNESS.md` | Mapa del harness: rol→flujo→herramienta→dueño→cadencia, los dos ciclos y el runbook de evolución | vigente |
 | `proyecto/` | Visión, caso, requisitos, equipo | completo |
-| `decisiones/` | ADRs de ingeniería: 17 aceptadas y ADR-0016 reemplazada por ADR-0017; ninguna en propuesta | en progreso |
+| `decisiones/` | ADRs de ingeniería: 19 aceptadas y ADR-0016 reemplazada por ADR-0017; ninguna en propuesta | en progreso |
 | `ingenieria/` | Stack verificado, modelo de datos, API, colas, entorno, estrategia de IA, alcance de la solución, `fichas/` (contrato de documentos del caso), estándar de diagramas y ER de C1 (`DIAGRAMA-BD-v0.drawio` + texto derivado) | en progreso |
 | `diseno/` | Identidad de marca (acta y PDF de exploración) y design system (tokens, tipografía, componentes base) | en construcción |
 | `operacion/` | Bootstrap, diagnóstico, entornos, troubleshooting | completo |

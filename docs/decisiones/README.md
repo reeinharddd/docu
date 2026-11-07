@@ -50,6 +50,12 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0016](ADR-0016-diagramas-como-texto-mermaid.md) | Los diagramas son texto (Mermaid) y viven en el repositorio | Reemplazada por ADR-0017 | 2026-10-18 |
 | [0017](ADR-0017-drawio-para-el-er.md) | El ER de la base de datos se dibuja en draw.io; los flujos siguen en Mermaid; todo diagrama vive en el repo, en texto y trazable | Aceptada | 2026-10-19 |
 | [0018](ADR-0018-sdd-y-tdd-como-metodo-de-trabajo.md) | SDD y TDD como método de trabajo, con puertas automáticas que lo hacen cumplir | Aceptada | 2026-11-03 |
+| [0021](ADR-0021-token-opaco-con-revocacion-inmediata.md) | Token de sesión opaco guardado en la base, con revocación inmediata; no hay JWT | Aceptada | 2026-11-07 |
+| [0022](ADR-0022-paginacion-por-limit-y-offset.md) | Paginación por `limit` y `offset`, con respuesta de array plano y total en `X-Total-Count` | Aceptada | 2026-11-07 |
+
+Los números 0019 y 0020 están reservados: 0019 para el dominio híbrido del ER
+(#58) y 0020 para los motores de IA como configuración (#85). Los ADR de
+infraestructura y los que tocan datos exigen además visto bueno de Erik.
 
 ## Reglas de esta carpeta
 

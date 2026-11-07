@@ -43,6 +43,8 @@ docs/decisiones/ADR-0015-core-del-harness.md
 docs/decisiones/ADR-0016-diagramas-como-texto-mermaid.md
 docs/decisiones/ADR-0017-drawio-para-el-er.md
 docs/decisiones/ADR-0018-sdd-y-tdd-como-metodo-de-trabajo.md
+docs/decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md
+docs/decisiones/ADR-0022-paginacion-por-limit-y-offset.md
 docs/decisiones/README.md
 docs/diseno/DESIGN-SYSTEM.md
 docs/diseno/README.md
