@@ -118,7 +118,7 @@ viven en las fichas de la Fase 1 (abajo), que es donde se leen sin ruido.
 > el SVG vive al lado y es lo que se embebe. Al cambiar el diagrama se re-exporta
 > la página correspondiente (`bun run diagramas:drawio`) y se sobreescribe su SVG.
 >
-> SHA-256 de la fuente: `5221c3e754e10f4ee547045135c7fab2bafd1e0b2d5cdcf1afb500e4a5fbe3a2`
+> SHA-256 de la fuente: `61ff5fb4cb6e952548bfa603d89bc13097af292c5d2eefbe874c951b186dd318`
 >
 > Esa huella es lo que hace trazable el diagrama: `bun run diagramas:check` la
 > recalcula y falla si el `.drawio` cambió sin que este texto se actualice, y
@@ -146,6 +146,41 @@ Página `1a` del `.drawio`. Incluye todos los campos de las cinco tablas.
 Página `1b` del `.drawio`. `facility`, `app_user` y `role` aparecen punteados
 como contexto de la página 1a.
 
+### 2a — Ingesta
+
+![Vista 2a: ingesta](diagramas/DIAGRAMA-BD-v0-3.svg)
+
+Página `2a` del `.drawio`. `source_file`, `parsed_record`, `quarantine` y
+`ocr_result`, con la familia documental como contexto.
+
+### 2b — Dominio genérico
+
+![Vista 2b: dominio genérico](diagramas/DIAGRAMA-BD-v0-4.svg)
+
+Página `2b` del `.drawio`. `entity_type`, `entity` y `relation`: el dominio
+híbrido, sin tablas por entidad de negocio.
+
+### 2c — Verdad y auditoría
+
+![Vista 2c: verdad y auditoría](diagramas/DIAGRAMA-BD-v0-5.svg)
+
+Página `2c` del `.drawio`. `origin_history` y `audit_log`, ambas
+append-only.
+
+### 2d — Configuración
+
+![Vista 2d: configuración](diagramas/DIAGRAMA-BD-v0-6.svg)
+
+Página `2d` del `.drawio`. `family_config` y `validation_rule`: las reglas
+son datos, no código.
+
+### 2e — Plataforma
+
+![Vista 2e: plataforma](diagramas/DIAGRAMA-BD-v0-7.svg)
+
+Página `2e` del `.drawio`. `memory_embedding`, `job_run`, `session` y
+`engram_ref`.
+
 ## Matriz de clases
 
 | Tabla | Clase | Esquema |
@@ -160,6 +195,21 @@ como contexto de la página 1a.
 | `domain` | cargable | core |
 | `user_domain` | dinámica | core |
 | `access_grant` | manual | core |
+| `source_file` | append-only | ingest |
+| `parsed_record` | dinámica | ingest |
+| `quarantine` | manual | ingest |
+| `ocr_result` | dinámica | ingest |
+| `entity_type` | cargable | graph |
+| `entity` | dinámica | graph |
+| `relation` | dinámica | graph |
+| `origin_history` | append-only | truth |
+| `audit_log` | append-only | truth |
+| `family_config` | cargable | config |
+| `validation_rule` | cargable | config |
+| `memory_embedding` | dinámica | platform |
+| `job_run` | dinámica | platform |
+| `session` | dinámica | platform |
+| `engram_ref` | append-only | platform |
 
 ## Fase 1 — Identidad, organización y autorización (`core`)
 
