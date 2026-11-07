@@ -32,18 +32,22 @@ con `service_started`.
 
 ## Variables
 
-14 en `.env`. Los nombres están en `.env.example`, que es la documentación de
+13 en `.env`. Los nombres están en `.env.example`, que es la documentación de
 cada una; los valores viven solo en la máquina. La política completa, incluidos
 los permisos de GitHub y Drive, está en `docs/integraciones/`.
 
 | Grupo | Variables |
 |---|---|
 | Datos | `DATABASE_URL`, `PG_PORT`, `REDIS_URL`, `REDIS_PORT` |
-| API | `PORT_API`, `JWT_SECRET` |
+| API | `PORT_API` |
 | Drive | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GOOGLE_DRIVE_FOLDER` |
 | IA | `IA_LOCAL_ACTIVADA`, `IA_NUBE_ACTIVADA` |
 | Memoria | `ENGRAM_PROJECT` |
 | Extra (apagado) | `FIRECRAWL_API_KEY` |
+
+**No hay `JWT_SECRET`.** La sesión usa un token opaco guardado en la base, que
+se valida comparando su hash: no hay nada que firmar
+([ADR-0021](../decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md)).
 
 La API se lanza con `bun --env-file ../../.env`, el único punto de carga de
 variables. No hace falta exportar nada a mano.
