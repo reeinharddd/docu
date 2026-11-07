@@ -79,7 +79,7 @@ versiones fijadas, así que local y remoto no pueden divergir.
 | Diagramas | `bun run diagramas:check` | Verde: Mermaid + `drawio`→texto→SVG |
 | Dataset | `bun run dataset:check` | Verde: 6 familias de esquemas; semilla y manifiesto cuando existan |
 | Índice documental | `bash scripts/doc-index.sh` | Verde |
-| Pruebas web | `bun --filter web test` | Verde: 1 archivo, 2 pruebas |
+| Pruebas web | `bun --filter web test` | Verde: 10 archivos, 54 pruebas |
 | Pruebas api | — | **No existe. 0 archivos** |
 | Arranque de API | `bash scripts/smoke-api.sh` | Verde: espera por condición, no por tiempo fijo |
 | Secretos | Gitleaks + hook | Verde |

@@ -62,9 +62,11 @@ motores de IA como **configuración**, no como código.
 3. **Given** el modelo de datos (#58), **when** alguien lee la arquitectura,
    **then** los endpoints y las tablas se corresponden sin contradicciones.
 
-**Plan de pruebas.** Revisión cruzada con `docs/ingenieria/MODELO-DATOS.md` y
-con el ER de #58, más la comprobación de que cada motor configurable aparece en
-la configuración y no en el código.
+**Plan de pruebas.** Revisión cruzada con el ER de #58
+(`docs/ingenieria/DIAGRAMA-BD-v0.md` y el `schema.prisma` que lo ejecuta),
+más la comprobación de que cada motor configurable aparece en la configuración
+y no en el código. `MODELO-DATOS.md` no sirve de referencia: hoy contradice al
+ER y lo reescribe #62.
 
 **Evidencia.** El documento de arquitectura, el diagrama de módulos y la tabla
 de endpoints con sus errores, en el PR con `Closes #60`.
@@ -83,5 +85,5 @@ Jueves 12-nov en el sync. Después: #62 modelo y #12 esqueleto.
 ## Versión corta
 
 
-> [60] Arquitectura y API — reeinharddd, 5→11-nov. Arquitectura del sistema y contratos de la API de C1, ya decididos el modelo y el alcance. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §4 y del ER aprobado (#58). Entregable: documento de arquitectura con los endpoints de C1 y sus reglas de error. Revisión el 11-nov. Detalle: `docs/briefs/BRIEF-60-arquitectura-modelo.md`.
+> [60] Arquitectura y API — reeinharddd, 5→11-nov. Arquitectura del sistema y contratos de la API de C1, ya decididos el modelo y el alcance. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §2 (qué es C1), §3 (regla de oro), §5 (secuencia de carriles), §6.1 (reparto), §11 (inventario) y del ER aprobado (#58). Entregable: documento de arquitectura con los endpoints de C1 y sus reglas de error. Revisión el 11-nov. Detalle: `docs/briefs/BRIEF-60-arquitectura-modelo.md`.
 
