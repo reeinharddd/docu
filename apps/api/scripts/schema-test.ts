@@ -2,8 +2,8 @@
 //
 // Applies the baseline migration to a scratch database and runs the SQL proofs
 // (append-only tables, new family as data) plus the structural contract of the
-// model: 25 tables, 2 views, 4 append-only triggers, 19 CHECK constraints, the
-// pgvector extension and the HNSW vector index.
+// model: 25 tables, 2 views, 4 append-only tables guarded by 8 triggers,
+// 20 CHECK constraints, the pgvector extension and the HNSW vector index.
 //
 // The scratch database is created and left in place on purpose: this script
 // never drops anything. CI runs on an ephemeral container, so nothing leaks.
