@@ -23,7 +23,6 @@ detecta.
 | `REDIS_URL` | Conexión a Redis | Local, sin autorización |
 | `PG_PORT`, `REDIS_PORT` | Evitar conflictos de puertos locales | Local |
 | `PORT_API` | Puerto de la API | Local |
-| `JWT_SECRET` | Firma de sesión | Local; en etapas posteriores con valor compartido |
 | `IA_LOCAL_ACTIVADA` | Habilita el modelo local | Local |
 | `IA_NUBE_ACTIVADA` | Habilita modelos en nube | **Requiere autorización explícita del líder** |
 | `GOOGLE_CLIENT_ID` | Credencial OAuth del proyecto de Drive | El líder lo entrega |
@@ -32,6 +31,12 @@ detecta.
 | `GOOGLE_DRIVE_FOLDER` | Carpeta de entregas en Drive | No es secreto |
 | `ENGRAM_PROJECT` | Nombre del proyecto de memoria (canónico del binario) | No es secreto |
 | `FIRECRAWL_API_KEY` | Crawling sistemático (extra, apagado por defecto) | El líder lo autoriza por hito |
+
+La sesión **no** usa un secreto de servidor: el token es opaco y se valida
+contra su hash en la base
+([ADR-0021](../decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md)),
+así que no hay `JWT_SECRET` que repartir. La contraseña de cada persona se
+guarda hasheada en `core.app_user.password_hash`.
 
 ## Gestión del trabajo: GitHub
 

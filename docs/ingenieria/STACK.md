@@ -1,8 +1,8 @@
 # Stack tecnológico
 
 Estado: vigente. Versiones verificadas contra `bun.lock` el 2026-10-05 y de
-nuevo contra el manifiesto el 2026-11-03. Lo que no está instalado hoy está
-marcado como **M1**; nada aquí promete lo que no existe todavía.
+nuevo contra los manifiestos el 2026-11-07. Lo que no está instalado hoy está
+marcado como pendiente; nada aquí promete lo que no existe todavía.
 
 Este archivo es la ficha técnica. Dos cosas y solo dos:
 
@@ -22,9 +22,7 @@ registrada.
 
 Versiones confirmadas en el lockfile. "Fijada" significa versión exacta en el
 `package.json`; "rango" significa que el lockfile fija la resolución pero el
-manifiesto permite moverse dentro del rango. Lo marcado **M1** (Prisma,
-PostgreSQL, pgvector) está decidido pero todavía **no está instalado**: llega
-con el modelo de datos y el pipeline. Las imágenes de Docker usan tags
+manifiesto permite moverse dentro del rango. Las imágenes de Docker usan tags
 flotantes a propósito (desarrollo) y son un punto a fijar antes de un
 despliegue compartido.
 
@@ -35,7 +33,14 @@ despliegue compartido.
 | Bun (runtime, gestor, ejecutor) | 1.4.3 | sí | <https://bun.sh> | <https://github.com/oven-sh/bun> |
 | TypeScript (API) | 5.9.3 | sí | <https://www.typescriptlang.org> | <https://github.com/microsoft/TypeScript> |
 | TypeScript (web) | 6.0.3 | rango `~6.0.2` | <https://www.typescriptlang.org> | <https://github.com/microsoft/TypeScript> |
-| Zod (validación de entrada y salida) | pendiente | no | <https://zod.dev> | <https://github.com/colinhacks/zod> |
+| Zod (validación de entrada y salida) | 4.6.5 | no (transitiva) | <https://zod.dev> | <https://github.com/colinhacks/zod> |
+
+Zod es la librería de validación de entrada y salida que el proyecto usa:
+[IA.md](IA.md) §2 exige validar con Zod la salida de los modelos, y
+[API.md](API.md) lo fija para los DTOs. **Hoy no es una dependencia
+declarada** de `apps/api` ni de `apps/web`: la versión 4.6.5 del lockfile
+llega de forma transitiva por `@angular/forms` y `@angular/cli`. Declararla
+como dependencia directa de `apps/api` es parte de #12.
 
 ### Frontend
 
@@ -68,11 +73,17 @@ despliegue compartido.
 
 | Pieza | Versión | Fijada | Sitio oficial | Repositorio |
 |---|---|---|---|---|
-| PostgreSQL (M1, no instalado) | 18 (parche vigente 18.4) | imagen con tag flotante | <https://www.postgresql.org> | <https://github.com/postgres/postgres> |
-| pgvector (M1, no instalado) | la que traiga la imagen | tag flotante | <https://github.com/pgvector/pgvector> | mismo |
-| Prisma CLI y cliente (M1, no instalado) | 7.10.0 | pendiente de fijar en M1 | <https://www.prisma.io> | <https://github.com/prisma/prisma> |
-| `@prisma/adapter-pg` (M1, no instalado) | 7.10.0 | pendiente de fijar en M1 | <https://www.prisma.io/docs/orm/v7> | mismo |
+| PostgreSQL | 18 (parche vigente 18.4) | imagen con tag flotante | <https://www.postgresql.org> | <https://github.com/postgres/postgres> |
+| pgvector | la que traiga la imagen | tag flotante | <https://github.com/pgvector/pgvector> | mismo |
+| Prisma CLI | 7.10.0 | sí | <https://www.prisma.io> | <https://github.com/prisma/prisma> |
+| `@prisma/client` | 7.10.0 | sí | <https://www.prisma.io> | mismo |
+| `@prisma/adapter-pg` | 7.10.0 | sí | <https://www.prisma.io/docs/orm/v7> | mismo |
 | `pg` (driver) | 8.23.1 | rango `^8.23.1` | <https://node-postgres.com> | <https://github.com/brianc/node-postgres> |
+
+PostgreSQL 18 y pgvector corren en Docker Compose con la imagen
+`pgvector/pgvector:pg18`, y el CLI de Prisma y sus dos paquetes ya son
+dependencias de `apps/api`. Lo que falta es el **esquema**: lo traen #58 y
+#59.
 
 ### Caché y cola
 
@@ -87,7 +98,7 @@ despliegue compartido.
 |---|---|---|---|---|
 | Biome | 2.5.4 | exacta | <https://biomejs.dev> | <https://github.com/biomejs/biome> |
 | Lefthook (`@evilmartians/lefthook`) | 2.1.x | rango `^2.1.17` | <https://lefthook.dev> | <https://github.com/evilmartians/lefthook> |
-| dotenv | 18.0.5 | rango `^18.0.5` | <https://github.com/motdotla/dotenv> | mismo |
+| dotenv | 16.6.1 | sí | <https://github.com/motdotla/dotenv> | mismo |
 | Gitleaks (solo CI) | v2 de la acción | por acción | <https://github.com/gitleaks/gitleaks> | mismo |
 | Renovate | `config:recommended` | por configuración | <https://docs.renovatebot.com> | <https://github.com/renovatebot/renovate> |
 
@@ -160,7 +171,7 @@ Configuraciones modernas de la versión y su estado en el proyecto:
 | `@defer` para carga diferida | No usado | Aplicar en bandeja y búsqueda: es el mayor peso de la demo |
 | `httpResource` para datos remotos | No usado | Candidato natural para búsqueda con filtros |
 | Quitar `zone.js` de `polyfills` en `build` y en `test` | `angular.json` no declara `polyfills` | Revisar si se agrega SSR o el runner antiguo |
-| Vitest como runner | Adoptado | Ya hay 2 pruebas en verde |
+| Vitest como runner | Adoptado | 54 pruebas en 10 archivos, en verde |
 | Componentes Aria para accesibilidad | No usado | Evaluar en bandeja: la usabilidad pide accesibilidad |
 
 ### 2.3 NestJS 12
@@ -174,7 +185,7 @@ Documentación:
 | Configuración | Estado | Remarca |
 |---|---|---|
 | ESM con `nodenext` | Adoptado | — |
-| `ValidationPipe({ whitelist: true })` global | Ausente | Sin esto no hay validación de entrada; es la base del requisito de seguridad |
+| Validación de entrada global | Ausente | Sin esto no hay validación de entrada; es la base del requisito de seguridad. Se hará con Zod ([API.md](API.md)), no con `class-validator`: el `ValidationPipe` de NestJS trabaja con `class-validator`, así que el pipe global se escribe con `zod` en #12 |
 | `enableShutdownHooks()` | Ausente | Para cerrar conexiones al recibir `SIGTERM` |
 | Health checks con `@nestjs/terminus` y `withTimeout` | Controller propio | Evolución natural: separar liveness de readiness cuando haya dependencias |
 | Módulos por dominio | Solo un módulo con un controller | El esqueleto de la siguiente etapa es un módulo por área |
@@ -192,7 +203,7 @@ Novedades de PostgreSQL 18 (lanzada el 2025-09-25) que tocan al proyecto:
 
 | Novedad | Utilidad | Remarca |
 |---|---|---|
-| `uuidv7()` | El esquema (M1) usará UUID; v4 aleatorio dispersa las inserciones en los índices | Value en las tablas que solo crecen; se puede cambiar mientras no haya datos de producción |
+| `uuidv7()` | El ER v1 (#58) usa `uuid()` (v4) como clave primaria; v4 aleatorio dispersa las inserciones en los índices | Value en las tablas que solo crecen; se puede cambiar mientras no haya datos de producción |
 | `skip scan` en índices multicolumna | Búsqueda por fecha y área donde la primera columna puede faltar | Beneficio directo, sin configurar |
 | E/S asíncrona | Lecturas secuenciales y vaciado más rápidos | Beneficio directo, se debe medir en la prueba de volumen |
 | `OLD` y `NEW` en `RETURNING` | Registrar valor anterior y nuevo en una sola sentencia | Mejora la trazabilidad del historial |
@@ -268,7 +279,7 @@ Ninguna de estas está aplicada. Todas son propuestas para PR con revisión.
 | 2 | Fijar la versión de las imágenes del Compose | Infraestructura | Pendiente |
 | 3 | `maxmemory-policy noeviction` en Redis | Infraestructura | Pendiente |
 | 4 | `uuidv7()` en el esquema | Datos | Pendiente |
-| 5 | `ValidationPipe` con `whitelist` | Backend | Pendiente |
+| 5 | Pipe global de validación de entrada con Zod | Backend | Pendiente |
 | 6 | `enableShutdownHooks()` | Backend | Pendiente |
 | 7 | Migrar el health check a Terminus con liveness y readiness | Backend | Pendiente |
 | 8 | `OnPush` en componentes de página | Frontend | Pendiente |

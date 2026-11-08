@@ -47,7 +47,7 @@ fi
 line ""
 line "== environment =="
 if [ -f .env ]; then ok_line ".env exists (never committed)"; else missing_line ".env does not exist. It is created by 'bun run dev' or: cp .env.example .env"; fi
-for k in DATABASE_URL REDIS_URL JWT_SECRET GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROJECT; do
+for k in DATABASE_URL REDIS_URL GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET GOOGLE_REFRESH_TOKEN GOOGLE_DRIVE_FOLDER ENGRAM_PROJECT; do
   if [ -f .env ] && grep -q "^${k}=" .env; then :; else warn_line "variable missing in .env: $k"; fi
 done
 

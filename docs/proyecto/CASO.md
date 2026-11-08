@@ -294,39 +294,54 @@ completa. DOCU propone; el humano dispone (ADR-0006).
 Este mapa es el **contrato de entrada de los carriles B (frontend), D (BD),
 F (dataset) y H (mockups)**: cada flujo produce qué pantalla, qué endpoint,
 qué dato, qué regla y qué guion de la demo. Las pantallas y endpoints son los
-previstos en `../ingenieria/ALCANCE-SOLUCION.md` §2; los guiones (G1–G6) se
-corren con el dataset de C1 (`CONTRATO.md` §8).
+previstos en `../ingenieria/ALCANCE-SOLUCION.md` §2; la matriz completa de
+endpoints, con sus tablas y sus errores, está en
+`../ingenieria/ARQUITECTURA.md` §3; los guiones (G1–G6) se corren con el
+dataset de C1 (`CONTRATO.md` §8).
 
 **Idioma de los identificadores (regla del repo):** todo lo que es código —
 endpoints, entidades, tablas, colas, campos — va en **inglés**; el documento
 explica en español. Las pantallas de la UI y el vocabulario del negocio
 (rollo, turno, merma) siguen en español (RNF-01). Los slugs de familia del
 contrato (`excel_turno`, `recepcion_rollo`, …) son datos aprobados del caso
-(#9) y no cambian. El ER (#58) usa este vocabulario tal cual:
+(#9) y no cambian.
 
-| Código | Entidad lógica | En el caso es |
+**El ER v1 no tiene una tabla por entidad lógica.** El modelo es híbrido: hay
+tablas fijas del motor y, para todo lo que describe cada instalación, un tipo
+de entidad y una entidad genérica. La columna "En el ER v1" dice dónde vive
+cada cosa; los nombres son `snake_case` y son los de
+`docs/ingenieria/DIAGRAMA-BD-v0.md` y del `schema.prisma` que lo ejecuta, en
+la rama de #58 (pendiente de merge).
+
+| Entidad lógica | En el caso es | En el ER v1 |
 |---|---|---|
-| `OriginalFile` | archivo original subido, solo-insert | cada archivo que entra a DOCU |
-| `Document` | documento lógico (`document_id` del contrato) | D-01…D-20 |
-| `OfficialRecord` | dato oficial confirmado | la cifra que cita su fuente |
-| `OriginHistory` | historial de origen | de dónde salió cada dato |
-| `ValidationRule` | regla declarativa (datos, no código) | R-P1…R-T1 |
-| `Quarantine` | cuarentena con motivo | lo detenido con su regla |
-| `AuditLog` | bitácora | quién subió y quién confirmó |
-| `ProductionSchedule` | el programa semanal | el Excel Frankenstein de Ana, saneado |
-| `ProductionOrder` | orden de producción | lo que cuelga de un rollo |
-| `Material` | material y stock | film, Tyvek, foil |
-| `Roll` | rollo | `R-017`, `R-019` |
-| `GoodsReceipt` | recepción de material | lo que registra Luis |
-| `Machine` | máquina | `TP-01`, `TP-02`, `TB-*` |
-| `Shift` | turno | T1/T2/T3 |
-| `Downtime` | paro con motivo | los ~45 min del incidente |
-| `Scrap` | merma | los ~36 kg del incidente |
-| `QualityRelease` | liberación de calidad | lo que firma Marta |
-| `ScanRecord` | lo extraído de un escaneado | hojas de verificación, peel test |
-| `SisterChange` | cambio notificado por la planta hermana | el correo del viernes |
-| `Report` | reporte derivado | el reporte del día |
-| `User` / `Role` / `Permission` | personas y permisos | la matriz de `ROLES.md` |
+| `OriginalFile` | cada archivo que entra a DOCU | tabla `ingest.source_file` (solo-insert) |
+| `Document` | documento lógico (`document_id` del contrato), D-01…D-20 | `graph.entity` de tipo `document` |
+| `OfficialRecord` | la cifra que cita su fuente | `graph.entity` con `status = 'official'`, se lee por la vista `truth.official_record` |
+| `OriginHistory` | de dónde salió cada dato | tabla `truth.origin_history` (solo-insert) |
+| `ValidationRule` | regla declarativa (datos, no código), R-P1…R-T1 | tabla `config.validation_rule` |
+| `Quarantine` | lo detenido con su regla | tabla `ingest.quarantine` |
+| `AuditLog` | quién subió y quién confirmó | tabla `truth.audit_log` (solo-insert) |
+| `ProductionSchedule` | el Excel Frankenstein de Ana, saneado | `graph.entity` de tipo `production_schedule` |
+| `ProductionOrder` | lo que cuelga de un rollo | `graph.entity` de tipo `production_order` |
+| `Material` | material y stock: film, Tyvek, foil | `graph.entity` de tipo `material` |
+| `Roll` | rollo: `R-017`, `R-019` | `graph.entity` de tipo `roll` |
+| `GoodsReceipt` | lo que registra Luis | `graph.entity` de tipo `goods_receipt` |
+| `Machine` | máquina: `TP-01`, `TP-02`, `TB-*` | `graph.entity` de tipo `machine` |
+| `Shift` | turno: T1/T2/T3 | `graph.entity` de tipo `shift` |
+| `Downtime` | paro con motivo, los ~45 min del incidente | `graph.entity` de tipo `downtime` |
+| `Scrap` | merma, los ~36 kg del incidente | `graph.entity` de tipo `scrap` |
+| `QualityRelease` | lo que firma Marta | `graph.entity` de tipo `quality_release` |
+| `ScanRecord` | hojas de verificación, peel test (D-15/D-16) | `graph.entity` de tipo `scan_record` |
+| `SisterChange` | el correo del viernes | `graph.entity` de tipo `sister_change` |
+| `Report` | el reporte del día | derivado: `graph.entity` oficial agregado por `GET /v1/reports/day` |
+| `User` / `Role` / `Permission` | la matriz de `ROLES.md` | `core.app_user`, `core.role`, `core.permission` (+ `core.user_role`, `core.role_permission`) |
+| El encadenamiento entre ellos | `Roll→ProductionOrder→Machine→Shift→Document` | tabla `graph.relation` |
+| La familia a la que pertenece un archivo | Excel de turno, escaneado, correo… | tabla `config.family_config` |
+
+Los códigos de tipo de entidad (`roll`, `production_order`, …) los declara cada
+instalación como datos en `graph.entity_type`; no hay un `CREATE TYPE` en el
+esquema. La lista de los que C1 necesita es semilla de #59.
 
 | Flujo | Pantalla(s) | Endpoint(s) previstos | Dato(s) lógico(s) que exige el ER | Regla(s) | Guion |
 |---|---|---|---|---|---|
@@ -335,7 +350,7 @@ contrato (`excel_turno`, `recepcion_rollo`, …) son datos aprobados del caso
 | F3 Turno en piso | Captura | `POST /v1/files` (lote 120 excels), worker procesa | `Shift`, `Scrap`, `Downtime` con motivo, `Machine` | R-A1 | G1 |
 | F4 Liberación de calidad | Captura + Bandeja | `POST /v1/files` (escaneado), `POST /v1/inbox/:id/confirm` | `QualityRelease`, `ScanRecord` (D-15/D-16), permiso de confirmación por rol | R-Q1 | G3 |
 | F5 Cambio de la hermana | Captura + Programa | `POST /v1/files` (correo), R-P4 al validar | `SisterChange`, relación con `ProductionOrder` afectada, pausa de reporte | R-P4 | G5 |
-| F6 Reporte del día | Reporte + Búsqueda | `GET /v1/reports/...`, `GET /v1/lineage/:id` | `Report` derivado; cada cifra cita `OriginHistory` | — (agregado sobre oficiales) | G6 |
+| F6 Reporte del día | Reporte + Búsqueda | `GET /v1/reports/day`, `GET /v1/lineage/:id` | `Report` derivado; cada cifra cita `OriginHistory` | — (agregado sobre oficiales) | G6 |
 | F7 Rollo fantasma (transversal) | Bandeja + Búsqueda + Programa | `GET /v1/quarantine`, `GET /v1/lineage/:id`, `GET /v1/official-records` | Encadenamiento `Roll→ProductionOrder→Machine→Shift→Document` (el corazón del ER) | R-P1, R-P2, R-Q1, R-P4 | G5 |
 | F8 Consulta con trazabilidad (nueva con DOCU) | Búsqueda | `GET /v1/lineage/:id`, `GET /v1/official-records`, `POST /v1/auth/login` | `OfficialRecord`, `OriginHistory`, `ValidationRule`, `AuditLog` | — | G5, G6 |
 

@@ -18,20 +18,34 @@ inmediata o es un error.
 
 ## Estado actual: cola declarada, worker inexistente
 
-No hay BullMQ en el código. Hoy Redis se usa en un solo lugar: el `PING` de
-`/health`. `infra/docker-compose.yml` tiene comentados los servicios `api` y
-`worker`, que llegan en M1 y E2.
+BullMQ está en el código en un solo lugar: `apps/api/scripts/queue-ping.ts`, el
+script de humo que CI ejecuta para verificar que Redis acepta el patrón de
+cola antes de que haya un worker que dependa de él. En la API que corre no hay
+ninguna cola: hoy Redis se usa solo en el `PING` de `/health`.
+`infra/docker-compose.yml` tiene comentados los servicios `api` y `worker`.
 
-Por eso `apps/api/scripts/queue-ping.ts` existe y CI lo ejecuta: verifica que
-Redis acepta el patrón de cola antes de que haya un worker que dependa de él.
+## Las cuatro colas de C1
 
-## Trabajo pesado previsto (E2)
+El ER v1 (#58) fija los nombres de cola en `platform.job_run.queue`, con un
+`CHECK` que solo admite estos cuatro:
+
+| Cola | Qué procesa | Issue |
+|---|---|---|
+| `ingest` | Parseo, OCR y validación de lo que entra | #3, #46 |
+| `text` | Texto limpio y embeddings para la búsqueda | #46 |
+| `reports` | Reportes recurrentes | #39 |
+| `alerts` | Alertas por umbral | #39 |
+
+El nombre de la cola es **dato**: lo escribe el que encola, no una constante
+dispersa en el código.
+
+## Trabajo pesado previsto
 
 | Trabajo | Notas |
 |---|---|
-| OCR por lotes | El mas caro. Exige `originales/` intacto y `RECIBIDO → VALIDADO` |
-| Validación por familia | Reglas declarativas de `ValidationRule`, `BLOQUEO` frena |
-| Reintentos | Un fallo no puede frenar las pantallas |
+| OCR por lotes | El más caro. Exige `originales/` intacto y `parsed_record.status` de `parsed` a `validated` |
+| Validación por familia | Reglas declarativas de `config.validation_rule`, `BLOQUEO` frena |
+| Reintentos | Un fallo no puede frenar las pantallas; cada corrida queda en `platform.job_run` |
 
 `docs/decisiones/ADR-0005` fija BullMQ. Redis está en su lugar y en su versión,
 así que la decisión no necesita revisiting.
