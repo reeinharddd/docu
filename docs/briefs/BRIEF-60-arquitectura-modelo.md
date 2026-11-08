@@ -7,7 +7,9 @@
 - Fechas: 2026-11-05 → 2026-11-11 · Sprint 2 → 3 · hito `C1 modelo y BD` (12-nov).
 - Prioridad / Tipo / Épica: alta / tarea / Infraestructura.
 - Requisitos: RF-08.
-- Bloqueado por: #58 (modelo ya decidido) · Bloquea a: #12
+- Bloqueado por: #58 (ER v1 en revisión, PR #107 en borrador) · Bloquea a: #12
+- Depende de: #85 (catálogo de motores de IA, ADR-0020 reservado) para el
+  criterio 1 de §8.1.
 
 ## 1. Contexto
 
@@ -56,7 +58,11 @@ motores de IA como **configuración**, no como código.
 
 1. **Given** un motor de IA distinto (otro OCR o otro modelo), **when** se
    cambia la configuración, **then** el sistema corre con el otro sin tocar
-   código.
+   código. **Criterio dependiente de #85**: el ER v1 no tiene catálogo de
+   motores, así que hoy el hueco queda declarado pero no se puede cerrar. Lo
+   que #60 entrega es el contrato (qué clave elige qué motor y qué no cambia
+   al cambiarla) y el ADR que lo cerrará; la implementación es de #85 con
+   ADR-0020.
 2. **Given** un error de la API, **when** el cliente lo recibe, **then** el
    error trae un código y un mensaje accionable, según la tabla del documento.
 3. **Given** el modelo de datos (#58), **when** alguien lee la arquitectura,
@@ -67,6 +73,12 @@ motores de IA como **configuración**, no como código.
 más la comprobación de que cada motor configurable aparece en la configuración
 y no en el código. `MODELO-DATOS.md` no sirve de referencia: hoy contradice al
 ER y lo reescribe #62.
+
+**Estado del ER al escribir esto.** #58 está en revisión (PR #107, en
+borrador): la matriz de endpoints de `ARQUITECTURA.md` §3.1 está escrita contra
+el ER v1 completo (25 tablas, 6 esquemas, 2 vistas) y queda **provisional**.
+Si al aterrizar #58 cambia un nombre de tabla o columna, se corrige
+`ARQUITECTURA.md` en el mismo PR.
 
 **Evidencia.** El documento de arquitectura, el diagrama de módulos y la tabla
 de endpoints con sus errores, en el PR con `Closes #60`.
@@ -85,5 +97,5 @@ Jueves 12-nov en el sync. Después: #62 modelo y #12 esqueleto.
 ## Versión corta
 
 
-> [60] Arquitectura y API — reeinharddd, 5→11-nov. Arquitectura del sistema y contratos de la API de C1, ya decididos el modelo y el alcance. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §2 (qué es C1), §3 (regla de oro), §5 (secuencia de carriles), §6.1 (reparto), §11 (inventario) y del ER aprobado (#58). Entregable: documento de arquitectura con los endpoints de C1 y sus reglas de error. Revisión el 11-nov. Detalle: `docs/briefs/BRIEF-60-arquitectura-modelo.md`.
+> [60] Arquitectura y API — reeinharddd, 5→11-nov. Arquitectura del sistema y contratos de la API de C1, ya decididos el modelo y el alcance. Entradas recibidas de docs/gestion/REPLAN-2026-10-30.md §2 (qué es C1), §3 (regla de oro), §5 (secuencia de carriles), §6.1 (reparto), §11 (inventario) y del ER v1 de #58 (en revisión, PR #107). Entregable: documento de arquitectura con los endpoints de C1 y sus reglas de error. Revisión el 11-nov. Detalle: `docs/briefs/BRIEF-60-arquitectura-modelo.md`.
 
