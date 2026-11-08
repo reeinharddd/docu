@@ -39,9 +39,9 @@ VALUES
   ('77777777-7777-4777-8777-777777777777', '11111111-1111-4111-8111-111111111111', '66666666-6666-4666-8666-666666666666', 'L-1', '{"codigo":"L-1"}', 'official', '22222222-2222-4222-8222-222222222222', now(), 1, now(), now(), '22222222-2222-4222-8222-222222222222');
 
 INSERT INTO "truth"."origin_history"
-  ("id", "facility_id", "entity_id", "version", "source_file_id", "parsed_record_id", "rule_code", "rule_severity", "calculation", "confirmed_by_id", "created_at", "created_by_id")
+  ("id", "facility_id", "entity_id", "version", "data_snapshot", "source_file_id", "parsed_record_id", "rule_code", "rule_severity", "calculation", "confirmed_by_id", "created_at", "created_by_id")
 VALUES
-  ('88888888-8888-4888-8888-888888888888', '11111111-1111-4111-8111-111111111111', '77777777-7777-4777-8777-777777777777', 1, '44444444-4444-4444-8444-444444444444', '55555555-5555-4555-8555-555555555555', 'R-P1', 'BLOQUEO', '{"pasos":1}', '22222222-2222-4222-8222-222222222222', now(), '22222222-2222-4222-8222-222222222222');
+  ('88888888-8888-4888-8888-888888888888', '11111111-1111-4111-8111-111111111111', '77777777-7777-4777-8777-777777777777', 1, '{"codigo":"L-1"}', '44444444-4444-4444-8444-444444444444', '55555555-5555-4555-8555-555555555555', 'R-P1', 'BLOQUEO', '{"pasos":1}', '22222222-2222-4222-8222-222222222222', now(), '22222222-2222-4222-8222-222222222222');
 
 INSERT INTO "truth"."audit_log"
   ("id", "facility_id", "actor_id", "action", "target_table", "target_id", "details", "created_at")

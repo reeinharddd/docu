@@ -35,6 +35,7 @@ model Facility {
   childFacilities  Facility[]        @relation("facility_hierarchy")
   departments      Department[]
   users            AppUser[]
+  userDomains      UserDomain[]
   domains          Domain[]
   grants           AccessGrant[]
   sourceFiles      SourceFile[]
@@ -73,6 +74,7 @@ model Department {
   users            AppUser[]
 
   @@unique([facilityId, code])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@map("department")
   @@schema("core")
@@ -100,7 +102,7 @@ model AppUser {
   updatedById       String?   @map("updated_by_id") @db.Uuid
 
   facility       Facility    @relation(fields: [facilityId], references: [id])
-  department     Department? @relation(fields: [departmentId], references: [id])
+  department     Department? @relation(fields: [facilityId, departmentId], references: [facilityId, id])
   reportsTo      AppUser?    @relation("user_reports_to", fields: [reportsToId], references: [id])
   reportsToUsers AppUser[]   @relation("user_reports_to")
   createdBy      AppUser?    @relation("user_created_by", fields: [createdById], references: [id])
@@ -134,6 +136,7 @@ model AppUser {
 
   @@unique([facilityId, username])
   @@unique([facilityId, email])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@index([departmentId])
   @@index([reportsToId])
@@ -210,19 +213,23 @@ model Domain {
   grants   AccessGrant[]
 
   @@unique([facilityId, code])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@map("domain")
   @@schema("core")
 }
 
 model UserDomain {
-  appUserId String @map("app_user_id") @db.Uuid
-  domainId  String @map("domain_id") @db.Uuid
+  appUserId  String @map("app_user_id") @db.Uuid
+  domainId   String @map("domain_id") @db.Uuid
+  facilityId String @map("facility_id") @db.Uuid
 
-  appUser AppUser @relation(fields: [appUserId], references: [id])
-  domain  Domain  @relation(fields: [domainId], references: [id])
+  facility Facility @relation(fields: [facilityId], references: [id])
+  appUser  AppUser  @relation(fields: [facilityId, appUserId], references: [facilityId, id])
+  domain   Domain   @relation(fields: [facilityId, domainId], references: [facilityId, id])
 
   @@id([appUserId, domainId])
+  @@index([facilityId])
   @@map("user_domain")
   @@schema("core")
 }
@@ -245,12 +252,12 @@ model AccessGrant {
   grantedAt       DateTime @default(now()) @map("granted_at") @db.Timestamptz(6)
 
   facility      Facility   @relation(fields: [facilityId], references: [id])
-  grantee       AppUser    @relation("grant_grantee", fields: [granteeId], references: [id])
+  grantee       AppUser    @relation("grant_grantee", fields: [facilityId, granteeId], references: [facilityId, id])
   permission    Permission @relation(fields: [permissionId], references: [id])
-  domain        Domain?    @relation(fields: [domainId], references: [id])
-  targetEntity  Entity?    @relation(fields: [targetEntityId], references: [id])
-  delegatedFrom AppUser?   @relation("grant_delegated_from", fields: [delegatedFromId], references: [id])
-  grantedBy     AppUser    @relation("grant_granted_by", fields: [grantedById], references: [id])
+  domain        Domain?    @relation(fields: [facilityId, domainId], references: [facilityId, id])
+  targetEntity  Entity?    @relation(fields: [facilityId, targetEntityId], references: [facilityId, id])
+  delegatedFrom AppUser?   @relation("grant_delegated_from", fields: [facilityId, delegatedFromId], references: [facilityId, id])
+  grantedBy     AppUser    @relation("grant_granted_by", fields: [facilityId, grantedById], references: [facilityId, id])
 
   @@index([facilityId])
   @@index([granteeId, permissionId])
@@ -276,7 +283,7 @@ model SourceFile {
   createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   facility         Facility          @relation(fields: [facilityId], references: [id])
-  familyConfig     FamilyConfig      @relation(fields: [familyConfigId], references: [id])
+  familyConfig     FamilyConfig      @relation(fields: [facilityId, familyConfigId], references: [facilityId, id])
   receivedBy       AppUser           @relation(fields: [receivedById], references: [id])
   parsedRecords    ParsedRecord[]
   quarantines      Quarantine[]
@@ -286,6 +293,7 @@ model SourceFile {
   memoryEmbeddings MemoryEmbedding[]
 
   @@unique([facilityId, sha256])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@index([familyConfigId])
   @@index([facilityId, receivedAt])
@@ -305,14 +313,15 @@ model ParsedRecord {
   createdById    String   @map("created_by_id") @db.Uuid
 
   facility      Facility        @relation(fields: [facilityId], references: [id])
-  sourceFile    SourceFile      @relation(fields: [sourceFileId], references: [id])
-  familyConfig  FamilyConfig    @relation(fields: [familyConfigId], references: [id])
+  sourceFile    SourceFile      @relation(fields: [facilityId, sourceFileId], references: [facilityId, id])
+  familyConfig  FamilyConfig    @relation(fields: [facilityId, familyConfigId], references: [facilityId, id])
   createdBy     AppUser         @relation(fields: [createdById], references: [id])
   quarantines   Quarantine[]
   ocrResults    OcrResult[]
   originHistory OriginHistory[]
 
   @@unique([sourceFileId, recordIndex])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@index([familyConfigId])
   @@index([sourceFileId])
@@ -335,8 +344,8 @@ model Quarantine {
   createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
 
   facility     Facility      @relation(fields: [facilityId], references: [id])
-  sourceFile   SourceFile?   @relation(fields: [sourceFileId], references: [id])
-  parsedRecord ParsedRecord? @relation(fields: [parsedRecordId], references: [id])
+  sourceFile   SourceFile?   @relation(fields: [facilityId, sourceFileId], references: [facilityId, id])
+  parsedRecord ParsedRecord? @relation(fields: [facilityId, parsedRecordId], references: [facilityId, id])
   resolvedBy   AppUser?      @relation(fields: [resolvedById], references: [id])
 
   @@index([facilityId])
@@ -363,8 +372,8 @@ model OcrResult {
   updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   facility     Facility      @relation(fields: [facilityId], references: [id])
-  sourceFile   SourceFile    @relation(fields: [sourceFileId], references: [id])
-  parsedRecord ParsedRecord? @relation(fields: [parsedRecordId], references: [id])
+  sourceFile   SourceFile    @relation(fields: [facilityId, sourceFileId], references: [facilityId, id])
+  parsedRecord ParsedRecord? @relation(fields: [facilityId, parsedRecordId], references: [facilityId, id])
 
   @@unique([sourceFileId, pageNumber])
   @@index([facilityId])
@@ -392,6 +401,7 @@ model EntityType {
   entities  Entity[]
 
   @@unique([facilityId, code])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@map("entity_type")
   @@schema("graph")
@@ -414,11 +424,11 @@ model Entity {
   updatedById   String?   @map("updated_by_id") @db.Uuid
 
   facility          Facility          @relation(fields: [facilityId], references: [id])
-  entityType        EntityType        @relation(fields: [entityTypeId], references: [id])
+  entityType        EntityType        @relation(fields: [facilityId, entityTypeId], references: [facilityId, id])
   confirmedBy       AppUser?          @relation("entity_confirmed_by", fields: [confirmedById], references: [id])
   createdBy         AppUser           @relation("entity_created_by", fields: [createdById], references: [id])
   updatedBy         AppUser?          @relation("entity_updated_by", fields: [updatedById], references: [id])
-  sourceFile        SourceFile?       @relation(fields: [sourceFileId], references: [id])
+  sourceFile        SourceFile?       @relation(fields: [facilityId, sourceFileId], references: [facilityId, id])
   grants            AccessGrant[]
   outgoingRelations Relation[]        @relation("relation_source")
   incomingRelations Relation[]        @relation("relation_target")
@@ -427,6 +437,7 @@ model Entity {
   engramRefs        EngramRef[]
 
   @@unique([facilityId, entityTypeId, code])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@index([entityTypeId])
   @@index([facilityId, status])
@@ -447,8 +458,8 @@ model Relation {
   createdById    String   @map("created_by_id") @db.Uuid
 
   facility     Facility @relation(fields: [facilityId], references: [id])
-  sourceEntity Entity   @relation("relation_source", fields: [sourceEntityId], references: [id])
-  targetEntity Entity   @relation("relation_target", fields: [targetEntityId], references: [id])
+  sourceEntity Entity   @relation("relation_source", fields: [facilityId, sourceEntityId], references: [facilityId, id])
+  targetEntity Entity   @relation("relation_target", fields: [facilityId, targetEntityId], references: [facilityId, id])
   createdBy    AppUser  @relation(fields: [createdById], references: [id])
 
   @@unique([sourceEntityId, targetEntityId, relationType])
@@ -465,6 +476,7 @@ model OriginHistory {
   facilityId     String   @map("facility_id") @db.Uuid
   entityId       String   @map("entity_id") @db.Uuid
   version        BigInt
+  dataSnapshot   Json     @map("data_snapshot")
   sourceFileId   String   @map("source_file_id") @db.Uuid
   parsedRecordId String?  @map("parsed_record_id") @db.Uuid
   ruleCode       String?  @map("rule_code") @db.Text
@@ -475,9 +487,9 @@ model OriginHistory {
   createdById    String   @map("created_by_id") @db.Uuid
 
   facility     Facility      @relation(fields: [facilityId], references: [id])
-  entity       Entity        @relation(fields: [entityId], references: [id])
-  sourceFile   SourceFile    @relation(fields: [sourceFileId], references: [id])
-  parsedRecord ParsedRecord? @relation(fields: [parsedRecordId], references: [id])
+  entity       Entity        @relation(fields: [facilityId, entityId], references: [facilityId, id])
+  sourceFile   SourceFile    @relation(fields: [facilityId, sourceFileId], references: [facilityId, id])
+  parsedRecord ParsedRecord? @relation(fields: [facilityId, parsedRecordId], references: [facilityId, id])
   confirmedBy  AppUser?      @relation("origin_confirmed_by", fields: [confirmedById], references: [id])
   createdBy    AppUser       @relation("origin_created_by", fields: [createdById], references: [id])
 
@@ -534,6 +546,7 @@ model FamilyConfig {
   parsedRecords ParsedRecord[]
 
   @@unique([facilityId, familyCode])
+  @@unique([facilityId, id])
   @@index([facilityId])
   @@map("family_config")
   @@schema("config")
@@ -577,8 +590,8 @@ model MemoryEmbedding {
   createdAt    DateTime                   @default(now()) @map("created_at") @db.Timestamptz(6)
 
   facility   Facility    @relation(fields: [facilityId], references: [id])
-  entity     Entity?     @relation(fields: [entityId], references: [id])
-  sourceFile SourceFile? @relation(fields: [sourceFileId], references: [id])
+  entity     Entity?     @relation(fields: [facilityId, entityId], references: [facilityId, id])
+  sourceFile SourceFile? @relation(fields: [facilityId, sourceFileId], references: [facilityId, id])
 
   @@index([facilityId])
   @@index([entityId])
@@ -626,7 +639,7 @@ model Session {
   userAgent  String?   @map("user_agent") @db.Text
 
   facility Facility @relation(fields: [facilityId], references: [id])
-  appUser  AppUser  @relation(fields: [appUserId], references: [id])
+  appUser  AppUser  @relation(fields: [facilityId, appUserId], references: [facilityId, id])
 
   @@index([facilityId])
   @@index([appUserId])
@@ -647,7 +660,7 @@ model EngramRef {
   createdById   String?  @map("created_by_id") @db.Uuid
 
   facility  Facility @relation(fields: [facilityId], references: [id])
-  entity    Entity?  @relation(fields: [entityId], references: [id])
+  entity    Entity?  @relation(fields: [facilityId, entityId], references: [facilityId, id])
   createdBy AppUser? @relation(fields: [createdById], references: [id])
 
   @@unique([facilityId, project, observationId])

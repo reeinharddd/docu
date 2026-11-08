@@ -125,6 +125,7 @@ CREATE TABLE "core"."domain" (
 CREATE TABLE "core"."user_domain" (
     "app_user_id" UUID NOT NULL,
     "domain_id" UUID NOT NULL,
+    "facility_id" UUID NOT NULL,
 
     CONSTRAINT "user_domain_pkey" PRIMARY KEY ("app_user_id","domain_id")
 );
@@ -275,6 +276,7 @@ CREATE TABLE "truth"."origin_history" (
     "facility_id" UUID NOT NULL,
     "entity_id" UUID NOT NULL,
     "version" BIGINT NOT NULL,
+    "data_snapshot" JSONB NOT NULL,
     "source_file_id" UUID NOT NULL,
     "parsed_record_id" UUID,
     "rule_code" TEXT,
@@ -413,6 +415,11 @@ CREATE INDEX "department_facility_id_idx" ON "core"."department"("facility_id");
 CREATE UNIQUE INDEX "department_facility_id_code_key" ON "core"."department"("facility_id", "code");
 
 -- CreateIndex
+-- Clave candidata por instalación: toda FK entre tablas con instalación lleva
+-- (facility_id, id) para que la base garantice el aislamiento (ADR-0019).
+CREATE UNIQUE INDEX "department_facility_id_id_key" ON "core"."department"("facility_id", "id");
+
+-- CreateIndex
 CREATE INDEX "app_user_facility_id_idx" ON "core"."app_user"("facility_id");
 
 -- CreateIndex
@@ -428,6 +435,9 @@ CREATE UNIQUE INDEX "app_user_facility_id_username_key" ON "core"."app_user"("fa
 CREATE UNIQUE INDEX "app_user_facility_id_email_key" ON "core"."app_user"("facility_id", "email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "app_user_facility_id_id_key" ON "core"."app_user"("facility_id", "id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "role_code_key" ON "core"."role"("code");
 
 -- CreateIndex
@@ -438,6 +448,12 @@ CREATE INDEX "domain_facility_id_idx" ON "core"."domain"("facility_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "domain_facility_id_code_key" ON "core"."domain"("facility_id", "code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "domain_facility_id_id_key" ON "core"."domain"("facility_id", "id");
+
+-- CreateIndex
+CREATE INDEX "user_domain_facility_id_idx" ON "core"."user_domain"("facility_id");
 
 -- CreateIndex
 CREATE INDEX "access_grant_facility_id_idx" ON "core"."access_grant"("facility_id");
@@ -461,6 +477,9 @@ CREATE INDEX "source_file_facility_id_received_at_idx" ON "ingest"."source_file"
 CREATE UNIQUE INDEX "source_file_facility_id_sha256_key" ON "ingest"."source_file"("facility_id", "sha256");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "source_file_facility_id_id_key" ON "ingest"."source_file"("facility_id", "id");
+
+-- CreateIndex
 CREATE INDEX "parsed_record_facility_id_idx" ON "ingest"."parsed_record"("facility_id");
 
 -- CreateIndex
@@ -471,6 +490,9 @@ CREATE INDEX "parsed_record_source_file_id_idx" ON "ingest"."parsed_record"("sou
 
 -- CreateIndex
 CREATE UNIQUE INDEX "parsed_record_source_file_id_record_index_key" ON "ingest"."parsed_record"("source_file_id", "record_index");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "parsed_record_facility_id_id_key" ON "ingest"."parsed_record"("facility_id", "id");
 
 -- CreateIndex
 CREATE INDEX "quarantine_facility_id_idx" ON "ingest"."quarantine"("facility_id");
@@ -503,6 +525,9 @@ CREATE INDEX "entity_type_facility_id_idx" ON "graph"."entity_type"("facility_id
 CREATE UNIQUE INDEX "entity_type_facility_id_code_key" ON "graph"."entity_type"("facility_id", "code");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "entity_type_facility_id_id_key" ON "graph"."entity_type"("facility_id", "id");
+
+-- CreateIndex
 CREATE INDEX "entity_facility_id_idx" ON "graph"."entity"("facility_id");
 
 -- CreateIndex
@@ -519,6 +544,9 @@ CREATE INDEX "entity_confirmed_by_id_idx" ON "graph"."entity"("confirmed_by_id")
 
 -- CreateIndex
 CREATE UNIQUE INDEX "entity_facility_id_entity_type_id_code_key" ON "graph"."entity"("facility_id", "entity_type_id", "code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "entity_facility_id_id_key" ON "graph"."entity"("facility_id", "id");
 
 -- CreateIndex
 CREATE INDEX "relation_facility_id_idx" ON "graph"."relation"("facility_id");
@@ -555,6 +583,9 @@ CREATE INDEX "family_config_facility_id_idx" ON "config"."family_config"("facili
 
 -- CreateIndex
 CREATE UNIQUE INDEX "family_config_facility_id_family_code_key" ON "config"."family_config"("facility_id", "family_code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "family_config_facility_id_id_key" ON "config"."family_config"("facility_id", "id");
 
 -- CreateIndex
 CREATE INDEX "validation_rule_facility_id_idx" ON "config"."validation_rule"("facility_id");
@@ -614,7 +645,12 @@ ALTER TABLE "core"."department" ADD CONSTRAINT "department_parent_department_id_
 ALTER TABLE "core"."app_user" ADD CONSTRAINT "app_user_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."app_user" ADD CONSTRAINT "app_user_department_id_fkey" FOREIGN KEY ("department_id") REFERENCES "core"."department"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+-- Aislamiento por instalación (ADR-0019): toda FK entre tablas con instalación
+-- es compuesta (facility_id, id) → (facility_id, id). Con MATCH SIMPLE, un
+-- par con un NULL no se aplica (los opcionales siguen permitidos); los pares
+-- completos exigen misma instalación. ON DELETE RESTRICT: un padre referenciado
+-- no se borra duro; el ciclo de vida lo maneja el estado.
+ALTER TABLE "core"."app_user" ADD CONSTRAINT "app_user_department_id_fkey" FOREIGN KEY ("facility_id","department_id") REFERENCES "core"."department"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "core"."app_user" ADD CONSTRAINT "app_user_reports_to_id_fkey" FOREIGN KEY ("reports_to_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -644,37 +680,40 @@ ALTER TABLE "core"."role_permission" ADD CONSTRAINT "role_permission_permission_
 ALTER TABLE "core"."domain" ADD CONSTRAINT "domain_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."user_domain" ADD CONSTRAINT "user_domain_app_user_id_fkey" FOREIGN KEY ("app_user_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "core"."user_domain" ADD CONSTRAINT "user_domain_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."user_domain" ADD CONSTRAINT "user_domain_domain_id_fkey" FOREIGN KEY ("domain_id") REFERENCES "core"."domain"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "core"."user_domain" ADD CONSTRAINT "user_domain_app_user_id_fkey" FOREIGN KEY ("facility_id","app_user_id") REFERENCES "core"."app_user"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "core"."user_domain" ADD CONSTRAINT "user_domain_domain_id_fkey" FOREIGN KEY ("facility_id","domain_id") REFERENCES "core"."domain"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_grantee_id_fkey" FOREIGN KEY ("grantee_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_grantee_id_fkey" FOREIGN KEY ("facility_id","grantee_id") REFERENCES "core"."app_user"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "core"."permission"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_domain_id_fkey" FOREIGN KEY ("domain_id") REFERENCES "core"."domain"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_domain_id_fkey" FOREIGN KEY ("facility_id","domain_id") REFERENCES "core"."domain"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_target_entity_id_fkey" FOREIGN KEY ("target_entity_id") REFERENCES "graph"."entity"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_target_entity_id_fkey" FOREIGN KEY ("facility_id","target_entity_id") REFERENCES "graph"."entity"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_delegated_from_id_fkey" FOREIGN KEY ("delegated_from_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_delegated_from_id_fkey" FOREIGN KEY ("facility_id","delegated_from_id") REFERENCES "core"."app_user"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_granted_by_id_fkey" FOREIGN KEY ("granted_by_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_granted_by_id_fkey" FOREIGN KEY ("facility_id","granted_by_id") REFERENCES "core"."app_user"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ingest"."source_file" ADD CONSTRAINT "source_file_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."source_file" ADD CONSTRAINT "source_file_family_config_id_fkey" FOREIGN KEY ("family_config_id") REFERENCES "config"."family_config"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ingest"."source_file" ADD CONSTRAINT "source_file_family_config_id_fkey" FOREIGN KEY ("facility_id","family_config_id") REFERENCES "config"."family_config"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ingest"."source_file" ADD CONSTRAINT "source_file_received_by_id_fkey" FOREIGN KEY ("received_by_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -683,10 +722,10 @@ ALTER TABLE "ingest"."source_file" ADD CONSTRAINT "source_file_received_by_id_fk
 ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_source_file_id_fkey" FOREIGN KEY ("source_file_id") REFERENCES "ingest"."source_file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_source_file_id_fkey" FOREIGN KEY ("facility_id","source_file_id") REFERENCES "ingest"."source_file"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_family_config_id_fkey" FOREIGN KEY ("family_config_id") REFERENCES "config"."family_config"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_family_config_id_fkey" FOREIGN KEY ("facility_id","family_config_id") REFERENCES "config"."family_config"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_created_by_id_fkey" FOREIGN KEY ("created_by_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -695,10 +734,10 @@ ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_created_by_id
 ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_source_file_id_fkey" FOREIGN KEY ("source_file_id") REFERENCES "ingest"."source_file"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_source_file_id_fkey" FOREIGN KEY ("facility_id","source_file_id") REFERENCES "ingest"."source_file"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_parsed_record_id_fkey" FOREIGN KEY ("parsed_record_id") REFERENCES "ingest"."parsed_record"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_parsed_record_id_fkey" FOREIGN KEY ("facility_id","parsed_record_id") REFERENCES "ingest"."parsed_record"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_resolved_by_id_fkey" FOREIGN KEY ("resolved_by_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -707,10 +746,10 @@ ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_resolved_by_id_fkey
 ALTER TABLE "ingest"."ocr_result" ADD CONSTRAINT "ocr_result_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."ocr_result" ADD CONSTRAINT "ocr_result_source_file_id_fkey" FOREIGN KEY ("source_file_id") REFERENCES "ingest"."source_file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ingest"."ocr_result" ADD CONSTRAINT "ocr_result_source_file_id_fkey" FOREIGN KEY ("facility_id","source_file_id") REFERENCES "ingest"."source_file"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ingest"."ocr_result" ADD CONSTRAINT "ocr_result_parsed_record_id_fkey" FOREIGN KEY ("parsed_record_id") REFERENCES "ingest"."parsed_record"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ingest"."ocr_result" ADD CONSTRAINT "ocr_result_parsed_record_id_fkey" FOREIGN KEY ("facility_id","parsed_record_id") REFERENCES "ingest"."parsed_record"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "graph"."entity_type" ADD CONSTRAINT "entity_type_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -722,7 +761,7 @@ ALTER TABLE "graph"."entity_type" ADD CONSTRAINT "entity_type_created_by_id_fkey
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_entity_type_id_fkey" FOREIGN KEY ("entity_type_id") REFERENCES "graph"."entity_type"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_entity_type_id_fkey" FOREIGN KEY ("facility_id","entity_type_id") REFERENCES "graph"."entity_type"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_confirmed_by_id_fkey" FOREIGN KEY ("confirmed_by_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -734,16 +773,16 @@ ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_created_by_id_fkey" FOREIGN 
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_updated_by_id_fkey" FOREIGN KEY ("updated_by_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_source_file_id_fkey" FOREIGN KEY ("source_file_id") REFERENCES "ingest"."source_file"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_source_file_id_fkey" FOREIGN KEY ("facility_id","source_file_id") REFERENCES "ingest"."source_file"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_source_entity_id_fkey" FOREIGN KEY ("source_entity_id") REFERENCES "graph"."entity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_source_entity_id_fkey" FOREIGN KEY ("facility_id","source_entity_id") REFERENCES "graph"."entity"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_target_entity_id_fkey" FOREIGN KEY ("target_entity_id") REFERENCES "graph"."entity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_target_entity_id_fkey" FOREIGN KEY ("facility_id","target_entity_id") REFERENCES "graph"."entity"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_created_by_id_fkey" FOREIGN KEY ("created_by_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -752,13 +791,13 @@ ALTER TABLE "graph"."relation" ADD CONSTRAINT "relation_created_by_id_fkey" FORE
 ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "graph"."entity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_entity_id_fkey" FOREIGN KEY ("facility_id","entity_id") REFERENCES "graph"."entity"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_source_file_id_fkey" FOREIGN KEY ("source_file_id") REFERENCES "ingest"."source_file"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_source_file_id_fkey" FOREIGN KEY ("facility_id","source_file_id") REFERENCES "ingest"."source_file"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_parsed_record_id_fkey" FOREIGN KEY ("parsed_record_id") REFERENCES "ingest"."parsed_record"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_parsed_record_id_fkey" FOREIGN KEY ("facility_id","parsed_record_id") REFERENCES "ingest"."parsed_record"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "truth"."origin_history" ADD CONSTRAINT "origin_history_confirmed_by_id_fkey" FOREIGN KEY ("confirmed_by_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -794,10 +833,10 @@ ALTER TABLE "config"."validation_rule" ADD CONSTRAINT "validation_rule_updated_b
 ALTER TABLE "platform"."memory_embedding" ADD CONSTRAINT "memory_embedding_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "platform"."memory_embedding" ADD CONSTRAINT "memory_embedding_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "graph"."entity"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "platform"."memory_embedding" ADD CONSTRAINT "memory_embedding_entity_id_fkey" FOREIGN KEY ("facility_id","entity_id") REFERENCES "graph"."entity"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "platform"."memory_embedding" ADD CONSTRAINT "memory_embedding_source_file_id_fkey" FOREIGN KEY ("source_file_id") REFERENCES "ingest"."source_file"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "platform"."memory_embedding" ADD CONSTRAINT "memory_embedding_source_file_id_fkey" FOREIGN KEY ("facility_id","source_file_id") REFERENCES "ingest"."source_file"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "platform"."job_run" ADD CONSTRAINT "job_run_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -806,13 +845,13 @@ ALTER TABLE "platform"."job_run" ADD CONSTRAINT "job_run_facility_id_fkey" FOREI
 ALTER TABLE "platform"."session" ADD CONSTRAINT "session_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "platform"."session" ADD CONSTRAINT "session_app_user_id_fkey" FOREIGN KEY ("app_user_id") REFERENCES "core"."app_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "platform"."session" ADD CONSTRAINT "session_app_user_id_fkey" FOREIGN KEY ("facility_id","app_user_id") REFERENCES "core"."app_user"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "platform"."engram_ref" ADD CONSTRAINT "engram_ref_facility_id_fkey" FOREIGN KEY ("facility_id") REFERENCES "core"."facility"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "platform"."engram_ref" ADD CONSTRAINT "engram_ref_entity_id_fkey" FOREIGN KEY ("entity_id") REFERENCES "graph"."entity"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "platform"."engram_ref" ADD CONSTRAINT "engram_ref_entity_id_fkey" FOREIGN KEY ("facility_id","entity_id") REFERENCES "graph"."entity"("facility_id","id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "platform"."engram_ref" ADD CONSTRAINT "engram_ref_created_by_id_fkey" FOREIGN KEY ("created_by_id") REFERENCES "core"."app_user"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -851,6 +890,9 @@ ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_status_check" CHECK
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_status_check" CHECK ("status" IN ('draft', 'pending_confirmation', 'official', 'rejected', 'superseded'));
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_oficial_confirmada_check" CHECK ("status" <> 'official' OR ("confirmed_by_id" IS NOT NULL AND "confirmed_at" IS NOT NULL));
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_confirmada_fecha_check" CHECK ("confirmed_by_id" IS NULL OR "confirmed_at" IS NOT NULL);
+-- La confirmación es un estado completo: oficial <=> responsable Y fecha.
+-- Sin confirmación prematura: un borrador no lleva ni responsable ni fecha.
+ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_sin_confirmacion_prematura_check" CHECK ("status" = 'official' OR ("confirmed_by_id" IS NULL AND "confirmed_at" IS NULL));
 
 -- config
 ALTER TABLE "config"."validation_rule" ADD CONSTRAINT "validation_rule_severity_check" CHECK ("severity" IN ('BLOQUEO', 'AVISO'));
@@ -899,6 +941,7 @@ SELECT
     h."rule_code" AS "rule_code",
     h."rule_severity" AS "rule_severity",
     h."calculation" AS "calculation",
+    h."data_snapshot" AS "data_snapshot",
     h."confirmed_by_id" AS "confirmed_by_id",
     h."created_at" AS "recorded_at",
     f."id" AS "source_file_id",
@@ -928,3 +971,11 @@ CREATE TRIGGER "source_file_solo_insert" BEFORE UPDATE OR DELETE ON "ingest"."so
 CREATE TRIGGER "origin_history_solo_insert" BEFORE UPDATE OR DELETE ON "truth"."origin_history" FOR EACH ROW EXECUTE FUNCTION "core"."reject_mutation"();
 CREATE TRIGGER "audit_log_solo_insert" BEFORE UPDATE OR DELETE ON "truth"."audit_log" FOR EACH ROW EXECUTE FUNCTION "core"."reject_mutation"();
 CREATE TRIGGER "engram_ref_solo_insert" BEFORE UPDATE OR DELETE ON "platform"."engram_ref" FOR EACH ROW EXECUTE FUNCTION "core"."reject_mutation"();
+
+-- Los triggers por fila no se disparan con TRUNCATE: sin esta guardia,
+-- un TRUNCATE vaciaria la historia sin tocar un solo trigger (auditoría
+-- 2026-11-07, A-02). La funcion rechaza igual: la historia no se reescribe.
+CREATE TRIGGER "source_file_solo_insert_truncate" BEFORE TRUNCATE ON "ingest"."source_file" FOR EACH STATEMENT EXECUTE FUNCTION "core"."reject_mutation"();
+CREATE TRIGGER "origin_history_solo_insert_truncate" BEFORE TRUNCATE ON "truth"."origin_history" FOR EACH STATEMENT EXECUTE FUNCTION "core"."reject_mutation"();
+CREATE TRIGGER "audit_log_solo_insert_truncate" BEFORE TRUNCATE ON "truth"."audit_log" FOR EACH STATEMENT EXECUTE FUNCTION "core"."reject_mutation"();
+CREATE TRIGGER "engram_ref_solo_insert_truncate" BEFORE TRUNCATE ON "platform"."engram_ref" FOR EACH STATEMENT EXECUTE FUNCTION "core"."reject_mutation"();

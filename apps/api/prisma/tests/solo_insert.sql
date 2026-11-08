@@ -82,3 +82,51 @@ BEGIN
   END IF;
   RAISE NOTICE 'OK: el INSERT append-only si se persiste';
 END $$;
+
+-- Prueba 1b — TRUNCATE (auditoria 2026-11-07, A-02).
+-- Los triggers por fila no se disparan con TRUNCATE: la guardia es un trigger
+-- BEFORE TRUNCATE por statement. La prueba acepta dos bloqueos validos:
+-- restrict_violation (el trigger rechazo) o feature_not_supported (una FK
+-- referenciante bloqueo el TRUNCATE, caso de source_file).
+DO $$
+BEGIN
+  BEGIN
+    TRUNCATE "ingest"."source_file";
+    RAISE EXCEPTION 'FALLO: ingest.source_file acepta TRUNCATE';
+  EXCEPTION
+    WHEN restrict_violation THEN
+      RAISE NOTICE 'OK: ingest.source_file rechaza TRUNCATE (trigger)';
+    WHEN feature_not_supported THEN
+      RAISE NOTICE 'OK: ingest.source_file rechaza TRUNCATE (FK referenciante)';
+  END;
+
+  BEGIN
+    TRUNCATE "truth"."origin_history";
+    RAISE EXCEPTION 'FALLO: truth.origin_history acepta TRUNCATE';
+  EXCEPTION
+    WHEN restrict_violation THEN
+      RAISE NOTICE 'OK: truth.origin_history rechaza TRUNCATE (trigger)';
+    WHEN feature_not_supported THEN
+      RAISE NOTICE 'OK: truth.origin_history rechaza TRUNCATE (FK referenciante)';
+  END;
+
+  BEGIN
+    TRUNCATE "truth"."audit_log";
+    RAISE EXCEPTION 'FALLO: truth.audit_log acepta TRUNCATE';
+  EXCEPTION
+    WHEN restrict_violation THEN
+      RAISE NOTICE 'OK: truth.audit_log rechaza TRUNCATE (trigger)';
+    WHEN feature_not_supported THEN
+      RAISE NOTICE 'OK: truth.audit_log rechaza TRUNCATE (FK referenciante)';
+  END;
+
+  BEGIN
+    TRUNCATE "platform"."engram_ref";
+    RAISE EXCEPTION 'FALLO: platform.engram_ref acepta TRUNCATE';
+  EXCEPTION
+    WHEN restrict_violation THEN
+      RAISE NOTICE 'OK: platform.engram_ref rechaza TRUNCATE (trigger)';
+    WHEN feature_not_supported THEN
+      RAISE NOTICE 'OK: platform.engram_ref rechaza TRUNCATE (FK referenciante)';
+  END;
+END $$;

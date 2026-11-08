@@ -25,14 +25,19 @@ const MODEL_SCHEMAS =
   "('core', 'ingest', 'graph', 'truth', 'config', 'platform')"
 const EXPECTED_TABLES = 25
 const EXPECTED_VIEWS = 2
-const EXPECTED_CHECKS = 19
+const EXPECTED_CHECKS = 20
 const EXPECTED_APPEND_ONLY = [
   'ingest.source_file',
   'truth.origin_history',
   'truth.audit_log',
   'platform.engram_ref',
 ]
-const SQL_FILES = ['fixtures.sql', 'solo_insert.sql', 'new_family.sql']
+const SQL_FILES = [
+  'fixtures.sql',
+  'solo_insert.sql',
+  'new_family.sql',
+  'isolation.sql',
+]
 
 type PgConfig = {
   host: string
@@ -140,9 +145,11 @@ async function checkStructure(client: Client): Promise<string[]> {
       `SELECT count(*)::text AS count FROM pg_trigger
        WHERE NOT tgisinternal AND tgrelid = '${table}'::regclass AND tgname LIKE '%solo_insert%'`,
     )
-    if (triggers !== 1) {
+    // 2 por tabla: el trigger por fila (UPDATE/DELETE) y el de statement
+    // (TRUNCATE), que es la guardia que los triggers por fila no cubren.
+    if (triggers !== 2) {
       failures.push(
-        `${table}: esperado 1 trigger solo-insert, obtenido ${triggers}`,
+        `${table}: esperado 2 triggers solo-insert (fila + TRUNCATE), obtenido ${triggers}`,
       )
     }
   }
@@ -202,7 +209,7 @@ async function main(): Promise<void> {
       )
     }
     console.log(
-      'OK: 25 tablas, 2 vistas, 19 CHECK, 4 triggers solo-insert, extension vector, indice HNSW',
+      'OK: 25 tablas, 2 vistas, 20 CHECK, 8 triggers solo-insert (4 fila + 4 TRUNCATE), extension vector, indice HNSW',
     )
   } finally {
     await client.end()
