@@ -133,7 +133,7 @@ del ER v1 y lo que formalizará el ADR-0019 (reservado, ver §9).
 | `ingest` | `quarantine` | Cuarentena con motivo y regla que la disparó |
 | `ingest` | `ocr_result` | Salida del OCR de un archivo |
 | `graph` | `entity_type` | Tipo canónico de entidad (vocabulario del caso) |
-| `graph` | `entity` | La entidad: `data` JSONB, `version`, `status` (`proposed` → `official`), confirmación humana |
+| `graph` | `entity` | La entidad: `data` JSONB, `version`, `status` (`draft`/`pending_confirmation` → `official`), confirmación humana |
 | `graph` | `relation` | Relación dirigida entre entidades |
 | `truth` | `origin_history` | De dónde salió cada valor y versión; **solo-insert** |
 | `truth` | `audit_log` | Bitácora de acciones; **solo-insert** |
@@ -207,7 +207,7 @@ El pipeline no mete lógica de IA en la API (ADR-0011):
 
 1. La API encola trabajo en Redis (`ingest`, `text`, `reports`, `alerts`).
 2. El worker procesa y **propone**: parsea, aplica reglas y propone entidades
-   en `graph.entity` con `status = 'proposed'` (ADR-0006).
+   en `graph.entity` con `status = 'pending_confirmation'` (ADR-0006).
 3. Las reglas no son código: se leen de `config.validation_rule`
    (`applies_to` por familia), y su severidad decide cuarentena
    (`BLOQUEO`) o aviso (`AVISO`) — ADR-0009.
