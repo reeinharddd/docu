@@ -1,11 +1,19 @@
 {
-  "version": "1.0.0",
-  "source": "docs/ingenieria/fichas/CONTRATO.md §8 (volumen) y §9 (ruido)",
+  "version": "1.1.0",
+  "source": "docs/ingenieria/fichas/CONTRATO.md §7 (reglas), §8 (volumen y fallos crónicos), §9 (ruido) y §2 (identificadores)",
   "window": {
     "from": "2026-10-05",
     "to": "2026-10-30",
     "business_days": 20,
-    "shifts": 60
+    "shifts": 60,
+    "calendar_plus": {
+      "date": "2026-10-12",
+      "note": "Feriado en EE. UU. (la hermana y el corporativo cierran) y día normal en México: un embarque o reporte se desfasa y nadie sabe de qué lado está el hueco."
+    },
+    "incident": {
+      "date": "2026-10-26",
+      "note": "Incidente nuevo el lunes 26-oct, tras 3 semanas de patrón crónico."
+    }
   },
   "corpus": {
     "root": "corpus",
@@ -26,7 +34,36 @@
   },
   "noise": {
     "min": 30,
-    "max": 40
+    "max": 40,
+    "types": {
+      "b_other_line": "Archivos de otra línea (TB-01/02/03): DOCU no debe confundir la línea del caso.",
+      "c_other_area": "Otras áreas (RH, facturas, spam corporativo): DOCU debe ignorarlas o aislarlas.",
+      "d_corrupt": "Corruptos o ilegibles (PDF roto, foto borrosa): cuarentena por extracción."
+    },
+    "routing": "El ruido además prueba el enrutamiento: un documento que no es del escaneador le sale a su dueño por dominio y el escaneador puede descartarlo."
+  },
+  "chronic_failures": {
+    "window_weeks": 3,
+    "note": "Los seis fallos crónicos del §8.1 del contrato, repartidos antes del incidente. La inconsistencia es el dato, no un error de captura: cada documento lleva el valor que choca con sus fuentes.",
+    "items": [
+      "rollo_fantasma: el programa pide el rollo en TP-01 y aparece en TP-02",
+      "hermana_recorta: menos cantidad, calibre menor, certificado que no llega",
+      "tp02_caidas: film mal, purga y re-tensado, merma repetida",
+      "inventario_descuadrado: SAP dice una cosa, el piso otra",
+      "certificados_tardios: liberaciones tardías, Calidad frena la línea",
+      "correos_sin_cruce: avisos de la hermana fuera del programa"
+    ]
+  },
+  "rules_coverage": {
+    "requirement": "Cada regla del caso (R-P1..T1, CONTRATO.md §7) exige al menos un caso válido, uno inválido y uno ambiguo en las familias que la ejercen. Ninguna regla queda sin ejercicio.",
+    "rules": ["R-P1", "R-P2", "R-P3", "R-P4", "R-Q1", "R-A1", "R-T1"]
+  },
+  "identifiers": {
+    "planta_id": "C1",
+    "orden_id_pattern": "ORD-2026-NNNN",
+    "rollo_id_pattern": "R-NNN",
+    "focus_lines": ["TP-01", "TP-02"],
+    "note": "Los identificadores siguen el §2 del contrato; documento_id es distinto de archivo_id (dedupe por sha256, versiones sin borrar el original)."
   },
   "total_files": 170
 }
