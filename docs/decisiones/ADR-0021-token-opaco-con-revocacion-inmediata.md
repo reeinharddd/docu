@@ -79,12 +79,13 @@ quién.
   hay que documentar); `bcryptjs` tiene que pasar de `devDependencies` a
   `dependencies` en #12, porque en runtime el login lo necesita.
 - **Riesgo residual**: que la sesión no se revoque al cerrar el navegador
-  (el `logout` del front actual solo borra el estado local,
-  `auth.service.ts:57`). Si alguien cierra la pestaña sin hacer logout, la
-  sesión sigue viva hasta `expires_at`. Mitigación: el front debe llamar
-  `POST /v1/auth/logout` (ya está en la matriz de endpoints) y `last_seen_at`
-  deja rastro de sesiones abandonadas. Blast radius: una sesión abierta en
-  un equipo compartido.
+  (el `signOut()` del front actual solo borra el estado local,
+  `auth.service.ts:57`; y hoy ni siquiera hay sesión real, porque el front
+  corre con la sesión demo de `signInDemo()` hasta que #12 conecte el login).
+  Si alguien cierra la pestaña sin hacer logout, la sesión sigue viva hasta
+  `expires_at`. Mitigación: el front debe llamar `POST /v1/auth/logout`
+  (ya está en la matriz de endpoints) y `last_seen_at` deja rastro de sesiones
+  abandonadas. Blast radius: una sesión abierta en un equipo compartido.
 
 ## Evidencia
 

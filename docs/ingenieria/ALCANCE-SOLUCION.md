@@ -112,6 +112,13 @@ nunca `localStorage` — XSS). Nada de `bypassSecurityTrust` ni `innerHTML`
 (Angular sanitiza por defecto). Sin secretos ni claves en el front. El
 servidor es la única autoridad de reglas y permisos: la validación del
 cliente es UX, no seguridad. CORS: mismo origen en C1 (un solo host, RNF-06).
+CSP: el host que sirve el front envía `Content-Security-Policy` restrictiva
+(sin `unsafe-inline` ni `unsafe-eval` para scripts, `connect-src` al mismo
+origen); hoy no existe en el repositorio y es la mitigación del riesgo de
+XSS con el token en memoria. El ciclo de vida de la sesión —expiración,
+revocación, logout y limpieza de sesiones abandonadas— está en
+[ARQUITECTURA.md §3.5](ARQUITECTURA.md) y en
+[ADR-0021](../decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md).
 
 ## 3. Mecanismos de ingesta
 

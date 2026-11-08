@@ -73,7 +73,7 @@ C4Container
 |---|---|---|---|---|
 | `db` | Docker Compose (`pgvector/pgvector:pg18`) | 5432 | Datos canónicos, historial de origen, bitácora | vigente |
 | `redis` | Docker Compose (`redis:8`) | 6379 | Cola de trabajo y caché con TTL | vigente |
-| `api` | `apps/api/src/main.ts` | 3000 | HTTP, validación, RBAC, auditoría. **No ejecuta OCR ni parseo** | vigente (solo `/health`) |
+| `api` | `apps/api/src/main.ts` | 3000 | HTTP, validación, RBAC, auditoría. **No ejecuta OCR ni parseo** | vigente (solo `/health` existe) |
 | `worker` | Misma imagen que la API, comando worker | — | Consume la cola: OCR, parseo, clasificación, embeddings, reportes | decidido (#46) |
 | `web` | `apps/web` (dev server) | 4200 | Captura, bandeja, programa, búsqueda | vigente |
 
@@ -129,6 +129,8 @@ Convenciones transversales, válidas para toda la tabla:
 | Paginación | `limit` (50 por defecto, 200 máximo) y `offset`; respuesta **array plano** y total en `X-Total-Count` | [ADR-0022](../decisiones/ADR-0022-paginacion-por-limit-y-offset.md) |
 | Idempotencia | `POST /v1/files` calcula el `sha256` en el servidor; repetido = `409 CONFLICT` con `details.sourceFileId` | Este documento, §3.2 |
 | Permisos | El servidor evalúa rol, alcance, dominio y vigencia | [ROLES.md](../proyecto/ROLES.md) §3 |
+| Aislamiento | Toda consulta filtra por instalación **y** por alcance del recurso: un identificador manipulado no cruza de instalación | Este documento, §3.4 |
+| Token en el navegador | Bearer solo en memoria, CSP restrictiva, sanitización de lo que viene de la API; cerrar la pestaña sin logout deja la sesión viva hasta que expira | [ALCANCE-SOLUCION.md §2.1](ALCANCE-SOLUCION.md), [ADR-0021](../decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md) |
 
 `GET /health` queda **fuera** de `/v1`: es una puerta operativa, no parte del
 contrato de producto.
@@ -179,6 +181,17 @@ lo guarda en `ingest.source_file`, que es único por
 El `originales/` es de solo lectura y nada se borra en silencio: el archivo
 queda registrado una vez y para siempre.
 
+**El hueco que esta regla todavía no cubre.** Registrar en PostgreSQL y
+encolar en Redis son dos pasos y no forman una transacción: si la fila se
+escribe y el encolado falla, el archivo queda registrado sin procesar, y un
+reintento del mismo archivo devuelve `409` por `sha256` duplicado **sin
+re-encolar**. Para cerrarlo hace falta una de dos: un *transactional outbox*
+(la fila y el trabajo se escriben juntos y un lector los despacha), o una
+reconciliación que detecte `source_file` sin `parsed_record` y lo vuelva a
+encolar. Mientras no exista, la idempotencia de esta sección es cierta solo
+cuando el encolado sí tuvo éxito. Owner: #12 (API) y #46 (worker), antes de
+que la ingesta sea real.
+
 ### 3.3 Claves de permiso del servidor contra las del front
 
 El ER v1 fija los códigos de permiso del servidor (`core.permission.code`):
@@ -203,6 +216,50 @@ implementen:
 Este mapeo es **decidido**, pero su implementación es de #5 (motor de
 permisos) y #12 (API). El front sigue usando sus claves de UI; el servidor
 manda.
+
+### 3.4 Aislamiento por instalación en cada consulta
+
+Comprobar que el usuario tiene permiso `read` **no basta**: el permiso dice
+qué acción se permite, no sobre qué filas. La instalación es el límite duro
+([ADR-0014](../decisiones/ADR-0014-instalacion-single-company.md), y
+[ROLES.md](../proyecto/ROLES.md) §3 lo llama `alcance del recurso`), y toda
+consulta de producto se filtra por ella.
+
+| Regla | Qué significa | Marca |
+|---|---|---|
+| El filtro va en la consulta, no en el código de la ruta | Cada lectura y cada escritura incluye `facility_id` derivado de la **sesión**, nunca del `id` que llega en la URL | decidido |
+| Un `:id` de otra instalación es `404`, no `403` | Responder `403` confirmaría que el recurso existe en otro lado | decidido |
+| El aislamiento también lo sostiene la base | Las FK del ER v1 son compuestas con `facility_id` en las tablas de negocio (`entity`, `source_file`, `parsed_record`, `origin_history`); las 21 FK que no la llevan apuntan a catálogos globales o a la jerarquía de departamentos, y son el hueco que #58 cierra | decidido (#58) |
+| Las columnas de actor no reemplazan el filtro | `created_by_id`, `confirmed_by_id` y `actor_id` son referencias a `core.app_user` sin `facility_id` en la FK: sirven para saber quién, no para autorizar | decidido |
+
+Implementación: #5 (motor de permisos) y #12 (API). Hoy el front ya filtra por
+instalación en la UI, lo cual **no es seguridad**: el filtro real va en el
+servidor.
+
+### 3.5 Sesión en el servidor y token en el navegador
+
+La forma del token ya está decidida en
+[ADR-0021](../decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md):
+opaco, aleatorio, hasheado en `platform.session`, con `revoked_at` para
+revocar de inmediato. Lo que esta arquitectura fija es el **ciclo de vida
+completo** y lo que pasa en el navegador:
+
+| Aspecto | Regla | Marca |
+|---|---|---|
+| Expiración | 8 horas desde `issued_at`, renovable por actividad (`last_seen_at`) | decidido (ADR-0021) |
+| Renovación | Cada petición autenticada refresca `last_seen_at`; la ventana se renueva mientras haya actividad | decidido (ADR-0021) |
+| Revocación | `revoked_at` surte efecto en la siguiente petición | decidido (ADR-0021) |
+| Logout | `POST /v1/auth/logout` revoca la fila; el front limpia su estado local | decidido (ADR-0021) |
+| Cierre de pestaña sin logout | La sesión **sigue viva** hasta `expires_at`: el token está en memoria, no en el servidor. Hoy el `signOut()` del front solo limpia el estado local (`auth.service.ts:57`) y no llama a la API; hay que llamar `POST /v1/auth/logout` al cerrar, y el `401` por `expires_at` resuelve el resto | decidido (ADR-0021) |
+| Limpieza de sesiones abandonadas | Las sesiones vencidas o revocadas se purgan por `expires_at`; nada crece sin techo. `last_seen_at` distingue la sesión viva de la abandonada | decidido |
+| Token en el navegador | Solo en memoria (signals), nunca en `localStorage` ni `sessionStorage`; hoy el front corre con sesión demo y `token: null` hasta que #12 conecte el login real | decidido ([ALCANCE-SOLUCION.md §2.1](ALCANCE-SOLUCION.md)) |
+| CSP | El host que sirve el front envía `Content-Security-Policy` restrictiva: sin `unsafe-inline` para scripts, sin `unsafe-eval`, y `connect-src` limitado al mismo origen | decidido, **falta implementarlo** (#4/#11, frontend) — [ALCANCE-SOLUCION.md §2.1](ALCANCE-SOLUCION.md) |
+| Sanitización | Angular sanitiza por defecto; nada de `innerHTML` ni `bypassSecurityTrust` con contenido de la API | vigente ([ALCANCE-SOLUCION.md §2.1](ALCANCE-SOLUCION.md)) |
+
+El riesgo que queda abierto y hay que probar: con el token en memoria, un XSS
+que se ejecute en el origin puede leerlo. La CSP es la mitigación, y hoy
+**no existe** en el repositorio. Mientras tanto, ninguna respuesta de la API
+debe devolver HTML: solo JSON y datos.
 
 ## 4. Flujo de un archivo, de principio a fin
 
@@ -287,10 +344,10 @@ qué clave usar.
 
 | Motor | Clave o dato que lo elige | Dónde vive hoy | Qué NO cambia al cambiarlo | Marca |
 |---|---|---|---|---|
-| Parser por familia | `config.family_config.parser_key` | Fila de configuración en la base | El pipeline y el resto de módulos | vigente (diseño) |
-| OCR por familia | `config.family_config.is_ocr_required` | Fila de configuración en la base | El resto del pipeline | vigente (diseño) |
-| Reglas de validación | `config.validation_rule.expression` | Fila de configuración en la base | El motor de reglas, que las interpreta | vigente (diseño) |
-| Esquema de salida del modelo | `family_config.schema_definition` + Zod | Contrato en el repositorio y esquema en la base | El prompt y el modelo | vigente (diseño) |
+| Parser por familia | `config.family_config.parser_key` | Fila de configuración en la base | El pipeline y el resto de módulos | decidido |
+| OCR por familia | `config.family_config.is_ocr_required` | Fila de configuración en la base | El resto del pipeline | decidido |
+| Reglas de validación | `config.validation_rule.expression` | Fila de configuración en la base | El motor de reglas, que las interpreta | decidido |
+| Esquema de salida del modelo | `family_config.schema_definition` + Zod | Contrato en el repositorio y esquema en la base | El prompt y el modelo | decidido |
 | Embeddings | `platform.memory_embedding.model` | Se registra el modelo usado; la elección vive en #85 | La dimensión `vector(768)` del ER | abierto |
 | OCR y LLM concretos | — | **No hay dónde**: el ER v1 no tiene catálogo de motores | — | **abierto** (#85, ADR-0020 reservado) |
 
@@ -375,6 +432,10 @@ flowchart TB
 | Pieza | Épica | Riesgo si se pospone | Dueño |
 |---|---|---|---|
 | Proceso `worker` real | #46 | El pipeline de ingesta no existe; es el riesgo técnico mayor | Emmanuel |
+| `worker` detectable en `/health` | #46 | El healthcheck dice que la API vive, no que el pipeline vive: un worker caído se ve como sistema sano | Emmanuel |
+| Outbox o reconciliación de ingesta | #12 / #46 | Un archivo registrado y no encolado queda atascado, y el reintento da `409` (§3.2) | Emmanuel |
+| Filtro por instalación en cada consulta del servidor | #5 / #12 | Un `id` manipitado cruza de instalación: el front ya filtra, el servidor no | Emmanuel |
+| CSP en el host que sirve el front | #4 / #11 | El token en memoria queda expuesto a un XSS; hoy no hay CSP en el repo | Erik (infra) + Kira (front) |
 | Módulos de Nest por dominio y `ValidationPipe` global | #12 | La API crece como un archivo y no valida entrada | Emmanuel |
 | RBAC en servidor y bitácora | #5 | El front se convierte en la única "protección" | Emmanuel |
 | Cadena de validación declarativa | #3 | Las reglas quedan embebidas en `if`, y RF-08 muere | Emmanuel |
