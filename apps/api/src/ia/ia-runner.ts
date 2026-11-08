@@ -17,8 +17,10 @@ import {
 import { type IaConfig, loadIaConfig } from './config.js'
 import { ApiEmbeddingEngine } from './engines/api-embedding.engine.js'
 import { ChatLlmEngine } from './engines/chat-llm.engine.js'
+import { SystemOneScoringEngine } from './engines/systemone-scoring.engine.js'
 import { VisionOcrEngine } from './engines/vision-ocr.engine.js'
 import { BudgetExceededError } from './errors.js'
+import type { FetchLike } from './openai-client.js'
 import { OpenAiCompatClient } from './openai-client.js'
 import { TraceRecorder } from './trace.js'
 import type {
@@ -28,6 +30,8 @@ import type {
   LlmRequest,
   OcrInput,
   OcrOutput,
+  ScoringInput,
+  ScoringOutput,
   TokenUsage,
 } from './types.js'
 
@@ -35,6 +39,7 @@ export interface IaRunnerOptions {
   config?: IaConfig
   client?: OpenAiCompatClient
   cacheStore?: CacheStore | null
+  scoringFetch?: FetchLike
 }
 
 type ExecuteContext = {
@@ -46,6 +51,7 @@ export class IaRunner {
   readonly ocr: VisionOcrEngine
   readonly llm: ChatLlmEngine
   readonly embedding: ApiEmbeddingEngine
+  readonly scoring: SystemOneScoringEngine
 
   private readonly config: IaConfig
   private readonly cache: ResultCache
@@ -69,6 +75,11 @@ export class IaRunner {
       this.config.seed,
     )
     this.embedding = new ApiEmbeddingEngine(client, this.config.embeddingModel)
+    this.scoring = new SystemOneScoringEngine(
+      this.config.scoringUrl,
+      'laya-multilingual',
+      options.scoringFetch ?? fetch,
+    )
     const store: CacheStore | null =
       options.cacheStore ??
       (this.config.cacheEnabled ? new MemoryCacheStore() : null)
@@ -118,6 +129,21 @@ export class IaRunner {
       (ctx) => this.embedding.embed(text, ctx),
       inputSha256,
       (output) => output.usage,
+    )
+  }
+
+  async score(input: ScoringInput): Promise<ScoringOutput> {
+    const inputSha256 = sha256Hex(
+      `${input.text}\u0000${[...input.candidates].sort().join('\u0000')}`,
+    )
+    return this.run<ScoringOutput>(
+      'scoring',
+      this.scoring.model,
+      [inputSha256],
+      estimateTokens(input.text),
+      (ctx) => this.scoring.score(input, ctx),
+      inputSha256,
+      () => undefined,
     )
   }
 

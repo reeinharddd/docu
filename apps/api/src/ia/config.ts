@@ -14,6 +14,9 @@ export interface IaConfig {
   ocrModel: string
   llmModel: string
   embeddingModel: string
+  scoringUrl: string
+  scoringAutoThreshold: number
+  scoringReviewThreshold: number
   seed: number
   temperature: number
   budgetMaxMs: number
@@ -109,6 +112,44 @@ export function loadIaConfig(env: Env = process.env): IaConfig {
         'Keep IA_API_BASE_URL on the plant host (default http://localhost:11434/v1) or activate the cloud explicitly.',
     )
   }
+  const scoringUrl = readString(
+    env,
+    'IA_SCORING_URL',
+    'http://localhost:8000/v1/systemone',
+  )
+  let scoringEndpoint: URL
+  try {
+    scoringEndpoint = new URL(scoringUrl)
+  } catch {
+    throw new ConfigError(
+      `IA_SCORING_URL is not a valid URL: '${scoringUrl}'. Example: http://localhost:8000/v1/systemone`,
+    )
+  }
+  if (!isLocalEndpoint(scoringEndpoint.hostname) && !cloudActivated) {
+    throw new ConfigError(
+      `IA_SCORING_URL points to a remote host ('${scoringEndpoint.hostname}'). ` +
+        'Scoring requests carry document text: remote scoring requires IA_NUBE_ACTIVADA=true (RNF-03, OCR.md §6).',
+    )
+  }
+  const scoringAutoThreshold = readFloat(
+    env,
+    'IA_SCORING_AUTO_THRESHOLD',
+    0.9,
+    0,
+    1,
+  )
+  const scoringReviewThreshold = readFloat(
+    env,
+    'IA_SCORING_REVIEW_THRESHOLD',
+    0.6,
+    0,
+    1,
+  )
+  if (scoringReviewThreshold > scoringAutoThreshold) {
+    throw new ConfigError(
+      `IA_SCORING_REVIEW_THRESHOLD (${scoringReviewThreshold}) must be <= IA_SCORING_AUTO_THRESHOLD (${scoringAutoThreshold}). The cascade requires automatic >= review >= quarantine.`,
+    )
+  }
   return {
     baseUrl: baseUrl.replace(/\/$/, ''),
     apiKey: readString(env, 'IA_API_KEY', ''),
@@ -121,6 +162,9 @@ export function loadIaConfig(env: Env = process.env): IaConfig {
       'IA_EMBEDDING_MODEL',
       'qwen3-embedding-0.6b',
     ),
+    scoringUrl: scoringUrl.replace(/\/$/, ''),
+    scoringAutoThreshold,
+    scoringReviewThreshold,
     seed: readInt(env, 'IA_SEED', 42, 0),
     temperature: readFloat(env, 'IA_TEMPERATURE', 0, 0, 2),
     budgetMaxMs: readInt(env, 'IA_BUDGET_MAX_MS', 30_000, 1),

@@ -16,6 +16,11 @@ import {
   type FetchLike,
   OpenAiCompatClient,
 } from './openai-client.js'
+import { classifyScore } from './scoring.js'
+
+const neverFetch: FetchLike = () => {
+  throw new Error('the provider must not be called in this test')
+}
 
 const CONFIG: IaConfig = {
   baseUrl: 'http://provider.test/v1',
@@ -25,6 +30,9 @@ const CONFIG: IaConfig = {
   ocrModel: 'glm-ocr',
   llmModel: 'llama3.2',
   embeddingModel: 'qwen3-embedding-0.6b',
+  scoringUrl: 'http://scorer.test/v1/systemone',
+  scoringAutoThreshold: 0.9,
+  scoringReviewThreshold: 0.6,
   seed: 42,
   temperature: 0,
   budgetMaxMs: 30_000,
@@ -67,16 +75,19 @@ function scriptedFetch(
 function runnerWith(
   fetch: FetchLike,
   overrides: Partial<IaConfig> = {},
+  scoringFetch?: FetchLike,
 ): IaRunner {
+  const config: IaConfig = { ...CONFIG, ...overrides }
   return new IaRunner({
-    config: { ...CONFIG, ...overrides },
+    config,
     client: new OpenAiCompatClient(
-      { ...CONFIG, ...overrides }.baseUrl,
-      { ...CONFIG, ...overrides }.apiKey,
-      { ...CONFIG, ...overrides }.maxRetries,
+      config.baseUrl,
+      config.apiKey,
+      config.maxRetries,
       fetch,
     ),
     cacheStore: new MemoryCacheStore(),
+    ...(scoringFetch === undefined ? {} : { scoringFetch }),
   })
 }
 
@@ -242,6 +253,65 @@ describe('IA transport and engines', () => {
     const runner = runnerWith(fetch)
     const failure = runner.complete({ system: 's', prompt: 'p' })
     expect(failure).rejects.toThrow(/non-JSON/)
+  })
+})
+
+describe('IA scoring (SystemOne / Laya)', () => {
+  const FAMILIES = ['programa_planeacion', 'recepcion_rollo', 'inventario']
+
+  test('sends input and labels to the SystemOne endpoint and maps the verdict', async () => {
+    const scoringFetch = ((url: string, init: RequestInit) => {
+      expect(url).toBe('http://scorer.test/v1/systemone')
+      const body = JSON.parse(String(init.body)) as {
+        input: string
+        labels: string[]
+      }
+      expect(body.input).toContain('R-017')
+      expect(body.labels).toEqual([...FAMILIES])
+      return Promise.resolve(
+        Response.json({ label: 'recepcion_rollo', confidence: 0.94 }),
+      )
+    }) as FetchLike
+    const runner = runnerWith(
+      neverFetch,
+      {
+        scoringUrl: 'http://scorer.test/v1/systemone',
+      },
+      scoringFetch,
+    )
+    const verdict = await runner.score({
+      text: 'Rollo R-017 recibido',
+      candidates: FAMILIES,
+    })
+    expect(verdict).toEqual({ label: 'recepcion_rollo', confidence: 0.94 })
+  })
+
+  test('rejects a label outside the candidate set (no invented families)', async () => {
+    const scoringFetch = (() =>
+      Promise.resolve(
+        Response.json({ label: 'familia_inventada', confidence: 0.9 }),
+      )) as FetchLike
+    const runner = runnerWith(neverFetch, {}, scoringFetch)
+    expect(runner.score({ text: 'x', candidates: FAMILIES })).rejects.toThrow(
+      /outside the candidate set/,
+    )
+  })
+
+  test('rejects a verdict without a calibrated shape', async () => {
+    const scoringFetch = (() =>
+      Promise.resolve(
+        Response.json({ label: 'inventario', confidence: 1.5 }),
+      )) as FetchLike
+    const runner = runnerWith(neverFetch, {}, scoringFetch)
+    expect(runner.score({ text: 'x', candidates: FAMILIES })).rejects.toThrow(
+      /SystemOne contract/,
+    )
+  })
+
+  test('thresholds classify the cascade (IA.md §3)', () => {
+    expect(classifyScore(0.95, 0.9, 0.6)).toBe('automatic')
+    expect(classifyScore(0.75, 0.9, 0.6)).toBe('review')
+    expect(classifyScore(0.3, 0.9, 0.6)).toBe('quarantine')
   })
 })
 

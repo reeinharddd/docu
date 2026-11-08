@@ -82,14 +82,15 @@ export interface EmbeddingEngine {
 }
 
 /**
- * In-process scoring with calibrated confidence (Laya, OCR.md §6). It is
- * NOT served over the API: the classification lane (#3) implements it
- * inside the worker on top of this interface.
+ * Scoring engine with calibrated confidence (SystemOne API family: Laya
+ * local by default; Jev/Decider/Clef-compatible endpoints by URL, OCR.md
+ * §6 and OCR-MERCADO.md). Served over HTTP, swappable like every other
+ * capability. The decision cascade (#3) consumes it from the worker.
  */
 export interface ScoringEngine {
   readonly kind: 'scoring'
   readonly model: string
-  score(input: ScoringInput): Promise<ScoringOutput>
+  score(input: ScoringInput, ctx: CallContext): Promise<ScoringOutput>
 }
 
 export interface CallTrace {
