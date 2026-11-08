@@ -1,8 +1,10 @@
 # Ingeniería: inventario total de la base de datos (ER v1)
 
-Estado: retrato de cierre del carril #58 al 2026-11-07. Rama
-`feat/58-diagrama-v0` (trabajo aún sin commitear). Este documento describe
-**lo que existe hoy**, no lo que se planea: lo planeado va en ADRs e issues.
+Estado: retrato de cierre del carril #58 al 2026-11-07, con la adopción de la
+auditoría externa (aislamiento por instalación, TRUNCATE, snapshot histórico y
+confirmación completa). Rama `feat/58-diagrama-v0` en PR #107, **sin fusionar**.
+Este documento describe **lo que existe hoy**, no lo que se planea: lo planeado
+va en ADRs e issues.
 
 Fuentes de verdad, en orden:
 
@@ -10,6 +12,88 @@ Fuentes de verdad, en orden:
 2. `apps/api/prisma/migrations/0_baseline/migration.sql` — el DDL real (930 líneas).
 3. `apps/api/scripts/schema-test.ts` — las pruebas que fijan el contrato (ver §8).
 4. La base viva `docu-db-58`, verificada con `psql` el 2026-11-07.
+
+## 0. Panorama unificado: todo lo que toca datos
+
+Una sola vista con **todos** los elementos de datos: tablas por esquema, las
+dos vistas, los triggers append-only, el vector y sus índices, y los sistemas
+externos (filesystem, Redis, IA local, Engram). El recorrido es el caso real:
+una hoja escaneada entra, se valida, se propone y un humano la confirma.
+
+```mermaid
+flowchart LR
+  subgraph PERSONAS["Personas y sistemas externos"]
+    USR["Usuario de planta<br/>core.app_user"]
+    FS["originales/ en filesystem<br/>bytes intactos, sha256 verificado"]
+    RQ["Redis / BullMQ<br/>colas: ingest, text, reports, alerts"]
+    IA["IA local (Ollama)<br/>OCR, LLM propone, embeddings 768"]
+    EN["Engram<br/>memoria del agente"]
+  end
+
+  subgraph CORE["core · identidad y acceso"]
+    FA["facility<br/>raíz única"]
+    AU["app_user"]
+    RO["role / permission / user_role"]
+    DO["domain / user_domain"]
+    AG["access_grant"]
+  end
+
+  subgraph INGESTA["ingest"]
+    SF["source_file<br/>append-only + TRUNCATE guard"]
+    OCR["ocr_result"]
+    PR["parsed_record"]
+    QU["quarantine"]
+  end
+
+  subgraph DOMINIO["graph · dominio genérico"]
+    TY["entity_type<br/>schema_definition"]
+    EN2["entity<br/>data JSONB, version, status"]
+    RE["relation"]
+  end
+
+  subgraph VERDAD["truth · solo-insert"]
+    OH["origin_history<br/>data_snapshot por versión"]
+    AL["audit_log"]
+    V1["vista official_record"]
+    V2["vista entity_lineage"]
+  end
+
+  subgraph CONF["config · reglas como datos"]
+    FC["family_config<br/>familias del caso"]
+    VR2["validation_rule<br/>BLOQUEO / AVISO"]
+  end
+
+  subgraph PLATA["platform"]
+    SS["session<br/>token_hash SHA-256"]
+    JR["job_run<br/>rastro de cada corrida"]
+    ME["memory_embedding<br/>vector(768) + HNSW coseno"]
+    ER["engram_ref<br/>append-only + TRUNCATE guard"]
+  end
+
+  USR -->|"1. sube hoja escaneada"| SF
+  SF -->|"2. bytes originales"| FS
+  SF -->|"3. encola"| RQ
+  RQ -->|"4. worker"| OCR
+  OCR --> PR
+  SF --> PR
+  PR -->|"5. valida"| VR2
+  FC -.->|"define familia"| VR2
+  VR2 -->|"BLOQUEO"| QU
+  VR2 -->|"pasa"| EN2
+  TY -.->|"tipa el data"| EN2
+  EN2 -->|"6. versión"| OH
+  EN2 --> RE
+  OH --> V2
+  EN2 -->|"7. humano confirma"| V1
+  EN2 -->|"8. embed"| ME
+  RQ -.->|"persiste corrida"| JR
+  EN -.->|"referencia"| ER
+  USR -->|"login"| SS
+```
+
+Todo lo que cruza de un esquema a otro pasa por FK compuestas
+`(facility_id, id)` (ADR-0019); las cuatro tablas marcadas append-only están
+blindadas con triggers por fila **y** por `TRUNCATE`.
 
 ## 1. Dónde vive la base
 
@@ -42,7 +126,7 @@ del ER v1 y lo que formalizará el ADR-0019 (reservado, ver §9).
 | `core` | `permission` | Permiso fino del sistema |
 | `core` | `role_permission` | Puente rol-permiso |
 | `core` | `domain` | Dominio de negocio (área temática) |
-| `core` | `user_domain` | Alcance de dominio por usuario |
+| `core` | `user_domain` | Alcance de dominio por usuario; `facility_id` + FK compuestas (misma instalación) |
 | `core` | `access_grant` | Concesión puntual: `scope`, `target_entity_id` (FK a `graph.entity`), denegación, emergencia, delegación, vigencia |
 | `ingest` | `source_file` | Archivo original; `sha256` único; **solo-insert** |
 | `ingest` | `parsed_record` | Registro extraído de un archivo (con `record_index`) |
@@ -60,31 +144,45 @@ del ER v1 y lo que formalizará el ADR-0019 (reservado, ver §9).
 | `platform` | `job_run` | Persistencia de corridas de cola: `ingest`, `text`, `reports`, `alerts` (ADR-0011) |
 | `platform` | `engram_ref` | Referencia a memoria del agente; **solo-insert** |
 
-CHECK de negocio relevantes (19 en total, contados por las pruebas): estados
+CHECK de negocio relevantes (20 en total, contados por las pruebas): estados
 de cuarentena, severidad de regla, cola y estado de `job_run`
-(`expires_at > issued_at` en sesión), y el CHECK de confirmación oficial: una
-entidad `official` exige `confirmed_by_id` (IA propone, humano dispone).
+(`expires_at > issued_at` en sesión), y el bloque de confirmación oficial:
+una entidad `official` exige `confirmed_by_id` **y** `confirmed_at`, con
+fecha siempre que haya responsable y sin confirmación prematura en
+borradores (IA propone, humano dispone).
+
+Aislamiento por instalación (ADR-0019): toda FK entre dos tablas con
+instalación es compuesta — `UNIQUE (facility_id, id)` en el padre y
+`FOREIGN KEY (facility_id, otro_id) REFERENCES padre(facility_id, id)` —, así
+que cruzar instalaciones revienta con `foreign_key_violation` aunque el
+código se equivoque. Las FK simples que quedan son las globales (`facility`,
+`role`, `permission`) y las de atribución (`created_by_id`, `confirmed_by_id`,
+`actor_id`, etc.), que registran quién hizo algo pero no dan acceso a datos.
 
 ## 3. Las 2 vistas: el contrato de salida del dato
 
 | Vista | Qué entrega |
 |---|---|
 | `truth.official_record` | Toda entidad con `status = 'official'`, ya unida con su tipo y el responsable que la confirmó (`confirmed_by_username`, `confirmed_by_name`, `confirmed_at`). Es la fuente de la pantalla Reporte/Búsqueda |
-| `truth.entity_lineage` | El encadenamiento completo de una entidad: cada versión con la regla que la validó, el archivo de origen (`original_name`, `sha256`) y el registro parseado del que salió. Es la trazabilidad consultable |
+| `truth.entity_lineage` | El encadenamiento completo de una entidad: cada versión con el **snapshot del valor publicado** (`data_snapshot`), la regla que la validó, el archivo de origen (`original_name`, `sha256`) y el registro parseado del que salió. Es la trazabilidad consultable y permite reconstruir qué se publicó y cuándo |
 
 Nada escribe contra las vistas: son lectura. La escritura entra por
 `graph.entity` / `truth.origin_history`.
 
 ## 4. Triggers: la base garantiza el solo-insert
 
-Una función y cuatro triggers, en el propio DDL (ADR-0010: "una corrección es
+Una función y ocho triggers, en el propio DDL (ADR-0010: "una corrección es
 una fila nueva, nunca una edición"):
 
 - Función `core.reject_mutation()`: lanza error `restrict_violation` con
   mensaje explícito sobre ADR-0010.
-- Triggers `BEFORE UPDATE OR DELETE` (ambos eventos) sobre:
-  `ingest.source_file`, `truth.origin_history`, `truth.audit_log`,
-  `platform.engram_ref`.
+- Triggers `BEFORE UPDATE OR DELETE` (por fila) sobre: `ingest.source_file`,
+  `truth.origin_history`, `truth.audit_log`, `platform.engram_ref`.
+- Triggers `BEFORE TRUNCATE` (por statement) sobre las mismas cuatro tablas:
+  los triggers por fila no se disparan con `TRUNCATE`, y sin esta guardia un
+  `TRUNCATE` vaciaría la historia sin tocar un solo trigger (auditoría
+  2026-11-07). Las pruebas aceptan dos bloqueos válidos: el trigger o una FK
+  referenciante.
 
 La función vive en `core` porque todos los esquemas dependen de `core`.
 
@@ -133,23 +231,27 @@ La elección de motores de IA (cuál modelo, con qué parámetros) será
 | [0014](../decisiones/ADR-0014-instalacion-single-company.md) | Raíz `facility` única, sin multi-tenant |
 | [0017](../decisiones/ADR-0017-drawio-para-el-er.md) | El ER se dibuja en draw.io y vive en el repo |
 | [0018](../decisiones/ADR-0018-sdd-y-tdd-como-metodo-de-trabajo.md) | El DDL tiene pruebas que lo fijan (SDD/TDD) |
+| [0019](../decisiones/ADR-0019-dominio-hibrido-del-er.md) | Dominio híbrido con aislamiento por instalación garantizado por FK compuestas, snapshot histórico y confirmación completa |
 | [0021](../decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md) | Sesión con token opaco hasheado en `platform.session` |
 | [0022](../decisiones/ADR-0022-paginacion-por-limit-y-offset.md) | Listas con `limit`/`offset`, array plano, `X-Total-Count` |
 
-Reservados (aún sin escribir): **0019** dominio híbrido del ER (#58, este
-documento es su evidencia) y **0020** motores de IA como configuración (#85).
+Reservado (aún sin escribir): **0020** motores de IA como configuración (#85).
 
 ## 8. Cómo se verifica todo lo anterior
 
 `bun run db:test` (desde `apps/api`) aplica la migración a una base scratch y
-corre las pruebas SQL. Estado al 2026-11-07: **verde**.
+corre las pruebas SQL. Estado al 2026-11-07 (con auditoría adoptada): **verde**.
 
-- Contrato estructural: 25 tablas, 2 vistas, 19 CHECK, 4 triggers
-  solo-insert, extensión `vector`, índice HNSW.
-- `solo_insert.sql`: las 4 tablas blindadas rechazan UPDATE y DELETE.
+- Contrato estructural: 25 tablas, 2 vistas, 20 CHECK, 8 triggers
+  solo-insert (4 por fila + 4 TRUNCATE), extensión `vector`, índice HNSW.
+- `solo_insert.sql`: las 4 tablas blindadas rechazan UPDATE, DELETE y TRUNCATE.
 - `new_family.sql`: una familia nueva se declara como dato y se enlaza con su
   regla; el CHECK de confirmación rechaza un oficial sin responsable y acepta
   uno con confirmación humana.
+- `isolation.sql`: 14 cruces entre instalaciones rechazadas con
+  `foreign_key_violation`; oficial con responsable y sin fecha rechazado;
+  borrador con confirmación prematura rechazado; el snapshot de la versión 1
+  sobrevive a la publicación de la versión 2 y `entity_lineage` lo expone.
 - La base scratch se conserva a propósito (`docu_schema_test_*`); el script
   nunca borra nada.
 
@@ -158,21 +260,29 @@ La base viva `docu-db-58` coincide 1:1 con este inventario y hoy tiene
 
 ## 9. Alcance: qué está hecho y qué falta
 
-Hecho en esta rama (sin commitear):
+Hecho en esta rama (PR #107, sin fusionar):
 
-- `schema.prisma` completo: 25 modelos, 6 esquemas, 658 líneas.
-- Migración baseline única: 930 líneas con esquemas, tablas, FK, CHECK,
-  índices, HNSW, vistas, función y triggers.
-- FK `access_grant.target_entity_id → graph.entity(id)` resuelta (estaba
-  pendiente en el brief de #58).
-- Diagrama del ER en draw.io actualizado (`DIAGRAMA-BD-v0.drawio` + SVGs).
+- `schema.prisma` completo: 25 modelos, 6 esquemas, FK compuestas por instalación.
+- Migración baseline: esquemas, tablas, FK compuestas, CHECK (incluida la
+  confirmación completa), índices, HNSW, vistas, función, 8 triggers
+  (4 por fila + 4 TRUNCATE) y `origin_history.data_snapshot`.
+- Aislamiento por instalación probado: `tests/isolation.sql` (14 cruces
+  rechazadas por la base, auditoría 2026-11-07 A-01).
+- Protección TRUNCATE probada (A-02) y snapshot histórico verificado (A-04).
+- `ADR-0019` redactado (dominio híbrido) como Propuesta: se acepta en el merge.
+- Diagrama del ER en draw.io (`DIAGRAMA-BD-v0.drawio` + 7 SVGs) y texto
+  derivado alineados.
 - Pruebas SQL y `schema-test.ts` en verde.
 
 Pendiente (orden real):
 
-1. Redactar el **ADR-0019** (dominio híbrido) y commitear la rama #58 con PR.
+1. Revisión del PR #107 (Emmanuel revisa; la adopción de la auditoría está
+   resumida en el issue #58).
 2. Cargar datos: seeds de `config` (familias y reglas) y del caso C1.
 3. Backend 12→18-nov (#12, #3, #46, #44, #5) sobre este contrato.
 4. Pipeline IA 13→17-nov (#85) y su ADR-0020 (motores como configuración).
 5. Embeddings reales: decidir el modelo y encender la escritura de
    `platform.memory_embedding` (el índice ya espera).
+6. Fuera de #58 (no de este carril): separación de cuentas de BD
+   (propietario de migraciones vs runtime), `TRUNCATE` revocado al usuario de
+   aplicación y perfil de despliegue en planta.

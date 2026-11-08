@@ -108,10 +108,14 @@ Reglas: <R-P1..T1, RF/RNF>
 
 ## El diagrama (una vista por área)
 
-Hoy solo el área `core` (Fase 1); el resto (`ingest`, `graph`, `truth`, `config`,
-`platform`) se añade en sus fases. El diagrama es el **mapa**: entidades y las **22
-FKs**, en dos vistas para que se lea. Los campos, tipos, nullabilidad y constraints
-viven en las fichas de la Fase 1 (abajo), que es donde se leen sin ruido.
+El diagrama cubre las 25 tablas del ER v1 en 7 páginas: identidad
+(`1a`), autorización (`1b`), ingesta (`2a`), dominio genérico (`2b`),
+verdad y auditoría (`2c`), configuración (`2d`) y plataforma (`2e`).
+Es el **mapa**: entidades y las **FKs**, en una vista por área para que
+se lea. Los campos, tipos, nullabilidad y constraints de `core` viven en
+las fichas de la Fase 1 (abajo); los demás esquemas se leen en
+`apps/api/prisma/schema.prisma` y en el inventario
+(`INVENTARIO-BD.md`).
 
 > La fuente es [`DIAGRAMA-BD-v0.drawio`](DIAGRAMA-BD-v0.drawio): se edita en
 > draw.io / diagrams.net y se exporta a SVG. GitHub no renderiza `.drawio`, por eso
@@ -253,7 +257,7 @@ palabra reservada de Postgres.
 |---|---|---|---|---|
 | `id` | uuid | no | PK | |
 | `facility_id` | uuid | no | FK `facility(id)` | adscripción (no jefatura) |
-| `department_id` | uuid | sí | FK `department(id)` | corporativo/admin puede no tener depto |
+| `department_id` | uuid | sí | FK compuesta `(facility_id, department_id)` → `department(facility_id, id)` | corporativo/admin puede no tener depto; el depto es de su instalación |
 | `username` | text | no | UNIQUE(`facility_id`,`username`) | login legible (`c1.mantenimiento.juan`) |
 | `email` | text | no | UNIQUE(`facility_id`,`email`) | |
 | `full_name` | text | no | | |
@@ -297,7 +301,8 @@ cada rol; lo que comparten todos los de ese rol. `(role_id, permission_id)` PK.
 `created_at`.
 
 **user_domain (Usuario↔Dominio)** — clase: dinámica · *Porqué:* dominios por
-defecto de un usuario. `(app_user_id, domain_id)` PK.
+defecto de un usuario. `(app_user_id, domain_id)` PK, con `facility_id` NOT
+NULL y FK compuestas a `app_user` y `domain` (misma instalación).
 
 **access_grant (Grant / delegación / denegación)** — clase: manual · *Porqué:* lo
 específico —qué puede hacer un usuario concreto sobre algo concreto, con vigencia,
@@ -307,34 +312,36 @@ motivo y otorgante (ROLES §13/§14). **Sin fin no hay grant.**
 |---|---|---|---|---|
 | `id` | uuid | no | PK | |
 | `facility_id` | uuid | no | FK `facility(id)` | aislamiento |
-| `grantee_id` | uuid | no | FK `app_user(id)` | a quién |
+| `grantee_id` | uuid | no | FK compuesta `(facility_id, grantee_id)` → `app_user(facility_id, id)` | a quién (misma instalación) |
 | `permission_id` | uuid | no | FK `permission(id)` | qué acción |
 | `scope` | text | no | CHECK `organizacion|instalacion|departamento|propio` | alcance |
-| `domain_id` | uuid | sí | FK `domain(id)` | sobre qué sección; nulo = toda la instalación |
-| `target_entity_id` | uuid | sí | FK `entity(id)` (Fase 3) | el "algo específico" |
+| `domain_id` | uuid | sí | FK compuesta `(facility_id, domain_id)` → `domain(facility_id, id)` | sobre qué sección; nulo = toda la instalación |
+| `target_entity_id` | uuid | sí | FK compuesta `(facility_id, target_entity_id)` → `entity(facility_id, id)` | el "algo específico" (misma instalación) |
 | `is_denial` | boolean | no | default `false` | bloqueo explícito; gana sobre todo |
 | `is_emergency` | boolean | no | default `false` | break-glass (§14) |
-| `delegated_from_id` | uuid | sí | FK `app_user(id)` | suplencia (§13) |
+| `delegated_from_id` | uuid | sí | FK compuesta `(facility_id, delegated_from_id)` → `app_user(facility_id, id)` | suplencia (§13, misma instalación) |
 | `reason` | text | no | | motivo obligatorio |
 | `valid_from` | timestamptz | no | default `now()` | |
 | `valid_until` | timestamptz | no | CHECK > `valid_from` | obligatorio |
-| `granted_by_id` | uuid | no | FK `app_user(id)` | quién lo otorgó |
+| `granted_by_id` | uuid | no | FK compuesta `(facility_id, granted_by_id)` → `app_user(facility_id, id)` | quién lo otorgó (misma instalación) |
 | `granted_at` | timestamptz | no | default `now()` | |
 
 **Permiso efectivo** (lo calcula el motor de #5, no el schema):
 `role_permission` (base) **+** `access_grant` **−** denegaciones, con alcance,
 dominio, objetivo y vigencia.
 
-**Índices (Fase 1):** `facility(code)`; `department(facility_id, code)`;
-`app_user(facility_id, username)` y `(facility_id, email)`; `app_user(department_id)`;
-`app_user(reports_to_id)`; `domain(facility_id, code)`; `access_grant(grantee_id,
+**Índices (Fase 1):** `facility(code)`; `department(facility_id, code)` y
+`(facility_id, id)`; `app_user(facility_id, username)`, `(facility_id, email)` y
+`(facility_id, id)`; `app_user(department_id)`; `app_user(reports_to_id)`;
+`domain(facility_id, code)` y `(facility_id, id)`; `access_grant(grantee_id,
 permission_id)`; PK compuestas en `user_role`, `role_permission`, `user_domain`.
+Toda FK entre tablas con instalación es compuesta `(facility_id, id)` (ADR-0019).
 
 ## Trazabilidad regla → constraint
 
 | Regla | Estructura que la sostiene | Estado |
 |---|---|---|
-| RF-06 aislamiento por instalación | `facility_id NOT NULL` + FK en toda tabla dinámica; unique compuesto lo incluye | Fase 1 |
+| RF-06 aislamiento por instalación | `facility_id NOT NULL` en toda tabla dinámica + FK compuestas `(facility_id, id)` entre tablas con instalación (la base rechaza el cruce) | Fase 1, probado en `tests/isolation.sql` |
 | RNF-03 roles y permisos | `role` + `permission` (fijos) + `user_role` (base) + `access_grant` (específico) | Fase 1 |
 | R-Q1 solo calidad libera | `access_grant` con `permission=release` + `entity.confirmed_by_id` | Fase 1 y 3 |
 | Externos con vigencia (§2, §12) | CHECK `externo ⇒ valid_until NOT NULL` | Fase 1 |
