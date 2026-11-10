@@ -48,7 +48,7 @@ gh issue list --label req:pendiente       # huecos de trazabilidad
 | 2 | `RF-08` sin etiqueta en Configuración 2 | — | **Cerrado**: #8 lleva `RF-08` |
 | 3 | #7, #9, #13, #30 sin requisito | — | **Cerrado**: `RF-08`, `RNF-02`/`RNF-07`, `RNF-07`, `RNF-07` (tomados de los criterios de cada issue) |
 | 6 | RF-07 y RF-08 sin módulo | Definir módulo o declararlos transversales | Abierto: RF-08 es transversal (modelo, seed, contrato y configuración) |
-| 7 | Dependencias vacías o invertidas | — | **Cerrado 2026-11-03**: los *blocked by* que apuntaban a issues cerrados (#9, #10, #17, #32, #41) se retiraron; las aristas invertidas se corrigieron (#60 y #62 ya no esperan a #59; #61 espera a #23, #39 espera a #46). El grafo de `PLAN-EPICAS.md` ahora es igual al de GitHub |
+| 7 | Dependencias vacías o invertidas | — | **Cerrado 2026-11-03**, **revisado 2026-11-08**: los *blocked by* que apuntaban a issues cerrados (#9, #10, #17, #32, #41) se retiraron; las aristas invertidas se corrigieron (#60 y #62 ya no esperan a #59; #39 espera a #46). El 8-nov se retiró la segunda tanda, que apuntaba a #60, #83, #84, #87 y a los recién cerrados #23 y #85. Verificado con GraphQL (`blockedBy`): 0 aristas hacia issues cerrados. El grafo de `PLAN-EPICAS.md` es igual al de GitHub |
 | 8 | #18–#26 sin etiquetas propias | Heredan requisito, épica y sprint del padre (#3, #4, #5, #9, #12). Monday dado de baja total el 2026-10-09: nada vive ahí, todo se opera en GitHub | **Cerrado**; #18/#19/#20 (sub-issues auto de #3 con cronograma heredado) se cerraron *not planned* el 2026-11-03 |
 
 ## Reglas
