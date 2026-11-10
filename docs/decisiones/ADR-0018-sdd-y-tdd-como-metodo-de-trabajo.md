@@ -70,7 +70,7 @@ ser obligatorias.
   ADR): diff con código de API sin spec → exit 1 con la lista de archivos
   faltantes; el mismo diff con `apps/api/test/ingesta.controller.spec.ts` →
   exit 0.
-- La puerta de spec corre contra esta misma PR (se enlaza `BRIEF-87`): es el
+- La puerta de spec corre contra esta misma PR (se enlaza `briefs/historico/BRIEF-87-sdd-tdd.md`): es el
   primer caso real.
 - Pendiente de verificar en #45/#12: la primera PR de código de API real debe
   traer su spec y su test rojo — esa es la prueba de fuego del método.

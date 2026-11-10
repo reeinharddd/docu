@@ -10,7 +10,7 @@ purpose: Frontend conventions, structure and patterns for DOCU
 
 # Frontend in DOCU (Angular 22 zoneless + Tailwind 4)
 
-Source of truth: `docs/briefs/BRIEF-84-plataforma-frontend.md` (the base) and
+Source of truth: `docs/briefs/historico/BRIEF-84-plataforma-frontend.md` (the base) and
 `docs/diseno/DESIGN-SYSTEM.md` (the design). If they disagree, the brief wins.
 
 ## Structure (where each thing goes)
