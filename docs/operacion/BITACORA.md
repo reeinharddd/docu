@@ -88,6 +88,58 @@ gh api repos/reeinharddd/docu/issues/39/dependencies/blocked_by --jq '[.[].numbe
 
 ---
 
+## 2026-11-08 — #23 y #85 cerrados, orquestación probada de punta a punta
+
+**Quién:** Erik (`reeinharddd`) con el agente, a petición del líder.
+**Qué:** el contrato de datos quedó congelado con SHA verificable y la IA entró
+al repo como configuración (motores intercambiables por variable de entorno).
+De paso se probó la orquestación real de los servicios, y esa prueba encontró
+tres defectos que ninguna otra forma de revisar los había visto.
+
+### Cerrados
+
+| Issue | Entregable | PR |
+|---|---|---|
+| #23 | Contrato de datos de C1 congelado: SHA de los 8 archivos, puerta `contrato:check`, `esperado.json` atado al caso real | #110 |
+| #85 | Integración IA: cliente compatible OpenAI centralizado, motores GLM-OCR / Llama 3.2 / Qwen3-Embedding / Laya, presupuesto, caché, traza y scoring con confianza | #111 |
+
+Ambos con ADR-0020 aceptada (los motores de IA son configuración, no código)
+y con el ER (#58) intacto: la revisión por segmentos S0–S7 sigue pendiente y
+#62 no se toca.
+
+### Defectos que encontró el drill de orquestación
+
+El drill levantó Postgres, Redis y la API de verdad (no simulados) y los
+apagó uno por uno. Tres cosas estaban mal:
+
+1. **`/health` mentía con un 500 sin diagnóstico.** Con un segmento caído
+   respondía error genérico en vez de decir *cuál* había caído. Ahora devuelve
+   503 con `{status: degraded, postgres, redis}`.
+2. **El smoke chequeaba otro puerto que el de la API.** `smoke-api.sh` leía
+   `PORT_API` del entorno mientras la API lo lee del `.env`: la puerta
+   interrogaba un proceso distinto al que acababa de arrancar. Corregido en
+   #109.
+3. **El manifiesto del contrato nunca se versionó.** `.gitignore` excluía
+   `dataset/config1/*` salvo excepciones puntuales, así que el archivo con el
+   SHA del contrato no entró al repo y `bun run verify` falló en `main` tras
+   el merge de #110. Versionado en #112.
+
+Además, la CI **nunca ejecutó los tests de la API**: la puerta TDD comprueba
+que el diff traiga un spec, pero no lo corre. Un spec puede fallar y la CI
+seguir en verde. Ahora `ci.yml` corre `bun --filter @docu/api test` y
+`verify` también (#112).
+
+### Verificar
+
+```bash
+bun run verify                                    # incluye los tests de la API
+bun --filter @docu/api test                       # 21 tests, 1 skip (live)
+bun run contrato:check                            # SHA congelado
+git grep -n 'The API has 0 tests' AGENTS.md       # sin resultados
+```
+
+---
+
 ## 2026-11-03 (vuelta 3) — #83 y #87 cerrados, reparto de carriles y briefs alineados
 
 **Quién:** Erik (`reeinharddd`) con el agente.
