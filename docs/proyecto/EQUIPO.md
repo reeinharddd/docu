@@ -27,12 +27,12 @@ su brief y el estado en su issue.
 
 | Persona | Carril | Entregables | Cierra | Brief |
 |---|---|---|---|---|
-| Erik | ~~A. Caso~~ **cerrado 2026-11-03** | Caso cerrado con mapa de derivación (#83) | 3-nov | `briefs/BRIEF-83-caso-c1.md` |
-| Erik | B. Plataforma frontend | Base del frontend en `main`: atomic, routing, kit, tests, CI (#84) — desbloquea a Kira (#11) hoy | 10-nov (se adelanta) | `briefs/BRIEF-84-plataforma-frontend.md` |
-| Emmanuel | D. Base de datos (conduce) | ER híbrido con DDL, vistas, triggers y migración (#58), con apoyo de Erik; después #60 y #62 | 12-nov | `briefs/BRIEF-58-diagrama-v0.md`, `briefs/BRIEF-60-arquitectura-modelo.md`, `briefs/BRIEF-62-modelo-datos.md` |
-| Erik | C. Infra IA + D (apoyo) | Motores de IA montados (#85), contrato congelado (#23, sin brief: gate del hito), apoyo y revisión del ER | 12-nov | `briefs/BRIEF-85-integracion-ia.md` |
-| Erik | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas (#85) | 18-nov | `briefs/BRIEF-85-integracion-ia.md` |
-| Erik | Método y gestión | SDD/TDD con guardas (#87), limpieza documental (#88), demo del 24-nov (#89), final (#6), revisión de todos los PR | 20-nov / 3-dic | `briefs/BRIEF-87-sdd-tdd.md`, `briefs/BRIEF-89-demo-24-nov.md` |
+| Erik | ~~A. Caso~~ **cerrado 2026-11-03** | Caso cerrado con mapa de derivación (#83) | 3-nov | `briefs/historico/BRIEF-83-caso-c1.md` |
+| Erik | B. Plataforma frontend | Base del frontend en `main`: atomic, routing, kit, tests, CI (#84) — desbloquea a Kira (#11) hoy | 10-nov (se adelanta) | `briefs/historico/BRIEF-84-plataforma-frontend.md` |
+| Emmanuel | D. Base de datos (conduce) | ER híbrido con DDL, vistas, triggers y migración (#58), con apoyo de Erik; después #60 y #62 | 12-nov | `briefs/BRIEF-58-diagrama-v0.md`, `briefs/historico/BRIEF-60-arquitectura-modelo.md`, `briefs/BRIEF-62-modelo-datos.md` |
+| Erik | C. Infra IA + D (apoyo) | ~~Motores de IA montados (#85)~~ **cerrado 2026-11-08**, contrato congelado (#23) **cerrado 2026-11-08**; apoyo y revisión del ER | 12-nov | `briefs/historico/BRIEF-85-integracion-ia.md`, `briefs/historico/BRIEF-23-contrato-datos.md` |
+| Erik | E. Integración IA | ~~OCR híbrido, embeddings 768, LLM consultable con citas (#85)~~ **cerrado 2026-11-08**; queda la medición por familia cuando exista el corpus (#61) | 18-nov | `briefs/historico/BRIEF-85-integracion-ia.md` |
+| Erik | Método y gestión | SDD/TDD con guardas (#87), limpieza documental (#88), demo del 24-nov (#89), final (#6), revisión de todos los PR | 20-nov / 3-dic | `briefs/historico/BRIEF-87-sdd-tdd.md`, `briefs/BRIEF-89-demo-24-nov.md` |
 | Emmanuel | G. Backend | Suite de API con el método (#45), ingesta (#12), pipeline (#3), worker (#46), solo-insert (#44), RBAC y reglas (#5), seed (#59), verificación de punta a punta (#7) | 19-nov | `briefs/BRIEF-45-pruebas-api.md`, `briefs/BRIEF-12-api-nestjs.md`, `briefs/BRIEF-03-pipeline-ingesta.md` |
 | Kira | H. Frontend | Mockups funcionales con datos reales (#11) y pantallas del caso contra la API real (#4) | 18-nov | `briefs/BRIEF-11-prototipos-ui-ux.md`, `briefs/BRIEF-04-frontend-angular.md` |
 | Carlos | F. Dataset | Generador determinista y dataset del mes con manifiesto SHA-256 (#61), replicabilidad (#86), reglas y evidencias (#5) | 19-nov | `briefs/BRIEF-61-generador-dataset.md`, `briefs/BRIEF-86-replicabilidad.md` |
