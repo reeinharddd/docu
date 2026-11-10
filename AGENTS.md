@@ -42,8 +42,9 @@ Stack and versions: `docs/ingenieria/STACK.md`.
 7. Drive and Docs are live read-only. Work management lives in GitHub Issues:
    reading is free, writing per `docs/integraciones/GITHUB-GESTION.md`.
 8. Before closing anything: green `bun run verify` plus evidence. One change
-   per commit. The API has 0 tests: `verify` starts it and queries `/health`
-   because there is no other net to catch it. In `apps/api`, no provider
+   per commit. `verify` runs the API tests (`bun --filter @docu/api test`),
+   then starts the API and queries `/health` because the health gate is the
+   only net that catches a broken boot. In `apps/api`, no provider
    injected by constructor is imported with `import type`: NestJS resolves it
    with `emitDecoratorMetadata` and needs the class at runtime.
 9. Nothing destructive without an explicit order. `main` is protected, everything via PR with a reviewer.
