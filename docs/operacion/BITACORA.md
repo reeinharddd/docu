@@ -140,6 +140,51 @@ git grep -n 'The API has 0 tests' AGENTS.md       # sin resultados
 
 ---
 
+## 2026-11-08 (vuelta 2) — Grafo de dependencias limpio y briefs de issues cerrados archivados
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** dos limpiezas de coherencia entre GitHub y el repo, sin tocar el ER
+(#58) ni el issue #58, que quedan exactamente como estaban.
+
+### Dependencias: 0 aristas hacia issues cerrados
+
+Al cerrar #23 y #85 quedaron **11 aristas `blocked by` apuntando a issues ya
+cerrados** (#60, #83, #84, #87 y los propios #23 y #85). GitHub las seguía
+mostrando como bloqueos vivos, y `PLAN-EPICAS.md` —que debe reflejar el mismo
+grafo— las arrastraba.
+
+Retiradas con `DELETE .../issues/{n}/dependencies/blocked_by/{id}` usando el
+**id de base de datos** de la arista, y verificadas con **GraphQL**
+(`blockedBy`), no con el endpoint REST de dependencias, que devuelve issues
+foráneos (lección de la auditoría del 3-nov). Resultado: 0 aristas hacia
+cerrados. PR #114.
+
+### Briefs: la convención volvió a aplicarse
+
+`docs/README.md` §Briefs dice que las delegaciones activas son las de issues
+abiertos y que las de issues cerrados se archivan en `briefs/historico/`,
+fuera del índice central. El archivado se hizo en #67 y #92, pero después se
+drifted: **8 issues cerrados seguían con brief en `docs/briefs/`** (#23, #60,
+#83, #84, #85, #87, #88, #90), así que el índice listaba trabajo terminado
+como delegación activa.
+
+Los 8 briefs se movieron a `historico/` sin editar su contenido, y se
+actualizaron las referencias que los citan (`EQUIPO.md`, `REPLAN`, ADR-0018,
+la skill `docu-frontend`, el ledger SDD). El índice pasó de 112 a 104
+entradas. PR #115.
+
+### Verificar
+
+```bash
+bash scripts/doc-index.sh          # 104 entries, 0 mismatches
+bash scripts/docs-briefcheck.sh    # briefs: OK
+bash scripts/docs-linkcheck.sh     # links: OK
+bash scripts/harness-check.sh      # harness: 16 pieces, 0 findings
+gh api graphql -f query='{ repository(owner:"reeinharddd",name:"docu") { issue(number:61) { blockedBy(first:10){nodes{number state}} } } }'
+```
+
+---
+
 ## 2026-11-03 (vuelta 3) — #83 y #87 cerrados, reparto de carriles y briefs alineados
 
 **Quién:** Erik (`reeinharddd`) con el agente.
