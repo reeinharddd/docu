@@ -66,10 +66,13 @@ brief**: falta el script con comando único en `dataset/ocr-eval/` (§8).
   worker, igual que los demás modelos locales de [IA.md](IA.md). En Docker va como
   contenedor propio o imagen con el modelo horneado; los pesos no entran a la
   imagen de la app.
-- **Laya:** se ejecuta **en proceso** dentro del worker vía ONNX Runtime
-  (`onnxruntime-node`), sin servicio aparte. *A verificar al construir el worker*:
-  compatibilidad del addon nativo de `onnxruntime-node` con el runtime Bun; si no
-  carga, el worker usa su contenedor Node y queda como borrador de ADR.
+- **Laya:** se llama **por HTTP** al endpoint SystemOne-compatible
+  (`IA_SCORING_URL`, default `http://localhost:8000/v1/systemone`), igual que
+  los demás motores: mismo wire, otro motor (ADR-0020 punto 4, enmienda
+  2026-11-10). La ejecución in-proceso vía ONNX Runtime (`onnxruntime-node`)
+  queda como evolución de #3 sobre la interfaz `ScoringEngine`; si algún día
+  entra, el addon nativo con Bun se verifica primero y se documenta en un ADR
+  propio.
 - **Restricción hardware:** no hay GPU confirmada. GLM-OCR (0.9B) y Laya
   (mmBERT-base) corren en CPU; el costo real por página hay que medirlo en `#46`.
 

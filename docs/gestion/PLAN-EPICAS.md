@@ -45,7 +45,7 @@ como *blocked by* en GitHub.
 |---|---|---|---|---|---|
 | A. Caso | Diseño del caso cerrado: personas, flujos, conversaciones, qué falla → cómo se resuelve → por qué afecta, con mapa de derivación | Erik | 6-nov | BD, plataforma, dataset, mockups | #83 |
 | B. Plataforma frontend | Estructura atomic, routing, kit, tests y CI | Erik | 10-nov | Frontend del caso | #84 |
-| C. Infra IA | Ollama con los modelos, Laya por ONNX, scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85 y #60) |
+| C. Infra IA | Ollama con los modelos, Laya vía endpoint SystemOne-compatible (`IA_SCORING_URL`), scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85 y #60) |
 | D. Base de datos | ER híbrido, DDL + migración, vistas, triggers, append-only, contrato con SHA | Emmanuel (ER #58, con apoyo de Erik); Erik (#60/#62/#23) | 12-nov | Backend, IA, contrato | #58, #60, #62, #23 |
 | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas, búsqueda híbrida | Erik | 18-nov | Freeze, demo | #85 |
 | F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 |

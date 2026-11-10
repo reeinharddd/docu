@@ -20,8 +20,8 @@ los reales quedan listos y se miden.
 |---|---|---|---|
 | OCR / KIE de escaneados | **GLM-OCR 0.9B** (`IA_OCR_MODEL=glm-ocr`) | `POST /v1/chat/completions` con imagen base64 | Texto y layout; CER ≤ 10 % en degradados ([OCR.md](OCR.md) §3: 11.26 % medido) |
 | Clasificación y consulta | **Llama 3.1/3.2** (`IA_LLM_MODEL=llama3.2`) | `POST /v1/chat/completions` con `response_format: json_schema` | JSON válido validado con Zod; temperatura 0, seed fija |
-| Embeddings | **Qwen3-Embedding-0.6B** (`IA_EMBEDDING_MODEL=qwen3-embedding-0.6b`) | `POST /v1/embeddings` | Vector de **768** dimensiones exactas (contrato del ER, IA.md §6) |
-| Scoring con confianza calibrada | **Laya** (in-proceso, ONNX) | No es API: corre en el worker | Confianza calibrada (ECE 0.081); su implementación la construye #3 sobre la interfaz `ScoringEngine` |
+| Embeddings | **Qwen3-Embedding-0.6B** (`IA_EMBEDDING_MODEL=qwen3-embedding:0.6b`) | `POST /v1/embeddings` | Vector de **768** dimensiones exactas (contrato del ER, IA.md §6) |
+| Scoring con confianza calibrada | **Laya** (SystemOne-compatible) | `IA_SCORING_URL` (default `http://localhost:8000/v1/systemone`), wire propio `POST /v1/systemone` | Confianza calibrada (ECE 0.081); implementada en `SystemOneScoringEngine` sobre la interfaz `ScoringEngine`; la variante ONNX in-proceso queda como evolución de #3 |
 
 El proveedor detrás del endpoint es indiferente al código: **Ollama local**
 (default, `http://localhost:11434/v1`), **vLLM/SGLang** en el host,
@@ -37,7 +37,9 @@ tenga, sin tocar una línea de código.
 | `IA_API_KEY` | (vacía; Ollama local no pide) | Credencial del proveedor; jamás en el repo |
 | `IA_OCR_MODEL` | `glm-ocr` | Modelo de visión para OCR/KIE |
 | `IA_LLM_MODEL` | `llama3.2` | Modelo de texto para clasificación y consulta |
-| `IA_EMBEDDING_MODEL` | `qwen3-embedding-0.6b` | Modelo de embeddings (salida a 768) |
+| `IA_EMBEDDING_MODEL` | `qwen3-embedding:0.6b` | Modelo de embeddings (salida a 768); tag del registro de Ollama |
+| `IA_SCORING_URL` | `http://localhost:8000/v1/systemone` | Endpoint del motor de scoring (contrato SystemOne); mismo wire, otro motor. Mismas reglas de localidad que `IA_API_BASE_URL` (RNF-03) |
+| `IA_SCORING_AUTO_THRESHOLD` / `IA_SCORING_REVIEW_THRESHOLD` | `0.90` / `0.60` | Umbrales de la cascada de decisión (IA.md §3); valores iniciales, se afinan contra el dataset (#61). Exige `review ≤ auto` |
 | `IA_SEED` | `42` | Seed fija para corridas reproducibles (RNF-07) |
 | `IA_TEMPERATURE` | `0` | Determinismo (IA.md §2) |
 | `IA_BUDGET_MAX_MS` | `30000` | Tiempo máximo por llamada |
@@ -100,8 +102,10 @@ cliente). Las pruebas de integración contra el endpoint real se activan con
 ## 5. Fronteras (no pisar otros carriles)
 
 - El **worker** (#46) consume este módulo; la **API** (#12) solo encola.
-- La **cascada de decisión** con Laya es del pipeline (#3): aquí solo vive la
-  interfaz `ScoringEngine` que #3 implementa en proceso.
+- La **cascada de decisión** con Laya es del pipeline (#3): aquí viven la
+  interfaz `ScoringEngine` y su implementación de referencia por HTTP
+  (`SystemOneScoringEngine`); la variante ONNX in-proceso la construirá #3
+  sobre la misma interfaz.
 - El **corpus** lo genera #61; la medición por familia corre cuando exista.
 
 ## Referencias
