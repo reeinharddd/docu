@@ -1,6 +1,6 @@
 # ADR 0020 — Acceso centralizado a motores de IA vía API compatible OpenAI
 
-Fecha: 2026-11-07 · Estado: Propuesta (se acepta en la revisión del 18-nov) ·
+Fecha: 2026-11-07 · Estado: Aceptada (2026-11-08, con la integración IA #85) ·
 Decide: Erik · Revisa: Emmanuel
 
 ## Contexto
