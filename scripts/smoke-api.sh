@@ -6,7 +6,16 @@
 set -u
 cd "$(dirname "$0")/../apps/api"
 log=/tmp/docu-smoke-api.log
-puerto=${PORT_API:-3000}
+
+# The API reads PORT_API from the root .env; this script must poll the same
+# port or the gate checks a different process than the one it started
+# (orchestration drill 2026-11-07). An explicit PORT_API in the environment
+# still wins over the .env value.
+puerto=${PORT_API:-}
+if [ -z "$puerto" ] && [ -f ../../.env ]; then
+  puerto=$(grep -E '^PORT_API=' ../../.env | tail -1 | cut -d= -f2)
+fi
+puerto=${puerto:-3000}
 
 # The API reads the .env at the monorepo root. Without this, DATABASE_URL arrives empty
 # and Postgres SCRAM fails. Same criteria as scripts/dev.sh.
