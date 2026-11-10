@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "files": {
+    "docs/ingenieria/fichas/CONTRATO.md": "5a8f3e808d512278173f35d29e04b72e231618581e7d01a73a7a478cc3d70127",
+    "dataset/config1/esperado.json": "8562b587c905c4d01ffc345782db1bcd19d76297414dfd4a26a7f2dfbcd616eb",
+    "dataset/config1/esquemas/correo_hermana.schema.json": "54a365bff11698ef04ff0d83c92972d62f15d305e5e7edec9397120ddcef58d7",
+    "dataset/config1/esquemas/escaneado.schema.json": "9bdf1c84c7619478b9a333f9802908b983a6ef8bac2f4b38b2ad8f29d6768476",
+    "dataset/config1/esquemas/excel_turno.schema.json": "9e94c54df36746a36b9b776403fe91a2a2319fef77db85db2559655fb327b3cc",
+    "dataset/config1/esquemas/inventario.schema.json": "1c3c1cc412a2e5114e775ed231280deab0009d1f89b17a8d7b1a3126f0f2092b",
+    "dataset/config1/esquemas/programa_planeacion.schema.json": "66eb1fae9f62fea7dc83a429033e955cf33f42cd94b9233eb8c107b0b471f54b",
+    "dataset/config1/esquemas/recepcion_rollo.schema.json": "557e8ede8a80bd7c3246ccac8f5b9af67f1597697c39abbdbd6f9def43b2e610"
+  },
+  "contract_sha": "5b9d9c88d63d7f3a67582b5b8bf6f2092deb2a2eeca81b6c7bfbe729543300f3"
+}

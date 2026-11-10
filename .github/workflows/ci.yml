@@ -63,6 +63,7 @@ jobs:
       - run: bash scripts/docs-linkcheck.sh
       - run: bash scripts/docs-briefcheck.sh
       - run: bash scripts/docs-tracecheck.sh
+      - run: bun --filter @docu/api test
       - run: bun --filter web test
   diagramas:
     runs-on: ubuntu-latest

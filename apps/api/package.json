@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "bun test src/ia",
+    "test": "bun test src",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:migrate": "prisma migrate dev",

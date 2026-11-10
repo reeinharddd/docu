@@ -17,6 +17,8 @@ dataset/config1/*
 !dataset/config1/manifiesto.sha256
 # The approved volume (CONTRATO.md §8/§9) IS versioned: it is the contract
 !dataset/config1/esperado.json
+# The frozen contract manifest (#23) IS versioned: the SHA is the signature
+!dataset/config1/contrato-sha.json
 dataset/config2/*
 !dataset/config2/.gitkeep
 !dataset/config2/README.md
