@@ -30,8 +30,24 @@ services:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       retries: 10
+  # IA engines host (REPLAN-2026-10-30 lane C): one OpenAI-compatible endpoint
+  # for OCR, LLM and embeddings (ADR-0020). Models are pulled by
+  # scripts/setup-ia.sh, never baked into the app image.
+  ollama:
+    image: ollama/ollama:latest
+    container_name: docu-ollama
+    restart: unless-stopped
+    ports:
+      - "${IA_OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - docu_ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 5s
+      retries: 12
   # api:      # M1 — build: ../apps/api, port 3000, depends on healthy db+redis
   # worker:   # E2 — same api image, worker command (BullMQ + tesseract inside)
 volumes:
   docu_pgdata:
   docu_redisdata:
+  docu_ollama:

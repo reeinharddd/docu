@@ -16,6 +16,17 @@ bash scripts/setup.sh
 `scripts/setup.sh` es idempotente y no usa `sudo`. Instala lo que falte en el
 home del usuario y deja todo verificado:
 
+Después, los motores de IA locales (opcional, REPLAN carril C):
+
+```
+bash scripts/setup-ia.sh
+```
+
+Levanta el contenedor `ollama` del compose, baja los modelos de `.env`
+(OCR, LLM, embeddings) y verifica la superficie `/v1` y `IA_SCORING_URL`.
+Es idempotente, no usa `sudo` y avisa si algún modelo del caso no está en el
+registro (se ajusta en `.env`, nunca en código: ADR-0020).
+
 | Paso | Qué hace |
 |---|---|
 | Sistema | Linux, macOS o Windows con WSL2. Exige `git`, `curl`, `unzip` |
