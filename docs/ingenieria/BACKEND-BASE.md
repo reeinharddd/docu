@@ -5,6 +5,11 @@ encima: la API arranca, la base está sembrada y los contratos transversales
 están resueltos. No es un manual de la API completa: es el punto de partida
 para escribir funciones sin volver a decidir las reglas de cada capa.
 
+El estándar que la base cumple y que cada función nueva debe mantener
+(respuesta predecible, errores, capas, eficiencia, tipos) está en
+[CALIDAD-BACKEND.md](CALIDAD-BACKEND.md), con la lista de lo que todavía esta
+demo no cumple.
+
 ## Arrancar (un comando)
 
 ```
