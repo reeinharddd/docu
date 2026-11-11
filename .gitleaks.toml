@@ -1,0 +1,15 @@
+# Gitleaks — configuración del escaneo de secretos (CI lo corre en cada commit).
+#
+# Reglas por defecto: todas las de gitleaks. Aquí solo se documenta la única
+# excepción, que es un falso positivo.
+[extend]
+useDefault = true
+#
+# `parserKey` es un campo del dominio DOCU: identifica el parser que lee una
+# familia de documentos (config.family_config.parser_key en el ER de #58). No
+# es una credencial. El valor que dispara la regla es el fixture de prueba
+# del módulo de referencia, que replica la clave real de la semilla C1.
+[[allowlists]]
+description = "parserKey es un campo del dominio, no una credencial (fixture del módulo de referencia)"
+paths = ['''^apps/api/src/config/families/families\.service\.spec\.ts$''']
+regexes = ['''parserKey: 'excel_turno\.v1' ''']
