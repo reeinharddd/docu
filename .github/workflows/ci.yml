@@ -48,6 +48,9 @@ jobs:
         with:
           bun-version: 1.4.3
       - run: bun install
+      # The Prisma client is generated from the schema: without it there are
+      # no model types and the API cannot boot.
+      - run: bun run db:generate
       - run: test ! -f .env || (echo ".env en el repo" && exit 1)
       - uses: gitleaks/gitleaks-action@v2
         env:
@@ -118,6 +121,7 @@ jobs:
         with:
           bun-version: 1.4.3
       - run: bun install
+      - run: bun run db:generate
       # The smoke uses the same script as local: it waits for a condition, not for a
       # fixed time, and distinguishes "API does not come up" from "missing infrastructure".
       - run: bash scripts/smoke-api.sh

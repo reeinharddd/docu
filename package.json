@@ -11,7 +11,7 @@
     "dev": "bash scripts/dev.sh",
     "dev:web": "bun --filter web start",
     "doctor": "bash scripts/doctor.sh",
-    "verify": "bun run lint && bun run typecheck && bun run compose:check && bun run harness:check && bun run diagramas:check && bun run dataset:check && bun run contrato:check && bun run prisma:check && bash scripts/doc-index.sh && bun --filter @docu/api test && bun --filter web test && bun run api:openapi:check && bun run smoke:api",
+    "verify": "bun run db:generate && bun run lint && bun run typecheck && bun run compose:check && bun run harness:check && bun run diagramas:check && bun run dataset:check && bun run contrato:check && bun run prisma:check && bash scripts/doc-index.sh && bun --filter @docu/api test && bun --filter web test && bun run api:openapi:check && bun run smoke:api",
     "lint": "biome check --error-on-warnings .",
     "lint:fix": "biome check --write .",
     "typecheck": "bun --filter '*' typecheck",
