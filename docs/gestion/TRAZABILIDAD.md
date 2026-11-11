@@ -1,10 +1,10 @@
 # Gestión: trazabilidad requisito → épica → issue → PR → evidencia
 
-Estado: vigente. Verificado contra GitHub el 2026-11-08 (post-cierre de #23 y
-#85): 26 issues abiertos (19 con milestone + 7 épicas sin milestone a
-propósito), 30 cerrados, 4 milestones abiertos (C1 modelo y BD 12-nov con 3
-abiertos — #58, #62 y #45 —, C1 vertical completa 19-nov con 13, Avances
-profesor 24-nov con 1) y 5 cerrados — incluye `Contrato de datos congelado`,
+Estado: vigente. Verificado contra GitHub el 2026-11-10: 26 issues abiertos
+(19 con milestone + 7 épicas sin milestone a propósito), 37 cerrados, 5
+milestones abiertos (Post-C1 sin fecha, C1 modelo y BD 12-nov con 3 abiertos
+— #58, #62 y #45 —, C1 vertical completa 20-nov con 13, Avances profesor
+24-nov con 1, C1 final 3-dic) y 5 cerrados — incluye `Contrato de datos congelado`,
 cerrado vacío el 2026-11-03 por ser reliquia de Monday (su alcance real vive
 en `C1 modelo y BD`: #62 y #23). Los
 contadores de la API de milestones mienten (stale): los números de arriba se

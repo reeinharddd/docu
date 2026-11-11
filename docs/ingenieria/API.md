@@ -68,8 +68,10 @@ vuelve a abrir aquí:
 
 | Superficie | Estado |
 |---|---|
-| `apps/api` | **0 pruebas.** Sin unitarias ni de integración |
+| `apps/api` | 2 archivos, 21 casos (Bun test): motores IA (config, contratos, presupuesto, caché, reintentos) y reporte de salud. 20 en verde; 1 condicional corre solo con `IA_LIVE_TEST=1` |
 | `apps/web` | 10 archivos, 54 pruebas (Vitest) |
 
-`apps/api` no tiene un solo `.spec.ts`. Es el hueco más grande del proyecto:
-RNF-07 no se sostiene sin pruebas del lado del servidor.
+Las pruebas de la API son unitarias y corren sin red. El hueco que sigue
+abierto es la **integración del lado del servidor contra base de datos real**
+(esquema, migración, aislamiento por instalación): eso lo cubre #45. Sin esa
+capa, RNF-07 no se sostiene del todo.

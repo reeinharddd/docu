@@ -154,8 +154,9 @@ el responsable de la tarea, pero estas son las que se evaluaron:
 | **gpt-oss** | Alternativa abierta de tamaño medio | Sirve si se quiere comparar contra un modelo mayor |
 | **embeddinggemma** u otro de embeddings | Genera el vector de `OfficialRecord` | Ver la advertencia de dimensión abajo |
 
-El **scoring y la decisión** no se sirven por Ollama: corren en proceso en el
-worker con **Laya** (ONNX), detallado en [OCR.md](OCR.md) §6.
+El **scoring y la decisión** no pasa por el LLM: se sirve por su propio
+endpoint SystemOne-compatible con **Laya** (`IA_SCORING_URL`), detallado en
+[OCR.md](OCR.md) §6.
 
 ### Nube, solo con autorización
 

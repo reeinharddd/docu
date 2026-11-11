@@ -1,7 +1,7 @@
 # ADR 0020 — Acceso centralizado a motores de IA vía API compatible OpenAI
 
-Fecha: 2026-11-07 · Estado: Aceptada (2026-11-08, con la integración IA #85) ·
-Decide: Erik · Revisa: Emmanuel
+Fecha: 2026-11-07 · Estado: Aceptada (2026-11-08, con la integración IA #85);
+punto 4 enmendado el 2026-11-10 · Decide: Erik · Revisa: Emmanuel
 
 ## Contexto
 
@@ -10,9 +10,9 @@ código** (REPLAN-2026-10-30 §4). La arquitectura de #60 declaró el hueco en
 `ARQUITECTURA.md` §5: no hay dónde elegir el motor. Los modelos ya están
 elegidos y documentados: **GLM-OCR 0.9B** para lectura de escaneados
 ([OCR.md](../ingenieria/OCR.md)), **Laya** para scoring con confianza
-calibrada (in-proceso, OCR.md §6), **Llama 3.1/3.2** para clasificación y
-consulta ([IA.md](../ingenieria/IA.md) §5) y **Qwen3-Embedding-0.6B /
-EmbeddingGemma** para vectores a 768 (IA.md §6).
+calibrada (vía su endpoint SystemOne-compatible, OCR.md §6), **Llama
+3.1/3.2** para clasificación y consulta ([IA.md](../ingenieria/IA.md) §5) y
+**Qwen3-Embedding-0.6B / EmbeddingGemma** para vectores a 768 (IA.md §6).
 
 Lo que faltaba era decidir **cómo se accede a esos modelos**. Restricciones
 reales:
@@ -42,17 +42,24 @@ código.**
    sirve OCR (visión), LLM y embeddings.
 2. Cada capacidad elige su modelo por entorno: `IA_OCR_MODEL` (default
    `glm-ocr`), `IA_LLM_MODEL` (default `llama3.2`),
-   `IA_EMBEDDING_MODEL` (default `qwen3-embedding-0.6b`). Cambiar de modelo
+   `IA_EMBEDDING_MODEL` (default `qwen3-embedding:0.6b`, el tag del registro
+   de Ollama). Cambiar de modelo
    o de proveedor es cambiar `.env` y reiniciar el worker.
 3. **La nube exige activación explícita** (RNF-03): si `IA_API_BASE_URL` no
    es un host local/de red privada y `IA_NUBE_ACTIVADA != true`, el módulo
    **falla al arrancar** con error accionable. Local por defecto, nube como
    excepción autorizada por el líder.
-4. **Laya es la excepción por diseño**: corre en proceso en el worker (ONNX),
-   no por API (OCR.md §6: confianza calibrada sin generar texto). #85 define
-   y deja lista la interfaz `ScoringEngine`; su implementación ONNX la
-   construye el carril de clasificación (#3) sobre esa interfaz, dentro del
-   worker, sin tocar este módulo.
+4. **Laya se accede por su propia API** (enmienda 2026-11-10): el motor
+   SystemOne-compatible se llama por HTTP con `IA_SCORING_URL`
+   (default `http://localhost:8000/v1/systemone`), con las mismas reglas de
+   localidad que `IA_API_BASE_URL` (RNF-03). Así el motor de scoring es
+   intercambiable igual que los demás: mismo wire, otro motor. #85 define la
+   interfaz `ScoringEngine` y entrega la implementación de referencia
+   (`SystemOneScoringEngine`); la variante ONNX in-proceso sigue prevista
+   como evolución de #3 sobre la misma interfaz. *Motivo de la enmienda:* la
+   integración de #85 materializó el scoring como cliente HTTP y el addon
+   nativo de `onnxruntime-node` no está verificado con el runtime Bun
+   (OCR.md §4); se documenta lo que corre, no lo deseado.
 5. **Sin simulaciones**: no existen motores falsos. Las pruebas unitarias
    cubren construcción de peticiones y mapeo de respuestas con dobles de
    transporte dentro del spec; las pruebas de integración contra el endpoint
