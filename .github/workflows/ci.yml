@@ -114,3 +114,7 @@ jobs:
       - run: bash scripts/smoke-api.sh
       - run: bun scripts/queue-ping.ts
         working-directory: apps/api
+      # Database contract: baseline applied on a clean database + the SQL
+      # proofs, then the per-function specs against the same services.
+      - run: bun run db:test
+      - run: bun run db:spec
