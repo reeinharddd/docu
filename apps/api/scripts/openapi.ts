@@ -43,7 +43,9 @@ const serialized = `${JSON.stringify(document, null, 2)}\n`
 if (check) {
   // Semantic comparison: the formatter (biome, pre-commit hook) may rewrite
   // the file's layout without changing the contract.
-  const current = existsSync(target) ? JSON.parse(readFileSync(target, 'utf8')) : null
+  const current = existsSync(target)
+    ? JSON.parse(readFileSync(target, 'utf8'))
+    : null
   const same = JSON.stringify(current) === JSON.stringify(document)
   if (!same) {
     console.error(
