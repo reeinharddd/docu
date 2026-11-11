@@ -236,6 +236,78 @@ No hay tablas: se revisan las reglas que todos heredan.
 4. El contrato estructural de `schema-test.ts` (tablas/CHECK/triggers) se
    actualiza en el mismo commit del cambio.
 
+## 5.1 Auditoría profunda 2026-11-10 (velocidad, carga, peso, seguridad, replicabilidad)
+
+Revisión a conciencia previa al cierre de #58, ejecutada contra base limpia
+(migración + semilla C1) en el Postgres 18 del carril. Herramienta
+repetible: `bun run db:bench [escala]` (`apps/api/scripts/db-bench.ts`).
+
+**Velocidad y carga (escala ×5 del contrato §8: 850 archivos, 300 turnos,
+300 embeddings, 300 versiones de historial).**
+
+| Medición | Resultado |
+|---|---|
+| Migración baseline en base limpia | 1.8 s |
+| Semilla C1 (9 personas, 6 familias, 7 reglas, 11 tipos, 5 máquinas) | 28 ms |
+| Inserción de 850 archivos | 225.8 ms |
+| 300 turnos + 300 versiones de lineage | 12.1 ms / 163.2 ms |
+| 300 embeddings de 768 (MRL pedido) | 46.5 ms |
+| Bandeja: página 3 de 20 + total (`X-Total-Count`) | 1.9 ms / 0.5 ms |
+| Página de `official_record` confirmado | 0.1 ms |
+| Lineage: historial y ¿de qué rollo salió esta orden? | 0.1 ms |
+| KNN 5 sobre 300 vectores | 1.2 ms |
+
+Índices observados en los planes: `entity_facility_id_status_idx`,
+`origin_history_entity_id_version_key`,
+`relation_target_entity_id_relation_type_idx`,
+`entity_facility_id_entity_type_id_code_key`. A volumen pequeño el
+planificador puede elegir seq scan (por ejemplo en KNN); la garantía de ruta
+indexada la prueban las specs con `enable_seqscan = OFF`
+(`prisma/tests/*.spec.ts`). La bandeja prefiere
+`source_file_facility_id_id_key` + top-N sort: correcto y medido; el índice
+compuesto `(facility_id, received_at)` queda para filtros por ventana.
+
+**Peso (×5 del mes).** Base completa 14 MB; la tabla mayor,
+`ingest.source_file`, 2.4 MB con sus índices. Un mes real de C1 ≈ 3 MB: no
+hay riesgo de tamaño en el cuatrimestre.
+
+**Replicabilidad.** Dos bases creadas de forma independiente (migración +
+semilla) producen esquemas idénticos: `pg_dump --schema-only` de ambas
+difiere solo en el token `\restrict` aleatorio que pg_dump 18 emite por
+volcado, no en ninguna estructura. La semilla es idempotente (corrida doble
+sin duplicados) y el corpus del mes es territorio de #59.
+
+**Seguridad — estado y 3 hallazgos.**
+
+1. **El rol de la aplicación es superusuario.** Las 25 tablas son propiedad
+   de `docu`, superusuario del contenedor. Cualquier descuido en el carril de
+   backend (#12) tiene potencia total. Pendiente para despliegue: rol
+   `docu_app` sin superusuario para la cadena de conexión.
+2. **RLS = 0.** El aislamiento por instalación es de escritura (FK
+   compuestas, probado en `isolation.sql`) y de lectura depende del filtro
+   `facility_id` del backend (ADR-0019). Endurecimiento posible: RLS por
+   `current_setting('app.facility_id')` — exige rol no superusuario primero.
+   Decisión de arquitectura: enmienda de ADR-0019 o ADR nuevo; no se hace en
+   silencio en este PR.
+3. **`ssl off` en Postgres.** Aceptable en el contenedor local (puertos no
+   estándar, red del host); para despliegue en LAN de la planta (E2/C2) hay
+   que activar TLS en `pg_hba`.
+
+**Lo que la BD ya le regala a backend y frontend (#12, #3, #4).** Vistas de
+salida (`official_record` con responsable, `entity_lineage` con fuente y
+regla por versión), estados con CHECK (`draft → pending_confirmation →
+official → rejected → superseded`), cuarentena con quién/cuándo/porqué,
+`job_run` para BullMQ con unique `(queue, job_id)`, `session` para el token
+opaco de ADR-0021, permisos/roles como catálogo fijo y reglas como datos.
+El backend solo añade filtros `facility_id` + paginación `limit/offset`
+(ADR-0022): los índices ya están.
+
+**Pendiente consciente (fuera de este PR).** Búsqueda textual en español
+(búsqueda híbrida además del vector): decidir `tsvector` + índice GIN en el
+carril de búsqueda (#3/E); validación JSON de `entity.data` contra
+`schema_definition` es del backend, no de la base (ADR-0009); guardas RLS y
+rol no superusuario para despliegue.
+
 ## 6. Definición de Hecho de la revisión
 
 - Los 8 segmentos en `Aprobado`, sin cambios globales pendientes.
