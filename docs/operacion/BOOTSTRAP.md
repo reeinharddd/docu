@@ -93,6 +93,39 @@ Bun es el único gestor de paquetes del proyecto (`docs/decisiones/ADR-0002`).
 
 ## Arranque
 
+### Backend completo (un comando)
+
+```
+bun run bootstrap
+```
+
+Deja el backend operable de punta a punta, en orden y de forma idempotente:
+
+1. Verifica `bun` y Docker, y crea `.env` desde `.env.example` si falta.
+2. `bun install --frozen-lockfile`.
+3. Levanta PostgreSQL 18 + pgvector, Redis 8 y Ollama con `--wait`.
+4. Genera el cliente Prisma y aplica las migraciones (`db:deploy`).
+5. Aplica la semilla de las tres capas (`db:seed`): vocabulario del motor,
+   instalación C1 y (cuando exista) el corpus del mes.
+6. Descarga los modelos de IA y verifica sus contratos (`scripts/setup-ia.sh`).
+7. Regenera el artefacto OpenAPI (`docs/api/openapi.json`).
+
+No usa `sudo`, no borra datos y se puede correr las veces que sea. Al final
+imprime la contraseña inicial del usuario `andres` **una sola vez**; si ya
+corriste la semilla y no la guardaste, recupérala con
+`bun run db:password andres`.
+
+Después, la API:
+
+```
+bun run dev
+```
+
+El detalle de la base y de las tres capas de semilla está en
+[ingenieria/BACKEND-BASE.md](../ingenieria/BACKEND-BASE.md).
+
+### Arranque mínimo (infra + API)
+
 ```
 bun install
 bun run doctor
