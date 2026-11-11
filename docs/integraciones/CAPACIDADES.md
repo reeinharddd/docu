@@ -27,6 +27,12 @@ secciones de MCP y scripts son informativas (no llevan frontmatter propio).
 | `.opencode/agents/explorador.md` | subagente | Erik | en la ola 1 de `/tarea` | Descubrimiento solo-lectura del repo | propio | activo |
 | `.opencode/agents/revisor.md` | subagente | Erik | antes de `/cerrar` o de aprobar un PR | Revisión solo-lectura y calibrada de un diff | propio | activo |
 
+## Prompts para agentes externos
+
+| Pieza | Tipo | Dueño | Disparador | Propósito | Origen/Versión | Estado |
+|---|---|---|---|---|---|---|
+| `.opencode/prompts/auditoria-externa.md` | prompt | Erik | al encargar una auditoría independiente | Prompt autocontenido para que un agente externo audite BD, backend, IA, frontend y CI | propio | activo |
+
 ## Skills propias
 
 | Pieza | Tipo | Dueño | Disparador | Propósito | Origen/Versión | Estado |

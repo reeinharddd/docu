@@ -23,12 +23,15 @@ frontmatter() {
   ' "$1"
 }
 
-report() { echo "FINDING: $1: $2"; findings=$((findings+1)); }
+report() {
+  echo "FINDING: $1: $2"
+  findings=$((findings + 1))
+}
 
 check_piece() {
   piece=$1
   vendor=$2
-  total=$((total+1))
+  total=$((total + 1))
   block=$(frontmatter "$piece")
   if [ -z "$block" ]; then
     report "$piece" "no frontmatter"
@@ -51,14 +54,15 @@ check_piece() {
 
 is_vendor() {
   case "$1" in
-    .opencode/skills/vendor/*) return 0 ;;
-    *) return 1 ;;
+  .opencode/skills/vendor/*) return 0 ;;
+  *) return 1 ;;
   esac
 }
 
 discover() {
   find .opencode/commands -type f -name '*.md' 2>/dev/null
   find .opencode/agents -type f -name '*.md' 2>/dev/null
+  find .opencode/prompts -type f -name '*.md' 2>/dev/null
   find .opencode/skills -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' 2>/dev/null
   find .opencode/skills/vendor -mindepth 2 -maxdepth 2 -type f -name 'SKILL.md' 2>/dev/null
 }
