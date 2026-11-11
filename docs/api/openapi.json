@@ -10,9 +10,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Health"
-        ]
+        "tags": ["Health"]
       }
     },
     "/v1/auth/login": {
@@ -35,9 +33,7 @@
           }
         },
         "summary": "Inicia sesión y devuelve el token opaco",
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/auth/logout": {
@@ -50,9 +46,7 @@
           }
         },
         "summary": "Revoca la sesión actual",
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/auth/me": {
@@ -65,9 +59,7 @@
           }
         },
         "summary": "Perfil de la sesión activa",
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/v1/families": {
@@ -79,9 +71,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Families"
-        ]
+        "tags": ["Families"]
       }
     },
     "/v1/families/{familyCode}": {
@@ -102,9 +92,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Families"
-        ]
+        "tags": ["Families"]
       }
     }
   },
