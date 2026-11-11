@@ -879,12 +879,16 @@ ALTER TABLE "core"."role" ADD CONSTRAINT "role_code_check" CHECK ("code" IN ('ad
 ALTER TABLE "core"."permission" ADD CONSTRAINT "permission_code_check" CHECK ("code" IN ('read', 'download', 'create', 'update', 'submit', 'confirm', 'release', 'quarantine', 'manage_users', 'manage_permissions', 'manage_config', 'view_audit'));
 ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_scope_check" CHECK ("scope" IN ('organizacion', 'instalacion', 'departamento', 'propio'));
 ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_vigencia_check" CHECK ("valid_until" > "valid_from");
+-- El porqué no es opcional ni vacío: es la cadena de auditoría (ADR-0006).
+ALTER TABLE "core"."access_grant" ADD CONSTRAINT "access_grant_reason_present_check" CHECK (length(btrim("reason")) > 0);
 
 -- ingest
 ALTER TABLE "ingest"."source_file" ADD CONSTRAINT "source_file_byte_size_check" CHECK ("byte_size" > 0);
 ALTER TABLE "ingest"."parsed_record" ADD CONSTRAINT "parsed_record_status_check" CHECK ("status" IN ('parsed', 'validated', 'quarantined', 'accepted'));
 ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_severity_check" CHECK ("severity" IN ('BLOQUEO', 'AVISO'));
 ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_status_check" CHECK ("status" IN ('pending', 'resolved', 'dismissed'));
+-- La cuarentena existe para registrar el motivo: vacío no es un motivo (ADR-0006).
+ALTER TABLE "ingest"."quarantine" ADD CONSTRAINT "quarantine_reason_present_check" CHECK (length(btrim("reason")) > 0);
 
 -- graph
 ALTER TABLE "graph"."entity" ADD CONSTRAINT "entity_status_check" CHECK ("status" IN ('draft', 'pending_confirmation', 'official', 'rejected', 'superseded'));

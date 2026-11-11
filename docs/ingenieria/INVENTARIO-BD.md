@@ -242,7 +242,7 @@ Reservado (aún sin escribir): **0020** motores de IA como configuración (#85).
 `bun run db:test` (desde `apps/api`) aplica la migración a una base scratch y
 corre las pruebas SQL. Estado al 2026-11-07 (con auditoría adoptada): **verde**.
 
-- Contrato estructural: 25 tablas, 2 vistas, 20 CHECK, 8 triggers
+- Contrato estructural: 25 tablas, 2 vistas, 22 CHECK, 8 triggers
   solo-insert (4 por fila + 4 TRUNCATE), extensión `vector`, índice HNSW.
 - `solo_insert.sql`: las 4 tablas blindadas rechazan UPDATE, DELETE y TRUNCATE.
 - `new_family.sql`: una familia nueva se declara como dato y se enlaza con su

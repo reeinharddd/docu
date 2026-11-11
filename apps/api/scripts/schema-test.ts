@@ -3,7 +3,7 @@
 // Applies the baseline migration to a scratch database and runs the SQL proofs
 // (append-only tables, new family as data) plus the structural contract of the
 // model: 25 tables, 2 views, 4 append-only tables guarded by 8 triggers,
-// 20 CHECK constraints, the pgvector extension and the HNSW vector index.
+// 22 CHECK constraints, the pgvector extension and the HNSW vector index.
 //
 // The scratch database is created and left in place on purpose: this script
 // never drops anything. CI runs on an ephemeral container, so nothing leaks.
@@ -25,7 +25,7 @@ const MODEL_SCHEMAS =
   "('core', 'ingest', 'graph', 'truth', 'config', 'platform')"
 const EXPECTED_TABLES = 25
 const EXPECTED_VIEWS = 2
-const EXPECTED_CHECKS = 20
+const EXPECTED_CHECKS = 22
 const EXPECTED_APPEND_ONLY = [
   'ingest.source_file',
   'truth.origin_history',
@@ -209,7 +209,7 @@ async function main(): Promise<void> {
       )
     }
     console.log(
-      'OK: 25 tablas, 2 vistas, 20 CHECK, 8 triggers solo-insert (4 fila + 4 TRUNCATE), extension vector, indice HNSW',
+      'OK: 25 tablas, 2 vistas, 22 CHECK, 8 triggers solo-insert (4 fila + 4 TRUNCATE), extension vector, indice HNSW',
     )
   } finally {
     await client.end()

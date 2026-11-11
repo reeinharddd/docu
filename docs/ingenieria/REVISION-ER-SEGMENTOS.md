@@ -32,7 +32,7 @@ Fuentes que se revisan en cada segmento: `apps/api/prisma/schema.prisma`,
      resolverse, y los segmentos ya aprobados que la heredan pasan a
      `Revisar de nuevo (parcial)`.
 4. Agregar o eliminar tablas es **cambio global por definición**: altera el
-   contrato estructural (25 tablas, 20 CHECK, 8 triggers), la matriz de
+   contrato estructural (25 tablas, 22 CHECK, 8 triggers), la matriz de
    clases del diagrama y las pruebas. Su commit es propio y actualiza todo
    lo anterior en el mismo cambio.
 5. Si el cambio global implica una decisión de arquitectura (no solo
@@ -56,7 +56,7 @@ Fuentes que se revisan en cada segmento: `apps/api/prisma/schema.prisma`,
 | G6 | Contrato `vector(768)` + HNSW coseno | `IA.md`, `migration.sql` | S7, pipeline IA (#85) |
 | G7 | Aislamiento por instalación (RF-06) | S0, `tests/isolation.sql` | Todos |
 | G8 | Confirmación humana (CHECKs de `confirmed_by_id`/`confirmed_at`) | S0/S5 | graph, backend |
-| G9 | Contrato estructural (25 tablas, 20 CHECK, 8 triggers) | `schema-test.ts` | Todos |
+| G9 | Contrato estructural (25 tablas, 22 CHECK, 8 triggers) | `schema-test.ts` | Todos |
 
 ## 2. ¿Los 6 esquemas alcanzan como segmentos?
 

@@ -110,7 +110,7 @@ garantiza PostgreSQL, no el código.**
   `L-1-v2`; `entity_lineage` expone ambos.
 - Confirmación: oficial con responsable pero sin fecha y borrador con
   confirmación prematura, ambos rechazados por CHECK.
-- Contrato estructural: 25 tablas, 2 vistas, 20 CHECK, 8 triggers
+- Contrato estructural: 25 tablas, 2 vistas, 22 CHECK, 8 triggers
   solo-insert (4 fila + 4 TRUNCATE), extensión `vector`, índice HNSW.
 
 ## Qué nos haría revertirla
