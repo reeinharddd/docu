@@ -29,6 +29,7 @@
     "db:deploy": "bun --filter @docu/api db:deploy",
     "db:test": "bun --filter @docu/api db:test",
     "db:spec": "bun --filter @docu/api db:spec",
+    "db:seed": "bun --filter @docu/api db:seed",
     "docs:links": "bash scripts/docs-linkcheck.sh",
     "docs:briefs": "bash scripts/docs-briefcheck.sh",
     "docs:trace": "bash scripts/docs-tracecheck.sh",
