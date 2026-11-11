@@ -1,7 +1,14 @@
 import { Module } from '@nestjs/common'
+import { AuthModule } from './auth/auth.module.js'
+import { ConfigModule } from './config/config.module.js'
 import { HealthController } from './health/health.controller.js'
+import { PrismaModule } from './prisma/prisma.module.js'
 
+// Composition root: Prisma is global (one client), Auth owns identity and
+// the session, Config owns the installation catalogs, and the health gate
+// stays at the root because it is the operational contract.
 @Module({
+  imports: [PrismaModule, AuthModule, ConfigModule],
   controllers: [HealthController],
 })
 export class AppModule {}
