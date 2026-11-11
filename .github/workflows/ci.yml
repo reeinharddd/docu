@@ -65,6 +65,9 @@ jobs:
       - run: bash scripts/docs-tracecheck.sh
       - run: bun --filter @docu/api test
       - run: bun --filter web test
+      # The OpenAPI artifact is a contract: it must match the code that
+      # generates it, or the endpoint and the documentation disagree.
+      - run: bun run api:openapi:check
   diagramas:
     runs-on: ubuntu-latest
     env:
@@ -118,3 +121,7 @@ jobs:
       # proofs, then the per-function specs against the same services.
       - run: bun run db:test
       - run: bun run db:spec
+      # The seed is part of the deliverable: it must run clean on a real
+      # database and be idempotent (run it twice).
+      - run: bun run db:seed
+      - run: bun run db:seed
