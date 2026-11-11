@@ -34,7 +34,8 @@ const KEEP = process.argv.includes('--keep')
 
 const apiDir = join(rootDir, 'apps', 'api')
 const prismaBin = join(apiDir, 'node_modules', '.bin', 'prisma')
-const seedPath = join(apiDir, 'prisma', 'seed', 'c1.sql')
+const seedDir = join(apiDir, 'prisma', 'seed')
+const seedFiles = [join(seedDir, 'engine.sql'), join(seedDir, 'c1.sql')]
 
 function databaseUrl(): string {
   const url = process.env.DATABASE_URL
@@ -146,7 +147,9 @@ async function main() {
   const seedStarted = performance.now()
   const seeder = new Client(configFor(BENCH_DB))
   await seeder.connect()
-  await seeder.query(readFileSync(seedPath, 'utf8'))
+  for (const file of seedFiles) {
+    await seeder.query(readFileSync(file, 'utf8'))
+  }
   console.log(
     `semilla C1: ${(performance.now() - seedStarted).toFixed(0).padStart(11)} ms`,
   )

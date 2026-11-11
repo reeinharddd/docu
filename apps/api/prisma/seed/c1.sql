@@ -1,14 +1,16 @@
--- Seed mínimo C1 — Configuración 1 (Baja SterilPack, caso sintético).
+-- Seed C1 — la capa que se adapta al caso pero sigue siendo fija.
 --
--- Deja la base consultable con los catálogos fijos y la instalación C1:
--- facility, departamentos, las 9 personas del caso, el catálogo de permisos
--- y roles (vocabulario del motor), las 6 familias, las 7 reglas R-P1..R-T1
--- como datos (ADR-0009), los tipos de entidad que C1 necesita (semilla de #59)
--- y las 5 máquinas. El corpus del mes NO va aquí: lo emite #59 con el dataset
--- de #61.
+-- Configuración 1 (Baja SterilPack, caso sintético): facility, departamentos,
+-- las 9 personas del caso con sus roles, dominios y su asignación, las 6
+-- familias, las 7 reglas R-P1..R-T1 como datos (ADR-0009), los tipos de
+-- entidad que C1 necesita (semilla de #59) y las 5 máquinas.
+-- Lo fijo del MOTOR (permisos, roles y su matriz) vive en engine.sql y aplica
+-- a cualquier instalación. El corpus del mes NO va aquí: lo emite #59 con el
+-- dataset de #61.
 --
--- Idempotente: UUIDs fijos y ON CONFLICT DO NOTHING. Correrlo dos veces no
--- duplica nada. Nunca contiene datos de un cliente real (el caso es sintético).
+-- Requiere engine.sql aplicado antes (user_role une por código de rol).
+-- Idempotente: UUIDs fijos y ON CONFLICT DO NOTHING. Nunca contiene datos de
+-- un cliente real (el caso es sintético).
 
 -- ── Instalación ──────────────────────────────────────────────────────────────
 INSERT INTO "core"."facility" ("id", "code", "name", "timezone", "is_active")
@@ -43,44 +45,9 @@ VALUES
   ('c1000000-0000-4000-8000-000000000029', 'c1000000-0000-4000-8000-000000000001', 'c1000000-0000-4000-8000-000000000015', 'andres', 'andres@docu.invalid', 'Andrés', 'Jefe de Materiales', 'interno', 'instalacion', 'activo', NULL, now())
 ON CONFLICT ("id") DO NOTHING;
 
--- ── Catálogo fijo del motor: permisos y roles ───────────────────────────────
-INSERT INTO "core"."permission" ("id", "code", "name")
-VALUES
-  ('c1000000-0000-4000-8000-000000000031', 'read', 'Leer'),
-  ('c1000000-0000-4000-8000-000000000032', 'download', 'Descargar original'),
-  ('c1000000-0000-4000-8000-000000000033', 'create', 'Crear dato'),
-  ('c1000000-0000-4000-8000-000000000034', 'update', 'Corregir dato propio'),
-  ('c1000000-0000-4000-8000-000000000035', 'submit', 'Enviar a revisión'),
-  ('c1000000-0000-4000-8000-000000000036', 'confirm', 'Confirmar dato oficial'),
-  ('c1000000-0000-4000-8000-000000000037', 'release', 'Liberar calidad'),
-  ('c1000000-0000-4000-8000-000000000038', 'quarantine', 'Cuarentenar'),
-  ('c1000000-0000-4000-8000-000000000039', 'manage_users', 'Gestionar usuarios'),
-  ('c1000000-0000-4000-8000-00000000003a', 'manage_permissions', 'Gestionar permisos'),
-  ('c1000000-0000-4000-8000-00000000003b', 'manage_config', 'Gestionar configuración'),
-  ('c1000000-0000-4000-8000-00000000003c', 'view_audit', 'Ver bitácora')
-ON CONFLICT ("id") DO NOTHING;
-
-INSERT INTO "core"."role" ("id", "code", "name", "description", "is_system")
-VALUES
-  ('c1000000-0000-4000-8000-000000000041', 'admin', 'Administrador', 'Todo el sistema (instalación)', true),
-  ('c1000000-0000-4000-8000-000000000042', 'manager', 'Jefe', 'Confirma y libera dentro de su dominio', true),
-  ('c1000000-0000-4000-8000-000000000043', 'member', 'Miembro', 'Captura y envía a revisión', true),
-  ('c1000000-0000-4000-8000-000000000044', 'guest', 'Invitado', 'Solo lectura', true)
-ON CONFLICT ("id") DO NOTHING;
-
-INSERT INTO "core"."role_permission" ("role_id", "permission_id")
-SELECT r."id", p."id"
-FROM (
-  VALUES
-    ('admin', ARRAY['read', 'download', 'create', 'update', 'submit', 'confirm', 'release', 'quarantine', 'manage_users', 'manage_permissions', 'manage_config', 'view_audit']),
-    ('manager', ARRAY['read', 'download', 'create', 'update', 'submit', 'confirm', 'release', 'quarantine', 'view_audit']),
-    ('member', ARRAY['read', 'download', 'create', 'update', 'submit']),
-    ('guest', ARRAY['read'])
-) AS rp(role_code, perms)
-JOIN "core"."role" r ON r."code" = rp.role_code
-JOIN "core"."permission" p ON p."code" = ANY (rp.perms)
-ON CONFLICT DO NOTHING;
-
+-- ── Roles de las personas del caso (el catálogo de roles vive en engine.sql) ──
+-- Quién puede qué es dato del CASO, no del motor: por eso vive aquí y no en
+-- la capa fija. `granted_by_id` es Andrés (Jefe de Materiales), que otorga.
 INSERT INTO "core"."user_role" ("app_user_id", "role_id", "granted_by_id")
 SELECT u."id", r."id", 'c1000000-0000-4000-8000-000000000029'
 FROM (
