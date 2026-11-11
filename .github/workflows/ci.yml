@@ -55,6 +55,9 @@ jobs:
           # The config of the repo (gitleaks.toml): the action also detects it
           # by name, but saying it explicitly avoids surprises.
           GITLEAKS_CONFIG: gitleaks.toml
+          # Pinned to the version used locally, so the config and the rules
+          # are the same in CI and on the machines of the team.
+          GITLEAKS_VERSION: 8.30.1
       - run: bun run lint
       - run: bun run typecheck
       - run: docker compose -f infra/docker-compose.yml config
