@@ -14,6 +14,8 @@ diseño describe la experiencia, no el código; si necesita nombrar un archivo
 | [`DOCU-marca-fase1-kira.pdf`](DOCU-marca-fase1-kira.pdf) | Exploración de marca: 3 direcciones con paleta, tipografías, logo, moodboard y pantalla de ejemplo (#41 Fase 1) | entregado 2026-10-13 |
 | `DESIGN-SYSTEM.md` | Tokens, tipografía y componentes base (#41 Fase 2) | entregado 2026-10-29 |
 | [`tokens.json`](tokens.json) | Tokens DTCG 2025.10: fuente de verdad de color, tipografía, espaciado, radios y sombras | vigente |
+| [`FLUJO.md`](FLUJO.md) | Las cinco pantallas del caso, su navegación y el camino de cada tarea del usuario piloto (#11) | borrador |
+| [`CATEGORIAS.md`](CATEGORIAS.md) | Etiquetas, íconos y colores de familias, estados, reglas y planta (#11, ex-#28) | borrador |
 | `capturas/` | Evidencia visual: antes/después de tokens, catálogo de componentes, modal y pantalla de ejemplo (claro, oscuro, celular) | vigente |
 
 ## Por qué la marca va en dos fases

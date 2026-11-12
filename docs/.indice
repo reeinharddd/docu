@@ -41,7 +41,9 @@ docs/decisiones/ADR-0020-motores-de-ia-como-configuracion.md
 docs/decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md
 docs/decisiones/ADR-0022-paginacion-por-limit-y-offset.md
 docs/decisiones/README.md
+docs/diseno/CATEGORIAS.md
 docs/diseno/DESIGN-SYSTEM.md
+docs/diseno/FLUJO.md
 docs/diseno/README.md
 docs/gestion/CARRILES.md
 docs/gestion/PLAN-EPICAS.md
