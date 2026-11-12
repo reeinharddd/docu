@@ -25,6 +25,9 @@
     }
   },
   "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
     "formatter": {
       "quoteStyle": "single",
       "semicolons": "asNeeded"
@@ -42,6 +45,16 @@
         "enabled": false
       },
       "includes": ["**/*.html"]
+    },
+    {
+      "includes": ["apps/api/src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "off"
+          }
+        }
+      }
     }
   ]
 }

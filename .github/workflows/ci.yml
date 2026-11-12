@@ -48,10 +48,19 @@ jobs:
         with:
           bun-version: 1.4.3
       - run: bun install
+      # The Prisma client is generated from the schema: without it there are
+      # no model types and the API cannot boot.
+      - run: bun run db:generate
       - run: test ! -f .env || (echo ".env en el repo" && exit 1)
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The config of the repo (gitleaks.toml): the action also detects it
+          # by name, but saying it explicitly avoids surprises.
+          GITLEAKS_CONFIG: gitleaks.toml
+          # Pinned to the version used locally, so the config and the rules
+          # are the same in CI and on the machines of the team.
+          GITLEAKS_VERSION: 8.30.1
       - run: bun run lint
       - run: bun run typecheck
       - run: docker compose -f infra/docker-compose.yml config
@@ -65,6 +74,9 @@ jobs:
       - run: bash scripts/docs-tracecheck.sh
       - run: bun --filter @docu/api test
       - run: bun --filter web test
+      # The OpenAPI artifact is a contract: it must match the code that
+      # generates it, or the endpoint and the documentation disagree.
+      - run: bun run api:openapi:check
   diagramas:
     runs-on: ubuntu-latest
     env:
@@ -109,6 +121,7 @@ jobs:
         with:
           bun-version: 1.4.3
       - run: bun install
+      - run: bun run db:generate
       # The smoke uses the same script as local: it waits for a condition, not for a
       # fixed time, and distinguishes "API does not come up" from "missing infrastructure".
       - run: bash scripts/smoke-api.sh
@@ -118,3 +131,8 @@ jobs:
       # proofs, then the per-function specs against the same services.
       - run: bun run db:test
       - run: bun run db:spec
+      # The seed needs the schema: apply the baseline migration to the
+      # database of the job and prove the seed is idempotent (run it twice).
+      - run: bun run db:deploy
+      - run: bun run db:seed
+      - run: bun run db:seed
