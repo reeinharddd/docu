@@ -94,6 +94,39 @@
         },
         "tags": ["Families"]
       }
+    },
+    "/v1/files": {
+      "post": {
+        "operationId": "FilesController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "familyCode": {
+                    "type": "string"
+                  }
+                },
+                "required": ["file", "familyCode"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Registra un archivo de una familia; idempotente por (facility, sha256)",
+        "tags": ["files"]
+      }
     }
   },
   "info": {

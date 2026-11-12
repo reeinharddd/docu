@@ -5,6 +5,10 @@
 //   @RequirePermission('confirm')
 //   @UseGuards(SessionGuard, PermissionsGuard)
 //   @Post(':id/confirm') ...
+//
+// Several permissions mean ALL of them: an endpoint that performs two acts
+// (e.g. POST /v1/files registers `create` AND `submit`) demands both; the
+// server never grants a route for half the acts it performs.
 import {
   CanActivate,
   ExecutionContext,
@@ -18,16 +22,16 @@ import { type SessionRequest, sessionUserOf } from './session.guard.js'
 export const REQUIRED_PERMISSION = 'docu:required-permission'
 
 export const RequirePermission = (
-  permission: string,
+  ...permissions: [string, ...string[]]
 ): MethodDecorator & ClassDecorator =>
-  SetMetadata(REQUIRED_PERMISSION, permission)
+  SetMetadata(REQUIRED_PERMISSION, permissions)
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const required = this.reflector.getAllAndOverride<string>(
+    const required = this.reflector.getAllAndOverride<string[]>(
       REQUIRED_PERMISSION,
       [context.getHandler(), context.getClass()],
     )
@@ -36,8 +40,11 @@ export class PermissionsGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest<SessionRequest>()
     const user = sessionUserOf(request)
-    if (!user.permissions.includes(required)) {
-      throw ApiError.forbidden(`Tu rol no tiene el permiso «${required}».`)
+    const missing = required.filter((p) => !user.permissions.includes(p))
+    if (missing.length > 0) {
+      throw ApiError.forbidden(
+        `Tu rol no tiene el permiso «${missing[0] ?? required[0]}».`,
+      )
     }
     return true
   }
