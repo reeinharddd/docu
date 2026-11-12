@@ -42,6 +42,7 @@ desde `main`; bloqueo > 24 h se escala con etiqueta.
 | Sesión (opencode) | `/inicio` → `/tarea` → `/cerrar` | comandos de `.opencode/commands/`, skills `docu-*`, superpowers | Erik |
 | Explorador (subagente) | ola 1 de `/tarea`, antes de proponer | solo lectura (`read`, `grep`, `glob`, `lsp`) | Erik |
 | Revisor (subagente) | antes de `/cerrar` o de aprobar un PR | solo lectura, calibrado | Erik |
+| Agente externo (prompt) | al encargar una auditoría independiente | prompt autocontenido en `.opencode/prompts/`, copiado a mano | Erik |
 
 ## 3. Los dos ciclos
 
@@ -59,14 +60,14 @@ la otra se corrige en el mismo PR.
 
 ## 5. Runbook de evolución del harness
 
-Toda operación sobre las piezas con frontmatter (comandos, subagentes y skills)
-pasa por `scripts/harness-check.sh` (falla en CI si el harness queda
+Toda operación sobre las piezas con frontmatter (comandos, subagentes, prompts
+y skills) pasa por `scripts/harness-check.sh` (falla en CI si el harness queda
 inconsistente). El catálogo registra además MCP y scripts, que no llevan
 frontmatter y se verifican por revisión en el PR.
 
 | Operación | Quién aprueba | Cómo se documenta | Cómo se verifica |
 |---|---|---|---|
-| Alta de comando/skill/subagente | Erik | metadata `owner`/`trigger`/`purpose` (frontmatter o bloque `<!-- -->`; los campos no documentados se envían al proveedor como `options` y rompen) + fila en `CAPACIDADES.md` | `harness-check` en verde |
+| Alta de comando/skill/subagente/prompt | Erik | metadata `owner`/`trigger`/`purpose` (frontmatter o bloque `<!-- -->`; los campos no documentados se envían al proveedor como `options` y rompen) + fila en `CAPACIDADES.md` | `harness-check` en verde |
 | Alta de MCP | Erik | `opencode.json` (`mcp`) + fila en `CAPACIDADES.md` (sección MCP) | `doctor` y revisión en el PR |
 | Bump de pin (superpowers, skills vendorizadas) | Erik | subir `commit` en `UPSTREAMS.json` y en el `metadata` de la skill; PR | `harness-check` + prueba de la skill |
 | Baja / deprecación | Erik | estado `deprecado` en `CAPACIDADES.md`; si toca arquitectura, ADR | `harness-check` y `doc-index` en verde |
