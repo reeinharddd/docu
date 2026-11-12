@@ -64,8 +64,11 @@ export class ApiError extends HttpException {
     return new ApiError('CONFLICT', message, details)
   }
 
-  static rateLimited(message = 'Demasiadas peticiones.'): ApiError {
-    return new ApiError('RATE_LIMITED', message)
+  static rateLimited(
+    message = 'Demasiadas peticiones.',
+    details?: Record<string, unknown>,
+  ): ApiError {
+    return new ApiError('RATE_LIMITED', message, details)
   }
 
   static internal(): ApiError {

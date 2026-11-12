@@ -47,6 +47,19 @@ export class SessionGuard implements CanActivate {
         'La sesión no existe, está vencida o fue revocada.',
       )
     }
+    // The session row joins the user on every request, so this check is
+    // always fresh (SEC-03): deactivating a user or ending their vigencia
+    // stops their live sessions on the very next request, without waiting
+    // for the session TTL.
+    if (session.user.status !== 'activo') {
+      throw ApiError.forbidden('El usuario está inactivo.')
+    }
+    if (
+      session.user.validUntil !== null &&
+      session.user.validUntil <= new Date()
+    ) {
+      throw ApiError.forbidden('El usuario está fuera de vigencia.')
+    }
 
     request.sessionUser = {
       sessionId: session.id,
