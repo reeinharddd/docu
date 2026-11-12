@@ -37,8 +37,8 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  const client = await getSpecDb()
-  await client.end()
+  // El cliente de la base scratch es compartido entre los archivos de esta
+  // corrida: no se cierra aquí, se cierra con el proceso.
 })
 
 describe('POST /v1/auth/login (persistencia)', () => {
