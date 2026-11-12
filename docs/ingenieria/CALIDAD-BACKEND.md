@@ -163,7 +163,7 @@ C1 local; todo esto bloquea producción.
 | **Búsqueda textual** | No hay búsqueda en español (`tsvector` + GIN) | Índice de texto y endpoint de consulta |
 | **Consulta con citas** | No hay endpoint de consulta con citas (carril E) | Endpoint que cite origen y versión |
 | **Confirmación humana** | No hay UI ni flujo de confirmación | Pantalla y flujo de revisión |
-| **Rate limiting** | No hay límite por usuario o IP | Límite en el borde, con `RATE_LIMITED` |
+| **Rate limit distribuido** | El login se limita en memoria por instancia: ip+usuario (5 en 15 min) e IP (10×), configurable con `LOGIN_MAX_ATTEMPTS`/`LOGIN_WINDOW_MINUTES` | Mover los contadores a Redis para despliegues con varias instancias |
 | **Observabilidad** | Logs de arranque y de errores no controlados; sin trazas ni métricas por request | Traza por request (id en logs), métricas y alertas |
 | **Pruebas de integración** | Las reglas se prueban con store falso; la BD tiene sus specs TDD | Suite de integración API↔BD en CI (el patrón lo pide el brief de #45) |
 | **OpenAPI** | El artefacto existe y CI lo verifica | Descripción por DTO (esquemas, ejemplos) y deprecation de contratos |

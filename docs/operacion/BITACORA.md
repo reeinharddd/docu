@@ -287,3 +287,46 @@ la arista foránea, cuyo id de base de datos es `58`). Retirada con
 dependencias**; el REST puede devolver issues foráneos. Barrido final:
 39 aristas, 0 foráneas, 0 hacia cerrados. También se retiró #83 ← #2 (PR
 fusionado hacía semanas) — #83 queda sin bloqueos.
+
+## 2026-11-11 — Auditoría externa reconciliada, ER v1 y base del backend a main
+
+**Quién:** Erik (`reeinharrrd`) con el agente.
+**Qué:** tres cosas encadenadas.
+
+1. **Reconciliación de la auditoría externa (ChatGPT) contra GitHub y local.**
+   El ZIP auditado mezclaba `main` con PRs abiertas: varios hallazgos
+   (DOC-01, SEC-01/02/03) describían la rama de backend, no main. Estado real
+   verificado: #58 abierta via PR #107 (CI verde, 0 detrás de main); #60
+   cerrada via PR #108.
+2. **Fusión del ER v1 y la base del backend.** `feat/58-diagrama-v0` resultó
+   ser ancestro de `feat/12-base-backend` (la base del backend se construyó
+   encima del ER). Se fusionó #107 (squash, cierra #58) y luego #122 —
+   re-landing de #120.
+3. **Incidente documentado:** el squash de #120 quedó marcado MERGED pero el
+   commit (02a8a1b) aterrizó huérfano sobre la rama de #107 y **main no
+   avanzó**. Recuperación: PR #122 desde la misma rama, conflicto add/add
+   resuelto localmente (el contenido de main ya estaba contenido en la rama;
+   merge con `-X ours` y mensaje `chore:` para el hook commit-msg), CI verde
+   y fusión verificada por contenido en main (c0ef0d8: `apps/api/src` con
+   `auth/`, `common/`, `config/`, `prisma/`, `openapi.ts`).
+   **Lección:** tras un merge administrado, verificar el árbol de main
+   (contenido), no solo el estado del PR.
+4. **PR de endurecimiento** (esta): SEC-01 CORS por lista explícita
+   (`CORS_ORIGINS`), SEC-02 límite de login por IP+usuario e IP (429 con
+   `retryAfterSec`), SEC-03 el guard revalida estado y vigencia del usuario
+   en cada petición y `AuthService.deactivate` revoca las sesiones vivas,
+   CI-01 filtros de `ci.yml` cubren `bun.lock`, `*.toml`, `gitleaks.toml`,
+   `.gitignore` y `.env.example`, DOC-01 `API.md` alineada a los 6 endpoints
+   reales, GOV-02 `PLAN-EPICAS.md` marca #58/#60 cerrados y ADR-0019 pasa a
+   Aceptada.
+
+**Cómo verificarlo:**
+```bash
+gh pr view 107 --json state,mergeCommit     # MERGED, cierra #58
+gh issue view 58 --json state               # CLOSED
+gh pr view 122 --json state,mergeCommit     # MERGED sobre main (c0ef0d8)
+gh api repos/reeinharddd/docu/contents/apps/api/src?ref=main  # auth/ presente
+grep -n 'CORS_ORIGINS' .env.example docs/ingenieria/API.md
+grep -n 'RATE_LIMITED' apps/api/src/auth/login-throttle.ts
+grep -n 'revalida\|validUntil' apps/api/src/auth/session.guard.ts
+```

@@ -6,7 +6,7 @@
 
 # ADR 0019 — El dominio de negocio es híbrido: `graph.*` genérico con aislamiento por instalación garantizado por la base
 
-Fecha: 2026-11-07 · Estado: Propuesta (se acepta en el merge del PR #107)
+Fecha: 2026-11-07 · Estado: Aceptada (PR #107 fusionada a main)
 Decide: Erik · Revisa: Emmanuel
 
 ## Contexto

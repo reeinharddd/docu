@@ -45,8 +45,8 @@ como *blocked by* en GitHub.
 |---|---|---|---|---|---|
 | A. Caso | Diseño del caso cerrado: personas, flujos, conversaciones, qué falla → cómo se resuelve → por qué afecta, con mapa de derivación | Erik | 6-nov | BD, plataforma, dataset, mockups | #83 |
 | B. Plataforma frontend | Estructura atomic, routing, kit, tests y CI | Erik | 10-nov | Frontend del caso | #84 |
-| C. Infra IA | Ollama con los modelos, Laya vía endpoint SystemOne-compatible (`IA_SCORING_URL`), scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85 y #60) |
-| D. Base de datos | ER híbrido, DDL + migración, vistas, triggers, append-only, contrato con SHA | Emmanuel (ER #58, con apoyo de Erik); Erik (#60/#62/#23) | 12-nov | Backend, IA, contrato | #58, #60, #62, #23 |
+| C. Infra IA | Ollama con los modelos, Laya vía endpoint SystemOne-compatible (`IA_SCORING_URL`), scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85; #60 cerrado) |
+| D. Base de datos | ER híbrido, DDL + migración, vistas, triggers, append-only, contrato con SHA | Emmanuel (ER #58, con apoyo de Erik); Erik (#62/#23) | 12-nov | Backend, IA, contrato | #62, #23 (#58 y #60 cerrados) |
 | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas, búsqueda híbrida | Erik | 18-nov | Freeze, demo | #85 |
 | F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 |
 | G. Backend | Specs y suite desde el 3-nov; implementación: API, ingesta, reglas, cuarentena, oficial, lineage, seed, RBAC, bitácora | Emmanuel | 19-nov | Freeze, demo | #45, #12, #3, #46, #44, #5, #59, #7 |
@@ -86,13 +86,13 @@ de punta a punta, con la IA dentro y con evidencia para las dos presentaciones.
 
 | Épica (issue) | Sprint | Responsable | Requisitos | Issues |
 |---|---|---|---|---|
-| Infraestructura (#47) | 2 → 4 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #60, #87, #90, #8 |
+| Infraestructura (#47) | 2 → 4 | Erik | RF-06, RF-08, RNF-05, RNF-06 | #87, #90, #8 (#60 cerrado) |
 | Backend (#48) | 3 | Emmanuel, Erik | RF-01, RF-02, RF-03, RF-05 | #12 (+#44, #45), #3 (+#46), #39 |
 | Diseño (#53) | 3 | Kira, Erik | RNF-01 | #11, #84 |
 | Frontend (#49) | 3 | Kira | RF-01, RF-03, RF-04 | #4, #84 |
 | QA / Documentación (#52) | 2 → 4 | Erik, Carlos | RNF-02, RNF-07 | #61, #86, #83, #88, #89, #6 |
 | Autenticación (#51) | 3 | Carlos, Emmanuel | RF-06, RF-02, RNF-03 | #5 |
-| Base de datos (#50) | 3 | Erik, Emmanuel | RF-08 | #58, #59, #62, #23, #7 |
+| Base de datos (#50) | 3 | Erik, Emmanuel | RF-08 | #59, #62, #23, #7 (#58 cerrado) |
 
 ## Dependencias (nativas en GitHub, *blocked by*)
 
