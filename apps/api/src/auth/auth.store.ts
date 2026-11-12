@@ -48,6 +48,10 @@ export interface AuthStore {
     facilityCode?: string,
   ): Promise<AuthUserRecord[]>
   findUserById(userId: string): Promise<AuthUserRecord | null>
+  /** Marks the user; deactivation is the only status change the API makes. */
+  setUserStatus(userId: string, status: string): Promise<void>
+  /** Revokes every non-revoked session of the user; returns how many. */
+  revokeActiveSessionsForUser(userId: string): Promise<number>
   findSessionByTokenHash(tokenHash: string): Promise<SessionWithUser | null>
   createSession(input: NewSession): Promise<SessionRecord>
   revokeSession(sessionId: string): Promise<void>

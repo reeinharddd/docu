@@ -1,24 +1,40 @@
 # Ingeniería: contrato de API
 
 Estado: vigente. Describe el presente, no el deseo.
-Base: NestJS 12, driver `pg` directo, `PORT_API` (3000 por defecto).
+Base: NestJS 12, Prisma 7 con `PrismaService` (ADR-0004), `PORT_API`
+(3000 por defecto).
 
 El contrato de C1 —la superficie prevista, con sus tablas y sus errores— está
 en [ARQUITECTURA.md §3](ARQUITECTURA.md#3-contrato-de-endpoints). Este
 archivo describe lo que **existe hoy**.
 
-## Superficie actual (E1)
+## Superficie actual
 
-| Método | Ruta | Qué hace |
-|---|---|---|
-| `GET` | `/health` | `SELECT 1` en PostgreSQL y `PING` en Redis. Responde `{ status, postgres, redis }` |
+| Método | Ruta | Qué hace | Acceso |
+|---|---|---|---|
+| `GET` | `/health` | `SELECT 1` en PostgreSQL y `PING` en Redis. Responde `{ status, postgres, redis }` | pública |
+| `POST` | `/v1/auth/login` | Inicia sesión; devuelve el token opaco + usuario | pública, con límite de intentos |
+| `POST` | `/v1/auth/logout` | Revoca la sesión actual (204) | sesión |
+| `GET` | `/v1/auth/me` | Perfil, roles, permisos y dominios de la sesión | sesión |
+| `GET` | `/v1/families` | Catálogo de familias de la instalación (paginado, total en `X-Total-Count`) | sesión |
+| `GET` | `/v1/families/:familyCode` | Una familia de la instalación | sesión |
 
-Es toda la API que existe. `AppModule` declara un controlador.
-No hay autenticación, no hay DTOs, no hay OpenAPI. Eso es correcto para E1
-(`docs/REGLAS.md`: sin lógica de negocio antes de M1).
+Es toda la API que existe (base del backend, PR #122). La ingesta y el resto
+del contrato de C1 se construyen encima (#12).
 
 `GET /health` devuelve `200` solo si ambas dependencias responden. Es la puerta
 que usa CI para no dar por buena una API a medio levantar.
+
+## Seguridad en la entrada
+
+| Control | Dónde | Regla |
+|---|---|---|
+| Sobre de error | `common/api-error.ts` + filtro global | Todo no-2xx sale como `{ code, message, details }` (ALCANCE-SOLUCION §2.1) |
+| Validación de DTOs | `ValidationPipe` global en `main.ts` | `whitelist` + `forbidNonWhitelisted`: un campo extra no se cuela en silencio |
+| Sesión | `auth/session.guard.ts` | Token opaco; valida sesión (revocación, expiración) **y revalida estado y vigencia del usuario en cada petición** (SEC-03) |
+| Permisos | `auth/permissions.guard.ts` | RBAC por rol→permiso, que son datos (ADR-0009); la ruta declara `@RequirePermission` |
+| Límite de login | `auth/login-throttle.ts` | Ventana por IP+usuario (5 en 15 min) y por IP (10×); bloqueado responde `429 RATE_LIMITED` con `retryAfterSec` (SEC-02) |
+| CORS | `common/cors.ts` | Lista explícita en `CORS_ORIGINS`; sin ella no se refleja ningún origen cross-origin (SEC-01) |
 
 ## Cómo se abre la conexión
 
@@ -26,34 +42,30 @@ que usa CI para no dar por buena una API a medio levantar.
 lo cierra; Redis se consulta igual con `ioredis`. La conexión no se cachea: es
 una prueba de vida, no una capa de datos.
 
-El ORM ya está instalado: `prisma` 7.10.0, `@prisma/client` 7.10.0 y
-`@prisma/adapter-pg` 7.10.0 son dependencias de `apps/api` (`package.json`).
-Lo que llega después es el **esquema**, con el ER de #58, y la **semilla**, con
-#59. La API todavía no usa Prisma en ningún endpoint.
+Los endpoints de dominio usan **Prisma 7.10.0** (`@prisma/client` +
+`@prisma/adapter-pg`) a través del `PrismaService` único (ADR-0004), sobre el
+ER v1 de #58 ya fusionado (`apps/api/prisma/schema.prisma`, migración
+`0_baseline`). El acceso vive en adaptadores (`*.prisma-store.ts`): los
+servicios dependen de puertos y se prueban sin base.
 
 ## Convenciones ya fijadas
 
 1. **Un módulo por dominio**, y cada módulo declara lo que usa. Nada de imports
    cruzados entre dominios.
-2. **Los DTOs viven en el módulo**, con Zod. No hay paquete
-   compartido de contratos: `apps/web` y `apps/api` no comparten tipos todavía.
-   Cuando lo necesiten, se crea `packages/contracts` y se registra aquí.
-   Zod es la librería de validación de entrada y salida que fija
-   [STACK.md](STACK.md) §1 y que exige [IA.md](IA.md) §2 para la salida de
-   los modelos; hoy todavía **no está declarada** como dependencia de
-   `apps/api` (en el lockfile solo llega de forma transitiva por Angular), y
-   declararla es parte de #12.
+2. **Los DTOs viven en el módulo**, con `class-validator` (así está escrito
+   `LoginDto`). No hay paquete compartido de contratos: `apps/web` y `apps/api`
+   no comparten tipos todavía. Cuando lo necesiten, se crea
+   `packages/contracts` y se registra aquí. Zod sigue siendo la librería de
+   validación de salida de los modelos de IA que fija
+   [STACK.md](STACK.md) §1 y [IA.md](IA.md) §2.
 3. **Nada de lógica de negocio en el controlador.** El controlador valida y
-   delegue; la regla vive en el servicio.
+   delega; la regla vive en el servicio.
 4. **Append-only se respeta en servicio y en base.** `truth.audit_log`,
    `truth.origin_history` e `ingest.source_file` no se actualizan ni se borran
    (solo-insert, ADR-0010). La garantía la pone la base con disparadores
    (`core.reject_mutation`), no solo el código.
 
 ## Decisiones que ya están tomadas
-
-Las seis preguntas que esta tabla tenía pendientes están cerradas. Ninguna se
-vuelve a abrir aquí:
 
 | Decisión | Dónde quedó |
 |---|---|
@@ -62,16 +74,16 @@ vuelve a abrir aquí:
 | Formato de error único | [ALCANCE-SOLUCION.md §2.1](ALCANCE-SOLUCION.md) (canónico), con 7 códigos |
 | Paginación y filtrado de la bandeja | [ADR-0022](../decisiones/ADR-0022-paginacion-por-limit-y-offset.md): `limit` + `offset`, array plano |
 | Contrato de ingesta e idempotencia | [ARQUITECTURA.md §3.2](ARQUITECTURA.md#32-idempotencia-de-la-ingesta): `sha256` único por instalación |
-| OpenAPI como artefacto | Pendiente de #12; el requisito (SRS IEEE 830) sigue en pie |
+| OpenAPI como artefacto | Hecho: documento vivo en `/v1/openapi.json` y `/v1/docs`; artefacto versionado en `docs/api/openapi.json`, verificado por CI |
 
 ## Pruebas
 
 | Superficie | Estado |
 |---|---|
-| `apps/api` | 2 archivos, 21 casos (Bun test): motores IA (config, contratos, presupuesto, caché, reintentos) y reporte de salud. 20 en verde; 1 condicional corre solo con `IA_LIVE_TEST=1` |
+| `apps/api/src` | 8 archivos, 58 casos unitarios en verde sin red: sesión y throttle, guard, CORS, paginación, familias, salud y motores IA (1 condicional corre solo con `IA_LIVE_TEST=1`) |
+| `apps/api/prisma/tests` | 6 archivos de specs contra PostgreSQL real (aislamiento, solo-insert, idempotencia, volumen, reglas, vector): corren en CI con base; sin BD local quedan en `skip` |
 | `apps/web` | 10 archivos, 54 pruebas (Vitest) |
 
-Las pruebas de la API son unitarias y corren sin red. El hueco que sigue
-abierto es la **integración del lado del servidor contra base de datos real**
-(esquema, migración, aislamiento por instalación): eso lo cubre #45. Sin esa
-capa, RNF-07 no se sostiene del todo.
+El hueco que sigue abierto es la **integración del lado del servidor contra
+base de datos real dentro de la suite de la API** (login→guard→endpoint→fila):
+eso lo cubre #45. Sin esa capa, RNF-07 no se sostiene del todo.

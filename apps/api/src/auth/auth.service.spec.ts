@@ -11,6 +11,7 @@ import type {
   SessionRecord,
   SessionWithUser,
 } from './auth.store.js'
+import { LoginThrottle } from './login-throttle.js'
 
 interface FakeState {
   users: AuthUserRecord[]
@@ -77,6 +78,20 @@ function fakeStore(state: FakeState): AuthStore {
       void at
     },
     markLogin: async () => {},
+    setUserStatus: async (userId, status) => {
+      const found = state.users.find((u) => u.id === userId)
+      if (found) found.status = status
+    },
+    revokeActiveSessionsForUser: async (userId) => {
+      let count = 0
+      for (const session of state.sessions) {
+        if (session.appUserId === userId && session.revokedAt === null) {
+          session.revokedAt = new Date()
+          count += 1
+        }
+      }
+      return count
+    },
     roleCodesForUser: async () => ['admin'],
     permissionCodesForUser: async () => ['read', 'confirm'],
     domainCodesForUser: async () => ['materiales'],
@@ -205,5 +220,89 @@ describe('auth service', () => {
     expect(profile.roles).toEqual(['admin'])
     expect(profile.permissions).toContain('read')
     expect(profile.domains).toEqual(['materiales'])
+  })
+
+  test('repeated failures block the ip+user pair with 429 (SEC-02)', async () => {
+    const state: FakeState = {
+      users: [await withPassword('secreto')],
+      sessions: [],
+      revoked: [],
+      touched: [],
+    }
+    const throttle = new LoginThrottle({
+      maxAttempts: 2,
+      windowMs: 60 * 1000,
+      now: () => Date.now(),
+    })
+    const service = new AuthService(fakeStore(state), throttle)
+    const context = { ipAddress: '10.0.0.9' }
+
+    for (let i = 0; i < 2; i += 1) {
+      const error = await service
+        .login({ username: 'andres', password: 'mala' }, context)
+        .catch((e: unknown) => e)
+      expect((error as ApiError).code).toBe('UNAUTHENTICATED')
+    }
+    const blocked = await service
+      .login({ username: 'andres', password: 'secreto' }, context)
+      .catch((e: unknown) => e)
+    expect((blocked as ApiError).code).toBe('RATE_LIMITED')
+    expect((blocked as ApiError).message).toContain('segundos')
+    expect(state.sessions).toHaveLength(0)
+  })
+
+  test('a correct login clears the ip+user counter, not the ip one (SEC-02)', async () => {
+    const state: FakeState = {
+      users: [await withPassword('secreto')],
+      sessions: [],
+      revoked: [],
+      touched: [],
+    }
+    const throttle = new LoginThrottle({
+      maxAttempts: 2,
+      windowMs: 60 * 1000,
+      now: () => Date.now(),
+    })
+    const service = new AuthService(fakeStore(state), throttle)
+    const context = { ipAddress: '10.0.0.10' }
+
+    await service
+      .login({ username: 'andres', password: 'mala' }, context)
+      .catch(() => undefined)
+    await service.login({ username: 'andres', password: 'secreto' }, context)
+    // Two more failures: without the reset the pair would already be blocked.
+    await service
+      .login({ username: 'andres', password: 'mala' }, context)
+      .catch(() => undefined)
+    await service
+      .login({ username: 'andres', password: 'mala' }, context)
+      .catch(() => undefined)
+    // The next attempt is blocked even with the correct password.
+    const error = await service
+      .login({ username: 'andres', password: 'secreto' }, context)
+      .catch((e: unknown) => e)
+    expect((error as ApiError).code).toBe('RATE_LIMITED')
+  })
+
+  test('deactivate marks the user and revokes their live sessions (SEC-03)', async () => {
+    const state: FakeState = {
+      users: [await withPassword('secreto')],
+      sessions: [],
+      revoked: [],
+      touched: [],
+    }
+    const service = new AuthService(fakeStore(state))
+    const result = await service.login({
+      username: 'andres',
+      password: 'secreto',
+    })
+    expect(state.sessions).toHaveLength(1)
+
+    const revoked = await service.deactivate('user-1')
+
+    expect(revoked).toBe(1)
+    expect(state.users[0]?.status).toBe('inactivo')
+    expect(state.sessions[0]?.revokedAt).not.toBeNull()
+    expect(result.user.sessionId).toBe('session-1')
   })
 })

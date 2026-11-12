@@ -60,6 +60,21 @@ export class PrismaAuthStore implements AuthStore {
     return row ? toUser(row) : null
   }
 
+  async setUserStatus(userId: string, status: string): Promise<void> {
+    await this.prisma.appUser.update({
+      where: { id: userId },
+      data: { status },
+    })
+  }
+
+  async revokeActiveSessionsForUser(userId: string): Promise<number> {
+    const result = await this.prisma.session.updateMany({
+      where: { appUserId: userId, revokedAt: null },
+      data: { revokedAt: new Date() },
+    })
+    return result.count
+  }
+
   async findSessionByTokenHash(
     tokenHash: string,
   ): Promise<SessionWithUser | null> {

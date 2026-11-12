@@ -44,8 +44,10 @@ bun run db:password andres
 | Cliente de base | `apps/api/src/prisma/` | Un solo `PrismaService` (ADR-0004). Falla al arrancar sin `DATABASE_URL` |
 | Sobre de error | `apps/api/src/common/api-error.ts` + `http-exception.filter.ts` | Todo no-2xx sale como `{ code, message, details }` (ALCANCE-SOLUCION §2.1) |
 | Paginación | `apps/api/src/common/pagination.ts` | `limit`/`offset`, cuerpo como array plano, total en `X-Total-Count` (ADR-0022) |
-| Sesión | `apps/api/src/auth/` | Token opaco, SHA-256 en `platform.session`, revocación inmediata (ADR-0021) |
+| Sesión | `apps/api/src/auth/` | Token opaco, SHA-256 en `platform.session`, revocación inmediata (ADR-0021). El guard revalida estado y vigencia del usuario en cada petición: desactivar una cuenta mata sus sesiones vivas en el siguiente request (SEC-03) |
 | Permisos | `apps/api/src/auth/permissions.guard.ts` | RBAC por rol→permiso, que son datos (ADR-0009) |
+| CORS | `apps/api/src/main.ts` + `common/cors.ts` | Lista explícita en `CORS_ORIGINS` (el `.env.example` trae el origen del front de desarrollo); sin ella no se refleja ningún origen cross-origin (SEC-01) |
+| Límite de login | `apps/api/src/auth/login-throttle.ts` | Ventana por IP+usuario (5 en 15 min por defecto) y por IP (10×); el bloqueado responde `429 RATE_LIMITED` con `retryAfterSec` (SEC-02). Contadores en memoria por instancia; Redis queda como deuda en [CALIDAD-BACKEND.md §8](CALIDAD-BACKEND.md) |
 | Patrón puerto/adaptador | `*.store.ts` + `*.prisma-store.ts` | El servicio no sabe Prisma; las reglas se prueban sin base |
 | Módulo de referencia | `apps/api/src/config/families/` | Un GET paginado completo: controlador fino, servicio con las reglas, DTO público |
 | OpenAPI | `apps/api/src/openapi.ts`, `docs/api/openapi.json` | Documento vivo en `/v1/docs` y `/v1/openapi.json`, artefacto versionado |

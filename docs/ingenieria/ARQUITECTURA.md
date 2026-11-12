@@ -20,12 +20,12 @@ Tres marcas, usadas en todas las tablas:
 | **abierto** | Falta una decisión o una pieza; se dice quién la cierra |
 
 **Estado del modelo que usa este documento.** La matriz de endpoints se
-escribe contra el **ER v1** (25 tablas en 6 esquemas, 2 vistas, 4 disparadores
-solo-insert), que es el resultado de #58 y vive en la rama
-`feat/58-diagrama-v0`, **pendiente de merge**. En `main` hoy solo está
-documentada la Fase 1 (`core`, 10 tablas). Toda tabla citada aquí lleva el
-modelo v1; si al aterrizar #58 cambia un nombre, se corrige este documento en
-el mismo PR.
+escribe contra el **ER v1** (25 tablas en 6 esquemas, 2 vistas, 4 tablas
+append-only con disparadores), resultado de #58, **ya fusionado a `main`**
+(PR #107): vive en `apps/api/prisma/schema.prisma` con la migración
+`0_baseline`, y el contrato quedó congelado por SHA (ADR-0019, aceptada).
+Toda tabla citada aquí lleva el modelo v1; un cambio de contrato corrige este
+documento en el mismo PR.
 
 **Una autoridad por dato.** El sobre de error y sus códigos están solo en
 [ALCANCE-SOLUCION.md §2.1](ALCANCE-SOLUCION.md) y

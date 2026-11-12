@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { AuthController } from './auth.controller.js'
 import { AuthService } from './auth.service.js'
 import { AUTH_STORE } from './auth.store.js'
+import { LoginThrottle, loginThrottleOptionsFromEnv } from './login-throttle.js'
 import { PermissionsGuard } from './permissions.guard.js'
 import { PrismaAuthStore } from './prisma-auth.store.js'
 import { SessionGuard } from './session.guard.js'
@@ -15,6 +16,11 @@ import { SessionGuard } from './session.guard.js'
     // depends on the port, the guard depends on the adapter.
     PrismaAuthStore,
     { provide: AUTH_STORE, useExisting: PrismaAuthStore },
+    // One throttle per API process, seeded from env (SEC-02).
+    {
+      provide: LoginThrottle,
+      useFactory: () => new LoginThrottle(loginThrottleOptionsFromEnv()),
+    },
     AuthService,
     SessionGuard,
     PermissionsGuard,
