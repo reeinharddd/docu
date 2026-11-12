@@ -15,7 +15,7 @@ import { Client } from 'pg'
 // path, so the repo root is found by walking up from the working directory to
 // the directory that owns bun.lock. CI has no .env file: dotenv misses and the
 // DATABASE_URL of the environment is used instead.
-function repoRoot(): string {
+export function repoRoot(): string {
   let dir = process.cwd()
   while (dir !== dirname(dir)) {
     if (existsSync(join(dir, 'bun.lock'))) {

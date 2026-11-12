@@ -19,6 +19,10 @@ archivo describe lo que **existe hoy**.
 | `GET` | `/v1/families` | Catálogo de familias de la instalación (paginado, total en `X-Total-Count`) | sesión |
 | `GET` | `/v1/families/:familyCode` | Una familia de la instalación | sesión |
 | `POST` | `/v1/files` | Registra un archivo (`multipart/form-data`, campo `file` + `familyCode`). El servidor calcula `sha256` y responde `201 { sourceFileId, sha256 }` | sesión + `create` y `submit` |
+| `GET` | `/v1/inbox` | Bandeja de revisión humana: propuestas en `pending_confirmation` (paginado, total en `X-Total-Count`) | sesión + `read` |
+| `POST` | `/v1/inbox/:id/confirm` | Confirma la propuesta: `200 { id, status, version, confirmedAt }` | sesión + `confirm` |
+| `POST` | `/v1/inbox/:id/reject` | Rechaza la propuesta: `200 { id, status, version }` | sesión + `confirm` |
+| `GET` | `/v1/official-records` | Dato oficial confirmado, con su responsable (paginado, total en `X-Total-Count`) | sesión + `read` |
 
 `POST /v1/files` es idempotente por `(facility_id, sha256)` (ER v1): repetir
 el mismo archivo responde `409 CONFLICT` con `details.sourceFileId` del
@@ -29,6 +33,29 @@ y deja el trabajo en cola `ingest` (`platform.job_run`, estado `queued`).
 El worker que lo procesa llega con #46; el hueco "registrado sin encolar" de
 [ARQUITECTURA.md §3.2](ARQUITECTURA.md#32-idempotencia-de-la-ingesta) sigue
 abierto hasta entonces.
+
+## La disposición humana
+
+`POST /v1/inbox/:id/confirm` y `/reject` son las dos disposiciones posibles
+([ARQUITECTURA.md §4](ARQUITECTURA.md#4-flujo-y-disposicion)) y las tres
+escrituras van en una sola transacción: el estado de `graph.entity`, la fila
+de `truth.origin_history` y la bitácora en `truth.audit_log`.
+
+- **Confirmar** deja `status = official` con responsable y fecha, incrementa
+  `version` y escribe el origen: el documento fuente, el snapshot del dato y
+  el responsable. Publicar sin confirmar es imposible: el `CHECK` de la base
+  exige responsable y fecha cuando el estado es `official`.
+- **Rechazar** deja `status = rejected`, incrementa `version` y escribe solo
+  bitácora: un dato rechazado no tiene origen oficial.
+- **Errores**: `404` si la propuesta no existe en la instalación (un `:id` de
+  otra instalación es `404`, nunca `403`), `409` si ya fue disposeada, `422` si
+  no está en revisión o si no tiene documento de origen
+  (`origin_history.source_file_id` es `NOT NULL`: sin documento no hay origen).
+
+Dos límites conocidos y declarados: `origin_history.rule_code` y
+`calculation` quedan nulos porque la API no puede inventar la regla que aplicó
+el worker (las columnas son nulables en el ER para eso; las llena #3/#46), y la
+bandeja solo tiene contenido cuando el worker propone (`#3`/`#46`).
 
 Es toda la API que existe (base del backend, PR #122; ingesta con #12).
 
