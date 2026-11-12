@@ -18,9 +18,19 @@ archivo describe lo que **existe hoy**.
 | `GET` | `/v1/auth/me` | Perfil, roles, permisos y dominios de la sesión | sesión |
 | `GET` | `/v1/families` | Catálogo de familias de la instalación (paginado, total en `X-Total-Count`) | sesión |
 | `GET` | `/v1/families/:familyCode` | Una familia de la instalación | sesión |
+| `POST` | `/v1/files` | Registra un archivo (`multipart/form-data`, campo `file` + `familyCode`). El servidor calcula `sha256` y responde `201 { sourceFileId, sha256 }` | sesión + `create` y `submit` |
 
-Es toda la API que existe (base del backend, PR #122). La ingesta y el resto
-del contrato de C1 se construyen encima (#12).
+`POST /v1/files` es idempotente por `(facility_id, sha256)` (ER v1): repetir
+el mismo archivo responde `409 CONFLICT` con `details.sourceFileId` del
+original, sin crear fila ni job segunda vez. El servidor valida familia
+activa, tipo (pdf, png, jpg, tiff, Excel) y tamaño (`UPLOAD_MAX_BYTES`,
+50 MB por defecto); guarda los bytes intactos en `ORIGINALS_DIR` (REGLAS.md 5)
+y deja el trabajo en cola `ingest` (`platform.job_run`, estado `queued`).
+El worker que lo procesa llega con #46; el hueco "registrado sin encolar" de
+[ARQUITECTURA.md §3.2](ARQUITECTURA.md#32-idempotencia-de-la-ingesta) sigue
+abierto hasta entonces.
+
+Es toda la API que existe (base del backend, PR #122; ingesta con #12).
 
 `GET /health` devuelve `200` solo si ambas dependencias responden. Es la puerta
 que usa CI para no dar por buena una API a medio levantar.
