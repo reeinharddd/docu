@@ -41,6 +41,7 @@ secciones de MCP y scripts son informativas (no llevan frontmatter propio).
 | `.opencode/skills/docu-gestion/SKILL.md` | skill | Erik | antes de tocar un issue | Convenciones de gestión en GitHub Issues | propio | activo |
 | `.opencode/skills/docu-memoria/SKILL.md` | skill | Erik | al empezar y al cerrar trabajo | Cómo usar Engram (memoria del proyecto) | propio | activo |
 | `.opencode/skills/docu-frontend/SKILL.md` | skill | Erik | al construir o revisar `apps/web` | Convenciones y patrones del frontend (estructura, tokens, ApiState, RBAC, pruebas) | propio | activo |
+| `.opencode/skills/docu-analisis-calidad/SKILL.md` | skill | Erik | al revisar una pantalla, un servicio, un job o un cambio | Enruta el juicio de calidad al skill de análisis de cada eje y exige evidencia en cada hallazgo | propio | activo |
 
 ## Skills vendorizadas
 
@@ -50,6 +51,10 @@ secciones de MCP y scripts son informativas (no llevan frontmatter propio).
 | `.opencode/skills/vendor/ecc-nestjs-patterns/SKILL.md` | skill | Erik | al construir o revisar un backend NestJS | Patrones de arquitectura NestJS | ECC `8384d60` (MIT) v2.2.3 | activo |
 | `.opencode/skills/vendor/ecc-prisma-patterns/SKILL.md` | skill | Erik | al escribir esquema o consultas Prisma | Patrones y trampas de Prisma ORM | ECC `8384d60` (MIT) v2.2.3 | activo |
 | `.opencode/skills/vendor/pp-code-reviewer/SKILL.md` | skill | Erik | al revisar cambios | Revisión de código por confianza | opencode-power-pack `9dccb6d` (Apache-2.0) | activo |
+| `.opencode/skills/vendor/ao-frontend-ui-engineering/SKILL.md` | skill | Erik | al construir o revisar `apps/web` | Interfaces accesibles y de calidad de producción: legibilidad, función y fluidez de una pantalla | agent-skills `301b02b` (MIT) | activo |
+| `.opencode/skills/vendor/pp-ai-slop/SKILL.md` | skill | Erik | al revisar el estilo visual de una pantalla | Rúbrica operativa para juzgar el estilo visual contra la marca DOCU | opencode-power-pack `c3328ad` (MIT) | activo |
+| `.opencode/skills/vendor/ao-performance-optimization/SKILL.md` | skill | Erik | cuando importa el rendimiento o se sospecha una regresión | Medir y corregir el cuello de botella real en API, web y consultas | agent-skills `301b02b` (MIT) | activo |
+| `.opencode/skills/vendor/ao-observability-and-instrumentation/SKILL.md` | skill | Erik | al añadir un job, endpoint o integración que debe dejar evidencia | Que el comportamiento del pipeline sea visible y diagnosticable | agent-skills `301b02b` (MIT) | activo |
 
 ## MCP (informativo; habilitados en `opencode.json`)
 

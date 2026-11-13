@@ -20,5 +20,29 @@
     "commit": "9dccb6d",
     "license": "Apache-2.0",
     "nota": "modificada"
+  },
+  "ao-frontend-ui-engineering": {
+    "repo": "https://github.com/addyosmani/agent-skills",
+    "commit": "301b02b",
+    "license": "MIT",
+    "nota": "modificada; checklist de accesibilidad replicado en references/"
+  },
+  "ao-performance-optimization": {
+    "repo": "https://github.com/addyosmani/agent-skills",
+    "commit": "301b02b",
+    "license": "MIT",
+    "nota": "modificada; checklist de performance replicado en references/"
+  },
+  "ao-observability-and-instrumentation": {
+    "repo": "https://github.com/addyosmani/agent-skills",
+    "commit": "301b02b",
+    "license": "MIT",
+    "nota": "modificada; checklist de observabilidad replicado en references/"
+  },
+  "pp-ai-slop": {
+    "repo": "https://github.com/waybarrios/opencode-power-pack",
+    "commit": "c3328ad",
+    "license": "MIT",
+    "nota": "modificada"
   }
 }
