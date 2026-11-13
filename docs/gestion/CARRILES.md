@@ -2,7 +2,8 @@
 
 Estado: vigente. Última actualización: 2026-11-13. Plan vigente:
 `gestion/REPLAN-2026-10-30.md` (v2). Hitos: modelo y BD 12-nov (cumplido) ·
-presentación **17-nov** (movida desde el 24-nov) · final 3-dic.
+segunda evaluación: entrega 15-nov / presentación 17-nov (actividad parcial de
+Yakko) · demo con el profesor 24-nov · final 3-dic.
 
 Esta página es el arranque de los **tres carriles que arrancan ahora** (el plan
 completo de C1 tiene ocho; ver `gestion/REPLAN-2026-10-30.md`). El detalle de
@@ -33,11 +34,16 @@ Las tres ramas existen desde `main`; nadie trabaja en `main`.
   Entrega 17-nov; el seed y la replicabilidad dependen de su corpus.
 - **Frontend (#11, #4): en pausa por decisión del líder (13-nov).** Esta semana
   no se trabaja frontend; la rama `feat/11-prototipos-ui-ux` de Kira queda como
-  está y se retoma después de la presentación.
+  está y se retoma después de la demo del 24.
 - **Revisión (#106, Erik):** cada PR de carril se revisa contra la Definición
   de Hecho de `docs/REGLAS.md` al llegar; sin evidencia no hay merge.
-- La presentación es el **martes 17-nov**: freeze y ensayo el lunes 16; el
-  alcance se congela a la vertical mínima demostrable.
+- **Segunda evaluación (actividad de Yakko, 40 pts):** entrega el **dom
+  15-nov 23:59** y presentación el **mar 17-nov**; la demo formal con el
+  profesor sigue siendo el **24-nov**. Para la entrega: repo funcionando,
+  evidencia de seguridad (DLP/DRP, respaldos), web services propios (API de
+  DOCU) y de terceros (motores de IA), y el documento *Etapa 4* en PDF.
+  Freeze de la entrega el 14/15 y ensayo el 16; el alcance se congela a la
+  vertical mínima demostrable.
 
 ## Cómo se trabaja
 

@@ -2,8 +2,8 @@
 
 Estado: vigente. Última actualización: 2026-11-13. Plan vigente:
 `gestion/REPLAN-2026-10-30.md` (v2, ocho carriles en paralelo). Hitos: modelo y
-BD 12-nov (cumplido) · presentación **17-nov** (movida desde el 24-nov por el
-líder) · final 3-dic.
+BD 12-nov (cumplido) · **segunda evaluación: entrega 15-nov, presentación
+17-nov** (actividad parcial de Yakko) · avances profesor 24-nov · final 3-dic.
 
 ## Personas
 
