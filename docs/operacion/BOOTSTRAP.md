@@ -137,7 +137,10 @@ idempotente:
 
 1. Copia `.env.example` a `.env` si no existe.
 2. Levanta PostgreSQL 18 + pgvector y Redis 8 con `--wait`.
-3. Arranca la API y se queda en primer plano.
+3. Arranca el **worker** (BullMQ) en segundo plano: la API encola y el worker
+   procesa (ADR-0011).
+4. Arranca la API y se queda en primer plano. Al salir, el worker se apaga
+   con ella (su log queda en `/tmp/docu-worker.log`).
 
 La web se levanta aparte:
 
@@ -152,7 +155,12 @@ bun run dev:web
 | PostgreSQL | `localhost:5432` | `PG_PORT` |
 | Redis | `localhost:6379` | `REDIS_PORT` |
 
-Health check: `GET /health` debe responder `ok` con pg y redis conectados.
+Health check: `GET /health` responde `ok` con **PostgreSQL, Redis y el worker
+vivos**. Si el worker no está, la respuesta es **503 degradado**: la API
+sigue aceptando archivos y encolando, pero nadie los procesa, y eso no es
+"sano" (RF-02: el trabajo no se pierde en silencio, y tampoco puede fingir
+que avanza). Por eso el arranque normal levanta el worker con la API
+(`bun run dev`) y el smoke lo levanta también.
 
 ## Diagnóstico
 
@@ -186,7 +194,7 @@ comandos, para que local y remoto no discrepen.
 | `bun run dataset:check` | Los 6 esquemas del dataset siguen completos y el corpus es reproducible (semilla + manifiesto SHA-256) |
 | índice documental | `bash scripts/doc-index.sh` |
 | pruebas web | Vitest |
-| `bun run smoke:api` | La API arranca y `/health` responde `ok` |
+| `bun run smoke:api` | La API arranca (con su worker) y `/health` responde `ok` |
 
 Un cambio se cierra con `verify` en verde más la evidencia del PR. Sin las dos
 cosas no hay "ya quedó" (`docs/REGLAS.md`).
@@ -210,4 +218,5 @@ cosas no hay "ya quedó" (`docs/REGLAS.md`).
 | `MISSING` en las variables de Drive | Credencial no entregada | Pídela al líder. No la busques en el repo |
 | Puerto ocupado | Otro proceso | Cambia `PG_PORT` / `REDIS_PORT` / `PORT_API` en `.env` |
 | La API no responde en `/health` | Falta Redis o la BD | Revisa los logs de `bun run dev` |
+| `/health` responde **503 degradado** con `worker.alive: false` | El worker no arrancó (o se murió) | Levanta el worker: `bun --env-file .env src/worker/worker.ts` desde `apps/api`; su log está en `/tmp/docu-worker.log` |
 | Drive devuelve una carpeta vacía | `fields` sin el envoltorio `files(...)`, o HTTP 400 no chequeado | Ver `integraciones/DRIVE.md` |
