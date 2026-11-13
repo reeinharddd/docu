@@ -12,6 +12,7 @@ docs/briefs/BRIEF-137-seleccion-modelo-por-tarea.md
 docs/briefs/BRIEF-138-skills-analisis-calidad.md
 docs/briefs/BRIEF-151-embeddings-modelo-y-dimensiones.md
 docs/briefs/BRIEF-153-health-cuerpo-degradado.md
+docs/briefs/BRIEF-154-e2e-aislado-redis.md
 docs/briefs/BRIEF-39-reporte-alerta.md
 docs/briefs/BRIEF-44-solo-insert.md
 docs/briefs/BRIEF-45-pruebas-api.md
