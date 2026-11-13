@@ -5,7 +5,9 @@ Estado: vigente. Registro vivo. Ver `VISION.md` §Riesgos.
 | Riesgo | Señal | Responsable | Mitigación | Estado |
 |---|---|---|---|---|
 | OCR no alcanza 90 % en scans del caso | Sin validación con scans reales (fase 2 diferida) | Erik | Fase 1 mide con corpus degradado propio; fase 2 (#61) cuando el líder la agende | abierto |
-| Contrato 12-nov en riesgo | #58, #62 o #61 abiertos al 2026-11-07 | Erik / Carlos | El carril D cierra el 12-nov y el dataset el 17-nov; si el dataset se atrasa, el contrato se congela con el corpus disponible y se documenta el faltante | **Abierto** (replanificación v2: el contrato pasó de octubre al 12-nov) |
+| Contrato 12-nov en riesgo | #58, #62 o #61 abiertos al 2026-11-07 | Erik / Carlos | El carril D cierra el 12-nov y el dataset el 17-nov; si el dataset se atrasa, el contrato se congela con el corpus disponible y se documenta el faltante | **Mitigado 2026-11-12**: #58/#62/#23 cerrados y merged; el riesgo remanente es solo #61 (en progreso, sesión paralela) |
+| Compresión de calendario por la presentación del 17-nov | La demo se movió del 24 al 17 (decisión del líder, 13-nov); quedan ~3 días de construcción | Erik | Congelar alcance a la vertical mínima demostrable (ingesta → propuesta → bandeja → confirmación → dato oficial); #39, #44 y el resto de #5 pasan a post-presentación; ensayo y freeze el 16-nov | **Abierto** (13-nov) |
+| Carriles sin PR merged (Kira, Carlos) | Cero PRs merged de cada uno en el histórico | Erik / Carlos | Primer PR pequeño y temprano de cada dueño antes del freeze para no descubrir fricción de integración el 16-nov | **Abierto** (13-nov) |
 | #29 retrasa matriz | Sin `ROLES.md` al 2026-10-16 | Carlos | Alcance recortado a matriz; dataset es #9/#61 | **Cerrado 2026-10-17**: `ROLES.md` entregado, #29 y #9 cerrados |
 | Sobrecarga Erik (5 cierres el 13-oct) | >1 En progreso | Erik | Si algo cede, que sea #43 (no bloquea contenido) | **Cerrado 2026-10-17**: #13 y #30 cerrados; #31/#33 descartados; #43 cerrado |
 | Alcance Could frena Must | Tableros/voz en demo | Erik | Recorte MoSCoW por escrito en demo | abierto; con la reestructuración el alcance nuevo es el caso de ejemplo cerrado |

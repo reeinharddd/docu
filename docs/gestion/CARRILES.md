@@ -1,8 +1,8 @@
 # Carriles de C1 — quién trabaja en qué, desde dónde y con qué puerta
 
-Estado: vigente. Última actualización: 2026-11-05. Plan vigente:
-`gestion/REPLAN-2026-10-30.md` (v2). Hitos: modelo y BD 12-nov · vertical
-completa 20-nov · demo con el profesor 24-nov · final 3-dic.
+Estado: vigente. Última actualización: 2026-11-13. Plan vigente:
+`gestion/REPLAN-2026-10-30.md` (v2). Hitos: modelo y BD 12-nov (cumplido) ·
+presentación **17-nov** (movida desde el 24-nov) · final 3-dic.
 
 Esta página es el arranque de los **tres carriles que arrancan ahora** (el plan
 completo de C1 tiene ocho; ver `gestion/REPLAN-2026-10-30.md`). El detalle de
@@ -20,16 +20,24 @@ Erik conduce el resto (arquitectura #60, modelo #62, plataforma #84, IA #85,
 guardas #87, limpieza #88, demo #89) y **revisa todos los PRs** (issue #106).
 Las tres ramas existen desde `main`; nadie trabaja en `main`.
 
-## Estado de hoy (5-nov)
+## Estado de hoy (13-nov)
 
-- Los tres carriles están **en proceso**: en el Project v1 los issues #11, #58 y
-  #61 están en `En progreso`, con rama creada desde `main`, brief publicado y
-  las instrucciones de arranque en el issue.
-- Pendiente de cada dueño: el primer commit en su rama y el PR con
-  `Closes #N`, evidencia y `bun run verify` en verde.
-- Lo que sigue en la cadena: el ER (#58, 10-nov) destraba el modelo y el
-  contrato (#62, 12-nov); con eso arranca el backend (#12, #3, #46, 12-nov) y
-  la emisión del corpus (#61, 12→16-nov).
+- **Base de datos y backend base: integrados en `main`.** ER (#58), modelo y
+  contrato (#62, #23), IA (#85), plataforma (#84), puerta TDD (#45) y la fase B
+  de la API (#12: bandeja, confirmación, rechazo y dato oficial) ya están
+  merged; la disposición es condicional en SQL (409 real bajo doble envío).
+- **Backend (#3, #46, #59, #44, #5, #7): Emmanuel continúa.** La cadena crítica
+  de la demo es pipeline (#3) → worker (#46) → seed (#59): sin worker la
+  bandeja queda vacía por diseño.
+- **Dataset (#61, #86): Carlos, en progreso en sesión paralela del líder.**
+  Entrega 17-nov; el seed y la replicabilidad dependen de su corpus.
+- **Frontend (#11, #4): en pausa por decisión del líder (13-nov).** Esta semana
+  no se trabaja frontend; la rama `feat/11-prototipos-ui-ux` de Kira queda como
+  está y se retoma después de la presentación.
+- **Revisión (#106, Erik):** cada PR de carril se revisa contra la Definición
+  de Hecho de `docs/REGLAS.md` al llegar; sin evidencia no hay merge.
+- La presentación es el **martes 17-nov**: freeze y ensayo el lunes 16; el
+  alcance se congela a la vertical mínima demostrable.
 
 ## Cómo se trabaja
 
