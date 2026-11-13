@@ -29,7 +29,7 @@ const CONFIG: IaConfig = {
   cloudActivated: false,
   ocrModel: 'glm-ocr',
   llmModel: 'llama3.2',
-  embeddingModel: 'qwen3-embedding-0.6b',
+  embeddingModel: 'qwen3-embedding:0.6b',
   scoringUrl: 'http://scorer.test/v1/systemone',
   scoringAutoThreshold: 0.9,
   scoringReviewThreshold: 0.6,
@@ -97,7 +97,7 @@ describe('IA configuration', () => {
     expect(config.baseUrl).toBe('http://localhost:11434/v1')
     expect(config.ocrModel).toBe('glm-ocr')
     expect(config.llmModel).toBe('llama3.2')
-    expect(config.embeddingModel).toBe('qwen3-embedding-0.6b')
+    expect(config.embeddingModel).toBe('qwen3-embedding:0.6b')
     expect(config.temperature).toBe(0)
     expect(config.cloudActivated).toBe(false)
   })
@@ -217,6 +217,21 @@ describe('IA transport and engines', () => {
     expect(failure).rejects.toThrow(/768/)
   })
 
+  test('embedding request asks the provider for the contracted dimension', async () => {
+    const { fetch, calls } = scriptedFetch([
+      () => Response.json(embeddingsResponse(new Array(768).fill(0.1))),
+    ])
+    const runner = runnerWith(fetch)
+    const output = await runner.embed('texto')
+    expect(output.vector).toHaveLength(768)
+    const body = JSON.parse(String(calls[0]?.init.body)) as {
+      model: string
+      input: string
+      dimensions?: number
+    }
+    expect(body.dimensions).toBe(768)
+  })
+
   test('ocr sends the page as a base64 data URI and rejects empty input', async () => {
     const { fetch, calls } = scriptedFetch([
       () => Response.json(chatResponse('texto extraído')),
@@ -315,16 +330,82 @@ describe('IA scoring (SystemOne / Laya)', () => {
   })
 })
 
+/**
+ * Live battery against the configured endpoint (IA_LIVE_TEST=1).
+ *
+ * These tests measure the engines, not the production budget: they run with a
+ * generous budget and a long timeout, because a local model on CPU answers in
+ * seconds. The production budget (IA_BUDGET_MAX_TOKENS) is a different
+ * question, measured in #136.
+ */
+function liveRunner(overrides: Partial<IaConfig> = {}): IaRunner {
+  const config: IaConfig = {
+    ...loadIaConfig(),
+    budgetMaxTokens: 200_000,
+    budgetMaxMs: 120_000,
+    ...overrides,
+  }
+  return new IaRunner({ config })
+}
+
 describe('IA live integration (IA_LIVE_TEST=1)', () => {
   test.skipIf(process.env.IA_LIVE_TEST !== '1')(
     'embeds a real text at the configured endpoint within the 768 contract',
     async () => {
-      const runner = new IaRunner()
+      const runner = liveRunner()
       const output = await runner.embed('Rollo R-017 recibido en recepción')
       expect(output.vector).toHaveLength(768)
       const trace = runner.snapshot()[0]
       expect(trace?.cached).toBe(false)
       expect(trace?.error).toBeUndefined()
     },
+    120_000,
+  )
+
+  test.skipIf(process.env.IA_LIVE_TEST !== '1')(
+    'reads a real page with the configured vision model',
+    async () => {
+      const runner = liveRunner()
+      const bytes = new Uint8Array(
+        await Bun.file(
+          new URL('./fixtures/muestra-1p.png', import.meta.url),
+        ).arrayBuffer(),
+      )
+      const output = await runner.recognizeDocument({
+        bytes,
+        mimeType: 'image/png',
+      })
+      expect(output.text.trim().length).toBeGreaterThan(10)
+      const trace = runner.snapshot()[0]
+      expect(trace?.error).toBeUndefined()
+    },
+    180_000,
+  )
+
+  test.skipIf(process.env.IA_LIVE_TEST !== '1')(
+    'answers with the configured chat model in the requested JSON shape',
+    async () => {
+      const runner = liveRunner()
+      const output = await runner.complete({
+        system: 'Eres un clasificador de documentos.',
+        prompt:
+          'Clasifica el siguiente texto en una de las familias: excel_turno, recepcion_rollo, inventario, correo_hermana, escaneado, programa_planeacion.\nTexto: Rollo R-017 recibido en recepción el lunes 12 de octubre.',
+        jsonSchema: {
+          name: 'clasificacion',
+          schema: {
+            type: 'object',
+            properties: {
+              familia: { type: 'string' },
+            },
+            required: ['familia'],
+            additionalProperties: false,
+          },
+        },
+      })
+      expect(output.json).toBeDefined()
+      const trace = runner.snapshot()[0]
+      expect(trace?.error).toBeUndefined()
+    },
+    180_000,
   )
 })

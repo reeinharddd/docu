@@ -46,6 +46,14 @@ export interface ChatResponse {
 export interface EmbeddingsRequest {
   model: string
   input: string
+  /**
+   * Dimension the provider must return. The ER contract is vector(768) and
+   * some providers (Ollama with Qwen3-Embedding, OpenAI-compatible servers
+   * with Matryoshka models) honor this parameter to truncate their native
+   * vector. Without it, Ollama answers 1024 for qwen3-embedding:0.6b and the
+   * contract check fails. Providers that ignore it keep failing loudly.
+   */
+  dimensions?: number
 }
 
 export interface EmbeddingsResponse {
