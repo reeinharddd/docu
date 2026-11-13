@@ -38,6 +38,12 @@ import type {
 export interface IaRunnerOptions {
   config?: IaConfig
   client?: OpenAiCompatClient
+  /**
+   * Transport for the clients the runner builds itself. The `client` option
+   * overrides every capability (a single transport for all of them); this one
+   * lets each capability keep its own endpoint while sharing the transport.
+   */
+  fetchImpl?: FetchLike
   cacheStore?: CacheStore | null
   scoringFetch?: FetchLike
 }
@@ -57,24 +63,61 @@ export class IaRunner {
   private readonly cache: ResultCache
   private readonly traces = new TraceRecorder()
   private readonly now: () => number
+  /**
+   * The endpoint of each capability. It is part of the cache key: the same
+   * model name in two providers is two different answers, and the cache must
+   * not serve one for the other.
+   */
+  private readonly endpoints: {
+    ocr: string
+    llm: string
+    embedding: string
+  }
 
   constructor(options: IaRunnerOptions = {}) {
     this.config = options.config ?? loadIaConfig()
-    const client =
+    const clientFor = (baseUrl: string, apiKey: string): OpenAiCompatClient =>
       options.client ??
       new OpenAiCompatClient(
-        this.config.baseUrl,
-        this.config.apiKey,
+        baseUrl,
+        apiKey,
         this.config.maxRetries,
+        options.fetchImpl ?? fetch,
       )
-    this.ocr = new VisionOcrEngine(client, this.config.ocrModel)
+    // Each capability can live in a different provider: the central model in
+    // the cloud, the OCR and the embeddings on the plant host. The client is
+    // shared when the endpoint and the key are the same.
+    const clients = new Map<string, OpenAiCompatClient>()
+    const clientForCapability = (
+      baseUrl: string,
+      apiKey: string,
+    ): OpenAiCompatClient => {
+      const key = `${baseUrl}|${apiKey}`
+      const existing = clients.get(key)
+      if (existing) return existing
+      const created = clientFor(baseUrl, apiKey)
+      clients.set(key, created)
+      return created
+    }
+    this.ocr = new VisionOcrEngine(
+      clientForCapability(this.config.ocrBaseUrl, this.config.ocrApiKey),
+      this.config.ocrModel,
+    )
     this.llm = new ChatLlmEngine(
-      client,
+      clientForCapability(this.config.llmBaseUrl, this.config.llmApiKey),
       this.config.llmModel,
       this.config.temperature,
       this.config.seed,
     )
-    this.embedding = new ApiEmbeddingEngine(client, this.config.embeddingModel)
+    this.embedding = new ApiEmbeddingEngine(
+      clientForCapability(
+        this.config.embeddingBaseUrl,
+        this.config.embeddingApiKey,
+      ),
+      this.config.embeddingModel,
+      undefined,
+      this.config.embeddingInputType,
+    )
     this.scoring = new SystemOneScoringEngine(
       this.config.scoringUrl,
       'laya-multilingual',
@@ -85,6 +128,11 @@ export class IaRunner {
       (this.config.cacheEnabled ? new MemoryCacheStore() : null)
     this.cache = new ResultCache(store)
     this.now = () => Date.now()
+    this.endpoints = {
+      ocr: this.config.ocrBaseUrl,
+      llm: this.config.llmBaseUrl,
+      embedding: this.config.embeddingBaseUrl,
+    }
   }
 
   async recognizeDocument(input: OcrInput): Promise<OcrOutput> {
@@ -92,7 +140,13 @@ export class IaRunner {
     return this.run<OcrOutput>(
       'ocr',
       this.ocr.model,
-      [inputSha256, input.mimeType, input.language ?? '', input.prompt ?? ''],
+      [
+        this.endpoints.ocr,
+        inputSha256,
+        input.mimeType,
+        input.language ?? '',
+        input.prompt ?? '',
+      ],
       Math.ceil(input.bytes.byteLength / 4),
       (ctx) => this.ocr.recognize(input, ctx),
       inputSha256,
@@ -106,6 +160,7 @@ export class IaRunner {
       'llm',
       this.llm.model,
       [
+        this.endpoints.llm,
         inputSha256,
         request.jsonSchema === undefined
           ? ''
@@ -124,7 +179,7 @@ export class IaRunner {
     return this.run<EmbeddingOutput>(
       'embedding',
       this.embedding.model,
-      [inputSha256],
+      [this.endpoints.embedding, inputSha256],
       estimateTokens(text),
       (ctx) => this.embedding.embed(text, ctx),
       inputSha256,

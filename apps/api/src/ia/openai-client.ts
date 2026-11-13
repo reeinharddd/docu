@@ -54,6 +54,13 @@ export interface EmbeddingsRequest {
    * contract check fails. Providers that ignore it keep failing loudly.
    */
   dimensions?: number
+  /**
+   * Asymmetric embedding models (NV-Embed-QA, E5, Nemotron 3.5 Embed) ask
+   * for the role of the text: `query` or `passage`. Symmetric models reject
+   * the parameter, so it is only sent when the installation configures it
+   * (IA_EMBEDDING_INPUT_TYPE): the provider is data, not code.
+   */
+  input_type?: string
 }
 
 export interface EmbeddingsResponse {
@@ -81,7 +88,7 @@ const MAX_ERROR_DETAIL_CHARS = 300
 
 export class OpenAiCompatClient {
   constructor(
-    private readonly baseUrl: string,
+    readonly baseUrl: string,
     private readonly apiKey: string,
     private readonly maxRetries: number,
     private readonly fetchImpl: FetchLike = fetch,
