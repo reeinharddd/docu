@@ -8,6 +8,8 @@ docs/briefs/BRIEF-06-demo-final.md
 docs/briefs/BRIEF-07-configuracion-1.md
 docs/briefs/BRIEF-11-prototipos-ui-ux.md
 docs/briefs/BRIEF-12-api-nestjs.md
+docs/briefs/BRIEF-137-seleccion-modelo-por-tarea.md
+docs/briefs/BRIEF-138-skills-analisis-calidad.md
 docs/briefs/BRIEF-39-reporte-alerta.md
 docs/briefs/BRIEF-44-solo-insert.md
 docs/briefs/BRIEF-45-pruebas-api.md
@@ -41,6 +43,7 @@ docs/decisiones/ADR-0020-motores-de-ia-como-configuracion.md
 docs/decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md
 docs/decisiones/ADR-0022-paginacion-por-limit-y-offset.md
 docs/decisiones/ADR-0023-esp32-s3-puente-de-fuentes-en-el-borde.md
+docs/decisiones/ADR-0024-capacidad-de-ia-por-tarea-y-consumo-por-fragmentos.md
 docs/decisiones/README.md
 docs/diseno/CATEGORIAS.md
 docs/diseno/DESIGN-SYSTEM.md

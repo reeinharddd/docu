@@ -43,6 +43,22 @@ Las tres ramas existen desde `main`; nadie trabaja en `main`.
 - **Esp32-S3 (ADR-0023, en propuesta):** el kit es el puente de fuentes en el
   borde; consume y normaliza al contrato `POST /v1/files`, no genera. Revisa
   Emmanuel.
+- **Pila real probada de punta a punta (13-nov, IA local):** API + worker +
+  web levantados contra Postgres `localhost:5434` y Redis `localhost:6381`, con
+  Ollama local (`glm-ocr`, `llama3.2`, `qwen3-embedding:0.6b`). El ciclo
+  completo funciona con un PNG: login → `POST /v1/files` → worker (OCR +
+  scoring + campos) → propuesta en `GET /v1/inbox` → confirmar → oficial. Tres
+  huecos reales salieron de esa prueba y ya están con issue y evidencia:
+  **#135** (el seed no declara `entityType`, así que ninguna propuesta llega a
+  la bandeja), **#136** (el motor de visión rechaza el PDF crudo y el
+  presupuesto por llamada no escala a documentos reales) y **#137** (el modelo
+  se elige por tarea, no fijo: ADR-0024).
+- **El frontend todavía no habla con la API real (#132):** `apps/web` sigue con
+  el interceptor `demoBackendInterceptor` y sus fixtures, y la sesión de modo
+  demo **no sobrevive a una recarga** (hay que volver a pulsar "Entrar en modo
+  demo"). El ciclo real de esta prueba se probó **por API, no por navegador**:
+  las cinco pantallas renderizan bien contra fixtures, pero eso no prueba la
+  conexión web↔API, que es lo que hace #132.
 - **Revisión (#106, Erik):** cada PR de carril se revisa contra la Definición
   de Hecho de `docs/REGLAS.md` al llegar; sin evidencia no hay merge. #58, #3 y
   #11 revisados y mergeados.
