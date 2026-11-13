@@ -27,14 +27,20 @@ El proveedor detrás del endpoint es indiferente al código: **Ollama local**
 (default, `http://localhost:11434/v1`), **vLLM/SGLang** en el host,
 **NVIDIA NIM**, **OpenAI** o **el endpoint que cada compañía opere**. Ese es
 el caso multi-compañía: apuntar `IA_API_BASE_URL` a lo que la instalación
-tenga, sin tocar una línea de código.
+tenga, sin tocar una línea de código. Y como cada capacidad puede apuntar a
+un proveedor distinto (§1.0), la planta puede correr el OCR y los embeddings
+en casa y dejar el modelo central en la nube.
 
 ## 1. Configuración (variables de entorno)
 
 | Variable | Default | Qué fija |
 |---|---|---|
-| `IA_API_BASE_URL` | `http://localhost:11434/v1` | El endpoint compatible OpenAI |
-| `IA_API_KEY` | (vacía; Ollama local no pide) | Credencial del proveedor; jamás en el repo |
+| `IA_API_BASE_URL` | `http://localhost:11434/v1` | El endpoint compatible OpenAI **por defecto** (todas las capacidades que no declaren el suyo) |
+| `IA_API_KEY` | (vacía; Ollama local no pide) | Credencial del proveedor por defecto; jamás en el repo |
+| `IA_OCR_API_BASE_URL` / `IA_OCR_API_KEY` | (vacío → `IA_API_*`) | Proveedor **del OCR** |
+| `IA_LLM_API_BASE_URL` / `IA_LLM_API_KEY` | (vacío → `IA_API_*`) | Proveedor **del modelo central** (clasificación, organización y consulta) |
+| `IA_EMBEDDING_API_BASE_URL` / `IA_EMBEDDING_API_KEY` | (vacío → `IA_API_*`) | Proveedor **de los embeddings** |
+| `IA_EMBEDDING_INPUT_TYPE` | (vacío = no se manda) | Rol del texto para modelos asimétricos (`query` / `passage`); los simétricos lo rechazan |
 | `IA_OCR_MODEL` | `glm-ocr` | Modelo de visión para OCR/KIE |
 | `IA_LLM_MODEL` | `llama3.2` | Modelo de texto para clasificación y consulta |
 | `IA_EMBEDDING_MODEL` | `qwen3-embedding:0.6b` | Modelo de embeddings (salida a 768); tag del registro de Ollama. **El nombre depende del proveedor** (§1.1) |
@@ -49,26 +55,49 @@ tenga, sin tocar una línea de código.
 | `IA_CACHE_TTL_MS` | `3600000` | Vida de la entrada de caché |
 | `IA_LOCAL_ACTIVADA` / `IA_NUBE_ACTIVADA` | `true` / `false` | Los interruptores de IA.md §4 |
 
-**Regla RNF-03 forzada en código:** si `IA_API_BASE_URL` no es un host local
-o de red privada y `IA_NUBE_ACTIVADA != true`, el módulo falla al arrancar
-con error accionable. La nube es excepción autorizada, no default. Una clave
+**Regla RNF-03 forzada en código:** si un endpoint (el de por defecto **o** el
+de una capacidad) no es un host local o de red privada y
+`IA_NUBE_ACTIVADA != true`, el módulo falla al arrancar con error accionable
+que nombra la variable. La nube es excepción autorizada, no default. Una clave
 inválida o un número malformado también falla al arrancar nombrando la
 variable y sus valores válidos.
 
-### 1.1 NVIDIA NIM como proveedor de pruebas
+### 1.0 Dónde corre cada capacidad
+
+Cada capacidad puede apuntar a un proveedor distinto, y esa es la decisión de
+la instalación, no del código (ADR-0020). **El reparto que la planta necesita
+(13-nov):**
+
+| Capacidad | Dónde corre | Por qué |
+|---|---|---|
+| **Modelo central** (clasificación, organización, consulta) | **NVIDIA NIM** (`IA_LLM_API_BASE_URL`) | Es el trabajo pesado de razonamiento: en la planta no se puede correr un modelo suficientemente bueno para clasificar y organizar con criterio |
+| OCR / KIE | **En la planta** (`glm-ocr` en Ollama local) | El texto del documento no sale de la planta: es el dato que más importa proteger (RNF-03) |
+| Embeddings | **En la planta** (`qwen3-embedding:0.6b` en Ollama local) | Ídem: el texto se vectoriza donde está |
+| Scoring (Laya) | **En la planta** (`:8000`) | El scoring calibrado es local y determinista |
+
+El mismo esquema sirve para las otras opciones de infraestructura: un PC
+remoto del equipo o un servidor propio de la planta son endpoints locales o de
+red privada (`isLocalEndpoint`), y se apuntan con las mismas variables sin
+tocar código. El proveedor es un dato.
+
+Con este reparto, la **caché y las trazas** siguen distinguiendo proveedores:
+la clave de caché incluye el endpoint, así que el mismo nombre de modelo en
+dos proveedores no se confunde.
+
+### 1.1 NVIDIA NIM como proveedor de pruebas y del modelo central
 
 NIM es **una instancia más del mismo endpoint compatible OpenAI**: no hay
-código de NIM en el repo. Solo cambian cuatro datos del `.env` local (que
-nunca va al repo) y el interruptor RNF-03.
+código de NIM en el repo. Solo cambian datos del `.env` local (que nunca va al
+repo) y el interruptor RNF-03.
 
 ```bash
-# .env local (NO versionado)
-IA_API_BASE_URL=https://integrate.api.nvidia.com/v1
-IA_API_KEY=<clave personal de build.nvidia.com>
+# .env local (NO versionado) — modelo central en la nube, el resto en la planta
+IA_API_BASE_URL=http://localhost:11434/v1
+IA_API_KEY=
 IA_NUBE_ACTIVADA=true
-IA_OCR_MODEL=nvidia/nemotron-nano-12b-v2-vl
-IA_LLM_MODEL=meta/llama-3.3-70b-instruct
-IA_EMBEDDING_MODEL=nvidia/llama-3.2-nv-embedqa-1b-v2
+IA_LLM_API_BASE_URL=https://integrate.api.nvidia.com/v1
+IA_LLM_API_KEY=<clave personal de build.nvidia.com>
+IA_LLM_MODEL=nvidia/nemotron-3-nano-omni-30b-a3b-reasoning
 ```
 
 Procedimiento de verificación:
@@ -78,19 +107,35 @@ Procedimiento de verificación:
 curl -s -H "Authorization: Bearer $IA_API_KEY" \
   https://integrate.api.nvidia.com/v1/models | jq '.data[].id'
 
-# 2. La batería live del módulo corre contra ese endpoint
-cd apps/api && IA_LIVE_TEST=1 bun test src/ia/ia.spec.ts
+# 2. La batería live del módulo corre con ese perfil (las tres capacidades)
+bash .lab-review/nim-live.sh test
 ```
 
 **Los modelos no son intercambiables entre proveedores.** El mismo
-`IA_EMBEDDING_MODEL` que vale en Ollama no vale en NIM, y hay dos trampas
+`IA_EMBEDDING_MODEL` que vale en Ollama no vale en NIM, y hay tres trampas
 documentadas por NVIDIA que conviene conocer antes de atribuir un fallo al
 código:
 
 | Trampa | Qué hace | Qué hacer |
 |---|---|---|
-| La dimensión pedida puede no estar soportada | `nvidia/nemotron-3-embed-1b` solo acepta su dimensión nativa (2048): pedir 768 responde `HTTP 400 dimensions must be one of 2048` | Usar un modelo MRL que sí acepte 768: `nvidia/llama-3.2-nv-embedqa-1b-v2` (384/512/768/1024/2048) o `nvidia/llama-nemotron-embed-vl-1b-v2` (768 entre sus valores fijos) |
-| Algunos modelos exigen `input_type` | NV-Embed-QA y E5 differentiate `query` y `passage`; sin el campo, la calidad de retrieval se desploma | El sufijo en el nombre lo resuelve sin tocar el cliente: `nvidia/llama-3.2-nv-embedqa-1b-v2-query` / `-passage` |
+| La dimensión pedida puede no estar soportada | `nvidia/nemotron-3-embed-1b` solo acepta su dimensión nativa (2048): pedir 768 responde `HTTP 400 dimensions must be one of 2048` | Usar un modelo MRL que sí acepte 768: `nvidia/nemotron-3.5-embed-1b` (768 y 2048, pero exige `input_type`) o `nvidia/llama-3.2-nv-embedqa-1b-v1` |
+| Algunos modelos exigen `input_type` | NV-Embed-QA, E5 y Nemotron 3.5 Embed diferencian `query` y `passage`; sin el campo, el proveedor responde `HTTP 400 'input_type' parameter is required for asymmetric models` | Configurar `IA_EMBEDDING_INPUT_TYPE=query` (o `passage`): el motor lo manda solo si la instalación lo declara |
+| **Los modelos se retiran** | Un modelo que sale de catálogo responde `HTTP 410 Gone: The model '…' has reached its end of life` | Antes de configurar un modelo, listar `/v1/models` y comprobar que sigue |
+
+**Estado de los modelos medido el 13-nov** (con la clave de la prueba, contra
+el catálogo vivo de NIM):
+
+| Capacidad | Modelo en NIM | Resultado medido |
+|---|---|---|
+| Modelo central (rápido) | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | 4/4 clasificaciones correctas · 2,4 s promedio · JSON con `response_format` |
+| Modelo central (máximo) | `nvidia/nemotron-3-ultra-550b-a55b` | 4/4 correctas · 24,7 s promedio · JSON válido |
+| Visión (respaldo) | `meta/llama-3.2-90b-vision-instruct` | Transcribe la página (790 caracteres) |
+| Embeddings | `nvidia/nemotron-3.5-embed-1b` | 768 y 2048 dims, pero exige `input_type` |
+| OCR y embeddings (planta) | `glm-ocr` y `qwen3-embedding:0.6b` en Ollama | Ya medidos: OCR 100,8 s por página; embeddings 768 dims en 4,2 s |
+
+Los dos modelos que el perfil usaba antes
+(`nvidia/nemotron-nano-12b-v2-vl` y `meta/llama-3.3-70b-instruct`) **ya no
+existen**: ambos responden `HTTP 410 Gone` (fin de vida el 26-ago-2026).
 
 Con el resto de los proveedores la superficie es la misma: `response_format:
 json_schema` para el LLM, `image_url` con `data:` URI para visión, y
