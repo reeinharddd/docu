@@ -472,3 +472,60 @@ bun run db:seed
 psql "$DATABASE_URL" -tAc "select family_code, schema_definition from config.family_config order by family_code"
 ```
 
+## 2026-11-13 (vuelta 3) — El modelo central en la nube, el resto en la planta (#141)
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** NVIDIA NIM queda como el **proveedor del modelo central** (el que
+clasifica, organiza y consulta) porque en la planta no se puede correr un
+modelo suficientemente bueno para eso. El OCR (GLM-OCR), los embeddings
+(qwen3-embedding:0.6b) y el scoring (Laya) **siguen en la planta**.
+
+### El bloqueo que había
+
+El módulo de IA tenía **una** base URL y **una** clave para las tres
+capacidades: o todo iba a la nube o todo se quedaba en casa. Con una base
+por capacidad (`IA_{OCR,LLM,EMBEDDING}_API_BASE_URL` y sus `_API_KEY`), el
+reparto es dato, no código (ADR-0020), y la regla de localidad (RNF-03) se
+aplica a cada endpoint: un endpoint remoto sin `IA_NUBE_ACTIVADA=true`
+impide arrancar.
+
+### Los modelos del perfil estaban retirados
+
+`nvidia/nemotron-nano-12b-v2-vl` (visión) y `meta/llama-3.3-70b-instruct`
+(texto) responden `HTTP 410 Gone — fin de vida el 26-ago-2026`. El catálogo
+vivo de la cuenta tiene 83 modelos; una parte devuelve `404 Function not
+found for account` (sin acceso). Entre los que sí responden, algunos
+devuelven el JSON en `reasoning_content` y dejan `content` vacío: el motor
+los rechaza.
+
+Medido el 13-nov con el prompt real de DOCU (4 casos de clasificación):
+
+| Modelo | Aciertos | Tiempo promedio | JSON |
+|---|---|---|---|
+| `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | 4/4 | **2,4 s** | válido |
+| `nvidia/nemotron-3-ultra-550b-a55b` | 4/4 | 24,7 s | válido |
+| `llama3.2` (Ollama local) | 4/4 | 2,9 s | válido |
+
+Elegido el **Nano Omni 30B** para el pipeline (rápido y correcto); el
+**Ultra 550B** queda documentado para el razonamiento profundo del agente.
+
+### Verificado
+
+Batería live con el perfil híbrido (27 pass / 0 fail): embeddings local en
+4,2 s con 768 dims, OCR local en 100,8 s por página, modelo central en NIM
+en 4,4 s. Y el **ciclo completo** con ese reparto (API `:3116` + worker):
+PNG → 201 → propuesta en la bandeja con su `entityType` → confirmación 200
+`official` → registro en `/v1/official-records`.
+
+**Cómo verificarlo:**
+```bash
+# el perfil híbrido vive fuera del repo (la clave nunca va al repo)
+bash .lab-review/nim-live.sh test
+
+# el ciclo completo con el reparto real
+cd apps/api
+PORT_API=3116 REDIS_URL=redis://localhost:6381/14 bun --env-file ../../.env src/main.ts &
+REDIS_URL=redis://localhost:6381/14 IA_BUDGET_MAX_TOKENS=200000 \
+  IA_BUDGET_MAX_MS=300000 bun --env-file ../../.env src/worker/worker.ts &
+```
+
