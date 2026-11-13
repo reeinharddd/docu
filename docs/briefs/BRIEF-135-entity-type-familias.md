@@ -3,9 +3,7 @@
 ## 0. Encabezado
 
 - Issue: #135
-- Responsable: Erik Beltrán (Líder, infra y pipeline) — ejecución de cierre con
-  el mapa publicado por el líder en el issue; el carril de Emmanuel (#59, seed
-  reproducible) sigue siendo suyo y toma este archivo como entrada.
+- Dueño: Emmanuel (Agent3835) — el cierre técnico del 13-nov lo ejecutó Erik (líder) con el mapa publicado en el issue, para no dejar el carril parado; el seed reproducible (#59) sigue siendo de Emmanuel y toma este mapa como entrada.
 - Fechas: 2026-11-13 → 2026-11-13 · Sprint 3 · hito `C1 vertical completa`
 - Prioridad / Tipo / Épica / Módulo: crítica / bug / back / capa
   `apps/api/prisma/seed/`
