@@ -11,7 +11,7 @@ import { Icon } from '../icon/icon'
   imports: [Icon],
   selector: 'app-rule-tag',
   template: `<span
-    class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium"
+    class="inline-flex flex-wrap items-center gap-x-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium"
     [class.bg-quarantine-bg]="isBlock()"
     [class.text-quarantine]="isBlock()"
     [class.bg-pending-bg]="!isBlock()"
@@ -21,9 +21,9 @@ import { Icon } from '../icon/icon'
     [attr.title]="info().reason"
   >
     <app-icon [name]="isBlock() ? 'octagon-x' : 'triangle-alert'" [size]="16" />
-    <span>{{ isBlock() ? 'Bloqueo' : 'Aviso' }} ·</span>
-    <span class="font-mono">{{ code() }}</span>
-    <span>{{ info().short }}</span>
+    <span class="whitespace-nowrap">{{ isBlock() ? 'Bloqueo' : 'Aviso' }} ·</span>
+    <span class="whitespace-nowrap font-mono">{{ code() }}</span>
+    <span class="whitespace-nowrap">{{ info().short }}</span>
   </span>`,
   host: { class: 'inline-flex' },
 })

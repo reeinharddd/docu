@@ -56,6 +56,18 @@ describe('ScheduleView (Programa: bloqueos vivos, G4)', () => {
     ).toBe('/search?q=R-017')
   })
 
+  it('shows each order as a card with its state and blocks on a phone', async () => {
+    http.expectOne(WEEK_URL).flush(SCHEDULE_FIXTURE)
+    await fixture.whenStable()
+    const card = el.querySelector('[data-test="card-e01"]')
+    expect(card?.getAttribute('data-state')).toBe('blocked')
+    expect(card?.textContent).toContain('No asignable')
+    expect(card?.querySelector('[data-rule="R-P1"]')).toBeTruthy()
+    expect(
+      card?.querySelector('a[href="/inbox?rule=R-P1"]')?.textContent,
+    ).toContain('Ver por qué')
+  })
+
   it('counts blocked orders and shows missing material and minimum stock', async () => {
     http.expectOne(WEEK_URL).flush(SCHEDULE_FIXTURE)
     await fixture.whenStable()
