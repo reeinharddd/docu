@@ -1,9 +1,9 @@
 # Equipo, responsabilidades y propiedad de la documentación
 
-Estado: vigente. Última actualización: 2026-11-03. Plan vigente:
+Estado: vigente. Última actualización: 2026-11-13. Plan vigente:
 `gestion/REPLAN-2026-10-30.md` (v2, ocho carriles en paralelo). Hitos: modelo y
-BD 12-nov · vertical completa 19-nov · demo con el profesor 24-nov · final
-3-dic.
+BD 12-nov (cumplido) · **segunda evaluación: entrega 15-nov, presentación
+17-nov** (actividad parcial de Yakko) · avances profesor 24-nov · final 3-dic.
 
 ## Personas
 

@@ -13,6 +13,10 @@ este plan con GitHub y se corrige aquí.
 > mueve el milestone y se corrige aquí en el mismo PR, con anuncio en el sync.
 >
 > **C1 vertical completa: 19 de noviembre.** Milestone `C1 vertical completa` (#7).
+> **Segunda evaluación: Proyecto (Yakko, 40 pts): entrega dom 15-nov 23:59 ·
+> presentación mar 17-nov.** Actividad parcial: app web con repo, caso de
+> estudio, seguridad (DLP/DRP, respaldos), web services propios y de
+> terceros, y documento *Etapa 4: Pruebas y despliegue* en PDF.
 > **Avances profesor: 24 de noviembre.** Milestone `Avances profesor` (#8).
 > **C1 final: 3 de diciembre.** Milestone `C1 final` (#9).
 >
@@ -48,12 +52,20 @@ como *blocked by* en GitHub.
 | C. Infra IA | Ollama con los modelos, Laya vía endpoint SystemOne-compatible (`IA_SCORING_URL`), scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85; #60 cerrado) |
 | D. Base de datos | ER híbrido, DDL + migración, vistas, triggers, append-only, contrato con SHA | Emmanuel (ER #58, con apoyo de Erik); Erik (#62/#23) | 12-nov | Backend, IA, contrato | #62, #23 (#58 y #60 cerrados) |
 | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas, búsqueda híbrida | Erik | 18-nov | Freeze, demo | #85 |
-| F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 |
-| G. Backend | Specs y suite desde el 3-nov; implementación: API, ingesta, reglas, cuarentena, oficial, lineage, seed, RBAC, bitácora | Emmanuel | 19-nov | Freeze, demo | #45, #12, #3, #46, #44, #5, #59, #7 |
-| H. Frontend | Spec de UI desde el 6-nov; mockups funcionales 13→16-nov; pantallas contra la API real 17→18-nov | Kira | 18-nov | Freeze, demo | #11, #4 |
+| F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 — **en progreso** (sesión propia del líder, 13-nov) |
+| G. Backend | Specs y suite desde el 3-nov; implementación: API, ingesta, reglas, cuarentena, oficial, lineage, seed, RBAC, bitácora | Emmanuel | 19-nov | Freeze, demo | #45 ✓, #12 ✓ (fase B; falta otra PR), #3, #46, #44, #5, #59, #7 — **Emmanuel continúa en #3 → #46 → #59** |
+| H. Frontend | Spec de UI desde el 6-nov; mockups funcionales 13→16-nov; pantallas contra la API real 17→18-nov | Kira | 18-nov | Freeze, demo | #11, #4 — **en pausa por decisión del líder (13-nov): esta semana no se trabaja frontend** |
 
-**Hitos del calendario:** freeze de la vertical **18-nov** · ensayo **20-nov** ·
-demo con el profesor **24-nov** · final **3-dic**.
+**Hitos del calendario:** entrega de la segunda evaluación **dom 15-nov
+23:59** · presentación de la actividad **mar 17-nov** · demo formal con el
+profesor **24-nov** (sin cambio) · final **3-dic**.
+Replanificación del 13-nov: la actividad de Yakko exige repo funcionando,
+seguridad (DLP/DRP, respaldos), web services propios y de terceros, y el
+documento *Etapa 4: Pruebas y despliegue* en PDF. El alcance de la entrega se
+congela a la **vertical mínima demostrable** (ingesta → propuesta → bandeja →
+confirmación → dato oficial, con dataset del corpus disponible y pantallas
+existente). #39 (reporte/alerta), #44 (solo-insert) y el resto de #5 (RBAC
+completo) quedan para después de la demo del 24.
 
 **Reglas de la v2:**
 
