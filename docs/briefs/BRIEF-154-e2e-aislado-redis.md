@@ -91,6 +91,29 @@ bases lógicas.
 2. Documentarlo en el propio archivo (el porqué: una prueba que falla por el
    estado de otra corrida no demuestra nada).
 3. Comprobar que el e2e pasa con la pila levantada y dos veces seguidas.
+4. Arreglar la carrera que el aislamiento destapó (ver §4.1).
+
+## 4.1 Una carrera latente que el aislamiento destapó
+
+Con la cola de tests vacía, el worker la agarra de inmediato y la CI mostró
+este fallo, que **no** era del aislamiento:
+
+```
+expect(job.rows[0]?.status).toBe('queued')
+Expected: "queued"
+Received: "running"
+```
+
+El spec sube el archivo y acto seguido lee la fila de `platform.job_run`
+exigiendo que el trabajo siga `queued`. Pero el worker puede haberlo tomado
+ya y puesto `running`: es una carrera, y en CI la ganaba el worker. La cola
+compartida la tapaba (había trabajo de otras corridas que el worker procesaba
+primero).
+
+Lo que el spec quiere comprobar es que **la corrida existe con el id del
+archivo y está en vuelo**, no que el worker no haya llegado. Ahora acepta los
+dos estados en vuelo (`queued` o `running`); el final del test sigue
+exigiendo `done`.
 
 ## 7. Evidencia
 
@@ -109,6 +132,12 @@ Y la suite completa, dos veces seguidas, con la pila viva:
 ```
 111 pass / 45 skip / 0 fail    (corrida 1)
 111 pass / 45 skip / 0 fail    (corrida 2)
+```
+
+Tras arreglar la carrera, el e2e cinco veces seguidas:
+
+```
+12 pass / 0 fail    (corridas 1 a 5)
 ```
 
 ## 8. Relación con los issues abiertos
