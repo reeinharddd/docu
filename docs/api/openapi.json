@@ -7,10 +7,27 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Todos los segmentos responden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthReportDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Algún segmento está caído: el cuerpo dice cuál (misma forma que el 200)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthReportDto"
+                }
+              }
+            }
           }
         },
-        "tags": ["Health"]
+        "tags": ["health"]
       }
     },
     "/v1/auth/login": {
@@ -212,6 +229,67 @@
       }
     },
     "schemas": {
+      "WorkerHealthDto": {
+        "type": "object",
+        "properties": {
+          "alive": {
+            "type": "boolean",
+            "description": "El worker publica su latido en Redis; si no está, no vive (ningún worker procesa la cola)"
+          },
+          "queues": {
+            "type": "object",
+            "description": "Profundidad por cola en el último latido",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "waiting": {
+                  "type": "integer"
+                },
+                "active": {
+                  "type": "integer"
+                },
+                "delayed": {
+                  "type": "integer"
+                },
+                "failed": {
+                  "type": "integer"
+                },
+                "completed": {
+                  "type": "integer"
+                },
+                "paused": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "required": ["alive", "queues"]
+      },
+      "HealthReportDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["ok", "degraded"],
+            "description": "ok solo si PostgreSQL, Redis y el worker responden; degraded en cualquier otro caso"
+          },
+          "postgres": {
+            "type": "string",
+            "enum": ["up", "down"],
+            "description": "Sonda de PostgreSQL"
+          },
+          "redis": {
+            "type": "string",
+            "enum": ["up", "down"],
+            "description": "Sonda de Redis"
+          },
+          "worker": {
+            "$ref": "#/components/schemas/WorkerHealthDto"
+          }
+        },
+        "required": ["status", "postgres", "redis", "worker"]
+      },
       "LoginDto": {
         "type": "object",
         "properties": {}

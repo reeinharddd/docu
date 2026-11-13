@@ -4,24 +4,17 @@
 // qué segmento falló, no fallar con un error opaco.
 import { Redis } from 'ioredis'
 import { Client } from 'pg'
-import { type QueueDepth, readHeartbeat } from '../queues/heartbeat.js'
+import { readHeartbeat } from '../queues/heartbeat.js'
 import { createProbeConnection } from '../queues/redis.js'
+import { HealthReportDto, WorkerHealthDto } from './health-report.dto.js'
 
 export type ProbeState = 'up' | 'down'
 
-export interface WorkerHealth {
-  /** El worker publica su latido en Redis; si no está, no vive. */
-  alive: boolean
-  /** Profundidad por cola, tal como estaba en el último latido. */
-  queues: Record<string, QueueDepth>
-}
+/** El worker y su profundidad por cola: el DTO es la forma publicada. */
+export type WorkerHealth = WorkerHealthDto
 
-export interface HealthReport {
-  status: 'ok' | 'degraded'
-  postgres: ProbeState
-  redis: ProbeState
-  worker: WorkerHealth
-}
+/** El reporte completo de la puerta: el DTO es la forma publicada. */
+export type HealthReport = HealthReportDto
 
 export async function probePostgres(
   connectionString: string | undefined = process.env.DATABASE_URL,
