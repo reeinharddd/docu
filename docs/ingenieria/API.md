@@ -29,10 +29,32 @@ el mismo archivo responde `409 CONFLICT` con `details.sourceFileId` del
 original, sin crear fila ni job segunda vez. El servidor valida familia
 activa, tipo (pdf, png, jpg, tiff, Excel) y tamaño (`UPLOAD_MAX_BYTES`,
 50 MB por defecto); guarda los bytes intactos en `ORIGINALS_DIR` (REGLAS.md 5)
-y deja el trabajo en cola `ingest` (`platform.job_run`, estado `queued`).
-El worker que lo procesa llega con #46; el hueco "registrado sin encolar" de
-[ARQUITECTURA.md §3.2](ARQUITECTURA.md#32-idempotencia-de-la-ingesta) sigue
-abierto hasta entonces.
+y deja el trabajo en la cola `ingest` (`platform.job_run`, estado `queued`, con
+el `job_id` del archivo). Si Redis no acepta el encolado, el trabajo queda
+`failed` con su motivo y la respuesta es un `500` limpio: el archivo está
+registrado y nada se borra en silencio. El worker que lo procesa llega con #3.
+
+## El pipeline de ingesta
+
+El worker (`bun run worker`) consume la cola `ingest` y deja el veredicto
+([ARQUITECTURA.md §4](ARQUITECTURA.md#4-flujo-y-disposicion)): extrae el texto
+del original, propone la familia con su confianza calibrada y decide.
+
+| Situación | Qué queda en la base |
+|---|---|
+| Propuesta usable | `ingest.parsed_record` (`parsed`), `ingest.ocr_result` con el texto y `graph.entity` en `pending_confirmation`: la propuesta llega a la bandeja |
+| Confianza menor que el umbral de revisión | `ingest.quarantine` (`BLOQUEO`, motivo visible, `rule_code = SYS.LOW_CONFIDENCE`) y `parsed_record` en `quarantined` |
+| La familia propuesta no es la declarada | `ingest.quarantine` (`rule_code = SYS.FAMILY_CONTRADICTION`) y `parsed_record` en `quarantined` |
+
+El original nunca se borra (REGLAS.md 5) y el modelo nunca escribe en la base:
+propone, y el worker decide (ADR-0006). Los umbrales son los de `IA.md`, ya
+configurables (`IA_SCORING_AUTO_THRESHOLD`, `IA_SCORING_REVIEW_THRESHOLD`).
+
+La familia declara en su `schema_definition` el tipo de entidad que propone
+(`entityType`) y sus campos (`fields`); si no declara ninguno, la extracción
+queda registrada y la propuesta espera a que la instalación declare el tipo
+(los datos son de la instalación, ADR-0019). La cadena de reglas todavía no
+corre: el formato de `expression` lo fija #5 (ver [COLAS.md](COLAS.md)).
 
 ## La disposición humana
 

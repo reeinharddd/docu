@@ -6,7 +6,9 @@ import { createHash } from 'node:crypto'
 import { Inject, Injectable } from '@nestjs/common'
 import type { SessionUser } from '../auth/auth.service.js'
 import { ApiError } from '../common/api-error.js'
+import { QUEUE_INGEST } from '../queues/queues.js'
 import { FILES_STORE, type FilesStore } from './files.store.js'
+import { INGEST_QUEUE, type IngestQueue } from './ingest-queue.store.js'
 import { ORIGINALS_STORE, type OriginalsStore } from './originals.store.js'
 
 // Document types of case C1: scanned paperwork (pdf/images) and the Excel
@@ -57,6 +59,7 @@ export class FilesService {
   constructor(
     @Inject(FILES_STORE) private readonly store: FilesStore,
     @Inject(ORIGINALS_STORE) private readonly originals: OriginalsStore,
+    @Inject(INGEST_QUEUE) private readonly queue: IngestQueue,
     private readonly options: UploadOptions = {
       maxBytes: DEFAULT_UPLOAD_MAX_BYTES,
     },
@@ -129,19 +132,27 @@ export class FilesService {
       receivedById: user.userId,
     })
 
-    // The API enqueues (ADR-0011): the job row is written in the same
-    // request; the BullMQ enqueue itself is the worker's side (#46) and the
-    // registered-without-job gap is documented in ARQUITECTURA.md §3.2.
+    // The API enqueues, the worker processes (ADR-0011). The job carries the
+    // same id as the `platform.job_run` row: one run, one row. The queue is
+    // already a column, so the id is just the file: BullMQ rejects a custom
+    // job id with ':' in it.
+    const jobId = created.id
     await this.store.createJobRun({
       facilityId: user.facilityId,
-      queue: 'ingest',
-      jobId: `ingest:${created.id}`,
+      queue: QUEUE_INGEST,
+      jobId,
       status: 'queued',
       input: {
         sourceFileId: created.id,
         familyCode: family.familyCode,
         sha256,
       },
+    })
+    await this.enqueueOrFail({
+      jobId,
+      sourceFileId: created.id,
+      sha256,
+      familyCode: family.familyCode,
     })
     await this.store.createAuditEntry({
       facilityId: user.facilityId,
@@ -160,6 +171,32 @@ export class FilesService {
     })
 
     return { sourceFileId: created.id, sha256 }
+  }
+
+  /**
+   * Registrar en PostgreSQL y encolar en Redis son dos pasos y no forman una
+   * transacción (ARQUITECTURA.md §3.2). Si el encolado falla, el trabajo
+   * queda `failed` con su motivo y la respuesta es un 500 limpio: el archivo
+   * está registrado y el reintento del cliente recibe el 409 que apunta al
+   * original. Nada se borra en silencio y nada se pierde sin rastro.
+   */
+  private async enqueueOrFail(job: {
+    jobId: string
+    sourceFileId: string
+    sha256: string
+    familyCode: string
+  }): Promise<void> {
+    try {
+      await this.queue.enqueue(job)
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : String(error)
+      await this.store.markJobFailed({
+        queue: QUEUE_INGEST,
+        jobId: job.jobId,
+        error: reason,
+      })
+      throw ApiError.internal()
+    }
   }
 
   /**
