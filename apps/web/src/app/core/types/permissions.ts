@@ -21,6 +21,9 @@ export type Permission =
   | 'schedule.view'
   | 'search.view'
   | 'reports.view'
+  | 'agent.use'
+  | 'apis.manage'
+  | 'admin.manage'
 
 export interface Session {
   user: string
@@ -42,6 +45,9 @@ export const DEMO_PERMISSIONS: Permission[] = [
   'schedule.view',
   'search.view',
   'reports.view',
+  'agent.use',
+  'apis.manage',
+  'admin.manage',
 ]
 
 /** Route -> permission map: one place to see what each screen requires. */
@@ -50,4 +56,8 @@ export const ROUTE_PERMISSIONS = {
   inbox: 'inbox.review',
   schedule: 'schedule.view',
   search: 'search.view',
+  reports: 'reports.view',
+  agent: 'agent.use',
+  apis: 'apis.manage',
+  admin: 'admin.manage',
 } as const

@@ -1,0 +1,117 @@
+<app-page-header
+  title="APIs"
+  lead="Endpoints del sistema, claves de integración, monitoreo y motores de IA de esta instalación."
+/>
+
+<p class="mb-4 rounded-md border border-dashed border-ai-border bg-ai-bg px-3 py-2 text-xs text-ai">
+  Maqueta de demostración: los endpoints son los del contrato de la API; las cifras de monitoreo son de ejemplo hasta que la API (#12) publique sus métricas.
+</p>
+
+<dl class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+  <div class="rounded-lg border border-line bg-surface p-3">
+    <dt class="text-xs text-ink-2">Endpoints del contrato</dt>
+    <dd class="font-mono text-xl font-medium text-ink">{{ endpoints.length }}</dd>
+  </div>
+  <div class="rounded-lg bg-official-bg p-3">
+    <dt class="text-xs text-official">Disponibles</dt>
+    <dd class="font-mono text-xl font-medium text-official">{{ live }}</dd>
+  </div>
+  <div class="rounded-lg bg-pending-bg p-3">
+    <dt class="text-xs text-pending">En construcción</dt>
+    <dd class="font-mono text-xl font-medium text-pending">{{ building }}</dd>
+  </div>
+  <div class="rounded-lg border border-line bg-surface p-3">
+    <dt class="text-xs text-ink-2">Base</dt>
+    <dd class="font-mono text-xl font-medium text-ink">/v1</dd>
+  </div>
+</dl>
+
+<section class="mb-8" aria-labelledby="endpoints-heading">
+  <h2 id="endpoints-heading" class="mb-3 font-display text-lg font-bold text-ink">Endpoints y monitoreo (últimas 24 h)</h2>
+  <div class="overflow-x-auto rounded-lg border border-line bg-surface">
+    <table class="w-full min-w-[48rem] border-collapse text-left">
+      <thead class="bg-canvas text-xs text-ink-2">
+        <tr>
+          <th scope="col" class="px-3 py-2 font-medium">Método</th>
+          <th scope="col" class="px-3 py-2 font-medium">Ruta</th>
+          <th scope="col" class="px-3 py-2 font-medium">Módulo</th>
+          <th scope="col" class="px-3 py-2 font-medium">Permiso</th>
+          <th scope="col" class="px-3 py-2 font-medium">Estado</th>
+          <th scope="col" class="px-3 py-2 text-right font-medium">p95</th>
+          <th scope="col" class="px-3 py-2 text-right font-medium">Llamadas</th>
+          <th scope="col" class="px-3 py-2 text-right font-medium">Errores</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of endpoints; track e.path) {
+          <tr class="border-t border-line">
+            <td class="px-3 py-2">
+              <span class="rounded-sm px-1.5 py-0.5 font-mono text-xs font-medium" [class.bg-official-bg]="e.method === 'GET'" [class.text-official]="e.method === 'GET'" [class.bg-brand-soft]="e.method === 'POST'" [class.text-brand-text]="e.method === 'POST'">{{ e.method }}</span>
+            </td>
+            <td class="whitespace-nowrap px-3 py-2 font-mono text-sm">{{ e.path }}</td>
+            <td class="px-3 py-2 text-sm text-ink-2">{{ e.module }}</td>
+            <td class="whitespace-nowrap px-3 py-2 font-mono text-xs text-ink-2">{{ e.permission }}</td>
+            <td class="px-3 py-2"><app-status-badge [kind]="state[e.state].kind">{{ state[e.state].label }}</app-status-badge></td>
+            <td class="whitespace-nowrap px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.p95 === null ? '—' : e.p95 + ' ms' }}</td>
+            <td class="whitespace-nowrap px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.calls24h ?? '—' }}</td>
+            <td class="whitespace-nowrap px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.errors ?? '—' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-2 text-xs text-ink-3">Documentación del contrato: <span class="font-mono">docs/ingenieria/ARQUITECTURA.md §3</span>. Todos los errores usan el mismo sobre: código estable y mensaje en español.</p>
+</section>
+
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+  <section aria-labelledby="keys-heading">
+    <div class="mb-3 flex items-center justify-between gap-2">
+      <h2 id="keys-heading" class="font-display text-lg font-bold text-ink">Claves de integración</h2>
+      <app-button variant="secondary">Nueva clave</app-button>
+    </div>
+    <ul class="flex flex-col gap-3">
+      @for (k of keys(); track k.id) {
+        <li class="rounded-lg border border-line bg-surface p-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <app-icon name="lock" [size]="16" class="text-ink-3" />
+            <span class="font-medium text-ink">{{ k.name }}</span>
+            @if (k.active) {
+              <app-status-badge kind="official">Activa</app-status-badge>
+            } @else {
+              <app-status-badge kind="quarantine">Revocada</app-status-badge>
+            }
+          </div>
+          <p class="mt-2 font-mono text-sm text-ink-2">{{ k.prefix }}••••••••••••</p>
+          <p class="mt-1 text-xs text-ink-3">Alcance: <span class="font-mono">{{ k.scopes }}</span> · último uso {{ k.lastUsed }}</p>
+          @if (k.active) {
+            <div class="mt-2 flex justify-end">
+              <app-button variant="ghost" (click)="revoke(k.id)">Revocar</app-button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+    <p class="mt-2 text-xs text-ink-3">La clave completa se muestra una sola vez al crearla. Nunca se guarda en el navegador.</p>
+  </section>
+
+  <section aria-labelledby="engines-heading">
+    <h2 id="engines-heading" class="mb-3 font-display text-lg font-bold text-ink">Motores de IA (configuración)</h2>
+    <dl class="flex flex-col gap-3">
+      <div class="rounded-lg border border-line bg-surface p-4">
+        <dt class="text-xs font-medium text-ink-2">OCR</dt>
+        <dd class="mt-1 flex flex-wrap items-center gap-2"><span class="font-mono text-ink">tesseract-5 (local)</span><app-status-badge kind="official">Activo</app-status-badge></dd>
+        <dd class="mt-1 text-xs text-ink-3">Por familia: solo <span class="font-mono">escaneado</span> requiere OCR.</dd>
+      </div>
+      <div class="rounded-lg border border-line bg-surface p-4">
+        <dt class="text-xs font-medium text-ink-2">Modelo de lenguaje</dt>
+        <dd class="mt-1 flex flex-wrap items-center gap-2"><span class="font-mono text-ink">ollama · modelo local</span><app-status-badge kind="pending">En pruebas</app-status-badge></dd>
+        <dd class="mt-1 text-xs text-ink-3">Salida forzada a esquema JSON; sin confianza alta, a cuarentena.</dd>
+      </div>
+      <div class="rounded-lg border border-line bg-surface p-4">
+        <dt class="text-xs font-medium text-ink-2">Presupuesto y caché</dt>
+        <dd class="mt-1 text-sm text-ink">2,000 tokens y 10 s por llamada · caché por hash del contenido</dd>
+        <dd class="mt-1 text-xs text-ink-3">Cada llamada guarda motor, versión, tokens, tiempo y hash de entrada.</dd>
+      </div>
+    </dl>
+  </section>
+</div>

@@ -1,1 +1,231 @@
-<app-page-header title="Bandeja" lead="Revisa, confirma o manda a cuarentena lo que entra." />
+<app-page-header
+  title="Bandeja"
+  lead="Revisa lo que quedó detenido y confirma lo que espera a una persona. Nada se borra: todo lleva su motivo y su regla."
+/>
+
+<form
+  class="mb-6 flex flex-wrap items-end gap-3"
+  aria-label="Filtros de la bandeja"
+  (submit)="$event.preventDefault()"
+>
+  <label class="flex min-w-48 flex-1 flex-col gap-1 text-xs font-medium text-ink-2 sm:flex-none">
+    Regla
+    <select
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      data-test="filter-rule"
+      [value]="ruleFilter() ?? ''"
+      (change)="setFilter('rule', $any($event.target).value)"
+    >
+      <option value="">Todas</option>
+      @for (code of rules; track code) {
+        <option [value]="code" [selected]="ruleFilter() === code">
+          {{ code }} · {{ ruleInfo[code].short }}
+        </option>
+      }
+    </select>
+  </label>
+  <label class="flex min-w-48 flex-1 flex-col gap-1 text-xs font-medium text-ink-2 sm:flex-none">
+    Familia
+    <select
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      data-test="filter-family"
+      [value]="familyFilter() ?? ''"
+      (change)="setFilter('family', $any($event.target).value)"
+    >
+      <option value="">Todas</option>
+      @for (family of families; track family) {
+        <option [value]="family" [selected]="familyFilter() === family">
+          {{ familyLabels[family] }}
+        </option>
+      }
+    </select>
+  </label>
+  @if (hasFilters()) {
+    <app-button variant="ghost" data-test="clear-filters" (click)="clearFilters()">
+      Quitar filtros
+    </app-button>
+  }
+  <a
+    routerLink="/capture"
+    class="ml-auto inline-flex min-h-11 items-center gap-2 rounded-md px-4 font-medium text-brand-text no-underline hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+    data-test="to-capture"
+  >
+    <app-icon name="upload" />
+    Subir archivo
+  </a>
+</form>
+
+@let stopped = quarantineView();
+@let waiting = inboxView();
+
+<section class="mb-8" aria-labelledby="quarantine-heading" data-test="quarantine-section">
+  <h2 id="quarantine-heading" class="mb-3 flex items-center gap-2 font-display text-lg font-bold text-ink">
+    <app-icon name="triangle-alert" />
+    Detenido
+    @if (stopped.status === 'ready') {
+      <span class="text-base font-normal text-ink-3">({{ stopped.data.length }})</span>
+    }
+  </h2>
+  <app-state-view
+    [state]="stopped"
+    [emptyTitle]="hasFilters() ? 'Nada detenido con estos filtros.' : 'Nada detenido: todo lo que subiste pasó la validación.'"
+    emptyHint=""
+    (retry)="loadQuarantine()"
+  >
+    @if (stopped.status === 'ready') {
+      <ul class="flex flex-col gap-3">
+        @for (item of stopped.data; track item.id) {
+          <li>
+            <ng-container *ngTemplateOutlet="card; context: { $implicit: item }" />
+          </li>
+        }
+      </ul>
+    }
+    <a stateEmptyAction appButtonLink routerLink="/capture">
+      Subir archivo
+    </a>
+  </app-state-view>
+</section>
+
+<section aria-labelledby="inbox-heading" data-test="inbox-section">
+  <h2 id="inbox-heading" class="mb-3 flex items-center gap-2 font-display text-lg font-bold text-ink">
+    <app-icon name="clock" />
+    Por confirmar
+    @if (waiting.status === 'ready') {
+      <span class="text-base font-normal text-ink-3">({{ waiting.data.length }})</span>
+    }
+  </h2>
+  <app-state-view
+    [state]="waiting"
+    [emptyTitle]="hasFilters() ? 'Nada por confirmar con estos filtros.' : 'Nada espera confirmación.'"
+    emptyHint="Cuando un dato necesite a una persona, aparece aquí."
+    (retry)="loadInbox()"
+  >
+    @if (waiting.status === 'ready') {
+      <ul class="flex flex-col gap-3">
+        @for (item of waiting.data; track item.id) {
+          <li>
+            <ng-container *ngTemplateOutlet="card; context: { $implicit: item }" />
+          </li>
+        }
+      </ul>
+    }
+  </app-state-view>
+</section>
+
+<ng-template #card let-item>
+  <article
+    class="rounded-lg border border-line bg-surface p-4 shadow-sm"
+    [attr.data-test]="'item-' + item.id"
+    [attr.data-status]="item.status"
+  >
+    <div class="flex flex-wrap items-center gap-2">
+      @switch (item.status) {
+        @case ('official') {
+          <app-status-badge kind="official" data-test="badge">
+            Oficial · {{ item.confirmation?.by }}
+          </app-status-badge>
+        }
+        @case ('pending') {
+          <app-status-badge kind="pending" data-test="badge">Pendiente</app-status-badge>
+        }
+        @default {
+          <app-status-badge kind="quarantine" data-test="badge">Cuarentena</app-status-badge>
+        }
+      }
+      <app-family-tag [family]="item.source.family" />
+      <span class="ml-auto text-xs text-ink-3">{{ item.receivedAt | docuDate }}</span>
+    </div>
+
+    <h3 class="mt-3 font-medium text-ink">{{ item.subject }}</h3>
+    <p class="mt-1 text-ink-2">
+      {{ item.field }}:
+      <span class="font-mono font-medium text-ink tabular-nums">{{ item.value }}</span>
+    </p>
+
+    <div
+      class="mt-3 flex flex-col gap-2 rounded-md bg-canvas p-3"
+      data-test="reason"
+    >
+      @if (item.ruleCode) {
+        <app-rule-tag [code]="item.ruleCode" />
+      }
+      <p class="text-ink">
+        <span class="font-medium">Motivo:</span> {{ item.reason }}
+      </p>
+      @if (item.confirmation) {
+        <p class="text-xs text-ink-2" data-test="confirmed-by">
+          Confirmó {{ item.confirmation.by }} · {{ item.confirmation.at | docuDate }}
+        </p>
+      }
+    </div>
+
+    <p class="mt-3 text-xs text-ink-3">
+      Subió {{ item.uploadedBy }} ·
+      <span class="font-mono">{{ item.source.fileName }}</span> ({{ item.source.documentId }})
+    </p>
+
+    @if (rejectingId() === item.id) {
+      <div class="mt-3 flex flex-col gap-2" data-test="reject-form">
+        <label class="flex flex-col gap-1 font-medium text-ink" [attr.for]="'reason-' + item.id">
+          Motivo para mandar a cuarentena (obligatorio)
+        </label>
+        <textarea
+          [id]="'reason-' + item.id"
+          class="min-h-20 rounded-md border border-line-input bg-surface p-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+          data-test="reject-reason"
+          [attr.aria-describedby]="'reason-hint-' + item.id"
+          [attr.aria-invalid]="rejectReason().length > 0 && !reasonIsValid()"
+          (input)="onReasonInput($event)"
+        ></textarea>
+        <p [id]="'reason-hint-' + item.id" class="text-xs text-ink-2">
+          Escribe qué está mal, en al menos {{ minReason }} caracteres. Queda en la bitácora.
+        </p>
+        <div class="flex flex-wrap justify-end gap-2">
+          <app-button variant="ghost" (click)="cancelReject()">Cancelar</app-button>
+          <app-button
+            variant="danger"
+            data-test="reject-submit"
+            [disabled]="!reasonIsValid()"
+            [loading]="busyId() === item.id"
+            (click)="submitReject(item)"
+          >
+            Mandar a cuarentena
+          </app-button>
+        </div>
+      </div>
+    } @else {
+      <div class="mt-4 flex flex-wrap items-center justify-end gap-2">
+        <a
+          routerLink="/search"
+          [queryParams]="{ q: item.searchKey }"
+          class="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-medium text-link no-underline hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+          data-test="to-origin"
+        >
+          Ver origen
+          <app-icon name="arrow-right" [size]="16" />
+        </a>
+        @if (item.status === 'pending') {
+          @if (canConfirm(item)) {
+            <app-button variant="secondary" data-test="reject" (click)="startReject(item)">
+              Mandar a cuarentena
+            </app-button>
+            <app-button
+              data-test="confirm"
+              [loading]="busyId() === item.id"
+              (click)="confirm(item)"
+            >
+              <app-icon name="check" />
+              Confirmar
+            </app-button>
+          } @else {
+            <p class="flex items-center gap-2 text-xs text-ink-2" data-test="locked">
+              <app-icon name="lock" [size]="16" />
+              Solo Calidad puede confirmar esta liberación (R-Q1).
+            </p>
+          }
+        }
+      </div>
+    }
+  </article>
+</ng-template>

@@ -16,10 +16,16 @@ import { AuthService } from '../../services/auth/auth.service'
  * - 403: not allowed to see it -> /forbidden.
  */
 export const apiInterceptors: HttpInterceptorFn[] = [
-  /** Prepends the central API base to relative paths. */
+  /**
+   * Prepends the central API base to relative paths. ApiClient already
+   * builds `/v1/...`; a URL that carries the base is left alone so it is
+   * never prefixed twice (`/v1/v1/...`).
+   */
   (req, next) => {
-    if (req.url.startsWith('/')) {
-      return next(req.clone({ url: `${inject(API_BASE_URL)}${req.url}` }))
+    const base = inject(API_BASE_URL)
+    const hasBase = req.url === base || req.url.startsWith(`${base}/`)
+    if (req.url.startsWith('/') && !hasBase) {
+      return next(req.clone({ url: `${base}${req.url}` }))
     }
     return next(req)
   },

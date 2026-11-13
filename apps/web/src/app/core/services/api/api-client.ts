@@ -1,12 +1,22 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
-import { catchError, map, type Observable, of, startWith } from 'rxjs'
+import {
+  catchError,
+  map,
+  type Observable,
+  of,
+  startWith,
+  throwError,
+} from 'rxjs'
 import { API_BASE_URL } from '../../config/api-url'
-import { isApiError } from '../../types/api-error'
+import { type ApiError, isApiError } from '../../types/api-error'
 import type { ApiState } from '../../types/api-state'
 
 const GENERIC_ERROR =
   'No se pudo consultar la API. Verifica tu conexión y vuelve a intentar.'
+
+const GENERIC_ACTION_ERROR =
+  'No se pudo completar la acción. Verifica tu conexión y vuelve a intentar.'
 
 /**
  * Typed single door to the DOCU API. Every read emits a complete state
@@ -32,6 +42,23 @@ export class ApiClient {
       catchError((error: unknown) => of(toErrorState(error))),
     )
   }
+
+  /**
+   * Mutations (upload, confirm, reject, sync). Unlike reads they do not
+   * emit states: the screen shows its own busy state and a toast. Failures
+   * always arrive as an ApiError with a Spanish message safe to show.
+   */
+  post<T>(path: string, body: unknown = null): Observable<T> {
+    return this.http
+      .post<T>(`${this.baseUrl}${path}`, body)
+      .pipe(catchError((error: unknown) => throwError(() => toApiError(error))))
+  }
+}
+
+function toApiError(error: unknown): ApiError {
+  const body = (error as { error?: unknown } | null)?.error
+  if (isApiError(body)) return body
+  return { code: 'INTERNAL', message: GENERIC_ACTION_ERROR }
 }
 
 function toErrorState(error: unknown): ApiState<never> {

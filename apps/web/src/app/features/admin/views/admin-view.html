@@ -1,0 +1,99 @@
+<app-page-header
+  title="Administración"
+  lead="Funcionalidades globales de cada instalación. Todo se configura con datos: activar un módulo, una familia o una regla no requiere cambiar código."
+/>
+
+<p class="mb-4 rounded-md border border-dashed border-ai-border bg-ai-bg px-3 py-2 text-xs text-ai">
+  Maqueta de demostración: la configuración por instalación (RF-08) se conecta a la API cuando exista.
+</p>
+
+<div class="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Instalación">
+  @for (i of installations; track i.id) {
+    <button
+      type="button"
+      role="tab"
+      class="flex min-h-11 flex-col items-start rounded-lg border px-4 py-2 text-left focus-visible:outline-2 focus-visible:outline-ring"
+      [class.border-brand-text]="current() === i.id"
+      [class.bg-brand-soft]="current() === i.id"
+      [class.border-line]="current() !== i.id"
+      [class.bg-surface]="current() !== i.id"
+      [attr.aria-selected]="current() === i.id"
+      (click)="current.set(i.id)"
+    >
+      <span class="font-medium text-ink">{{ i.name }}</span>
+      <span class="text-xs text-ink-3">{{ i.note }}</span>
+    </button>
+  }
+</div>
+
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+  <section aria-labelledby="features-heading">
+    <h2 id="features-heading" class="mb-3 font-display text-lg font-bold text-ink">
+      Funcionalidades · {{ currentInstallation().name }}
+      <span class="text-base font-normal text-ink-3">({{ activeCount() }} de {{ features().length }} activas)</span>
+    </h2>
+    <ul class="flex flex-col divide-y divide-line rounded-lg border border-line bg-surface">
+      @for (f of features(); track f.id) {
+        <li class="flex items-center justify-between gap-4 p-4">
+          <div>
+            <p class="font-medium text-ink">{{ f.label }}</p>
+            <p class="text-xs text-ink-3">{{ f.detail }}</p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            class="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-ring"
+            [class.bg-action]="f.enabled[current()]"
+            [class.bg-line-input]="!f.enabled[current()]"
+            [attr.aria-checked]="f.enabled[current()]"
+            [attr.aria-label]="f.label"
+            (click)="toggle(f.id)"
+          >
+            <span class="inline-block size-5 rounded-full bg-surface shadow-sm transition-transform" [class.translate-x-6]="f.enabled[current()]" [class.translate-x-1]="!f.enabled[current()]"></span>
+          </button>
+        </li>
+      }
+    </ul>
+
+    <h2 class="mb-3 mt-6 font-display text-lg font-bold text-ink">Catálogos de la instalación</h2>
+    <dl class="grid grid-cols-3 gap-3">
+      <div class="rounded-lg border border-line bg-surface p-3">
+        <dt class="text-xs text-ink-2">Familias de archivo</dt>
+        <dd class="font-mono text-xl font-medium text-ink">6</dd>
+      </div>
+      <div class="rounded-lg border border-line bg-surface p-3">
+        <dt class="text-xs text-ink-2">Reglas como datos</dt>
+        <dd class="font-mono text-xl font-medium text-ink">7</dd>
+      </div>
+      <div class="rounded-lg border border-line bg-surface p-3">
+        <dt class="text-xs text-ink-2">Roles y usuarios</dt>
+        <dd class="font-mono text-xl font-medium text-ink">9 · 12</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section aria-labelledby="team-heading">
+    <h2 id="team-heading" class="mb-3 font-display text-lg font-bold text-ink">Equipo y módulos</h2>
+    <ul class="flex flex-col gap-2">
+      @for (o of owners; track o.module) {
+        <li class="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-line bg-surface p-3">
+          <div class="min-w-0 flex-1">
+            <p class="font-medium text-ink">{{ o.module }}</p>
+            <p class="text-xs text-ink-3">{{ o.owner }} · <span class="font-mono">{{ o.issue }}</span></p>
+          </div>
+          <app-status-badge [kind]="o.state.kind">{{ o.state.label }}</app-status-badge>
+        </li>
+      }
+    </ul>
+
+    <h2 class="mb-3 mt-6 font-display text-lg font-bold text-ink">Bitácora reciente</h2>
+    <ol class="flex flex-col gap-2 rounded-lg border border-line bg-surface p-3 text-sm">
+      @for (a of activity; track a.at) {
+        <li class="flex gap-2">
+          <app-icon name="clock" [size]="16" class="mt-1 text-ink-3" />
+          <span><span class="text-ink-3">{{ a.at }}</span> · <span class="font-medium text-ink">{{ a.who }}</span> {{ a.what }}</span>
+        </li>
+      }
+    </ol>
+  </section>
+</div>

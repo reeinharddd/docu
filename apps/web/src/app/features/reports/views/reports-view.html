@@ -1,0 +1,116 @@
+<app-page-header
+  title="Reporte del día"
+  lead="Sale solo de los datos ya ligados. Cada número cita su archivo y su regla; nada se cuadra a mano."
+/>
+
+<div class="mb-6 flex flex-wrap items-end gap-3">
+  <label class="flex flex-col gap-1 text-xs font-medium text-ink-2">
+    Día
+    <input
+      type="date"
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      data-test="day"
+      [value]="day()"
+      (change)="onDayChange($any($event.target).value)"
+    />
+  </label>
+  <app-button
+    class="sm:ml-auto"
+    variant="secondary"
+    data-test="download"
+    [disabled]="report().status !== 'ready'"
+    (click)="download()"
+  >
+    <app-icon name="download" />
+    Descargar CSV
+  </app-button>
+</div>
+
+@let state = view();
+<app-state-view
+  [state]="state"
+  emptyTitle="Este día todavía no tiene datos confirmados."
+  emptyHint="Cuando la bandeja confirme datos de este día, el reporte se arma solo."
+  (retry)="load()"
+>
+  <a stateEmptyAction appButtonLink routerLink="/inbox">Ir a la bandeja</a>
+
+  @if (state.status === 'ready') {
+    @let report = state.data;
+
+    @if (report.paused) {
+      <div class="mb-4 flex gap-3 rounded-lg border-l-4 border-pending bg-pending-bg p-4 text-pending" role="alert" data-test="paused">
+        <app-icon name="triangle-alert" />
+        <div>
+          <p class="font-medium">Reporte pausado desde {{ report.paused.since | docuDate }}</p>
+          <p class="mt-1 text-ink">{{ report.paused.reason }}</p>
+          <div class="mt-2"><app-rule-tag [code]="report.paused.ruleCode" /></div>
+        </div>
+      </div>
+    }
+
+    @for (alert of report.alerts; track alert.metric) {
+      <div class="mb-4 flex gap-3 rounded-lg border-l-4 border-quarantine bg-quarantine-bg p-4 text-quarantine" role="alert" data-test="alert">
+        <app-icon name="bell" />
+        <div class="min-w-0">
+          <p class="font-medium">
+            Alerta · {{ alert.metric }}:
+            <span class="font-mono tabular-nums">{{ alert.value | docuNumber }} {{ alert.unit }}</span>
+            (umbral {{ alert.threshold | docuNumber }} {{ alert.unit }})
+          </p>
+          <p class="mt-1 text-ink">{{ alert.message }}</p>
+          <p class="mt-1 text-xs text-ink-2">Avisado a: {{ alert.recipients.join(', ') }}</p>
+        </div>
+      </div>
+    }
+
+    <p class="mb-4 text-xs text-ink-3">
+      {{ report.date | docuDate: 'long' }} · {{ report.total }} cifras · generado {{ report.generatedAt | docuDate }}
+    </p>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      @for (group of groups(); track group.id) {
+        <section class="rounded-lg border border-line bg-surface p-4 shadow-sm" [attr.aria-labelledby]="'group-' + group.id" [attr.data-test]="'group-' + group.id">
+          <h2 [id]="'group-' + group.id" class="mb-3 font-display text-lg font-bold text-ink">{{ group.label }}</h2>
+          <ul class="flex flex-col divide-y divide-line">
+            @for (item of group.items; track item.id) {
+              <li class="flex flex-col gap-2 py-3 first:pt-0 last:pb-0" [attr.data-test]="'item-' + item.id">
+                <div class="flex items-baseline justify-between gap-3">
+                  <p class="text-ink">
+                    {{ item.label }}
+                    @if (item.machine) {
+                      <span class="font-mono text-ink-2">· {{ item.machine }}</span>
+                    }
+                  </p>
+                  <p class="whitespace-nowrap font-mono text-xl font-medium text-brand-text tabular-nums" data-test="value">
+                    {{ item.value | docuNumber }} <span class="text-xs text-ink-2">{{ item.unit }}</span>
+                  </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 text-xs text-ink-3" data-test="origin">
+                  @if (item.status === 'pending') {
+                    <app-status-badge kind="pending">Pendiente</app-status-badge>
+                  }
+                  <app-family-tag [family]="item.source.family" />
+                  <span class="break-all font-mono">{{ item.source.fileName }}</span>
+                  <span>({{ item.source.documentId }})</span>
+                  @if (item.ruleCode) {
+                    <app-rule-tag [code]="item.ruleCode" />
+                  }
+                  <a
+                    class="ml-auto inline-flex min-h-11 items-center gap-1 font-medium text-link underline underline-offset-2 hover:no-underline"
+                    routerLink="/search"
+                    [queryParams]="{ q: item.searchKey }"
+                    data-test="to-origin"
+                  >
+                    Ver origen
+                    <app-icon name="arrow-right" [size]="16" />
+                  </a>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </div>
+  }
+</app-state-view>

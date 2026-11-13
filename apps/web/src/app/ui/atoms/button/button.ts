@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core'
+import { Component, computed, Directive, input } from '@angular/core'
 
 /**
  * Atomic button (design system §9.1). One component, one place for the
@@ -39,5 +39,27 @@ export class Button {
 
   readonly classes = computed(
     () => `${BASE} ${SIZES[this.size()]} ${VARIANTS[this.variant()]}`,
+  )
+}
+
+/**
+ * The same button look on a link (`<a appButtonLink routerLink="...">`).
+ * Navigation is a link, not a button: it keeps href, open-in-new-tab and
+ * the right role for screen readers, with the styles still in one place.
+ */
+@Directive({
+  selector: 'a[appButtonLink]',
+  host: {
+    '[class]': 'classes()',
+    '[attr.data-variant]': 'variant()',
+  },
+})
+export class ButtonLink {
+  readonly variant = input<ButtonVariant>('secondary')
+  readonly size = input<ButtonSize>('md')
+
+  readonly classes = computed(
+    () =>
+      `${BASE} no-underline ${SIZES[this.size()]} ${VARIANTS[this.variant()]}`,
   )
 }

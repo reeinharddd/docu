@@ -44,6 +44,11 @@ describe('HTTP coordination interceptors', () => {
     http.expectOne(`${TestBed.inject(API_BASE_URL)}/quarantine`).flush([])
   })
 
+  it('does not prefix twice a path that already carries the base', () => {
+    client.get('/v1/quarantine').subscribe({ error: () => {} })
+    http.expectOne('/v1/quarantine').flush([])
+  })
+
   it('attaches the bearer token when the session has one', () => {
     const token = 'jwt-de-prueba'
     auth.setSessionWithToken(token)

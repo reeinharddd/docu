@@ -1,29 +1,127 @@
-<header
-  class="flex items-center justify-between gap-6 border-b border-line bg-surface px-6 py-4"
->
-  <a
-    routerLink="/capture"
-    class="font-logo text-xl font-bold tracking-tight text-brand-text no-underline"
-    aria-label="docu, inicio"
-    data-test="wordmark"
+@if (hasMenu()) {
+  <aside
+    class="sticky top-0 hidden h-screen shrink-0 flex-col border-r border-line bg-surface transition-[width] duration-200 motion-reduce:transition-none lg:flex"
+    [class.w-64]="!collapsed()"
+    [class.w-18]="collapsed()"
+    [attr.data-collapsed]="collapsed()"
+    data-test="side-rail"
   >
-    doc<span class="text-accent-600" data-test="wordmark-accent">u</span>
-  </a>
-  <nav class="flex gap-2" aria-label="Navegación principal">
-    @for (item of nav(); track item.href) {
-      <a
-        [routerLink]="item.href"
-        routerLinkActive="bg-brand-soft text-brand-text"
-        class="inline-flex items-center rounded-md px-3.5 py-2 font-medium text-ink-2 no-underline hover:bg-brand-soft"
+    <div
+      class="flex h-16 shrink-0 items-center border-b border-line"
+      [class.justify-between]="!collapsed()"
+      [class.px-4]="!collapsed()"
+      [class.justify-center]="collapsed()"
+    >
+      @if (!collapsed()) {
+        <a
+          routerLink="/capture"
+          class="px-2 font-logo text-2xl font-bold tracking-tight text-brand-text no-underline"
+          aria-label="docu, inicio"
+          data-test="wordmark"
+        >
+          doc<span class="text-accent-600" data-test="wordmark-accent">u</span>
+        </a>
+      }
+      <button
+        type="button"
+        class="inline-flex size-11 items-center justify-center rounded-md text-ink-2 hover:bg-brand-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-ring"
+        [attr.aria-label]="collapsed() ? 'Abrir menú lateral' : 'Guardar menú lateral'"
+        [attr.title]="collapsed() ? 'Abrir menú' : 'Guardar menú'"
+        [attr.aria-expanded]="!collapsed()"
+        aria-controls="main-nav"
+        data-test="collapse-toggle"
+        (click)="toggleCollapsed()"
       >
-        {{ item.label }}
-      </a>
-    }
-  </nav>
-</header>
+        <app-icon [name]="collapsed() ? 'panel-left-open' : 'panel-left-close'" />
+      </button>
+    </div>
+    <app-side-menu
+      id="main-nav"
+      class="min-h-0 flex-1"
+      [compact]="collapsed()"
+      [groups]="groups()"
+      [user]="user()"
+      [department]="department()"
+      (signOut)="signOut()"
+    />
+  </aside>
+}
 
-<main class="mx-auto w-full max-w-5xl flex-1 px-6 py-6">
-  <router-outlet />
-</main>
+<div class="flex min-w-0 flex-1 flex-col">
+  <header
+    class="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-line bg-surface px-4 sm:px-6"
+    [class]="hasMenu() ? 'lg:hidden' : ''"
+  >
+    @if (hasMenu()) {
+      <button
+        type="button"
+        class="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-medium text-brand-text hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+        aria-controls="mobile-nav"
+        [attr.aria-expanded]="menuOpen()"
+        data-test="menu-toggle"
+        (click)="toggleMenu()"
+      >
+        <app-icon name="menu" />
+        Menú
+      </button>
+    }
+    <a
+      routerLink="/capture"
+      class="font-logo text-xl font-bold tracking-tight text-brand-text no-underline"
+      aria-label="docu, inicio"
+      [attr.data-test]="hasMenu() ? null : 'wordmark'"
+    >
+      doc<span class="text-accent-600" [attr.data-test]="hasMenu() ? null : 'wordmark-accent'">u</span>
+    </a>
+  </header>
+
+  <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+    <router-outlet />
+  </main>
+</div>
+
+@if (menuOpen() && hasMenu()) {
+  <div class="fixed inset-0 z-40 lg:hidden" data-test="drawer">
+    <button
+      type="button"
+      class="absolute inset-0 h-full w-full cursor-default bg-ink/55"
+      aria-label="Cerrar menú"
+      data-test="drawer-backdrop"
+      (click)="closeMenu()"
+    ></button>
+    <aside
+      id="mobile-nav"
+      class="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-surface shadow-lg"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Menú"
+      data-test="mobile-nav"
+    >
+      <div class="flex h-16 items-center justify-between border-b border-line px-4">
+        <span class="font-logo text-xl font-bold tracking-tight text-brand-text">
+          doc<span class="text-accent-600">u</span>
+        </span>
+        <button
+          type="button"
+          class="inline-flex size-11 items-center justify-center rounded-md text-ink-2 hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+          aria-label="Cerrar menú"
+          data-test="drawer-close"
+          (click)="closeMenu()"
+        >
+          <app-icon name="x" />
+        </button>
+      </div>
+      <app-side-menu
+        class="min-h-0 flex-1"
+        label="Navegación principal (celular)"
+        [groups]="groups()"
+        [user]="user()"
+        [department]="department()"
+        (navigated)="closeMenu()"
+        (signOut)="signOut()"
+      />
+    </aside>
+  </div>
+}
 
 <app-toasts />

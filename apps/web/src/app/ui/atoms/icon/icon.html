@@ -1,0 +1,33 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  [attr.width]="size()"
+  [attr.height]="size()"
+  [attr.data-icon]="name()"
+  focusable="false"
+>
+  @for (shape of shapes(); track $index) {
+    @if ('d' in shape) {
+      <path [attr.d]="shape.d" />
+    } @else if ('circle' in shape) {
+      <circle
+        [attr.cx]="shape.circle[0]"
+        [attr.cy]="shape.circle[1]"
+        [attr.r]="shape.circle[2]"
+      />
+    } @else {
+      <rect
+        [attr.x]="shape.rect[0]"
+        [attr.y]="shape.rect[1]"
+        [attr.width]="shape.rect[2]"
+        [attr.height]="shape.rect[3]"
+        [attr.rx]="shape.rect[4]"
+      />
+    }
+  }
+</svg>
