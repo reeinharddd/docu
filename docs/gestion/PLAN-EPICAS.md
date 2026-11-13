@@ -52,9 +52,9 @@ como *blocked by* en GitHub.
 | C. Infra IA | Ollama con los modelos, Laya vía endpoint SystemOne-compatible (`IA_SCORING_URL`), scripts de setup, esqueleto del worker | Erik | 12-nov | Integración IA | sin issue propio (dentro de #85; #60 cerrado) |
 | D. Base de datos | ER híbrido, DDL + migración, vistas, triggers, append-only, contrato con SHA | Emmanuel (ER #58, con apoyo de Erik); Erik (#62/#23) | 12-nov | Backend, IA, contrato | #62, #23 (#58 y #60 cerrados) |
 | E. Integración IA | OCR híbrido, embeddings 768, LLM consultable con citas, búsqueda híbrida | Erik | 18-nov | Freeze, demo | #85 |
-| F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 — **en progreso** (sesión propia del líder, 13-nov) |
-| G. Backend | Specs y suite desde el 3-nov; implementación: API, ingesta, reglas, cuarentena, oficial, lineage, seed, RBAC, bitácora | Emmanuel | 19-nov | Freeze, demo | #45 ✓, #12 ✓ (fase B; falta otra PR), #3, #46, #44, #5, #59, #7 — **Emmanuel continúa en #3 → #46 → #59** |
-| H. Frontend | Spec de UI desde el 6-nov; mockups funcionales 13→16-nov; pantallas contra la API real 17→18-nov | Kira | 18-nov | Freeze, demo | #11, #4 — **en pausa por decisión del líder (13-nov): esta semana no se trabaja frontend** |
+| F. Dataset | Generador determinista y emisión del mes (60 turnos × 6 familias) + manifiesto SHA-256 | Carlos | 17-nov | Seed, backend, replicabilidad | #61, #86 — **en progreso** (sesión paralela): ya están los esquemas, `esperado.json` y el SHA del contrato; falta generador, semilla, manifiesto y corpus |
+| G. Backend | Specs y suite desde el 3-nov; implementación: API, ingesta, reglas, cuarentena, oficial, lineage, seed, RBAC, bitácora | Emmanuel | 19-nov | Freeze, demo | #45 ✓, #12 ✓ (fase B; falta otra PR), #3 ✓ (fase A: encola + worker propone), #46, #44, #5, #59, #7 — **sigue Emmanuel con #46 (colas por tipo), resto de #12 y #59** |
+| H. Frontend | Spec de UI desde el 6-nov; mockups funcionales 13→16-nov; pantallas contra la API real 17→18-nov | Kira | 18-nov | Freeze, demo | #11 ✓ (cinco pantallas + specs + capturas en `main`) — **sigue Kira con la conexión real** (auth real, mappers, rutas fixture una a una) y las pruebas de integración/e2e |
 
 **Hitos del calendario:** entrega de la segunda evaluación **dom 15-nov
 23:59** · presentación de la actividad **mar 17-nov** · demo formal con el

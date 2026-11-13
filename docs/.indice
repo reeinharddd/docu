@@ -40,12 +40,14 @@ docs/decisiones/ADR-0019-dominio-hibrido-del-er.md
 docs/decisiones/ADR-0020-motores-de-ia-como-configuracion.md
 docs/decisiones/ADR-0021-token-opaco-con-revocacion-inmediata.md
 docs/decisiones/ADR-0022-paginacion-por-limit-y-offset.md
+docs/decisiones/ADR-0023-esp32-s3-puente-de-fuentes-en-el-borde.md
 docs/decisiones/README.md
 docs/diseno/CATEGORIAS.md
 docs/diseno/DESIGN-SYSTEM.md
 docs/diseno/FLUJO.md
 docs/diseno/README.md
 docs/gestion/CARRILES.md
+docs/gestion/ENTREGAS.md
 docs/gestion/PLAN-EPICAS.md
 docs/gestion/REPLAN-2026-10-30.md
 docs/gestion/RIESGOS.md
