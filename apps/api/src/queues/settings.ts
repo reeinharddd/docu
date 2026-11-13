@@ -6,6 +6,8 @@ export interface QueueSettings {
   attempts: number
   /** Espera del primer reintento; el backoff es exponencial. */
   backoffMs: number
+  /** Fracción de dispersión del backoff (0 = sin jitter). */
+  backoffJitter: number
 }
 
 export interface WorkerSettings extends QueueSettings {
@@ -13,6 +15,10 @@ export interface WorkerSettings extends QueueSettings {
   concurrency: number
   /** Milisegundos que BullMQ espera para renovar el lock de un job. */
   lockMs: number
+  /** Cada cuánto el worker publica su latido. */
+  heartbeatMs: number
+  /** Vida del latido en Redis: si no se renueva, el worker está muerto. */
+  heartbeatTtlMs: number
 }
 
 type Env = Record<string, string | undefined>
@@ -25,10 +31,25 @@ function readInt(env: Env, key: string, fallback: number, min: number): number {
   return Math.floor(parsed)
 }
 
+function readFloat(
+  env: Env,
+  key: string,
+  fallback: number,
+  min: number,
+  max: number,
+): number {
+  const parsed = Number(env[key])
+  if (!Number.isFinite(parsed) || parsed < min || parsed > max) {
+    return fallback
+  }
+  return parsed
+}
+
 export function queueSettingsFromEnv(env: Env = process.env): QueueSettings {
   return {
     attempts: readInt(env, 'INGEST_ATTEMPTS', 3, 1),
     backoffMs: readInt(env, 'INGEST_BACKOFF_MS', 5000, 100),
+    backoffJitter: readFloat(env, 'INGEST_BACKOFF_JITTER', 0.2, 0, 1),
   }
 }
 
@@ -37,5 +58,7 @@ export function workerSettingsFromEnv(env: Env = process.env): WorkerSettings {
     ...queueSettingsFromEnv(env),
     concurrency: readInt(env, 'WORKER_CONCURRENCY', 2, 1),
     lockMs: readInt(env, 'WORKER_LOCK_MS', 30000, 1000),
+    heartbeatMs: readInt(env, 'WORKER_HEARTBEAT_MS', 10000, 1000),
+    heartbeatTtlMs: readInt(env, 'WORKER_HEARTBEAT_TTL_MS', 45000, 2000),
   }
 }

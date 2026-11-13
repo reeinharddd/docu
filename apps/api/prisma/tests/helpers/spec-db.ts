@@ -209,6 +209,7 @@ export async function insertSourceFile(
   originalName: string,
   sha256: string,
   receivedAt?: Date,
+  storagePath?: string,
 ): Promise<string> {
   const id = randomUUID()
   await client.query(
@@ -223,7 +224,7 @@ export async function insertSourceFile(
       seed.familyIds[familyCode],
       originalName,
       sha256,
-      `originales/${originalName}`,
+      storagePath ?? `originales/${originalName}`,
       receivedAt ?? null,
       seed.workerId,
     ],

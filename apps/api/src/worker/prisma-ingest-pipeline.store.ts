@@ -139,6 +139,13 @@ export class PrismaIngestPipelineStore implements IngestPipelineStore {
     return row
   }
 
+  async markParsedRecordQuarantined(sourceFileId: string): Promise<void> {
+    await this.prisma.parsedRecord.updateMany({
+      where: { sourceFileId },
+      data: { status: 'quarantined' },
+    })
+  }
+
   async markJobRunning(jobId: string): Promise<void> {
     await this.prisma.jobRun.update({
       where: { queue_jobId: { queue: 'ingest', jobId } },

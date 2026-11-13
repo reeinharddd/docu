@@ -12,7 +12,7 @@ archivo describe lo que **existe hoy**.
 
 | Método | Ruta | Qué hace | Acceso |
 |---|---|---|---|
-| `GET` | `/health` | `SELECT 1` en PostgreSQL y `PING` en Redis. Responde `{ status, postgres, redis }` | pública |
+| `GET` | `/health` | `SELECT 1` en PostgreSQL, `PING` en Redis y el latido del worker. Responde `{ status, postgres, redis, worker }` | pública |
 | `POST` | `/v1/auth/login` | Inicia sesión; devuelve el token opaco + usuario | pública, con límite de intentos |
 | `POST` | `/v1/auth/logout` | Revoca la sesión actual (204) | sesión |
 | `GET` | `/v1/auth/me` | Perfil, roles, permisos y dominios de la sesión | sesión |
@@ -81,8 +81,12 @@ bandeja solo tiene contenido cuando el worker propone (`#3`/`#46`).
 
 Es toda la API que existe (base del backend, PR #122; ingesta con #12).
 
-`GET /health` devuelve `200` solo si ambas dependencias responden. Es la puerta
-que usa CI para no dar por buena una API a medio levantar.
+`GET /health` devuelve `200` solo si **todo** responde: PostgreSQL, Redis y el
+worker. Es la puerta que usa CI para no dar por buena una API a medio levantar.
+El bloque `worker` dice si el worker vive (publica su latido en Redis) y cómo
+están las colas: `worker.alive` y `worker.queues.<cola>` con `waiting`,
+`active`, `delayed`, `failed`, `completed` y `paused`. Sin worker, la API
+encola y nadie procesa: eso es degradado, no sano.
 
 ## Seguridad en la entrada
 

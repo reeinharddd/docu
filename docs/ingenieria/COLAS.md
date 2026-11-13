@@ -41,6 +41,37 @@ Redis se usa en la cola `ingest` y en el `PING` de `/health`. Las colas
 La API abre la conexión a Redis **la primera vez que encola**, no al
 arrancar: tiene que poder servir `/health` y las lecturas sin Redis.
 
+## Las cuatro colas y su salud
+
+El worker declara las cuatro colas de C1 (`apps/api/src/queues/registry.ts`),
+cada una con su conexión a Redis: BullMQ bloquea la conexión del worker
+mientras un job corre, y una conexión por cola evita que una cola lenta
+atasque a las demás. Solo `ingest` tiene procesador en este proceso; las otras
+tres quedan con su profundidad visible y sus procesadores llegan con sus
+issues.
+
+| Pieza | Dónde |
+|---|---|
+| Las cuatro colas | `apps/api/src/queues/registry.ts` |
+| Límites | `apps/api/src/queues/settings.ts`: `INGEST_ATTEMPTS`, `INGEST_BACKOFF_MS`, `INGEST_BACKOFF_JITTER`, `WORKER_CONCURRENCY`, `WORKER_LOCK_MS`, `WORKER_HEARTBEAT_MS`, `WORKER_HEARTBEAT_TTL_MS` |
+| Conexión | `apps/api/src/queues/redis.ts` (`maxRetriesPerRequest: null`, que BullMQ exige) |
+| Latido | `apps/api/src/queues/heartbeat.ts` y `heartbeat-loop.ts` |
+| Worker | `apps/api/src/worker/worker.ts` |
+
+El worker publica su latido en Redis (con TTL) y la API lo lee en `/health`:
+`worker.alive` y `worker.queues.<cola>` con la profundidad de cada cola. Si el
+worker muere, la clave expira y la salud lo dice en vez de fingir que todo está
+bien.
+
+## Reintentos y cuarentena
+
+El backoff es exponencial **con jitter** (`INGEST_BACKOFF_JITTER`, 0.2 por
+defecto): sin dispersión, todos los jobs que fallan juntos vuelven a fallar
+juntos. Cuando un job agota sus intentos, el archivo se detiene con motivo
+visible en `ingest.quarantine` (`rule_code = SYS.JOB_FAILED`) y su
+`parsed_record` queda en `quarantined`: un job fallido nunca se pierde en
+silencio (BRIEF #46, RF-02).
+
 ## Las cuatro colas de C1
 
 El ER v1 (#58) fija los nombres de cola en `platform.job_run.queue`, con un

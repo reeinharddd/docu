@@ -11,8 +11,8 @@
 //
 // El worker decide y escribe; el modelo solo propone.
 
-import type { IngestJob } from '../files/ingest-queue.store.js'
 import { classifyScore } from '../ia/scoring.js'
+import type { IngestPayload } from '../queues/ingest-payload.js'
 import type {
   IngestPipelineStore,
   SourceFileForProcessing,
@@ -28,6 +28,7 @@ import type { ProposalEngine } from './proposal-engine.js'
 export const SYSTEM_RULE = {
   LOW_CONFIDENCE: 'SYS.LOW_CONFIDENCE',
   FAMILY_CONTRADICTION: 'SYS.FAMILY_CONTRADICTION',
+  JOB_FAILED: 'SYS.JOB_FAILED',
 } as const
 
 export interface IngestProcessorOptions {
@@ -112,17 +113,22 @@ export class IngestProcessor {
     private readonly options: IngestProcessorOptions,
   ) {}
 
-  async process(job: IngestJob): Promise<IngestOutcome> {
+  /**
+   * Procesa un trabajo de ingesta. El identificador del trabajo es el del job
+   * de la cola (el mismo de la fila de `platform.job_run`): el payload solo
+   * lleva los datos.
+   */
+  async process(jobId: string, job: IngestPayload): Promise<IngestOutcome> {
     const source = await this.store.findSourceFile(job.sourceFileId)
     if (!source) {
       throw new Error(
-        `el archivo ${job.sourceFileId} no existe: el job ${job.jobId} no tiene archivo que procesar`,
+        `el archivo ${job.sourceFileId} no existe: el job ${jobId} no tiene archivo que procesar`,
       )
     }
-    await this.store.markJobRunning(job.jobId)
+    await this.store.markJobRunning(jobId)
     try {
       const outcome = await this.propose(source)
-      await this.store.finishJob(job.jobId, {
+      await this.store.finishJob(jobId, {
         status: 'done',
         output: { ...outcome },
         error: null,
@@ -130,7 +136,7 @@ export class IngestProcessor {
       return outcome
     } catch (error) {
       const reason = error instanceof Error ? error.message : String(error)
-      await this.store.finishJob(job.jobId, {
+      await this.store.finishJob(jobId, {
         status: 'failed',
         output: null,
         error: reason,
