@@ -233,7 +233,9 @@ describe('pipeline de ingesta', () => {
     // El worker puede haberlo tomado ya: lo que importa es que la corrida
     // exista con el id del archivo y esté en vuelo. Exigir `queued` era una
     // carrera (en CI el worker la ganaba y el e2e fallaba sin motivo).
-    expect(['queued', 'running']).toContain(job.rows[0]?.status)
+    const jobStatus = job.rows[0]?.status
+    expect(jobStatus).toBeDefined()
+    expect(['queued', 'running']).toContain(jobStatus ?? '')
 
     await finished
 
