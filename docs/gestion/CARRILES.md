@@ -21,29 +21,34 @@ Erik conduce el resto (arquitectura #60, modelo #62, plataforma #84, IA #85,
 guardas #87, limpieza #88, demo #89) y **revisa todos los PRs** (issue #106).
 Las tres ramas existen desde `main`; nadie trabaja en `main`.
 
-## Estado de hoy (13-nov)
+## Estado de hoy (13-nov, tras integrar #129 y #127)
 
-- **Base de datos y backend base: integrados en `main`.** ER (#58), modelo y
-  contrato (#62, #23), IA (#85), plataforma (#84), puerta TDD (#45) y la fase B
-  de la API (#12: bandeja, confirmación, rechazo y dato oficial) ya están
-  merged; la disposición es condicional en SQL (409 real bajo doble envío).
-- **Backend (#3, #46, #59, #44, #5, #7): Emmanuel continúa.** La cadena crítica
-  de la demo es pipeline (#3) → worker (#46) → seed (#59): sin worker la
-  bandeja queda vacía por diseño.
-- **Dataset (#61, #86): Carlos, en progreso en sesión paralela del líder.**
-  Entrega 17-nov; el seed y la replicabilidad dependen de su corpus.
-- **Frontend (#11, #4): en pausa por decisión del líder (13-nov).** Esta semana
-  no se trabaja frontend; la rama `feat/11-prototipos-ui-ux` de Kira queda como
-  está y se retoma después de la demo del 24.
+- **Backend, fase A del pipeline integrada (#3, PR #129):** la API encola de
+  verdad (`platform.job_run` + cola `ingest` en Redis, `job_id` = id del
+  archivo), el worker BullMQ procesa, propone la familia y manda a la bandeja
+  o a cuarentena con código de regla visible. El e2e prueba el ciclo completo:
+  subir → encolar → proponer → bandeja → confirmar → oficial. Falta la fase B
+  (#46: reintentos, colas por tipo de trabajo, `reports`/`alerts`) y el resto de
+  #12 (`/files/:id/validation`, `/quarantine`, `/lineage/:id`).
+- **Frontend integrado (#11, PR #127):** las cinco pantallas del caso con
+  datos, specs, `FLUJO.md`, `CATEGORIAS.md` y capturas están en `main`. La
+  conexión con el backend real es la fase siguiente: auth real, mappers de DTO
+  y borrado progresivo de las rutas fixture (bandeja y captura ya son
+  compatibles con la API).
+- **Dataset (#61):** en `main` están los esquemas de las 6 familias,
+  `esperado.json` (volumen aprobado del mes) y `contrato-sha.json` (SHA del
+  contrato congelado). Falta el generador determinista, la semilla versionada
+  (`dataset/config1/semilla/semilla.json`), el manifiesto `manifiesto.sha256` y
+  el corpus emitido. Trabajo en sesión paralela.
+- **Esp32-S3 (ADR-0023, en propuesta):** el kit es el puente de fuentes en el
+  borde; consume y normaliza al contrato `POST /v1/files`, no genera. Revisa
+  Emmanuel.
 - **Revisión (#106, Erik):** cada PR de carril se revisa contra la Definición
-  de Hecho de `docs/REGLAS.md` al llegar; sin evidencia no hay merge.
-- **Segunda evaluación (actividad de Yakko, 40 pts):** entrega el **dom
-  15-nov 23:59** y presentación el **mar 17-nov**; la demo formal con el
-  profesor sigue siendo el **24-nov**. Para la entrega: repo funcionando,
-  evidencia de seguridad (DLP/DRP, respaldos), web services propios (API de
-  DOCU) y de terceros (motores de IA), y el documento *Etapa 4* en PDF.
-  Freeze de la entrega el 14/15 y ensayo el 16; el alcance se congela a la
-  vertical mínima demostrable.
+  de Hecho de `docs/REGLAS.md` al llegar; sin evidencia no hay merge. #58, #3 y
+  #11 revisados y mergeados.
+- La demo formal con el profesor sigue siendo el **24-nov**; la entrega de la
+  segunda evaluación es el **dom 15-nov 23:59** y su presentación el **mar
+  17-nov**.
 
 ## Cómo se trabaja
 

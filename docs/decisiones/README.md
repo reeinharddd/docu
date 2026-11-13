@@ -54,6 +54,7 @@ Formato de fecha: `YYYY-MM-DD`. Idioma: español. Código y nombres: inglés.
 | [0020](ADR-0020-motores-de-ia-como-configuracion.md) | Acceso centralizado a los motores de IA vía API compatible OpenAI; el proveedor se cambia con configuración, no con código | Aceptada | 2026-11-07 |
 | [0021](ADR-0021-token-opaco-con-revocacion-inmediata.md) | Token de sesión opaco guardado en la base, con revocación inmediata; no hay JWT | Aceptada | 2026-11-07 |
 | [0022](ADR-0022-paginacion-por-limit-y-offset.md) | Paginación por `limit` y `offset`, con respuesta de array plano y total en `X-Total-Count` | Aceptada | 2026-11-07 |
+| [0023](ADR-0023-esp32-s3-puente-de-fuentes-en-el-borde.md) | El ESP32-S3 es un puente de fuentes en el borde: consume y normaliza, no genera | Propuesta | 2026-11-13 |
 
 Los ADR de infraestructura y los que tocan datos exigen además visto bueno de
 Erik.
