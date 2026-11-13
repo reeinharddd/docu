@@ -59,9 +59,25 @@ Las tres ramas existen desde `main`; nadie trabaja en `main`.
   demo"). El ciclo real de esta prueba se probó **por API, no por navegador**:
   las cinco pantallas renderizan bien contra fixtures, pero eso no prueba la
   conexión web↔API, que es lo que hace #132.
+- **Reparto del 13-nov (cerrar lo de ahora, y preparar lo de después):**
+  - **Emmanuel** (backend): #46 (PR #134, mergeado el 13-nov) y después los dos
+    bugs críticos de la prueba de pila real — **#135** (el seed sin
+    `entityType`) y **#136** (el OCR rechaza el PDF y el presupuesto por
+    llamada no escala) —, luego #44, #59 y el resto de #12. De Sprint 4, y
+    solo después del 15-nov: **#143** (guardrails y puertas de aprobación) y
+    **#144** (MCP con RBAC, PII e inyección).
+  - **Kira** (frontend): **#132** (conexión web↔API, con el contrato ya
+    congelado) y **#133** (e2e de navegador, depende de #132).
+  - **Carlos** (dataset y QA): **#61** (con el estado real ya investigado: falta
+    el generador, la semilla, las plantillas, el corpus y el manifiesto) y
+    **#147** (evals sobre el corpus, nuevo).
+  - **Erik** (líder): **#137** (ruteo por tarea), **#141** (NVIDIA NIM como
+    proveedor de pruebas y fallback), **#145** (RAG del caso), **#146**
+    (trazas, coste, caché caliente y memoria acotada) y la épica **#142**
+    (plataforma de ejecución por instalación), que coordina las anteriores.
 - **Revisión (#106, Erik):** cada PR de carril se revisa contra la Definición
   de Hecho de `docs/REGLAS.md` al llegar; sin evidencia no hay merge. #58, #3 y
-  #11 revisados y mergeados.
+  #11 revisados y mergeados; #46 (PR #134) revisado y mergeado el 13-nov.
 - La demo formal con el profesor sigue siendo el **24-nov**; la entrega de la
   segunda evaluación es el **dom 15-nov 23:59** y su presentación el **mar
   17-nov**.
