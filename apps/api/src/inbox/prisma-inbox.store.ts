@@ -82,9 +82,17 @@ export class PrismaInboxStore implements InboxStore {
 
       const confirmedAt = new Date()
       const version = current.version + 1n
-      await tx.entity.update({
+      // Guardia de transición en SQL: la escritura solo procede si el estado
+      // sigue siendo `pending_confirmation` al momento del UPDATE. Si otra
+      // disposición ganó la fila entre la lectura y aquí (doble envío
+      // concurrente), el WHERE no coincide y el desenlace es already-disposed;
+      // la unique (entity_id, version) de `truth.origin_history` queda como
+      // red de seguridad.
+      const won = await tx.entity.updateMany({
         where: {
-          facilityId_id: { facilityId: input.facilityId, id: current.id },
+          facilityId: input.facilityId,
+          id: current.id,
+          status: 'pending_confirmation',
         },
         data: {
           status: 'official',
@@ -94,6 +102,9 @@ export class PrismaInboxStore implements InboxStore {
           updatedById: input.actorId,
         },
       })
+      if (won.count === 0) {
+        return { outcome: 'already-disposed' }
+      }
       // El origen del dato oficial: la fuente, el snapshot y el responsable.
       // `rule_code` y `calculation` quedan nulos porque la API no puede
       // inventar la regla que aplicó el worker: las columnas son nulables en
@@ -147,9 +158,13 @@ export class PrismaInboxStore implements InboxStore {
       }
 
       const version = current.version + 1n
-      await tx.entity.update({
+      // Mismo guardia de transición en SQL que en confirm: sin él, dos
+      // rechazos concurrentes escribirían dos veces la versión.
+      const won = await tx.entity.updateMany({
         where: {
-          facilityId_id: { facilityId: input.facilityId, id: current.id },
+          facilityId: input.facilityId,
+          id: current.id,
+          status: 'pending_confirmation',
         },
         data: {
           status: 'rejected',
@@ -157,6 +172,9 @@ export class PrismaInboxStore implements InboxStore {
           updatedById: input.actorId,
         },
       })
+      if (won.count === 0) {
+        return { outcome: 'already-disposed' }
+      }
       // Un dato rechazado no tiene origen oficial: solo bitácora
       // (ARQUITECTURA.md §4.3).
       await tx.auditLog.create({

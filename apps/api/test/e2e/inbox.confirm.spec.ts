@@ -180,6 +180,40 @@ describe('POST /v1/inbox/:id/confirm', () => {
 
     expect(res.status).toBe(403)
   })
+
+  it('bajo doble envío concurrente solo una confirmación gana', async () => {
+    // Propuesta fresca: la de la suite anterior ya está disposeada. Dos
+    // POST en paralelo sobre la misma propuesta: la transacción de la
+    // bandeja es condicional en SQL (`status = 'pending_confirmation'`),
+    // así que una gana (200) y la otra ve cero filas afectadas (409),
+    // nunca dos filas en `truth.origin_history` ni un 500 de la unique.
+    const second = await seedReviewProposal(
+      client,
+      seed,
+      'turno',
+      proposal.entityTypeId,
+      'R-002',
+    )
+
+    const [first, secondTry] = await Promise.all([
+      testApp.http
+        .post(`/v1/inbox/${second.entityId}/confirm`)
+        .set('Authorization', `Bearer ${token}`),
+      testApp.http
+        .post(`/v1/inbox/${second.entityId}/confirm`)
+        .set('Authorization', `Bearer ${token}`),
+    ])
+
+    const codes = [first.status, secondTry.status].sort()
+    expect(codes).toEqual([200, 409])
+
+    const history = await client.query<{ n: string }>(
+      `SELECT count(*)::text AS n FROM "truth"."origin_history"
+       WHERE "entity_id" = $1`,
+      [second.entityId],
+    )
+    expect(history.rows[0]?.n).toBe('1')
+  })
 })
 
 describe('GET /v1/official-records', () => {
@@ -189,10 +223,14 @@ describe('GET /v1/official-records', () => {
       .set('Authorization', `Bearer ${token}`)
 
     expect(res.status).toBe(200)
-    expect(res.headers['x-total-count']).toBe('1')
-    expect(res.body).toHaveLength(1)
-    expect(res.body[0]).toMatchObject({
-      id: proposal.entityId,
+    // Dos oficiales: R-001 confirmado en la suite anterior y R-002 por el
+    // test de doble envío concurrente.
+    expect(res.headers['x-total-count']).toBe('2')
+    expect(res.body).toHaveLength(2)
+    const record = res.body.find(
+      (row: { id: string }) => row.id === proposal.entityId,
+    )
+    expect(record).toMatchObject({
       code: 'R-001',
       version: 2,
       entityType: { code: 'turno', name: 'Turno' },

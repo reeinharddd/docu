@@ -48,11 +48,19 @@ export interface ReviewProposal {
 /**
  * Deja una propuesta en revisión: tipo de entidad, original, registro
  * extraído y la entidad en `pending_confirmation` con versión 1.
+ *
+ * `entityTypeId` reutiliza un tipo de entidad ya creado: `graph.entity_type`
+ * es unique por (facility_id, code), así que una segunda propuesta de la
+ * misma familia no puede crear otro `turno`.
+ * `code` permite proponer varias entidades del mismo tipo: `graph.entity`
+ * es unique por (facility_id, entity_type_id, code).
  */
 export async function seedReviewProposal(
   client: Client,
   seed: FacilitySeed,
   familyCode = 'turno',
+  entityTypeId?: string,
+  code = 'R-001',
 ): Promise<ReviewProposal> {
   const familyId = seed.familyIds[familyCode]
   if (familyId === undefined) {
@@ -61,14 +69,16 @@ export async function seedReviewProposal(
     )
   }
 
-  const entityTypeId = randomUUID()
-  await client.query(
-    `INSERT INTO "graph"."entity_type"
-       ("id", "facility_id", "code", "name", "schema_definition", "is_system",
-        "is_active", "created_by_id", "updated_at")
-     VALUES ($1, $2, 'turno', 'Turno', '{"fields":[]}', false, true, $3, now())`,
-    [entityTypeId, seed.facilityId, seed.workerId],
-  )
+  if (entityTypeId === undefined) {
+    entityTypeId = randomUUID()
+    await client.query(
+      `INSERT INTO "graph"."entity_type"
+         ("id", "facility_id", "code", "name", "schema_definition", "is_system",
+          "is_active", "created_by_id", "updated_at")
+       VALUES ($1, $2, 'turno', 'Turno', '{"fields":[]}', false, true, $3, now())`,
+      [entityTypeId, seed.facilityId, seed.workerId],
+    )
+  }
 
   const sourceFileId = randomUUID()
   await client.query(
@@ -101,9 +111,16 @@ export async function seedReviewProposal(
     `INSERT INTO "graph"."entity"
        ("id", "facility_id", "entity_type_id", "code", "data", "status",
         "source_file_id", "version", "created_by_id", "updated_at")
-     VALUES ($1, $2, $3, 'R-001', '{"turno":"nocturno"}', 'pending_confirmation',
-             $4, 1, $5, now())`,
-    [entityId, seed.facilityId, entityTypeId, sourceFileId, seed.workerId],
+     VALUES ($1, $2, $3, $4, '{"turno":"nocturno"}', 'pending_confirmation',
+             $5, 1, $6, now())`,
+    [
+      entityId,
+      seed.facilityId,
+      entityTypeId,
+      code,
+      sourceFileId,
+      seed.workerId,
+    ],
   )
 
   return { entityId, sourceFileId, parsedRecordId, entityTypeId }
