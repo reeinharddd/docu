@@ -10,6 +10,9 @@ import { buildOpenApiDocument } from './openapi.js'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
+  // SIGTERM/SIGINT close the app gracefully: Prisma disconnects through its
+  // OnModuleDestroy (brief #12: apagado limpio).
+  app.enableShutdownHooks()
 
   // El sobre de error §2.1 aplica a toda respuesta no-2xx.
   app.useGlobalFilters(new ApiErrorFilter())

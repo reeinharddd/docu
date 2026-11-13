@@ -141,6 +141,9 @@ jobs:
       # proofs, then the per-function specs against the same services.
       - run: bun run db:test
       - run: bun run db:spec
+      # Endpoint integration suite (#45): boots the full AppModule against an
+      # isolated scratch database and proves persistence through a real login.
+      - run: bun run test:e2e
       # The seed needs the schema: apply the baseline migration to the
       # database of the job and prove the seed is idempotent (run it twice).
       - run: bun run db:deploy

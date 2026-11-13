@@ -5,6 +5,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "bun test src",
+    "test:e2e": "bun test test/e2e/",
+    "worker": "bun src/worker/worker.ts",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:migrate": "prisma migrate dev",
@@ -34,12 +36,16 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
+    "@nestjs/testing": "12.1.2",
     "@types/bun": "^1.4.4",
     "@types/express": "^5.0.6",
+    "@types/multer": "^2.3.0",
     "@types/pg": "^8.23.1",
+    "@types/supertest": "^6.0.3",
     "bcryptjs": "^3.0.3",
     "dotenv": "16.6.1",
     "prisma": "7.10.0",
+    "supertest": "^7.1.1",
     "typescript": "5.9.3"
   },
   "type": "module"

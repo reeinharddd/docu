@@ -30,6 +30,8 @@
     "db:deploy": "bun --filter @docu/api db:deploy",
     "db:test": "bun --filter @docu/api db:test",
     "db:spec": "bun --filter @docu/api db:spec",
+    "test:e2e": "bun --filter @docu/api test:e2e",
+    "worker": "bun --filter @docu/api worker",
     "db:seed": "bun --filter @docu/api db:seed",
     "db:password": "bun --filter @docu/api db:password",
     "api:openapi": "bun --filter @docu/api openapi",

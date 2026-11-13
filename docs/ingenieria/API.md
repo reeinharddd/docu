@@ -18,9 +18,68 @@ archivo describe lo que **existe hoy**.
 | `GET` | `/v1/auth/me` | Perfil, roles, permisos y dominios de la sesión | sesión |
 | `GET` | `/v1/families` | Catálogo de familias de la instalación (paginado, total en `X-Total-Count`) | sesión |
 | `GET` | `/v1/families/:familyCode` | Una familia de la instalación | sesión |
+| `POST` | `/v1/files` | Registra un archivo (`multipart/form-data`, campo `file` + `familyCode`). El servidor calcula `sha256` y responde `201 { sourceFileId, sha256 }` | sesión + `create` y `submit` |
+| `GET` | `/v1/inbox` | Bandeja de revisión humana: propuestas en `pending_confirmation` (paginado, total en `X-Total-Count`) | sesión + `read` |
+| `POST` | `/v1/inbox/:id/confirm` | Confirma la propuesta: `200 { id, status, version, confirmedAt }` | sesión + `confirm` |
+| `POST` | `/v1/inbox/:id/reject` | Rechaza la propuesta: `200 { id, status, version }` | sesión + `confirm` |
+| `GET` | `/v1/official-records` | Dato oficial confirmado, con su responsable (paginado, total en `X-Total-Count`) | sesión + `read` |
 
-Es toda la API que existe (base del backend, PR #122). La ingesta y el resto
-del contrato de C1 se construyen encima (#12).
+`POST /v1/files` es idempotente por `(facility_id, sha256)` (ER v1): repetir
+el mismo archivo responde `409 CONFLICT` con `details.sourceFileId` del
+original, sin crear fila ni job segunda vez. El servidor valida familia
+activa, tipo (pdf, png, jpg, tiff, Excel) y tamaño (`UPLOAD_MAX_BYTES`,
+50 MB por defecto); guarda los bytes intactos en `ORIGINALS_DIR` (REGLAS.md 5)
+y deja el trabajo en la cola `ingest` (`platform.job_run`, estado `queued`, con
+el `job_id` del archivo). Si Redis no acepta el encolado, el trabajo queda
+`failed` con su motivo y la respuesta es un `500` limpio: el archivo está
+registrado y nada se borra en silencio. El worker que lo procesa llega con #3.
+
+## El pipeline de ingesta
+
+El worker (`bun run worker`) consume la cola `ingest` y deja el veredicto
+([ARQUITECTURA.md §4](ARQUITECTURA.md#4-flujo-y-disposicion)): extrae el texto
+del original, propone la familia con su confianza calibrada y decide.
+
+| Situación | Qué queda en la base |
+|---|---|
+| Propuesta usable | `ingest.parsed_record` (`parsed`), `ingest.ocr_result` con el texto y `graph.entity` en `pending_confirmation`: la propuesta llega a la bandeja |
+| Confianza menor que el umbral de revisión | `ingest.quarantine` (`BLOQUEO`, motivo visible, `rule_code = SYS.LOW_CONFIDENCE`) y `parsed_record` en `quarantined` |
+| La familia propuesta no es la declarada | `ingest.quarantine` (`rule_code = SYS.FAMILY_CONTRADICTION`) y `parsed_record` en `quarantined` |
+
+El original nunca se borra (REGLAS.md 5) y el modelo nunca escribe en la base:
+propone, y el worker decide (ADR-0006). Los umbrales son los de `IA.md`, ya
+configurables (`IA_SCORING_AUTO_THRESHOLD`, `IA_SCORING_REVIEW_THRESHOLD`).
+
+La familia declara en su `schema_definition` el tipo de entidad que propone
+(`entityType`) y sus campos (`fields`); si no declara ninguno, la extracción
+queda registrada y la propuesta espera a que la instalación declare el tipo
+(los datos son de la instalación, ADR-0019). La cadena de reglas todavía no
+corre: el formato de `expression` lo fija #5 (ver [COLAS.md](COLAS.md)).
+
+## La disposición humana
+
+`POST /v1/inbox/:id/confirm` y `/reject` son las dos disposiciones posibles
+([ARQUITECTURA.md §4](ARQUITECTURA.md#4-flujo-y-disposicion)) y las tres
+escrituras van en una sola transacción: el estado de `graph.entity`, la fila
+de `truth.origin_history` y la bitácora en `truth.audit_log`.
+
+- **Confirmar** deja `status = official` con responsable y fecha, incrementa
+  `version` y escribe el origen: el documento fuente, el snapshot del dato y
+  el responsable. Publicar sin confirmar es imposible: el `CHECK` de la base
+  exige responsable y fecha cuando el estado es `official`.
+- **Rechazar** deja `status = rejected`, incrementa `version` y escribe solo
+  bitácora: un dato rechazado no tiene origen oficial.
+- **Errores**: `404` si la propuesta no existe en la instalación (un `:id` de
+  otra instalación es `404`, nunca `403`), `409` si ya fue disposeada, `422` si
+  no está en revisión o si no tiene documento de origen
+  (`origin_history.source_file_id` es `NOT NULL`: sin documento no hay origen).
+
+Dos límites conocidos y declarados: `origin_history.rule_code` y
+`calculation` quedan nulos porque la API no puede inventar la regla que aplicó
+el worker (las columnas son nulables en el ER para eso; las llena #3/#46), y la
+bandeja solo tiene contenido cuando el worker propone (`#3`/`#46`).
+
+Es toda la API que existe (base del backend, PR #122; ingesta con #12).
 
 `GET /health` devuelve `200` solo si ambas dependencias responden. Es la puerta
 que usa CI para no dar por buena una API a medio levantar.
@@ -78,12 +137,32 @@ servicios dependen de puertos y se prueban sin base.
 
 ## Pruebas
 
-| Superficie | Estado |
-|---|---|
-| `apps/api/src` | 8 archivos, 58 casos unitarios en verde sin red: sesión y throttle, guard, CORS, paginación, familias, salud y motores IA (1 condicional corre solo con `IA_LIVE_TEST=1`) |
-| `apps/api/prisma/tests` | 6 archivos de specs contra PostgreSQL real (aislamiento, solo-insert, idempotencia, volumen, reglas, vector): corren en CI con base; sin BD local quedan en `skip` |
-| `apps/web` | 10 archivos, 54 pruebas (Vitest) |
+| Superficie | Comando | Estado |
+|---|---|---|
+| `apps/api/src` | `bun run test` | Unitarias y de endpoint **sin red**: sesión y throttle, guard, CORS, paginación, familias, salud, motores IA, más `GET /health` (degradado → 503) y la validación de `POST /v1/auth/login` (cuerpo inválido rechazado). Un caso de IA corre solo con `IA_LIVE_TEST=1` |
+| `apps/api/test/e2e` | `bun run test:e2e` | Endpoint **contra base real**: arranca el `AppModule` sobre una base scratch y prueba `login → fila` de punta a punta |
+| `apps/api/prisma/tests` | `bun run db:spec` | 6 archivos de specs contra PostgreSQL real (aislamiento, solo-insert, idempotencia, volumen, reglas, vector) |
+| `apps/web` | `bun --filter web test` | 10 archivos, 54 pruebas (Vitest) |
 
-El hueco que sigue abierto es la **integración del lado del servidor contra
-base de datos real dentro de la suite de la API** (login→guard→endpoint→fila):
-eso lo cubre #45. Sin esa capa, RNF-07 no se sostiene del todo.
+### Patrón de prueba de endpoint
+
+El helper `apps/api/test/helpers/http-testing.ts` levanta una app Nest real (sin
+escuchar en un puerto), le aplica los mismos `ValidationPipe` y `ApiErrorFilter`
+de `main.ts` y devuelve una `supertest` atada a su servidor HTTP. Para probar un
+controller:
+
+1. **Unitario/offline**: monta solo el controller con sus dependencias
+   reemplazadas por fakes vía `providers: [{ provide: X, useValue: fake }]`
+   (los fakes se declaran en `providers`, no con `overrideProvider`, que no
+   registra el proveedor en este stack). Los guardas se sustituyen con
+   `overrideGuard(Guard).useValue({ canActivate: () => true })`.
+2. **Contra base**: `beforeAll` llama a `getSpecDb()` (crea y migra la base
+   scratch `docu_spec`), apunta `process.env.DATABASE_URL` a
+   `specDatabaseUrl()` **antes** de compilar el módulo (el `PrismaService` lee
+   la URL en su constructor) y compila el `AppModule` completo.
+
+La suite e2e corre en CI en el job `smoke` (donde ya hay PostgreSQL y Redis),
+después de `db:spec`; una prueba rota detiene el merge. Los tres criterios del
+brief quedan cubiertos: `/health` (degradado → 503), validación (cuerpo vacío →
+rechazado sin llamar al servicio) y persistencia (`login` escribe su fila en
+`platform.session`).

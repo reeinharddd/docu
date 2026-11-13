@@ -15,7 +15,7 @@ import { Client } from 'pg'
 // path, so the repo root is found by walking up from the working directory to
 // the directory that owns bun.lock. CI has no .env file: dotenv misses and the
 // DATABASE_URL of the environment is used instead.
-function repoRoot(): string {
+export function repoRoot(): string {
   let dir = process.cwd()
   while (dir !== dirname(dir)) {
     if (existsSync(join(dir, 'bun.lock'))) {
@@ -60,6 +60,16 @@ function databaseUrl(): string {
     throw new Error('DATABASE_URL is not set (.env or environment)')
   }
   return url
+}
+
+// URL of the scratch database: the same admin endpoint declared in
+// DATABASE_URL, with the database name swapped for the scratch one. Integration
+// tests point the API's DATABASE_URL at this so the real PrismaService boots
+// against an isolated, freshly migrated database.
+export function specDatabaseUrl(): string {
+  const target = new URL(databaseUrl())
+  target.pathname = `/${SCRATCH_DB}`
+  return target.toString()
 }
 
 function configFor(database: string): PgConfig {
