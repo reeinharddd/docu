@@ -25,6 +25,13 @@ const neverFetch: FetchLike = () => {
 const CONFIG: IaConfig = {
   baseUrl: 'http://provider.test/v1',
   apiKey: 'secret-key',
+  ocrBaseUrl: 'http://provider.test/v1',
+  llmBaseUrl: 'http://provider.test/v1',
+  embeddingBaseUrl: 'http://provider.test/v1',
+  ocrApiKey: 'secret-key',
+  llmApiKey: 'secret-key',
+  embeddingApiKey: 'secret-key',
+  embeddingInputType: '',
   localActivated: true,
   cloudActivated: false,
   ocrModel: 'glm-ocr',
@@ -126,6 +133,134 @@ describe('IA configuration', () => {
     expect(() => loadIaConfig({ IA_CACHE_ENABLED: 'yes' })).toThrow(
       /IA_CACHE_ENABLED/,
     )
+  })
+})
+
+describe('IA provider per capability', () => {
+  test('a capability can point to its own provider, the others keep the default', () => {
+    const config = loadIaConfig({
+      IA_API_BASE_URL: 'http://localhost:11434/v1',
+      IA_LLM_API_BASE_URL: 'https://integrate.api.nvidia.com/v1',
+      IA_LLM_API_KEY: 'cloud-key',
+      IA_NUBE_ACTIVADA: 'true',
+    })
+    expect(config.ocrBaseUrl).toBe('http://localhost:11434/v1')
+    expect(config.embeddingBaseUrl).toBe('http://localhost:11434/v1')
+    expect(config.llmBaseUrl).toBe('https://integrate.api.nvidia.com/v1')
+    expect(config.llmApiKey).toBe('cloud-key')
+    expect(config.ocrApiKey).toBe('')
+  })
+
+  test('a remote capability without IA_NUBE_ACTIVADA=true fails at startup (RNF-03)', () => {
+    expect(() =>
+      loadIaConfig({
+        IA_API_BASE_URL: 'http://localhost:11434/v1',
+        IA_LLM_API_BASE_URL: 'https://integrate.api.nvidia.com/v1',
+      }),
+    ).toThrow(/IA_LLM_API_BASE_URL[\s\S]*IA_NUBE_ACTIVADA/)
+  })
+
+  test('the central model goes to its provider while the OCR stays on the plant host', async () => {
+    const { fetch, calls } = scriptedFetch([
+      () => Response.json(chatResponse('{"familia":"excel_turno"}')),
+      () =>
+        Response.json({
+          choices: [{ message: { content: 'texto de la pagina' } }],
+        }),
+    ])
+    const runner = new IaRunner({
+      config: {
+        ...CONFIG,
+        baseUrl: 'http://localhost:11434/v1',
+        ocrBaseUrl: 'http://localhost:11434/v1',
+        llmBaseUrl: 'https://integrate.api.nvidia.com/v1',
+        embeddingBaseUrl: 'http://localhost:11434/v1',
+        apiKey: '',
+        llmApiKey: 'cloud-key',
+        ocrApiKey: '',
+        embeddingApiKey: '',
+      },
+      fetchImpl: fetch,
+      cacheStore: new MemoryCacheStore(),
+    })
+    await runner.complete({
+      system: 'Eres un clasificador.',
+      prompt: 'Clasifica el archivo.',
+    })
+    await runner.recognizeDocument({
+      bytes: new Uint8Array([1, 2, 3]),
+      mimeType: 'image/png',
+    })
+    expect(calls[0]?.url).toBe(
+      'https://integrate.api.nvidia.com/v1/chat/completions',
+    )
+    expect(calls[1]?.url).toBe('http://localhost:11434/v1/chat/completions')
+    const headers = calls[0]?.init.headers as Record<string, string>
+    expect(headers.authorization).toBe('Bearer cloud-key')
+    const localHeaders = calls[1]?.init.headers as Record<string, string>
+    expect(localHeaders.authorization).toBeUndefined()
+  })
+
+  test('the embedding engine sends the configured input_type only when there is one', async () => {
+    const { fetch, calls } = scriptedFetch([
+      () => Response.json(embeddingsResponse(new Array(768).fill(0.1))),
+    ])
+    const runner = new IaRunner({
+      config: { ...CONFIG, embeddingInputType: 'query' },
+      fetchImpl: fetch,
+      cacheStore: new MemoryCacheStore(),
+    })
+    await runner.embed('Rollo R-017')
+    const body = JSON.parse(String(calls[0]?.init.body)) as {
+      input_type?: string
+      dimensions?: number
+    }
+    expect(body.input_type).toBe('query')
+    expect(body.dimensions).toBe(768)
+  })
+
+  test('a symmetric provider does not receive input_type', async () => {
+    const { fetch, calls } = scriptedFetch([
+      () => Response.json(embeddingsResponse(new Array(768).fill(0.1))),
+    ])
+    const runner = new IaRunner({
+      config: { ...CONFIG, embeddingInputType: '' },
+      fetchImpl: fetch,
+      cacheStore: new MemoryCacheStore(),
+    })
+    await runner.embed('Rollo R-017')
+    const body = JSON.parse(String(calls[0]?.init.body)) as {
+      input_type?: string
+    }
+    expect(body.input_type).toBeUndefined()
+  })
+
+  test('the cache does not serve one provider the answer of another', async () => {
+    const { fetch, calls } = scriptedFetch([
+      () => Response.json(chatResponse('{"familia":"de_la_nube"}')),
+      () => Response.json(chatResponse('{"familia":"de_la_planta"}')),
+    ])
+    const request = {
+      system: 'Eres un clasificador.',
+      prompt: 'Clasifica el archivo.',
+    }
+    const cloud = new IaRunner({
+      config: { ...CONFIG, llmBaseUrl: 'https://cloud.test/v1' },
+      fetchImpl: fetch,
+      cacheStore: new MemoryCacheStore(),
+    })
+    const plant = new IaRunner({
+      config: { ...CONFIG, llmBaseUrl: 'http://plant.test/v1' },
+      fetchImpl: fetch,
+      cacheStore: new MemoryCacheStore(),
+    })
+    expect((await cloud.complete(request)).json).toEqual({
+      familia: 'de_la_nube',
+    })
+    expect((await plant.complete(request)).json).toEqual({
+      familia: 'de_la_planta',
+    })
+    expect(calls).toHaveLength(2)
   })
 })
 

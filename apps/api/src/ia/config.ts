@@ -3,12 +3,26 @@
  * startup with an actionable message when invalid: the module never starts
  * half-configured. RNF-03 is enforced here: a remote endpoint requires
  * IA_NUBE_ACTIVADA=true.
+ *
+ * Each capability can point to its own provider. The installation decides
+ * where each kind of work runs: the central model (the one that classifies,
+ * organizes and answers) can be a cloud model when the plant cannot run a
+ * good enough one locally, while the OCR and the embeddings stay on the
+ * plant host. IA_API_BASE_URL and IA_API_KEY remain the default for every
+ * capability that does not declare its own.
  */
 import { ConfigError } from './errors.js'
 
 export interface IaConfig {
   baseUrl: string
   apiKey: string
+  ocrBaseUrl: string
+  llmBaseUrl: string
+  embeddingBaseUrl: string
+  ocrApiKey: string
+  llmApiKey: string
+  embeddingApiKey: string
+  embeddingInputType: string
   localActivated: boolean
   cloudActivated: boolean
   ocrModel: string
@@ -87,6 +101,41 @@ export function isLocalEndpoint(hostname: string): boolean {
   return !host.includes('.')
 }
 
+/**
+ * Validates one provider endpoint: it has to be an http(s) URL and, when it
+ * is not on the plant network, the cloud has to be activated explicitly
+ * (RNF-03). The capability name makes the message point at the right
+ * variable.
+ */
+function providerBaseUrl(
+  env: Env,
+  capability: 'OCR' | 'LLM' | 'EMBEDDING',
+  fallback: string,
+  cloudActivated: boolean,
+): string {
+  const key = `IA_${capability}_API_BASE_URL`
+  const baseUrl = readString(env, key, fallback)
+  let endpoint: URL
+  try {
+    endpoint = new URL(baseUrl)
+  } catch {
+    throw new ConfigError(
+      `${key} is not a valid URL: '${baseUrl}'. Example: http://localhost:11434/v1`,
+    )
+  }
+  if (endpoint.protocol !== 'http:' && endpoint.protocol !== 'https:') {
+    throw new ConfigError(`${key} must be http(s), got '${baseUrl}'.`)
+  }
+  if (!isLocalEndpoint(endpoint.hostname) && !cloudActivated) {
+    throw new ConfigError(
+      `${key} points to a remote host ('${endpoint.hostname}'). ` +
+        'Outbound calls to a cloud provider require IA_NUBE_ACTIVADA=true with the lead authorization (RNF-03, IA.md §4). ' +
+        'Keep the endpoint on the plant host (default http://localhost:11434/v1) or activate the cloud explicitly.',
+    )
+  }
+  return baseUrl.replace(/\/$/, '')
+}
+
 export function loadIaConfig(env: Env = process.env): IaConfig {
   const baseUrl = readString(
     env,
@@ -112,6 +161,18 @@ export function loadIaConfig(env: Env = process.env): IaConfig {
         'Keep IA_API_BASE_URL on the plant host (default http://localhost:11434/v1) or activate the cloud explicitly.',
     )
   }
+  const apiKey = readString(env, 'IA_API_KEY', '')
+  const ocrBaseUrl = providerBaseUrl(env, 'OCR', baseUrl, cloudActivated)
+  const llmBaseUrl = providerBaseUrl(env, 'LLM', baseUrl, cloudActivated)
+  const embeddingBaseUrl = providerBaseUrl(
+    env,
+    'EMBEDDING',
+    baseUrl,
+    cloudActivated,
+  )
+  const ocrApiKey = readString(env, 'IA_OCR_API_KEY', apiKey)
+  const llmApiKey = readString(env, 'IA_LLM_API_KEY', apiKey)
+  const embeddingApiKey = readString(env, 'IA_EMBEDDING_API_KEY', apiKey)
   const scoringUrl = readString(
     env,
     'IA_SCORING_URL',
@@ -152,7 +213,16 @@ export function loadIaConfig(env: Env = process.env): IaConfig {
   }
   return {
     baseUrl: baseUrl.replace(/\/$/, ''),
-    apiKey: readString(env, 'IA_API_KEY', ''),
+    apiKey,
+    ocrBaseUrl,
+    llmBaseUrl,
+    embeddingBaseUrl,
+    ocrApiKey,
+    llmApiKey,
+    embeddingApiKey,
+    // Asymmetric embedding models ask for the role of the text. Empty means
+    // the parameter is not sent (symmetric models reject it).
+    embeddingInputType: readString(env, 'IA_EMBEDDING_INPUT_TYPE', ''),
     localActivated: readBool(env, 'IA_LOCAL_ACTIVADA', true),
     cloudActivated,
     ocrModel: readString(env, 'IA_OCR_MODEL', 'glm-ocr'),

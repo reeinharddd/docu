@@ -24,6 +24,13 @@ export class ApiEmbeddingEngine implements EmbeddingEngine {
     private readonly client: OpenAiCompatClient,
     readonly model: string,
     private readonly dimensions: number = EMBEDDING_DIMENSIONS,
+    /**
+     * The role of the text for asymmetric models (`query` / `passage`). Empty
+     * (the default) means the parameter is not sent: symmetric models reject
+     * it. NVIDIA NIM asks for it, so an installation that points the embedding
+     * capability at NIM configures IA_EMBEDDING_INPUT_TYPE=query.
+     */
+    private readonly inputType: string = '',
   ) {}
 
   async embed(text: string, ctx: CallContext): Promise<EmbeddingOutput> {
@@ -34,7 +41,12 @@ export class ApiEmbeddingEngine implements EmbeddingEngine {
     // servers) honor it and truncate their native vector. Without it, Ollama
     // answers 1024 for qwen3-embedding:0.6b and the contract fails.
     const response = await this.client.embeddings(
-      { model: this.model, input: text, dimensions: this.dimensions },
+      {
+        model: this.model,
+        input: text,
+        dimensions: this.dimensions,
+        ...(this.inputType === '' ? {} : { input_type: this.inputType }),
+      },
       ctx.signal,
     )
     const vector = response.data[0]?.embedding
