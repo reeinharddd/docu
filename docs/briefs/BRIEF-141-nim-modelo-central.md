@@ -65,7 +65,6 @@ Tres cosas, todas medidas:
 ```bash
 # .env local (NO versionado)
 IA_API_BASE_URL=http://localhost:11434/v1     # default: la planta
-IA_API_KEY=
 IA_NUBE_ACTIVADA=true
 IA_LLM_API_BASE_URL=https://integrate.api.nvidia.com/v1
 IA_LLM_API_KEY=...        # la credencial de build.nvidia.com; nunca en el repo

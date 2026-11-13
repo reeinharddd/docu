@@ -93,7 +93,6 @@ repo) y el interruptor RNF-03.
 ```bash
 # .env local (NO versionado) — modelo central en la nube, el resto en la planta
 IA_API_BASE_URL=http://localhost:11434/v1
-IA_API_KEY=
 IA_NUBE_ACTIVADA=true
 IA_LLM_API_BASE_URL=https://integrate.api.nvidia.com/v1
 IA_LLM_API_KEY=...        # la credencial de build.nvidia.com; nunca en el repo
