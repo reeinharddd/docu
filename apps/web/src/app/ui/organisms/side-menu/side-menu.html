@@ -1,0 +1,90 @@
+<nav
+  class="flex-1 py-4"
+  [class.overflow-y-auto]="!compact()"
+  [class.px-3]="!compact()"
+  [class.px-2]="compact()"
+  [attr.aria-label]="label()"
+>
+  @for (group of groups(); track group.label; let first = $first) {
+    <div class="mb-5" [attr.data-group]="group.label">
+      @if (compact()) {
+        @if (!first) {
+          <hr class="mx-2 mb-4 border-line" />
+        }
+        <p class="sr-only">{{ group.label }}</p>
+      } @else {
+        <p class="mb-2 px-3 text-xs font-medium uppercase tracking-wide text-ink-3">
+          {{ group.label }}
+        </p>
+      }
+      <ul class="flex flex-col gap-1">
+        @for (item of group.items; track item.href) {
+          <li>
+            <a
+              [routerLink]="item.href"
+              routerLinkActive="bg-brand-soft !text-brand-text font-bold before:bg-brand-text"
+              ariaCurrentWhenActive="page"
+              class="group relative flex min-h-11 items-center gap-3 rounded-md font-medium text-ink-2 no-underline before:absolute before:inset-y-2 before:left-0 before:w-1 before:rounded-full before:content-[''] hover:bg-brand-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-ring"
+              [class.px-3]="!compact()"
+              [class.justify-center]="compact()"
+              [attr.data-nav]="item.href"
+              [attr.aria-label]="compact() ? item.label : null"
+              (click)="navigated.emit()"
+            >
+              <app-icon [name]="item.icon" />
+              @if (compact()) {
+                <span
+                  class="pointer-events-none absolute left-full z-30 ml-3 hidden whitespace-nowrap rounded-md bg-ink px-2.5 py-1 text-xs font-medium text-canvas shadow-md group-hover:block group-focus-visible:block"
+                  aria-hidden="true"
+                  data-test="tooltip"
+                >
+                  {{ item.label }}
+                </span>
+              } @else {
+                {{ item.label }}
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</nav>
+
+@if (user()) {
+  <div
+    class="flex items-center gap-3 border-t border-line py-3"
+    [class.px-4]="!compact()"
+    [class.flex-col]="compact()"
+    [class.px-2]="compact()"
+    data-test="session"
+  >
+    <span
+      class="flex size-9 shrink-0 items-center justify-center rounded-full bg-brand-soft font-bold uppercase text-brand-text"
+      [attr.title]="compact() ? user() + (department() ? ' · ' + department() : '') : null"
+      aria-hidden="true"
+    >
+      {{ user()?.charAt(0) }}
+    </span>
+    @if (!compact()) {
+      <div class="min-w-0 flex-1">
+        <p class="truncate font-medium capitalize text-ink">{{ user() }}</p>
+        @if (department()) {
+          <p class="truncate text-xs capitalize text-ink-3">{{ department() }}</p>
+        }
+      </div>
+    } @else {
+      <p class="sr-only">{{ user() }}{{ department() ? ', ' + department() : '' }}</p>
+    }
+    <button
+      type="button"
+      class="inline-flex size-11 items-center justify-center rounded-md text-ink-2 hover:bg-brand-soft hover:text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      aria-label="Salir"
+      title="Salir"
+      data-test="sign-out"
+      (click)="signOut.emit()"
+    >
+      <app-icon name="log-out" />
+    </button>
+  </div>
+}

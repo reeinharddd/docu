@@ -5,6 +5,8 @@
  * docs/diseno/CATEGORIAS.md (icons live with the UI atoms). When the backend serves family_config and
  * validation_rule, the labels move there and this stays as the type.
  */
+import type { Department } from './permissions'
+
 export type FamilyCode =
   | 'programa_planeacion'
   | 'recepcion_rollo'
@@ -99,4 +101,15 @@ export interface SourceRef {
   fileName: string
   documentId: string
   family: FamilyCode
+}
+
+/** Department labels (CATEGORIAS.md §4.1). */
+export const DEPARTMENT_LABELS: Record<Department, string> = {
+  planeacion: 'Planeación',
+  almacen: 'Almacén',
+  calidad: 'Calidad',
+  produccion: 'Producción',
+  materiales: 'Materiales',
+  mantenimiento: 'Mantenimiento',
+  corporativo: 'Corporativo',
 }
