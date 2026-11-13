@@ -61,6 +61,8 @@ variable y sus valores válidos.
   `data:` URI dentro de `image_url`, prompt de extracción en español y
   salida de texto/layout. GLM-OCR no devuelve confianza calibrada: la
   confianza que ordena la revisión la da Laya (§0), no el OCR.
+  **Hoy solo acepta imagen rasterizada**: un PDF crudo es rechazado por el
+  motor (§3.2, #136).
 - **LLM:** `chat/completions` con `temperature: 0`, `seed` y
   `response_format: { type: 'json_schema', ... }`. El JSON que vuelve se
   **valida con Zod** contra el esquema de la familia antes de tocar la base
@@ -79,6 +81,39 @@ variable y sus valores válidos.
 | Reintentos | 429/5xx/error de red se reintentan hasta `IA_MAX_RETRIES` con backoff exponencial y el mismo `AbortSignal` del presupuesto | La traza registra los intentos; un 4xx de contrato no se reintenta |
 | Caché | Clave `sha256(kind\|model\|entrada)`; misma entrada con mismo modelo sale de caché | Traza con `cached: true`; el spec lo prueba |
 | Trazabilidad | `CallTrace` por llamada: motor, modelo, hash de entrada, tokens, duración, caché, corte | El worker lo persiste en `ocr_result.engine`/`engine_version`, `memory_embedding.model`, `job_run` y `audit_log` |
+
+### 3.1 Límite conocido: el presupuesto es por llamada, no por documento
+
+El presupuesto de arriba acota **una llamada**. El runner estima los tokens del
+**archivo entero** (`ceil(bytes/4)`), así que un documento real lo rebota:
+
+| Documento | Tokens observados | Resultado con el default (4 000) |
+|---|---|---|
+| PDF de 2 páginas | 16 814 | `BudgetExceededError`, trabajo perdido |
+| PDF de 27 páginas | 942 189 | `BudgetExceededError`, trabajo perdido |
+
+El guardián funciona (el motivo queda escrito en `platform.job_run.error` y el
+job va a cuarentena), pero **un documento grande no se procesa**: se pierde
+trabajo que se podría hacer por partes.
+
+La corrección acordada está en
+[ADR-0024](../decisiones/ADR-0024-capacidad-de-ia-por-tarea-y-consumo-por-fragmentos.md)
+(Propuesta): **consumo por fragmentos** (el documento se trocea, cada fragmento
+tiene su presupuesto y los resultados se agregan) y **selección de modelo por
+tarea** (el modelo grande solo cuando la tarea lo exige). Las tareas son #136
+(fragmentos y rasterización) y #137 (ruteo, escalamiento y orquestación).
+
+Mientras tanto, **subir `IA_BUDGET_MAX_TOKENS` no arregla el problema**: mueve
+el umbral y el siguiente documento más grande vuelve a pasarlo.
+
+### 3.2 Límite conocido: el motor de visión no acepta PDF
+
+`VisionOcrEngine` arma el `data:` URI con el `mimeType` original y lo manda como
+`image_url`. Un motor de visión rechaza bytes de PDF con `HTTP 400 invalid
+image input`: hoy **ningún PDF pasa el OCR**, aunque la API lo acepte y lo
+registre bien. La rasterización PDF → imagen por página es parte de #136; el
+original intacto se conserva y la imagen rasterizada es trabajo, no original
+(ADR-0010).
 
 ## 4. Resultados esperados y cómo se miden
 
