@@ -32,6 +32,24 @@ const prismaBin = join(apiDir, 'node_modules', '.bin', 'prisma')
 
 loadEnv({ path: join(rootDir, '.env') })
 
+// The tests get their own logical Redis database (issue #154).
+//
+// The e2e consumes the queue `ingest`, the same queue the running stack uses.
+// A worker left up steals the test's jobs, the processor cannot find the file
+// (the scratch database was dropped and recreated in the meantime) and the
+// test fails for reasons that have nothing to do with it. On CI it does not
+// show up (ephemeral Redis per job); on a developer machine it breaks
+// `bun run verify` intermittently.
+//
+// Same server, different logical database: isolated without extra
+// infrastructure. `REDIS_TEST_DB_INDEX` overrides the index.
+const REDIS_TEST_DB_INDEX = process.env.REDIS_TEST_DB_INDEX ?? '15'
+{
+  const redis = new URL(process.env.REDIS_URL ?? 'redis://localhost:6379')
+  redis.pathname = `/${REDIS_TEST_DB_INDEX}`
+  process.env.REDIS_URL = redis.toString()
+}
+
 const SCRATCH_DB = 'docu_spec'
 
 export type PgConfig = {
