@@ -157,10 +157,13 @@ export function loadIaConfig(env: Env = process.env): IaConfig {
     cloudActivated,
     ocrModel: readString(env, 'IA_OCR_MODEL', 'glm-ocr'),
     llmModel: readString(env, 'IA_LLM_MODEL', 'llama3.2'),
+    // The tag separator is a colon: Ollama registers the model as
+    // 'qwen3-embedding:0.6b'. A hyphen here makes the provider answer
+    // HTTP 404 "model not found" (ADR-0020, IA.md §6).
     embeddingModel: readString(
       env,
       'IA_EMBEDDING_MODEL',
-      'qwen3-embedding-0.6b',
+      'qwen3-embedding:0.6b',
     ),
     scoringUrl: scoringUrl.replace(/\/$/, ''),
     scoringAutoThreshold,

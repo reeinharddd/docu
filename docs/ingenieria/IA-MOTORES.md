@@ -37,7 +37,7 @@ tenga, sin tocar una línea de código.
 | `IA_API_KEY` | (vacía; Ollama local no pide) | Credencial del proveedor; jamás en el repo |
 | `IA_OCR_MODEL` | `glm-ocr` | Modelo de visión para OCR/KIE |
 | `IA_LLM_MODEL` | `llama3.2` | Modelo de texto para clasificación y consulta |
-| `IA_EMBEDDING_MODEL` | `qwen3-embedding:0.6b` | Modelo de embeddings (salida a 768); tag del registro de Ollama |
+| `IA_EMBEDDING_MODEL` | `qwen3-embedding:0.6b` | Modelo de embeddings (salida a 768); tag del registro de Ollama. **El nombre depende del proveedor** (§1.1) |
 | `IA_SCORING_URL` | `http://localhost:8000/v1/systemone` | Endpoint del motor de scoring (contrato SystemOne); mismo wire, otro motor. Mismas reglas de localidad que `IA_API_BASE_URL` (RNF-03) |
 | `IA_SCORING_AUTO_THRESHOLD` / `IA_SCORING_REVIEW_THRESHOLD` | `0.90` / `0.60` | Umbrales de la cascada de decisión (IA.md §3); valores iniciales, se afinan contra el dataset (#61). Exige `review ≤ auto` |
 | `IA_SEED` | `42` | Seed fija para corridas reproducibles (RNF-07) |
@@ -55,6 +55,54 @@ con error accionable. La nube es excepción autorizada, no default. Una clave
 inválida o un número malformado también falla al arrancar nombrando la
 variable y sus valores válidos.
 
+### 1.1 NVIDIA NIM como proveedor de pruebas
+
+NIM es **una instancia más del mismo endpoint compatible OpenAI**: no hay
+código de NIM en el repo. Solo cambian cuatro datos del `.env` local (que
+nunca va al repo) y el interruptor RNF-03.
+
+```bash
+# .env local (NO versionado)
+IA_API_BASE_URL=https://integrate.api.nvidia.com/v1
+IA_API_KEY=<clave personal de build.nvidia.com>
+IA_NUBE_ACTIVADA=true
+IA_OCR_MODEL=nvidia/nemotron-nano-12b-v2-vl
+IA_LLM_MODEL=meta/llama-3.3-70b-instruct
+IA_EMBEDDING_MODEL=nvidia/llama-3.2-nv-embedqa-1b-v2
+```
+
+Procedimiento de verificación:
+
+```bash
+# 1. La credencial responde y lista los modelos servidos
+curl -s -H "Authorization: Bearer $IA_API_KEY" \
+  https://integrate.api.nvidia.com/v1/models | jq '.data[].id'
+
+# 2. La batería live del módulo corre contra ese endpoint
+cd apps/api && IA_LIVE_TEST=1 bun test src/ia/ia.spec.ts
+```
+
+**Los modelos no son intercambiables entre proveedores.** El mismo
+`IA_EMBEDDING_MODEL` que vale en Ollama no vale en NIM, y hay dos trampas
+documentadas por NVIDIA que conviene conocer antes de atribuir un fallo al
+código:
+
+| Trampa | Qué hace | Qué hacer |
+|---|---|---|
+| La dimensión pedida puede no estar soportada | `nvidia/nemotron-3-embed-1b` solo acepta su dimensión nativa (2048): pedir 768 responde `HTTP 400 dimensions must be one of 2048` | Usar un modelo MRL que sí acepte 768: `nvidia/llama-3.2-nv-embedqa-1b-v2` (384/512/768/1024/2048) o `nvidia/llama-nemotron-embed-vl-1b-v2` (768 entre sus valores fijos) |
+| Algunos modelos exigen `input_type` | NV-Embed-QA y E5 differentiate `query` y `passage`; sin el campo, la calidad de retrieval se desploma | El sufijo en el nombre lo resuelve sin tocar el cliente: `nvidia/llama-3.2-nv-embedqa-1b-v2-query` / `-passage` |
+
+Con el resto de los proveedores la superficie es la misma: `response_format:
+json_schema` para el LLM, `image_url` con `data:` URI para visión, y
+`dimensions` para embeddings. Lo que **no** cambia con el proveedor es el
+contrato: 768 dimensiones exactas o el vector no entra (IA.md §6).
+
+NIM es además la **fuente de fallback y delegación** acordada: cuando el
+motor local no está disponible o la confianza calibrada no alcanza, el
+ruteo por capacidad de [ADR-0024](../decisiones/ADR-0024-capacidad-de-ia-por-tarea-y-consumo-por-fragmentos.md)
+puede escalar a este proveedor. Ese ruteo es plataforma de ejecución y vive
+en la épica #142, **fuera de la entrega del 15 de noviembre**.
+
 ## 2. Cómo llama cada capacidad
 
 - **OCR (visión):** `chat/completions` con el archivo codificado en
@@ -68,10 +116,19 @@ variable y sus valores válidos.
   **valida con Zod** contra el esquema de la familia antes de tocar la base
   (IA.md §2); si falla, cuarentena con motivo, igual que un documento
   inválido.
-- **Embeddings:** `embeddings` con el texto; si el vector no mide **768**, es
-  un `ContractViolationError` con el remedio (modelo compatible MRL a 768:
-  Qwen3-Embedding-0.6B o EmbeddingGemma). Cambiar la dimensión después de
-  producción exige migrar vectores: prohibido sin ADR nuevo.
+- **Embeddings:** `embeddings` con el texto y `dimensions: 768` — el contrato del
+  ER (vector(768), IA.md §6) viaja en la petición, no se negocia después. Los
+  motores con vectores Matryoshka (Ollama con Qwen3-Embedding, NIM con
+  `llama-3.2-nv-embedqa-1b-v2`) recortan a la dimensión pedida; si el vector
+  vuelve con otra medida es un `ContractViolationError` con el remedio (modelo
+  compatible MRL a 768: Qwen3-Embedding-0.6B o EmbeddingGemma). Cambiar la
+  dimensión después de producción exige migrar vectores: prohibido sin ADR
+  nuevo.
+  - **El tag del modelo va con dos puntos.** `qwen3-embedding:0.6b` es el
+    nombre registrado en Ollama; `qwen3-embedding-0.6b` no existe y el
+    proveedor responde `HTTP 404 model not found`. El default del código y el
+    `.env.example` usan la forma correcta; si se cambia el valor, se copia tal
+    cual de `/v1/models` del endpoint configurado.
 
 ## 3. Presupuesto, reintentos, caché y trazabilidad
 

@@ -29,8 +29,12 @@ export class ApiEmbeddingEngine implements EmbeddingEngine {
   async embed(text: string, ctx: CallContext): Promise<EmbeddingOutput> {
     ctx.assertBudget(estimateTokens(text))
 
+    // The request asks for the contracted dimension: providers with
+    // Matryoshka vectors (Ollama with Qwen3-Embedding, OpenAI-compatible
+    // servers) honor it and truncate their native vector. Without it, Ollama
+    // answers 1024 for qwen3-embedding:0.6b and the contract fails.
     const response = await this.client.embeddings(
-      { model: this.model, input: text },
+      { model: this.model, input: text, dimensions: this.dimensions },
       ctx.signal,
     )
     const vector = response.data[0]?.embedding
@@ -42,8 +46,8 @@ export class ApiEmbeddingEngine implements EmbeddingEngine {
     }
     if (vector.length !== this.dimensions) {
       throw new ContractViolationError(
-        `Embedding dimension contract violated: model '${this.model}' returned ${vector.length} dimensions, the ER v1 requires ${this.dimensions} (vector(768), IA.md §6). ` +
-          'Point IA_EMBEDDING_MODEL to an MRL-capable model at 768 (qwen3-embedding-0.6b, embeddinggemma). ' +
+        `Embedding dimension contract violated: model '${this.model}' returned ${vector.length} dimensions, the ER v1 requires ${this.dimensions} (vector(768), IA.md §6). The request already asked for ${this.dimensions} dimensions (the provider may ignore the 'dimensions' parameter). ` +
+          'Point IA_EMBEDDING_MODEL to a model that honors 768 (qwen3-embedding:0.6b with MRL, embeddinggemma). ' +
           'Changing the stored dimension after production requires migrating vectors and a new ADR.',
       )
     }
