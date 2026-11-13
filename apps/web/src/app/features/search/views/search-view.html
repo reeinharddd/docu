@@ -1,1 +1,217 @@
-<app-page-header title="Búsqueda" lead="Consulta con trazabilidad: cada cifra cita su fuente." />
+<app-page-header
+  title="Búsqueda"
+  lead="Busca un rollo, una orden, una máquina o un documento. Cada cifra dice de qué archivo y regla salió, y quién la confirmó."
+/>
+
+<form
+  class="mb-6 grid grid-cols-1 gap-3 rounded-lg border border-line bg-surface p-4 sm:grid-cols-[1fr_auto_auto_auto] sm:items-end"
+  role="search"
+  data-test="search-form"
+  (submit)="search($event)"
+>
+  <label class="flex flex-col gap-1 text-xs font-medium text-ink-2">
+    Buscar
+    <input
+      name="q"
+      type="search"
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 font-mono text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      placeholder="R-017, ORD-2026-0042, TP-01…"
+      autocomplete="off"
+      data-test="q"
+      [value]="filters().q"
+    />
+  </label>
+  <label class="flex flex-col gap-1 text-xs font-medium text-ink-2">
+    Área
+    <select
+      name="area"
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      data-test="area"
+    >
+      <option value="">Todas</option>
+      @for (a of areas; track a.value) {
+        <option [value]="a.value" [selected]="filters().area === a.value">{{ a.label }}</option>
+      }
+    </select>
+  </label>
+  <label class="flex flex-col gap-1 text-xs font-medium text-ink-2">
+    Desde
+    <input
+      name="from"
+      type="date"
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      data-test="from"
+      [value]="filters().from"
+    />
+  </label>
+  <app-button type="submit" data-test="submit">
+    <app-icon name="search" />
+    Buscar
+  </app-button>
+</form>
+
+@if (results().status === 'idle') {
+  <div class="flex flex-col items-center gap-2 rounded-lg border border-dashed border-line bg-surface px-6 py-12 text-center" data-test="idle">
+    <app-icon name="search" [size]="24" class="text-brand-text" />
+    <p class="font-medium text-ink">Busca un rollo, una orden o una máquina</p>
+    <p class="text-xs text-ink-3">Por ejemplo <span class="font-mono">R-017</span>: verás de dónde salió cada dato y qué órdenes cuelgan de él.</p>
+    <a class="mt-2 font-medium text-link underline underline-offset-2 hover:no-underline" routerLink="/reports">Ver el reporte del día</a>
+  </div>
+} @else {
+  @let found = resultsState();
+  <app-state-view
+    [state]="found"
+    emptyTitle="No encontramos nada con esa búsqueda."
+    emptyHint="Revisa el identificador (p. ej. R-017) o quita filtros de área y fecha."
+    (retry)="retry()"
+  >
+    @if (found.status === 'ready') {
+      <p class="mb-3 text-xs text-ink-2" role="status" data-test="count">
+        {{ found.data.length }} {{ found.data.length === 1 ? 'resultado' : 'resultados' }}
+      </p>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <ul class="flex flex-col gap-3" aria-label="Resultados">
+          @for (r of found.data; track r.id) {
+            <li>
+              <article
+                class="rounded-lg border bg-surface p-4 shadow-sm"
+                [class.border-line]="selectedId() !== r.id"
+                [class.border-brand-text]="selectedId() === r.id"
+                [attr.data-test]="'record-' + r.id"
+                [attr.aria-current]="selectedId() === r.id ? 'true' : null"
+              >
+                <div class="flex flex-wrap items-center gap-2">
+                  @switch (r.status) {
+                    @case ('official') {
+                      <app-status-badge kind="official">Oficial · {{ r.confirmation?.by }}</app-status-badge>
+                    }
+                    @case ('pending') {
+                      <app-status-badge kind="pending">Pendiente</app-status-badge>
+                    }
+                    @default {
+                      <app-status-badge kind="quarantine">Cuarentena</app-status-badge>
+                    }
+                  }
+                  <span class="ml-auto text-xs text-ink-3">{{ r.date | docuDate }}</span>
+                </div>
+                <h2 class="mt-2 font-medium text-ink">{{ r.label }}</h2>
+                <p class="mt-1 font-mono text-2xl font-medium text-brand-text tabular-nums" data-test="value">
+                  {{ r.value }} @if (r.unit) {<span class="text-base text-ink-2">{{ r.unit }}</span>}
+                </p>
+
+                <dl class="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 rounded-md bg-canvas p-3 text-xs" data-test="citation">
+                  <dt class="font-medium text-ink-2">Archivo</dt>
+                  <dd class="flex flex-wrap items-center gap-2">
+                    <app-family-tag [family]="r.source.family" />
+                    <span class="break-all font-mono text-ink">{{ r.source.fileName }}</span>
+                    <span class="text-ink-3">({{ r.source.documentId }})</span>
+                  </dd>
+                  <dt class="font-medium text-ink-2">Regla</dt>
+                  <dd>
+                    @if (r.ruleCode) {
+                      <app-rule-tag [code]="r.ruleCode" />
+                    } @else {
+                      <span class="text-ink-2">Sin bloqueos</span>
+                    }
+                  </dd>
+                  <dt class="font-medium text-ink-2">Cálculo</dt>
+                  <dd class="text-ink">{{ r.calculation }}</dd>
+                  <dt class="font-medium text-ink-2">Confirmó</dt>
+                  <dd class="text-ink" data-test="confirmed">
+                    @if (r.confirmation) {
+                      {{ r.confirmation.by }} · {{ r.confirmation.at | docuDate }}
+                    } @else {
+                      <span class="text-pending">Nadie todavía: no es dato oficial</span>
+                    }
+                  </dd>
+                </dl>
+
+                <div class="mt-3 flex flex-wrap justify-end gap-2">
+                  @if (r.status !== 'official') {
+                    <a
+                      class="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-medium text-link no-underline hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+                      routerLink="/inbox"
+                      [queryParams]="r.ruleCode ? { rule: r.ruleCode } : {}"
+                      data-test="to-inbox"
+                    >
+                      Ir a la bandeja
+                    </a>
+                  }
+                  <app-button
+                    variant="secondary"
+                    data-test="trace"
+                    [disabled]="selectedId() === r.id"
+                    (click)="select(r.id)"
+                  >
+                    Ver trazabilidad
+                  </app-button>
+                </div>
+              </article>
+            </li>
+          }
+        </ul>
+
+        <section aria-labelledby="lineage-heading" class="lg:sticky lg:top-4 lg:self-start" data-test="lineage">
+          <h2 id="lineage-heading" class="mb-3 font-display text-lg font-bold text-ink">Trazabilidad</h2>
+          @let trace = lineage();
+          <app-state-view [state]="trace" emptyTitle="Sin trazabilidad para este dato." emptyHint="" (retry)="select(selectedId())">
+            @if (trace.status === 'ready') {
+              <ol class="flex flex-col" aria-label="Cadena del dato">
+                @for (node of trace.data.chain; track node.type + $index; let last = $last) {
+                  <li class="relative flex gap-3 pb-4" [attr.data-node]="node.type">
+                    <span class="flex flex-col items-center" aria-hidden="true">
+                      <span class="mt-1 size-3 rounded-full bg-brand-text"></span>
+                      @if (!last) {
+                        <span class="mt-1 w-0.5 flex-1 bg-line"></span>
+                      }
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <p class="text-xs font-medium uppercase tracking-wide text-ink-3">{{ node.label }}</p>
+                      <ul class="mt-1 flex flex-col gap-1">
+                        @for (item of node.items; track item.id) {
+                          <li class="flex flex-wrap items-center gap-2">
+                            @if (node.type === 'shift') {
+                              <span class="font-mono font-medium text-ink">{{ item.id }}</span>
+                            } @else {
+                              <a class="font-mono font-medium text-link underline underline-offset-2 hover:no-underline" routerLink="/search" [queryParams]="{ q: item.id }">{{ item.id }}</a>
+                            }
+                            @if (item.detail) {
+                              <span class="text-xs text-ink-2">{{ item.detail }}</span>
+                            }
+                            @if (item.status === 'quarantine') {
+                              <app-status-badge kind="quarantine">Cuarentena</app-status-badge>
+                            } @else if (item.status === 'pending') {
+                              <app-status-badge kind="pending">Pendiente</app-status-badge>
+                            }
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  </li>
+                }
+              </ol>
+
+              <h3 class="mb-2 mt-2 font-medium text-ink">Historial de origen</h3>
+              <ol class="flex flex-col gap-2 rounded-lg border border-line bg-surface p-3 text-xs" data-test="history">
+                @for (event of trace.data.history; track event.at + event.action) {
+                  <li class="flex flex-col gap-0.5 border-b border-line pb-2 last:border-0 last:pb-0">
+                    <span class="text-ink">{{ event.action }}</span>
+                    <span class="text-ink-3">
+                      {{ event.at | docuDate }} · {{ event.by }} ·
+                      <span class="font-mono">{{ event.fileName }}</span>
+                      @if (event.ruleCode) { · <span class="font-mono">{{ event.ruleCode }}</span> }
+                    </span>
+                  </li>
+                }
+              </ol>
+            }
+          </app-state-view>
+          <a class="mt-4 inline-flex min-h-11 items-center gap-2 font-medium text-link underline underline-offset-2 hover:no-underline" routerLink="/reports" data-test="to-report">
+            Ver reporte del día
+            <app-icon name="arrow-right" [size]="16" />
+          </a>
+        </section>
+      </div>
+    }
+  </app-state-view>
+}

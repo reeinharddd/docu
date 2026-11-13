@@ -1,28 +1,63 @@
-<header
-  class="flex items-center justify-between gap-6 border-b border-line bg-surface px-6 py-4"
->
-  <a
-    routerLink="/capture"
-    class="font-logo text-xl font-bold tracking-tight text-brand-text no-underline"
-    aria-label="docu, inicio"
-    data-test="wordmark"
-  >
-    doc<span class="text-accent-600" data-test="wordmark-accent">u</span>
-  </a>
-  <nav class="flex gap-2" aria-label="Navegación principal">
-    @for (item of nav(); track item.href) {
-      <a
-        [routerLink]="item.href"
-        routerLinkActive="bg-brand-soft text-brand-text"
-        class="inline-flex items-center rounded-md px-3.5 py-2 font-medium text-ink-2 no-underline hover:bg-brand-soft"
+<header class="border-b border-line bg-surface">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <a
+      routerLink="/capture"
+      class="font-logo text-xl font-bold tracking-tight text-brand-text no-underline"
+      aria-label="docu, inicio"
+      data-test="wordmark"
+    >
+      doc<span class="text-accent-600" data-test="wordmark-accent">u</span>
+    </a>
+
+    @if (nav().length > 0) {
+      <button
+        type="button"
+        class="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-medium text-brand-text hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring lg:hidden"
+        aria-controls="main-nav"
+        [attr.aria-expanded]="menuOpen()"
+        data-test="menu-toggle"
+        (click)="toggleMenu()"
       >
-        {{ item.label }}
-      </a>
+        Menú
+      </button>
     }
-  </nav>
+
+    <nav
+      id="main-nav"
+      class="hidden gap-1 lg:flex"
+      aria-label="Navegación principal"
+    >
+      @for (item of nav(); track item.href) {
+        <a
+          [routerLink]="item.href"
+          routerLinkActive="bg-brand-soft text-brand-text"
+          ariaCurrentWhenActive="page"
+          class="inline-flex min-h-11 items-center rounded-md px-3.5 font-medium text-ink-2 no-underline hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  </div>
+
+  @if (menuOpen()) {
+    <nav class="flex flex-col gap-1 border-t border-line px-4 py-2 lg:hidden" aria-label="Navegación principal (celular)" data-test="mobile-nav">
+      @for (item of nav(); track item.href) {
+        <a
+          [routerLink]="item.href"
+          routerLinkActive="bg-brand-soft text-brand-text"
+          ariaCurrentWhenActive="page"
+          class="inline-flex min-h-11 items-center rounded-md px-3.5 font-medium text-ink-2 no-underline hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring"
+          (click)="closeMenu()"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+  }
 </header>
 
-<main class="mx-auto w-full max-w-5xl flex-1 px-6 py-6">
+<main class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6">
   <router-outlet />
 </main>
 

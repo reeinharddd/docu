@@ -18,6 +18,10 @@ describe('Case routes', () => {
     ['/inbox', 'Bandeja'],
     ['/schedule', 'Programa'],
     ['/search', 'Búsqueda'],
+    ['/reports', 'Reporte del día'],
+    ['/agent', 'Agente'],
+    ['/apis', 'APIs'],
+    ['/admin', 'Administración'],
   ]
 
   for (const [ruta, titulo] of casos) {
@@ -35,6 +39,10 @@ describe('Case routes', () => {
       'inbox',
       'schedule',
       'search',
+      'reports',
+      'agent',
+      'apis',
+      'admin',
       'login',
       'forbidden',
     ]

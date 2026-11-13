@@ -1,1 +1,173 @@
-<app-page-header title="Captura" lead="Sube o arrastra un documento; el original queda intacto y con su huella." />
+<app-page-header
+  title="Captura"
+  lead="Sube o arrastra un documento; el original queda intacto y con su huella."
+/>
+
+<div class="mb-4 flex flex-wrap items-end gap-3">
+  <label class="flex min-w-56 flex-1 flex-col gap-1 text-xs font-medium text-ink-2 sm:flex-none">
+    Familia (opcional)
+    <select
+      class="min-h-11 rounded-md border border-line-input bg-surface px-3 text-base text-ink focus-visible:outline-2 focus-visible:outline-ring"
+      data-test="declared-family"
+      (change)="onFamilyChange($any($event.target).value)"
+    >
+      <option value="">Detectar automáticamente</option>
+      @for (family of families; track family) {
+        <option [value]="family">{{ familyLabels[family] }}</option>
+      }
+    </select>
+  </label>
+  <p class="text-xs text-ink-3 sm:mb-3">
+    Si no la eliges, DOCU la detecta y una persona la confirma cuando hay duda.
+  </p>
+</div>
+
+<label
+  class="flex cursor-pointer flex-col items-center gap-3 rounded-lg border-2 border-dashed px-6 py-10 text-center transition-colors focus-within:outline-2 focus-within:outline-ring"
+  [class.border-line]="!dragging()"
+  [class.bg-surface]="!dragging()"
+  [class.border-brand-text]="dragging()"
+  [class.bg-brand-soft]="dragging()"
+  data-test="dropzone"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)"
+>
+  <span class="flex size-12 items-center justify-center rounded-full bg-brand-soft text-brand-text">
+    <app-icon name="upload" [size]="24" />
+  </span>
+  <span class="font-medium text-ink">
+    <span class="hidden sm:inline">Arrastra aquí tu Excel, PDF, correo o escaneo</span>
+    <span class="sm:hidden">Toca para elegir tu Excel, PDF, correo o foto</span>
+  </span>
+  <span class="text-xs text-ink-3">.xlsx · .csv · .pdf · .eml · .jpg · .png — hasta 25 MB</span>
+  <span
+    class="inline-flex min-h-11 items-center rounded-md bg-action px-4 font-medium text-on-brand"
+    aria-hidden="true"
+  >
+    Elegir archivo
+  </span>
+  <input
+    type="file"
+    multiple
+    class="sr-only"
+    data-test="file-input"
+    [attr.accept]="accept"
+    aria-label="Elegir archivo para subir"
+    (change)="onPick($event)"
+  />
+</label>
+
+<p class="mt-3 text-center text-xs text-ink-3">
+  ¿Sin archivos a mano?
+  <button
+    type="button"
+    class="font-medium text-link underline underline-offset-2 hover:no-underline focus-visible:outline-2 focus-visible:outline-ring"
+    data-test="use-samples"
+    (click)="useSamples()"
+  >
+    Prueba con los documentos del caso
+  </button>
+  (demo).
+</p>
+
+<section class="mt-8" aria-labelledby="uploads-heading">
+  <h2 id="uploads-heading" class="mb-3 font-display text-lg font-bold text-ink">
+    Subido en esta sesión
+  </h2>
+
+  @if (uploads().length === 0) {
+    <p class="rounded-lg border border-dashed border-line bg-surface px-6 py-8 text-center text-ink-2" data-test="no-uploads">
+      Aún no subes nada. Lo que subas aparece aquí con su familia, su huella y el resultado de la validación.
+    </p>
+  } @else {
+    <ul class="flex flex-col gap-3" aria-live="polite">
+      @for (u of uploads(); track u.localId) {
+        <li
+          class="rounded-lg border border-line bg-surface p-4 shadow-sm"
+          [attr.data-test]="'upload-' + u.localId"
+          [attr.data-phase]="u.phase"
+        >
+          <div class="flex flex-wrap items-center gap-2">
+            <app-icon name="file-text" class="text-ink-3" />
+            <span class="break-all font-mono font-medium text-ink">{{ u.fileName }}</span>
+            <span class="text-xs text-ink-3">{{ sizeLabel(u.size) }}</span>
+          </div>
+
+          @if (u.phase === 'failed') {
+            <p class="mt-3 flex items-start gap-2 rounded-md bg-quarantine-bg p-3 text-quarantine" role="alert" data-test="upload-error">
+              <app-icon name="circle-x" />
+              <span>{{ u.error }}</span>
+            </p>
+          } @else if (u.phase === 'uploading') {
+            <p class="mt-3 flex items-center gap-2 text-ink-2" role="status">
+              <span class="size-4 animate-spin rounded-full border-2 border-line border-t-brand-text" aria-hidden="true"></span>
+              Subiendo y guardando el original…
+            </p>
+          } @else {
+            <p class="mt-2 text-xs text-ink-3">
+              Huella SHA-256:
+              <span class="font-mono" [attr.title]="u.sha256">{{ shortHash(u.sha256) }}</span>
+              · El original quedó guardado tal cual.
+            </p>
+            <div class="mt-3">
+              <app-state-view [state]="u.validation" emptyTitle="Sin resultado de validación." emptyHint="">
+                @if (u.validation.status === 'ready') {
+                  @let v = u.validation.data;
+                  <div class="flex flex-col gap-3" data-test="validation" [attr.data-decision]="v.decision">
+                    <div class="flex flex-wrap items-center gap-2">
+                      @switch (v.decision) {
+                        @case ('valid') {
+                          <app-status-badge kind="official">Pasó la validación</app-status-badge>
+                        }
+                        @case ('quarantine') {
+                          <app-status-badge kind="quarantine">Detenido</app-status-badge>
+                        }
+                        @default {
+                          <app-status-badge kind="pending">Necesita revisión</app-status-badge>
+                        }
+                      }
+                      <app-family-tag [family]="v.family" />
+                      @if (v.familySource === 'ai') {
+                        <app-status-badge kind="ai">Sugerido por IA</app-status-badge>
+                      }
+                    </div>
+                    <p class="text-ink">{{ v.summary }}</p>
+                    @if (v.rules.length > 0) {
+                      <ul class="flex flex-col gap-2" aria-label="Reglas aplicadas">
+                        @for (r of v.rules; track r.code) {
+                          <li class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+                            @if (r.passed) {
+                              <span class="inline-flex items-center gap-1 text-xs font-medium text-official">
+                                <app-icon name="check" [size]="16" />
+                                Cumple · <span class="font-mono">{{ r.code }}</span>
+                              </span>
+                            } @else {
+                              <app-rule-tag [code]="r.code" />
+                            }
+                            <span class="text-xs text-ink-2">{{ r.message }}</span>
+                          </li>
+                        }
+                      </ul>
+                    }
+                    <div class="flex flex-wrap justify-end gap-2">
+                      @if (v.decision === 'valid') {
+                        <a appButtonLink routerLink="/search" [queryParams]="{ q: v.searchKey }" data-test="to-search">
+                          Ver dato
+                        </a>
+                      } @else {
+                        <a appButtonLink routerLink="/inbox" data-test="to-inbox">
+                          Ver en bandeja
+                        </a>
+                      }
+                    </div>
+                  </div>
+                }
+              </app-state-view>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>

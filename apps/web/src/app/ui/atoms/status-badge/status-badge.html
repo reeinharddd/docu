@@ -1,5 +1,5 @@
 <span
-  class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+  class="inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium"
   [attr.data-kind]="kind()"
   [class.bg-official-bg]="kind() === 'official'"
   [class.text-official]="kind() === 'official'"
@@ -13,5 +13,6 @@
   [class.border-dashed]="kind() === 'ai'"
   [class.border-ai-border]="kind() === 'ai'"
 >
+  <app-icon [name]="iconName()" [size]="16" />
   <ng-content />
 </span>

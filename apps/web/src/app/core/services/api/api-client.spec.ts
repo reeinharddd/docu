@@ -90,4 +90,42 @@ describe('ApiClient', () => {
       },
     ])
   })
+
+  it('post sends the body to /v1 and returns the response', () => {
+    let result: unknown
+    client
+      .post<{ id: string }>('/inbox/abc/confirm')
+      .subscribe((r) => (result = r))
+    const req = http.expectOne('/v1/inbox/abc/confirm')
+    expect(req.request.method).toBe('POST')
+    req.flush({ id: 'abc' })
+    expect(result).toEqual({ id: 'abc' })
+  })
+
+  it('post passes a backend ApiError through', () => {
+    let failure: unknown
+    client.post('/inbox/abc/confirm').subscribe({ error: (e) => (failure = e) })
+    http
+      .expectOne('/v1/inbox/abc/confirm')
+      .flush(
+        { code: 'FORBIDDEN', message: 'Solo Calidad libera.' },
+        { status: 403, statusText: 'Forbidden' },
+      )
+    expect(failure).toEqual({
+      code: 'FORBIDDEN',
+      message: 'Solo Calidad libera.',
+    })
+  })
+
+  it('post turns an unknown failure into a generic action error', () => {
+    let failure: unknown
+    client.post('/files', {}).subscribe({ error: (e) => (failure = e) })
+    http
+      .expectOne('/v1/files')
+      .flush('boom', { status: 500, statusText: 'Server Error' })
+    expect(failure).toEqual({
+      code: 'INTERNAL',
+      message: expect.stringContaining('No se pudo completar'),
+    })
+  })
 })

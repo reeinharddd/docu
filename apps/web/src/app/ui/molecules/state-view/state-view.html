@@ -17,10 +17,11 @@
     data-test="empty"
     role="status"
   >
-    <p>Sin registros por ahora.</p>
-    <p class="text-xs text-ink-3">
-      Cuando haya datos confirmados, aparecen aquí.
-    </p>
+    <p class="font-medium text-ink" data-test="empty-title">{{ emptyTitle() }}</p>
+    @if (emptyHint()) {
+      <p class="text-xs text-ink-3">{{ emptyHint() }}</p>
+    }
+    <div class="mt-2"><ng-content select="[stateEmptyAction]" /></div>
   </div>
 } @else if (state().status === 'error') {
   <div

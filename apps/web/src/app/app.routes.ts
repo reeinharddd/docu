@@ -47,5 +47,29 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/search/search.routes').then((m) => m.searchRoutes),
   },
+  {
+    path: 'reports',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/reports/reports.routes').then((m) => m.reportsRoutes),
+  },
+  {
+    path: 'agent',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/agent/agent.routes').then((m) => m.agentRoutes),
+  },
+  {
+    path: 'apis',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/apis/apis.routes').then((m) => m.apisRoutes),
+  },
+  {
+    path: 'admin',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/admin/admin.routes').then((m) => m.adminRoutes),
+  },
   { path: '**', redirectTo: 'capture' },
 ]

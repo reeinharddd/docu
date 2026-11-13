@@ -4,7 +4,12 @@ import {
   signal,
 } from '@angular/core'
 import { TestBed } from '@angular/core/testing'
-import { Button, type ButtonSize, type ButtonVariant } from './button'
+import {
+  Button,
+  ButtonLink,
+  type ButtonSize,
+  type ButtonVariant,
+} from './button'
 
 @Component({
   selector: 'app-host',
@@ -100,5 +105,27 @@ describe('Button (atomic UI component)', () => {
     host.ariaLabel.set('Cerrar aviso')
     fixture.detectChanges()
     expect(nativeButton().getAttribute('aria-label')).toBe('Cerrar aviso')
+  })
+})
+
+@Component({
+  selector: 'app-link-host',
+  imports: [ButtonLink],
+  template: `<a appButtonLink variant="primary" href="/inbox">Ir</a>`,
+})
+class LinkHost {}
+
+describe('ButtonLink (the button look on a navigation link)', () => {
+  it('keeps the native link and takes the variant styles', async () => {
+    await TestBed.configureTestingModule({
+      imports: [LinkHost],
+      providers: [provideZonelessChangeDetection()],
+    }).compileComponents()
+    const fixture = TestBed.createComponent(LinkHost)
+    fixture.detectChanges()
+    const link = (fixture.nativeElement as HTMLElement).querySelector('a')
+    expect(link?.getAttribute('href')).toBe('/inbox')
+    expect(link?.getAttribute('data-variant')).toBe('primary')
+    expect(link?.className).toContain('min-h-11')
   })
 })

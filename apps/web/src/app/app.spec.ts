@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing'
 import { provideRouter } from '@angular/router'
 import { App } from './app'
 import { routes } from './app.routes'
+import { AuthService } from './core/services/auth/auth.service'
 
 describe('App (plataforma shell)', () => {
   beforeEach(async () => {
@@ -26,13 +27,43 @@ describe('App (plataforma shell)', () => {
     expect(el.querySelector('[data-test="wordmark-accent"]')).toBeTruthy()
   })
 
-  it('navigates with the 4 case routes', async () => {
+  it('navigates with the case screens the session can open', async () => {
+    TestBed.inject(AuthService).signInDemo()
     const fixture = TestBed.createComponent(App)
     await fixture.whenStable()
     const el = fixture.nativeElement as HTMLElement
-    const links = Array.from(el.querySelectorAll('nav a'))
+    const links = Array.from(el.querySelectorAll('#main-nav a'))
     const rutas = links.map((a) => a.getAttribute('href'))
-    expect(rutas).toEqual(['/capture', '/inbox', '/schedule', '/search'])
+    expect(rutas).toEqual([
+      '/capture',
+      '/inbox',
+      '/schedule',
+      '/search',
+      '/reports',
+      '/agent',
+      '/apis',
+      '/admin',
+    ])
+  })
+
+  it('hides the screens a role cannot open', async () => {
+    TestBed.inject(AuthService).setSessionWithout('reports.view')
+    const fixture = TestBed.createComponent(App)
+    await fixture.whenStable()
+    const el = fixture.nativeElement as HTMLElement
+    const rutas = Array.from(el.querySelectorAll('#main-nav a')).map((a) =>
+      a.getAttribute('href'),
+    )
+    expect(rutas).not.toContain('/reports')
+  })
+
+  it('shows no navigation without a session', async () => {
+    TestBed.inject(AuthService).signOut()
+    const fixture = TestBed.createComponent(App)
+    await fixture.whenStable()
+    const el = fixture.nativeElement as HTMLElement
+    expect(el.querySelectorAll('#main-nav a').length).toBe(0)
+    expect(el.querySelector('[data-test="menu-toggle"]')).toBeNull()
   })
 
   it('points the wordmark to the capture route', async () => {

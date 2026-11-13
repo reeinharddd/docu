@@ -1,1 +1,129 @@
-<app-page-header title="Programa" lead="El programa de producción con sus bloqueos vivos." />
+<app-page-header
+  title="Programa"
+  lead="Qué entra a cada máquina y turno, y qué lo bloquea hoy. Cada bloqueo lleva su regla."
+/>
+
+<div class="mb-4 flex flex-wrap items-center gap-2">
+  <app-button variant="ghost" ariaLabel="Semana anterior" data-test="prev-week" (click)="shiftWeek(-7)">
+    ‹ Anterior
+  </app-button>
+  <p class="min-w-40 text-center font-medium text-ink" data-test="week-label">
+    Semana del {{ week() | docuDate: 'date' }}
+  </p>
+  <app-button variant="ghost" ariaLabel="Semana siguiente" data-test="next-week" (click)="shiftWeek(7)">
+    Siguiente ›
+  </app-button>
+  <app-button class="ml-auto" variant="secondary" data-test="sync" [loading]="syncing()" (click)="sync()">
+    <app-icon name="refresh" />
+    Sincronizar SAP
+  </app-button>
+</div>
+
+@let state = view();
+<app-state-view
+  [state]="state"
+  emptyTitle="Aún no hay programa para esta semana."
+  emptyHint="Sincroniza la fuente o sube el Excel de planeación."
+  (retry)="load()"
+>
+  <app-button stateEmptyAction variant="secondary" (click)="sync()">Sincronizar fuente</app-button>
+
+  @if (state.status === 'ready') {
+    @let program = state.data;
+    @let s = summary();
+
+    <div class="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-line bg-surface p-4 text-xs text-ink-2">
+      <app-family-tag [family]="program.source.family" />
+      <span>
+        Revisión {{ program.revision }} ·
+        <span class="font-mono">{{ program.source.fileName }}</span> ({{ program.source.documentId }})
+      </span>
+      @if (program.confirmation) {
+        <app-status-badge kind="official">Oficial · {{ program.confirmation.by }}</app-status-badge>
+      }
+      <span class="sm:ml-auto">Sincronizado {{ program.syncedAt | docuDate }}</span>
+    </div>
+
+    <dl class="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4" data-test="summary">
+      <div class="rounded-lg border border-line bg-surface p-3">
+        <dt class="text-xs text-ink-2">Órdenes</dt>
+        <dd class="font-mono text-xl font-medium text-ink tabular-nums">{{ s.total }}</dd>
+      </div>
+      <div class="rounded-lg bg-quarantine-bg p-3">
+        <dt class="flex items-center gap-1 text-xs text-quarantine"><app-icon name="octagon-x" [size]="16" /> Bloqueadas</dt>
+        <dd class="font-mono text-xl font-medium text-quarantine tabular-nums" data-test="count-blocked">{{ s.blocked }}</dd>
+      </div>
+      <div class="rounded-lg bg-pending-bg p-3">
+        <dt class="flex items-center gap-1 text-xs text-pending"><app-icon name="triangle-alert" [size]="16" /> En replan</dt>
+        <dd class="font-mono text-xl font-medium text-pending tabular-nums" data-test="count-replan">{{ s.replan }}</dd>
+      </div>
+      <div class="rounded-lg bg-official-bg p-3">
+        <dt class="flex items-center gap-1 text-xs text-official"><app-icon name="check" [size]="16" /> Asignables</dt>
+        <dd class="font-mono text-xl font-medium text-official tabular-nums">{{ s.assignable }}</dd>
+      </div>
+    </dl>
+
+    @for (group of days(); track group.day) {
+      <section class="mb-6" [attr.aria-labelledby]="'day-' + group.day">
+        <h2 [id]="'day-' + group.day" class="mb-2 font-display text-lg font-bold text-ink first-letter:uppercase">
+          {{ group.day | docuDate: 'long' }}
+        </h2>
+        <div class="overflow-x-auto rounded-lg border border-line bg-surface">
+          <table class="w-full min-w-[56rem] border-collapse text-left">
+            <caption class="sr-only">Programa del {{ group.day | docuDate: 'long' }}</caption>
+            <thead class="bg-canvas text-xs text-ink-2">
+              <tr>
+                <th scope="col" class="px-3 py-2 font-medium">Turno</th>
+                <th scope="col" class="px-3 py-2 font-medium">Máquina</th>
+                <th scope="col" class="px-3 py-2 font-medium">Orden</th>
+                <th scope="col" class="px-3 py-2 font-medium">Material</th>
+                <th scope="col" class="px-3 py-2 font-medium">Rollo</th>
+                <th scope="col" class="px-3 py-2 text-right font-medium">Cantidad</th>
+                <th scope="col" class="px-3 py-2 font-medium">Estado</th>
+                <th scope="col" class="px-3 py-2 font-medium">Bloqueos</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (e of group.entries; track e.id) {
+                <tr class="border-t border-line align-top hover:bg-brand-soft" [attr.data-test]="'row-' + e.id" [attr.data-state]="e.state">
+                  <td class="whitespace-nowrap px-3 py-3 font-mono">{{ e.shift }}</td>
+                  <td class="whitespace-nowrap px-3 py-3 font-mono">{{ e.machine }}</td>
+                  <td class="px-3 py-3">
+                    <a class="whitespace-nowrap font-mono text-link underline underline-offset-2 hover:no-underline" routerLink="/search" [queryParams]="{ q: e.orderId }">{{ e.orderId }}</a>
+                    <p class="text-xs text-ink-3">{{ e.product }}</p>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-3 font-mono">{{ e.materialId }}</td>
+                  <td class="px-3 py-3">
+                    @if (e.rollId) {
+                      <a class="whitespace-nowrap font-mono text-link underline underline-offset-2 hover:no-underline" routerLink="/search" [queryParams]="{ q: e.rollId }" data-test="to-trace">{{ e.rollId }}</a>
+                    } @else {
+                      <span class="text-ink-3">—</span>
+                    }
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-3 text-right font-mono tabular-nums">{{ e.plannedQty | docuNumber }} <span class="text-xs text-ink-3">{{ e.unit }}</span></td>
+                  <td class="px-3 py-3">
+                    <app-status-badge [kind]="badge[e.state].kind" data-test="state">{{ badge[e.state].label }}</app-status-badge>
+                  </td>
+                  <td class="px-3 py-3">
+                    @if (e.blocks.length === 0) {
+                      <span class="text-ink-3">—</span>
+                    } @else {
+                      <ul class="flex flex-col items-start gap-1.5">
+                        @for (code of e.blocks; track code) {
+                          <li class="flex flex-wrap items-center gap-2">
+                            <app-rule-tag [code]="code" />
+                            <a class="text-xs font-medium text-link underline underline-offset-2 hover:no-underline" routerLink="/inbox" [queryParams]="{ rule: code }" data-test="why">Ver por qué</a>
+                          </li>
+                        }
+                      </ul>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+  }
+</app-state-view>
