@@ -391,9 +391,15 @@ Al correr la suite en local, `test/e2e/worker.ingest.spec.ts` fallaba con
 `ingest` —la misma que el sistema vivo— mientras `spec-db.ts` hace
 drop+create de `docu_spec` en cada corrida. Los jobs de corridas anteriores
 apuntan a bases ya borradas, el worker del test los consume y el evento
-`failed` ajeno rechaza la promesa del primer test. Aislando Redis
-(`REDIS_URL=redis://localhost:6381/15`) el e2e pasa 3/3. En CI no aparece
+`failed` ajeno rechaza la promesa del primer test. En CI no aparece
 (Redis efímero), pero en local rompe `bun run verify` de forma intermitente.
+
+El aislamiento quedó **en el repo** (PR #156): el arnés de pruebas usa su
+propia base lógica de Redis (índice 15 del mismo servidor,
+`REDIS_TEST_DB_INDEX` lo mueve), así que la pila viva no les toca nada y
+nadie tiene que acordarse de una variable. Aislando a mano
+(`REDIS_URL=redis://localhost:6381/15`) el e2e pasaba 3/3; con el
+aislamiento automático pasa 12/12, cinco corridas seguidas.
 
 **Cómo verificarlo:**
 ```bash
@@ -405,7 +411,64 @@ IA_BUDGET_MAX_TOKENS=200000 bun --env-file ../../.env src/worker/worker.ts &
 # puerta sin worker: 503 con el cuerpo degradado (antes: sobre genérico)
 curl -s -w '\nstatus: %{http_code}\n' http://localhost:3112/health
 
-# e2e contra Redis aislado
-cd apps/api && REDIS_URL=redis://localhost:6381/15 bun test test/e2e/worker.ingest.spec.ts
+# e2e (el arnés aísla Redis solo)
+cd apps/api && bun run test:e2e
+```
+
+## 2026-11-13 (vuelta 2) — El tipo de entidad lo declara la familia: el seed ya no rompe la bandeja (#135)
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** el defecto por el que una instalación recién sembrada **nunca
+proponía nada** estaba en el seed, no en el motor: las seis familias se
+sembraban sin declarar el tipo de entidad que proponen.
+
+### Qué pasaba
+
+El worker crea la propuesta con el tipo que la familia declara en su
+`schema_definition` (`ingest.processor.ts`, `declaredEntityType`). El seed de
+C1 declaraba `'{"fields":[]}'` en las seis familias, así que `proposeEntity`
+devolvía `null`: el archivo se extraía y se clasificaba, y **nada llegaba a la
+bandeja**. La instalación parecía sana (`/health` en verde, worker sin
+errores) mientras el producto no proponía.
+
+El parche que se aplicó a mano en la base viva el 13-nov tapaba el síntoma,
+no la causa: `c1.sql` terminaba en `ON CONFLICT ("id") DO NOTHING`, así que
+resiembrar no reparaba nada y un reseed en cualquier máquina volvía a la
+bandeja vacía. Y ningún test lo atrapaba, porque el e2e fabrica su propia
+familia con `entityType` declarado.
+
+### Qué quedó
+
+- `apps/api/prisma/seed/families.entity-type.json`: el mapa **canónico**
+  familia → tipo de entidad (`shift`, `goods_receipt`, `material`,
+  `quality_release`, `scan_record`, `production_order`). Son los códigos que
+  ya existen en `graph.entity_type`: no se crean códigos nuevos por familia.
+- `apps/api/prisma/seed/c1.sql`: las seis familias declaran su tipo y el
+  insert **converge** (`ON CONFLICT ... DO UPDATE ... WHERE NOT (... ?
+  'entityType')`): una familia sin tipo lo recibe al resiembrar y una familia
+  con esquema propio no se toca.
+- `scripts/seed-check.ts` (`bun run seed:check`), en `verify` y en CI: exige
+  que el canónico y el seed coincidan, que todo tipo exista en
+  `graph.entity_type`, que el seed converja y que la semilla del dataset
+  (#61) declare el mismo tipo cuando exista.
+
+### Verificado sobre la base viva
+
+Se quitó el `entityType` de las seis familias (la base "buelta"), se resiembró
+y las seis lo recuperaron; una familia con campos propios conservó su
+esquema. Después, el ciclo completo con los motores reales (Ollama local +
+scoring local) sobre la base **sembrada por el repo**: PNG → 201 → propuesta
+en la bandeja **con su `entityType`** (`quality_release`) → confirmación 200
+`official` → registro en `/v1/official-records`.
+
+**Cómo verificarlo:**
+```bash
+# el gate
+bun run seed:check
+
+# una instalación rota se repara sola
+psql "$DATABASE_URL" -c "UPDATE config.family_config SET schema_definition = '{\"fields\":[]}'::jsonb WHERE facility_id='c1000000-0000-4000-8000-000000000001'"
+bun run db:seed
+psql "$DATABASE_URL" -tAc "select family_code, schema_definition from config.family_config order by family_code"
 ```
 
