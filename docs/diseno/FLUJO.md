@@ -31,39 +31,43 @@ plataforma, falta montar la ruta y la entrada del menú.
 
 ## 2. Diagrama de navegación
 
-Flechas llenas: navegación con un clic desde un botón o enlace de la pantalla.
-Flechas punteadas: menú principal (siempre visible, filtrado por permiso).
+Cada flecha es un botón o enlace de la pantalla de origen; el texto de la
+flecha es la etiqueta del botón. El menú principal (§3) lleva a cualquier
+pantalla y no se dibuja para no saturar el diagrama.
 
 ```mermaid
-flowchart LR
+flowchart TD
   login([Login]) -->|sesión válida| capture
-  login -.->|sin permiso para la ruta| forbidden([Forbidden])
+  login -.->|sin permiso| forbidden([Forbidden])
 
-  subgraph Subir
-    capture[1 · Captura<br/>/capture]
-  end
+  capture["1 · Captura<br/>/capture"]
+  inbox["2 · Bandeja<br/>/inbox"]
+  schedule["3 · Programa<br/>/schedule"]
+  search["4 · Búsqueda<br/>/search"]
+  reports["5 · Reporte del día<br/>/reports"]
 
-  subgraph Revisar
-    inbox[2 · Bandeja<br/>/inbox]
-  end
-
-  subgraph Consultar
-    schedule[3 · Programa<br/>/schedule]
-    search[4 · Búsqueda<br/>/search]
-    reports[5 · Reporte del día<br/>/reports]
-  end
-
-  capture -->|"validación con cuarentena → «Ver en bandeja»"| inbox
-  capture -->|"validación limpia → «Ver dato»"| search
-  inbox -->|"«Confirmar» → dato oficial"| schedule
-  inbox -->|"«Ver origen»"| search
-  inbox -->|"«Subir archivo»"| capture
-  schedule -->|"clic en un bloqueo → «Ver por qué»"| inbox
-  schedule -->|"clic en rollo u orden → «Ver trazabilidad»"| search
-  reports -->|"clic en una cifra → «Ver origen»"| search
-  search -->|"origen en cuarentena → «Ir a la bandeja»"| inbox
-  search -->|"«Volver al reporte»"| reports
+  capture -->|Ver en bandeja| inbox
+  capture -->|Ver dato| search
+  inbox -->|Subir archivo| capture
+  inbox -->|Ver origen| search
+  schedule -->|Ver por qué| inbox
+  schedule -->|Ver trazabilidad| search
+  reports -->|Ver origen| search
+  search -->|Ir a la bandeja| inbox
+  search -->|Ver reporte| reports
 ```
+
+| Desde | Botón | Cuándo aparece | Lleva a |
+|---|---|---|---|
+| Captura | Ver en bandeja | La validación dejó el archivo detenido o por revisar | Bandeja |
+| Captura | Ver dato | La validación pasó limpia | Búsqueda con el documento |
+| Bandeja | Subir archivo | Siempre (también en el estado vacío) | Captura |
+| Bandeja | Ver origen | En cada fila | Búsqueda con el rollo, orden o documento |
+| Programa | Ver por qué | En cada fila bloqueada | Bandeja filtrada por esa regla |
+| Programa | Ver trazabilidad | En cada rollo u orden | Búsqueda con ese identificador |
+| Reporte | Ver origen | En cada cifra | Búsqueda con esa cifra |
+| Búsqueda | Ir a la bandeja | El origen está en cuarentena | Bandeja filtrada por esa regla |
+| Búsqueda | Ver reporte | Siempre | Reporte del día |
 
 Regla de navegación: **desde cualquier cifra se llega a su origen en un clic**
 (RF-04). Por eso Búsqueda es el destino de casi todas las flechas: es la
@@ -185,7 +189,7 @@ local de su dominio hasta que #61 entregue el corpus.
   origen, regla aplicada, cálculo y quién confirmó; la cadena rollo → orden →
   máquina → turno → documento.
 - **Acciones:** Buscar · Abrir original · Ir a la bandeja (si el origen está en
-  cuarentena) · Volver al reporte.
+  cuarentena) · Ver reporte.
 - **Endpoints:** `GET /v1/lineage/:id`, `GET /v1/official-records`.
 
 ### 5.5 Reporte del día · `/reports`

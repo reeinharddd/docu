@@ -36,9 +36,9 @@ Etiqueta neutra: fondo `bg.brand-soft`, texto `text.brand`, borde
 
 | Slug (`familia`) | Etiqueta visible | Ícono (Lucide) | Formato típico | Quién la sube | Dónde aparece | Reglas que ejerce |
 |---|---|---|---|---|---|---|
-| `programa_planeacion` | Programa de planeación | `calendar-range` | Excel con fórmulas | Ana | Captura, Programa, Búsqueda | R-P2, R-P3, R-P4, R-T1 |
-| `recepcion_rollo` | Recepción de rollo | `package-check` | Excel o PDF + certificado | Luis | Captura, Bandeja, Programa | R-P1, R-P2, R-P3, R-Q1 |
-| `inventario` | Inventario | `boxes` | Descarga de SAP o conteo en Excel | Pedro | Captura, Programa, Búsqueda | R-P3, R-T1 |
+| `programa_planeacion` | Programa de planeación | `calendar` | Excel con fórmulas | Ana | Captura, Programa, Búsqueda | R-P2, R-P3, R-P4, R-T1 |
+| `recepcion_rollo` | Recepción de rollo | `package` | Excel o PDF + certificado | Luis | Captura, Bandeja, Programa | R-P1, R-P2, R-P3, R-Q1 |
+| `inventario` | Inventario | `layers` | Descarga de SAP o conteo en Excel | Pedro | Captura, Programa, Búsqueda | R-P3, R-T1 |
 | `excel_turno` | Excel de turno | `clipboard-list` | Excel por máquina y turno | Carmen | Captura, Bandeja, Reporte | R-P2, R-A1 |
 | `correo_hermana` | Correo de planta hermana | `mail` | `.eml` (es/en) | Ana | Captura, Programa, Búsqueda | R-P1, R-P2, R-P3, R-P4 |
 | `escaneado` | Escaneo de calidad | `scan-line` | PDF o imagen firmada | Marta | Captura, Bandeja, Búsqueda | R-Q1 |
@@ -169,7 +169,7 @@ Slugs de la plataforma (`Department`); se muestran en el menú de sesión y en
   verificados AA en claro y oscuro (#41).
 - Confirmar el verde en "Pasó la validación" (§2.2) o cambiarlo por la
   etiqueta neutra.
-- Los íconos `octagon-x`, `calendar-range`, `package-check`, `boxes`,
-  `clipboard-list`, `scan-line`, `file-question`, `file-x`, `lock`,
-  `factory`, `cylinder` y `layers` no están en el subconjunto del taller:
-  llegan con `lucide-angular`.
+- Los íconos de familias, estados y reglas ya están en la app como un
+  subconjunto de Lucide dibujado sin dependencias (`ui/atoms/icon`). Las
+  etiquetas de planta (§4: `factory`, `clock-3`, `cylinder`) todavía no
+  se usan en pantalla; llegan con `lucide-angular` en #4.
