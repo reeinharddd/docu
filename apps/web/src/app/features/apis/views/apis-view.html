@@ -50,11 +50,11 @@
             </td>
             <td class="whitespace-nowrap px-3 py-2 font-mono text-sm">{{ e.path }}</td>
             <td class="px-3 py-2 text-sm text-ink-2">{{ e.module }}</td>
-            <td class="px-3 py-2 font-mono text-xs text-ink-2">{{ e.permission }}</td>
+            <td class="whitespace-nowrap px-3 py-2 font-mono text-xs text-ink-2">{{ e.permission }}</td>
             <td class="px-3 py-2"><app-status-badge [kind]="state[e.state].kind">{{ state[e.state].label }}</app-status-badge></td>
-            <td class="px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.p95 === null ? '—' : e.p95 + ' ms' }}</td>
-            <td class="px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.calls24h ?? '—' }}</td>
-            <td class="px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.errors ?? '—' }}</td>
+            <td class="whitespace-nowrap px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.p95 === null ? '—' : e.p95 + ' ms' }}</td>
+            <td class="whitespace-nowrap px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.calls24h ?? '—' }}</td>
+            <td class="whitespace-nowrap px-3 py-2 text-right font-mono text-sm tabular-nums">{{ e.errors ?? '—' }}</td>
           </tr>
         }
       </tbody>

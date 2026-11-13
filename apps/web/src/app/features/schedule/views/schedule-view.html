@@ -115,42 +115,42 @@
           }
         </ul>
         <div class="hidden overflow-x-auto rounded-lg border border-line bg-surface md:block">
-          <table class="w-full min-w-[56rem] border-collapse text-left">
+          <table class="w-full min-w-[46rem] border-collapse text-left">
             <caption class="sr-only">Programa del {{ group.day | docuDate: 'long' }}</caption>
             <thead class="bg-canvas text-xs text-ink-2">
               <tr>
-                <th scope="col" class="px-3 py-2 font-medium">Turno</th>
-                <th scope="col" class="px-3 py-2 font-medium">Máquina</th>
-                <th scope="col" class="px-3 py-2 font-medium">Orden</th>
-                <th scope="col" class="px-3 py-2 font-medium">Material</th>
-                <th scope="col" class="px-3 py-2 font-medium">Rollo</th>
-                <th scope="col" class="px-3 py-2 text-right font-medium">Cantidad</th>
-                <th scope="col" class="px-3 py-2 font-medium">Estado</th>
-                <th scope="col" class="px-3 py-2 font-medium">Bloqueos</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Turno</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Máquina</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Orden</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Material</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Rollo</th>
+                <th scope="col" class="px-2.5 py-2 text-right font-medium">Cantidad</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Estado</th>
+                <th scope="col" class="px-2.5 py-2 font-medium">Bloqueos</th>
               </tr>
             </thead>
             <tbody>
               @for (e of group.entries; track e.id) {
                 <tr class="border-t border-line align-top hover:bg-brand-soft" [attr.data-test]="'row-' + e.id" [attr.data-state]="e.state">
-                  <td class="whitespace-nowrap px-3 py-3 font-mono">{{ e.shift }}</td>
-                  <td class="whitespace-nowrap px-3 py-3 font-mono">{{ e.machine }}</td>
-                  <td class="px-3 py-3">
+                  <td class="whitespace-nowrap px-2.5 py-3 font-mono">{{ e.shift }}</td>
+                  <td class="whitespace-nowrap px-2.5 py-3 font-mono">{{ e.machine }}</td>
+                  <td class="px-2.5 py-3">
                     <a class="whitespace-nowrap font-mono text-link underline underline-offset-2 hover:no-underline" routerLink="/search" [queryParams]="{ q: e.orderId }">{{ e.orderId }}</a>
                     <p class="text-xs text-ink-3">{{ e.product }}</p>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-3 font-mono">{{ e.materialId }}</td>
-                  <td class="px-3 py-3">
+                  <td class="whitespace-nowrap px-2.5 py-3 font-mono">{{ e.materialId }}</td>
+                  <td class="px-2.5 py-3">
                     @if (e.rollId) {
                       <a class="whitespace-nowrap font-mono text-link underline underline-offset-2 hover:no-underline" routerLink="/search" [queryParams]="{ q: e.rollId }" data-test="to-trace">{{ e.rollId }}</a>
                     } @else {
                       <span class="text-ink-3">—</span>
                     }
                   </td>
-                  <td class="whitespace-nowrap px-3 py-3 text-right font-mono tabular-nums">{{ e.plannedQty | docuNumber }} <span class="text-xs text-ink-3">{{ e.unit }}</span></td>
-                  <td class="px-3 py-3">
+                  <td class="whitespace-nowrap px-2.5 py-3 text-right font-mono tabular-nums">{{ e.plannedQty | docuNumber }} <span class="text-xs text-ink-3">{{ e.unit }}</span></td>
+                  <td class="px-2.5 py-3">
                     <app-status-badge [kind]="badge[e.state].kind" data-test="state">{{ badge[e.state].label }}</app-status-badge>
                   </td>
-                  <td class="px-3 py-3">
+                  <td class="px-2.5 py-3">
                     @if (e.blocks.length === 0) {
                       <span class="text-ink-3">—</span>
                     } @else {
