@@ -127,6 +127,72 @@
         "summary": "Registra un archivo de una familia; idempotente por (facility, sha256)",
         "tags": ["files"]
       }
+    },
+    "/v1/inbox": {
+      "get": {
+        "operationId": "InboxController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": ["Inbox"]
+      }
+    },
+    "/v1/inbox/{id}/confirm": {
+      "post": {
+        "operationId": "InboxController_confirm",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": ["Inbox"]
+      }
+    },
+    "/v1/inbox/{id}/reject": {
+      "post": {
+        "operationId": "InboxController_reject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": ["Inbox"]
+      }
+    },
+    "/v1/official-records": {
+      "get": {
+        "operationId": "OfficialRecordsController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": ["OfficialRecords"]
+      }
     }
   },
   "info": {
