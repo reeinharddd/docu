@@ -1,16 +1,17 @@
+// Módulo `files` (ARQUITECTURA.md §2): la única puerta de escritura de
+// documentos. AuthModule aporta la sesión y los guardas; el puerto de cola
+// conecta con Redis (ADR-0011: la API encola, el worker procesa).
 import { Module } from '@nestjs/common'
 import { AuthModule } from '../auth/auth.module.js'
+import { BullMqIngestQueue } from './bullmq-ingest-queue.store.js'
 import { DiskOriginalsStore } from './disk-originals.store.js'
 import { FilesController } from './files.controller.js'
 import { FilesService, uploadOptionsFromEnv } from './files.service.js'
 import { FILES_STORE } from './files.store.js'
+import { INGEST_QUEUE } from './ingest-queue.store.js'
 import { ORIGINALS_STORE } from './originals.store.js'
 import { PrismaFilesStore } from './prisma-files.store.js'
 
-// AuthModule brings the session and permission guards (it exports AUTH_STORE
-// precisely so other modules can mount them). The stores are bound by token:
-// the service depends on ports, the adapters are the only things that know
-// Prisma and the disk.
 @Module({
   imports: [AuthModule],
   controllers: [FilesController],
@@ -19,11 +20,16 @@ import { PrismaFilesStore } from './prisma-files.store.js'
     { provide: FILES_STORE, useExisting: PrismaFilesStore },
     DiskOriginalsStore,
     { provide: ORIGINALS_STORE, useExisting: DiskOriginalsStore },
+    BullMqIngestQueue,
+    { provide: INGEST_QUEUE, useExisting: BullMqIngestQueue },
     {
       provide: FilesService,
-      useFactory: (files: PrismaFilesStore, originals: DiskOriginalsStore) =>
-        new FilesService(files, originals, uploadOptionsFromEnv()),
-      inject: [PrismaFilesStore, DiskOriginalsStore],
+      useFactory: (
+        files: PrismaFilesStore,
+        originals: DiskOriginalsStore,
+        queue: BullMqIngestQueue,
+      ) => new FilesService(files, originals, queue, uploadOptionsFromEnv()),
+      inject: [PrismaFilesStore, DiskOriginalsStore, BullMqIngestQueue],
     },
   ],
   exports: [FILES_STORE],

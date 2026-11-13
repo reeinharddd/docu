@@ -6,12 +6,14 @@ import type { SessionUser } from '../auth/auth.service.js'
 import { ApiError } from '../common/api-error.js'
 import { FilesService, uploadOptionsFromEnv } from './files.service.js'
 import type {
+  FailedJobRun,
   FamilyConfigRow,
   FilesStore,
   NewAuditEntry,
   NewJobRun,
   NewSourceFile,
 } from './files.store.js'
+import type { IngestJob, IngestQueue } from './ingest-queue.store.js'
 import type { OriginalsStore } from './originals.store.js'
 
 interface FakeState {
@@ -19,9 +21,12 @@ interface FakeState {
   files: NewSourceFile[]
   fileIdBySha: Map<string, string>
   jobs: NewJobRun[]
+  failedJobs: FailedJobRun[]
+  queued: IngestJob[]
   audit: NewAuditEntry[]
   savedOriginals: string[]
   failOriginals?: boolean
+  failQueue?: boolean
 }
 
 function family(overrides: Partial<FamilyConfigRow> = {}): FamilyConfigRow {
@@ -54,8 +59,22 @@ function fakeStore(state: FakeState): FilesStore {
     createJobRun: async (input) => {
       state.jobs.push(input)
     },
+    markJobFailed: async (input) => {
+      state.failedJobs.push(input)
+    },
     createAuditEntry: async (input) => {
       state.audit.push(input)
+    },
+  }
+}
+
+function fakeQueue(state: FakeState): IngestQueue {
+  return {
+    enqueue: async (job) => {
+      if (state.failQueue) {
+        throw new Error('redis no responde')
+      }
+      state.queued.push(job)
     },
   }
 }
@@ -93,6 +112,8 @@ function makeState(
     files: [],
     fileIdBySha: new Map(),
     jobs: [],
+    failedJobs: [],
+    queued: [],
     audit: [],
     savedOriginals: [],
     ...overrides,
@@ -110,6 +131,7 @@ function service(
   return new FilesService(
     fakeStore(state),
     fakeOriginals(state),
+    fakeQueue(state),
     options ?? { maxBytes: 1024 },
   )
 }
@@ -149,7 +171,7 @@ describe('files service', () => {
     expect(state.files[0]?.storagePath).toBe(`originales/C1/${result.sha256}`)
     expect(state.files[0]?.receivedById).toBe('user-1')
     expect(state.jobs[0]?.queue).toBe('ingest')
-    expect(state.jobs[0]?.jobId).toBe(`ingest:${result.sourceFileId}`)
+    expect(state.jobs[0]?.jobId).toBe(result.sourceFileId)
     expect(state.jobs[0]?.input).toEqual({
       sourceFileId: 'file-1',
       familyCode: 'PROG',
@@ -220,6 +242,31 @@ describe('files service', () => {
     expect((error as ApiError).code).toBe('VALIDATION_ERROR')
     expect((error as ApiError).message).toContain('tamaño máximo')
     expect(state.files).toHaveLength(0)
+  })
+
+  test('encola el trabajo con el mismo jobId de la fila del job', async () => {
+    const state: FakeState = makeState([family()])
+    const result = await service(state).register(input, user)
+
+    expect(state.queued).toHaveLength(1)
+    expect(state.queued[0]?.jobId).toBe(result.sourceFileId)
+    expect(state.queued[0]?.sourceFileId).toBe(result.sourceFileId)
+    expect(state.queued[0]?.sha256).toBe(result.sha256)
+    expect(state.queued[0]?.familyCode).toBe('PROG')
+  })
+
+  test('si la cola no acepta el trabajo, el job queda fallido con motivo (500)', async () => {
+    const state: FakeState = makeState([family()], { failQueue: true })
+    const error = await service(state)
+      .register(input, user)
+      .catch((e: unknown) => e)
+
+    expect((error as ApiError).code).toBe('INTERNAL')
+    expect(state.failedJobs).toHaveLength(1)
+    expect(state.failedJobs[0]?.jobId).toBe('file-1')
+    expect(state.failedJobs[0]?.error).toContain('redis no responde')
+    // El archivo queda registrado: no se borra nada en silencio.
+    expect(state.files).toHaveLength(1)
   })
 
   test('si los originales no se pueden escribir, no se registra nada (500)', async () => {

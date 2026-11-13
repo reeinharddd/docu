@@ -62,9 +62,11 @@ describe('POST /v1/auth/login (persistencia)', () => {
       const client = await getSpecDb()
       const before = await sessionCount(client)
 
-      const res = await http
-        .post('/v1/auth/login')
-        .send({ username: 'operador', password: PASSWORD })
+      const res = await http.post('/v1/auth/login').send({
+        username: 'operador',
+        password: PASSWORD,
+        facilityCode: 'e2e',
+      })
 
       expect(res.status).toBe(200)
       expect(res.body.token).toBeString()
@@ -95,9 +97,11 @@ describe('POST /v1/auth/login (persistencia)', () => {
     const http = request(app.getHttpServer())
 
     try {
-      const res = await http
-        .post('/v1/auth/login')
-        .send({ username: 'operador', password: 'equivocada' })
+      const res = await http.post('/v1/auth/login').send({
+        username: 'operador',
+        password: 'equivocada',
+        facilityCode: 'e2e',
+      })
 
       expect(res.status).toBe(401)
       expect(res.body.code).toBe('UNAUTHENTICATED')

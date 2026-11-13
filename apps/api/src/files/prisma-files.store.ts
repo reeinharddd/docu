@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { PrismaService } from '../prisma/prisma.service.js'
 import type {
+  FailedJobRun,
   FamilyConfigRow,
   FilesStore,
   NewAuditEntry,
@@ -73,6 +74,19 @@ export class PrismaFilesStore implements FilesStore {
         // The port speaks plain JSON values; Prisma's InputJsonValue is the
         // same shape once it crosses into the adapter.
         input: input.input as Prisma.InputJsonValue,
+      },
+    })
+  }
+
+  async markJobFailed(input: FailedJobRun): Promise<void> {
+    await this.prisma.jobRun.update({
+      where: {
+        queue_jobId: { queue: input.queue, jobId: input.jobId },
+      },
+      data: {
+        status: 'failed',
+        error: input.error,
+        finishedAt: new Date(),
       },
     })
   }

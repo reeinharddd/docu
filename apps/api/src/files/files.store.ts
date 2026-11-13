@@ -48,6 +48,12 @@ export interface NewAuditEntry {
   userAgent?: string | undefined
 }
 
+export interface FailedJobRun {
+  queue: string
+  jobId: string
+  error: string
+}
+
 export interface FilesStore {
   findFamilyConfig(
     facilityId: string,
@@ -56,5 +62,7 @@ export interface FilesStore {
   findFileIdBySha256(facilityId: string, sha256: string): Promise<string | null>
   createSourceFile(input: NewSourceFile): Promise<{ id: string }>
   createJobRun(input: NewJobRun): Promise<void>
+  /** El trabajo se registró pero no se pudo encolar: queda fallido y con motivo. */
+  markJobFailed(input: FailedJobRun): Promise<void>
   createAuditEntry(input: NewAuditEntry): Promise<void>
 }
