@@ -27,7 +27,24 @@ describe('GET /health (endpoint)', () => {
     const res = await testApp.http.get('/health')
 
     expect(res.status).toBe(503)
-    expect(res.body.code).toBeString()
-    expect(res.body.message).toBeString()
+    expect(res.body.status).toBe('degraded')
+  })
+
+  it('conserva el diagnostico: el 503 dice que segmento cayo', async () => {
+    // El sobre generico de error esconde la causa: la puerta tiene que decir
+    // que la base y redis estan caidos (drill de orquestacion, 2026-11-07).
+    process.env.DATABASE_URL = 'postgresql://nobody@127.0.0.1:1/none'
+    process.env.REDIS_URL = 'redis://127.0.0.1:1'
+
+    testApp = await createTestApp({ controllers: [HealthController] })
+    const res = await testApp.http.get('/health')
+
+    expect(res.status).toBe(503)
+    expect(res.body.status).toBe('degraded')
+    expect(res.body.postgres).toBe('down')
+    expect(res.body.redis).toBe('down')
+    expect(res.body.worker).toEqual({ alive: false, queues: {} })
+    // No es el sobre de error de negocio: no debe llevar `code`/`message`.
+    expect(res.body.code).toBeUndefined()
   })
 })

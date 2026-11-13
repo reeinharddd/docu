@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common'
 import type { Response } from 'express'
 import { ApiError, type ApiErrorCode } from './api-error.js'
+import { OperationalResponseException } from './operational-response.exception.js'
 
 const CODE_BY_STATUS: Record<number, ApiErrorCode> = {
   401: 'UNAUTHENTICATED',
@@ -42,6 +43,14 @@ export class ApiErrorFilter implements ExceptionFilter {
         message: exception.message,
         details: exception.details,
       })
+      return
+    }
+
+    if (exception instanceof OperationalResponseException) {
+      // Un reporte operacional no es un error de negocio: su cuerpo es el
+      // diagnóstico (que segmento cayó), no el sobre `{code, message,
+      // details}`. Perderlo deja la puerta de salud mintiendo por omisión.
+      response.status(exception.getStatus()).json(exception.getResponse())
       return
     }
 

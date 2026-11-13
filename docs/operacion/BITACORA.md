@@ -330,3 +330,82 @@ grep -n 'CORS_ORIGINS' .env.example docs/ingenieria/API.md
 grep -n 'RATE_LIMITED' apps/api/src/auth/login-throttle.ts
 grep -n 'revalida\|validUntil' apps/api/src/auth/session.guard.ts
 ```
+
+## 2026-11-13 — Ciclo real post-#134 y la puerta de salud que pierde el diagnóstico
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** el ciclo completo de la demo, con los motores reales, sobre el `main`
+nuevo; y un defecto de la puerta de salud que el ciclo destapó.
+
+### Ciclo real: PNG → bandeja → oficial
+
+Con la API y el worker del `main` (`e57d507`) levantados sobre Ollama local
+(`glm-ocr`, `llama3.2`, `qwen3-embedding:0.6b`), el recorrido completo se
+verificó **sin dobles**: `POST /v1/files` (201) → job procesado por el worker
+(OCR + LLM + scoring reales) → propuesta en `GET /v1/inbox` →
+`POST /v1/inbox/:id/confirm` (200, `status: official`) → `GET
+/v1/official-records` con el registro confirmado → la bandeja queda vacía →
+`GET /health` con `worker.alive: true` y la profundidad de las cuatro colas.
+
+Tres hallazgos:
+
+1. **El guard de contradicción de familia funciona.** Con la familia declarada
+   `escaneado`, la IA propuso `correo_hermana` sobre la página de muestra y el
+   registro fue a cuarentena con `SYS.FAMILY_CONTRADICTION`: *«La familia
+   propuesta (correo_hermana) no es la declarada (escaneado)»*. En la demo hay
+   que declarar la familia que el modelo va a proponer para el documento de
+   muestra, o el caso se ve como «no funciona».
+2. **El presupuesto por defecto (4000 tokens) no procesa ninguna imagen
+   real.** Una página PNG de 52 KB se estima en `ceil(bytes/4) = 13 087`
+   tokens y el guardián la rebota antes de llamar al proveedor. Es el bug
+   **#136**; para la prueba se levantó el worker con
+   `IA_BUDGET_MAX_TOKENS=200000`. Subir el default no lo arregla: mueve el
+   umbral y el siguiente documento más grande vuelve a pasarlo.
+3. **La puerta de salud perdía el diagnóstico** (ver abajo).
+
+### La puerta `/health` mentía por omisión (#153)
+
+Con la API levantada **sin worker**, `/health` respondía 503 con el sobre
+genérico de error:
+
+```json
+{"code":"INTERNAL","message":"Error interno del servidor.","details":{}}
+```
+
+El contrato documentado (BITACORA §drill, BOOTSTRAP) es el cuerpo degradado
+`{status, postgres, redis, worker}`: quien lee la respuesta tiene que saber
+**qué** segmento cayó. La causa: `HealthController` lanzaba
+`HttpException(report, 503)` y el filtro global mapeaba todo 5xx a `INTERNAL`
+(`CODE_BY_STATUS` no tiene 503), tirando el reporte. Es el mismo defecto que
+el drill del 2026-11-07 encontró y se dio por cerrado: volvió por el camino
+del filtro global. La CI no lo ve porque el smoke solo mira la rama 200.
+
+Arreglo: una respuesta operacional no es un error de negocio
+(`OperationalResponseException`); el filtro la deja pasar tal cual y el spec
+comprueba el diagnóstico, no solo que haya `code`/`message`.
+
+### El e2e se contaminaba con la cola global (#154)
+
+Al correr la suite en local, `test/e2e/worker.ingest.spec.ts` fallaba con
+«el job falló» aunque el pipeline estuviera bien: el spec usa la cola Redis
+`ingest` —la misma que el sistema vivo— mientras `spec-db.ts` hace
+drop+create de `docu_spec` en cada corrida. Los jobs de corridas anteriores
+apuntan a bases ya borradas, el worker del test los consume y el evento
+`failed` ajeno rechaza la promesa del primer test. Aislando Redis
+(`REDIS_URL=redis://localhost:6381/15`) el e2e pasa 3/3. En CI no aparece
+(Redis efímero), pero en local rompe `bun run verify` de forma intermitente.
+
+**Cómo verificarlo:**
+```bash
+# ciclo real (API :3112 + worker del main)
+cd apps/api
+PORT_API=3112 bun --env-file ../../.env src/main.ts &
+IA_BUDGET_MAX_TOKENS=200000 bun --env-file ../../.env src/worker/worker.ts &
+
+# puerta sin worker: 503 con el cuerpo degradado (antes: sobre genérico)
+curl -s -w '\nstatus: %{http_code}\n' http://localhost:3112/health
+
+# e2e contra Redis aislado
+cd apps/api && REDIS_URL=redis://localhost:6381/15 bun test test/e2e/worker.ingest.spec.ts
+```
+
