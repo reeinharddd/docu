@@ -88,12 +88,32 @@ servicios dependen de puertos y se prueban sin base.
 
 ## Pruebas
 
-| Superficie | Estado |
-|---|---|
-| `apps/api/src` | 8 archivos, 58 casos unitarios en verde sin red: sesión y throttle, guard, CORS, paginación, familias, salud y motores IA (1 condicional corre solo con `IA_LIVE_TEST=1`) |
-| `apps/api/prisma/tests` | 6 archivos de specs contra PostgreSQL real (aislamiento, solo-insert, idempotencia, volumen, reglas, vector): corren en CI con base; sin BD local quedan en `skip` |
-| `apps/web` | 10 archivos, 54 pruebas (Vitest) |
+| Superficie | Comando | Estado |
+|---|---|---|
+| `apps/api/src` | `bun run test` | Unitarias y de endpoint **sin red**: sesión y throttle, guard, CORS, paginación, familias, salud, motores IA, más `GET /health` (degradado → 503) y la validación de `POST /v1/auth/login` (cuerpo inválido rechazado). Un caso de IA corre solo con `IA_LIVE_TEST=1` |
+| `apps/api/test/e2e` | `bun run test:e2e` | Endpoint **contra base real**: arranca el `AppModule` sobre una base scratch y prueba `login → fila` de punta a punta |
+| `apps/api/prisma/tests` | `bun run db:spec` | 6 archivos de specs contra PostgreSQL real (aislamiento, solo-insert, idempotencia, volumen, reglas, vector) |
+| `apps/web` | `bun --filter web test` | 10 archivos, 54 pruebas (Vitest) |
 
-El hueco que sigue abierto es la **integración del lado del servidor contra
-base de datos real dentro de la suite de la API** (login→guard→endpoint→fila):
-eso lo cubre #45. Sin esa capa, RNF-07 no se sostiene del todo.
+### Patrón de prueba de endpoint
+
+El helper `apps/api/test/helpers/http-testing.ts` levanta una app Nest real (sin
+escuchar en un puerto), le aplica los mismos `ValidationPipe` y `ApiErrorFilter`
+de `main.ts` y devuelve una `supertest` atada a su servidor HTTP. Para probar un
+controller:
+
+1. **Unitario/offline**: monta solo el controller con sus dependencias
+   reemplazadas por fakes vía `providers: [{ provide: X, useValue: fake }]`
+   (los fakes se declaran en `providers`, no con `overrideProvider`, que no
+   registra el proveedor en este stack). Los guardas se sustituyen con
+   `overrideGuard(Guard).useValue({ canActivate: () => true })`.
+2. **Contra base**: `beforeAll` llama a `getSpecDb()` (crea y migra la base
+   scratch `docu_spec`), apunta `process.env.DATABASE_URL` a
+   `specDatabaseUrl()` **antes** de compilar el módulo (el `PrismaService` lee
+   la URL en su constructor) y compila el `AppModule` completo.
+
+La suite e2e corre en CI en el job `smoke` (donde ya hay PostgreSQL y Redis),
+después de `db:spec`; una prueba rota detiene el merge. Los tres criterios del
+brief quedan cubiertos: `/health` (degradado → 503), validación (cuerpo vacío →
+rechazado sin llamar al servicio) y persistencia (`login` escribe su fila en
+`platform.session`).

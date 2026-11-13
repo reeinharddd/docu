@@ -63,6 +63,9 @@ como dependencia directa de `apps/api` es parte de #12.
 | Pieza | Versión | Fijada | Sitio oficial | Repositorio |
 |---|---|---|---|---|
 | NestJS (common, core, platform-express) | 12.1.2 | sí | <https://nestjs.com> | <https://github.com/nestjs/nest> |
+| `@nestjs/testing` (pruebas de endpoint) | 12.1.2 | sí | <https://docs.nestjs.com/fundamentals/testing> | <https://github.com/nestjs/nest> |
+| supertest | 7.3.2 | rango `^7.1.1` | <https://github.com/ladjs/supertest> | mismo |
+| `@types/supertest` | 6.0.3 | rango `^6.0.3` | <https://github.com/DefinitelyTyped/DefinitelyTyped> | mismo |
 | reflect-metadata | 0.2.2 | rango `^0.2.2` | <https://github.com/reflect-metadata/reflect-metadata> | mismo |
 | RxJS | 7.8.2 | rango `^7.8.2` | <https://rxjs.dev> | <https://github.com/ReactiveX/rxjs> |
 | BullMQ | 6.3.11 | sí | <https://docs.bullmq.io> | <https://github.com/taskforcesh/bullmq> |
@@ -259,13 +262,13 @@ dependencia, schema `2.5.4`, y subir ambos en el mismo PR o ninguno.
 
 | Job | Qué hace hoy |
 |---|---|
-| `guardas` | Instala, verifica que `.env` no esté en el repo, gitleaks, Biome, tipos, valida el Compose, `doc-index`, `harness:check`, `diagramas:check`, `docs-linkcheck`, `docs-briefcheck`, `docs-tracecheck`, pruebas web |
+| `guardas` | Instala, verifica que `.env` no esté en el repo, gitleaks, Biome, tipos, valida el Compose, `doc-index`, `harness:check`, `diagramas:check`, `docs-linkcheck`, `docs-briefcheck`, `docs-tracecheck`, pruebas web y unitarias de la API |
 | `diagramas` | Re-exporta los SVG del ER y falla si el `.drawio` cambió y el texto/SVG no (digest de la imagen) |
-| `smoke` | Arranca la API contra Postgres y Redis de servicio y prueba la cola |
+| `smoke` | Arranca la API contra Postgres y Redis de servicio, prueba la cola y corre `db:test`, `db:spec` y la suite de endpoint `test:e2e` |
 
-Las pruebas web sí corren en CI (`bun --filter web test`); las de la API
-todavía no existen (0 archivos) aunque el CI arranque y consulte `/health`.
-*Remarca: exigir la suite de API en `verify`/CI con SDD/TDD (#45/#87).*
+Las pruebas de la API corren en dos capas: unitarias y de endpoint sin red en
+`guardas` (`bun --filter @docu/api test`), y la suite de endpoint contra base
+real en `smoke` (`bun run test:e2e`). La puerta TDD es #45.
 
 ---
 

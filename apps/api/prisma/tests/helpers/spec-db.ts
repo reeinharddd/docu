@@ -62,6 +62,16 @@ function databaseUrl(): string {
   return url
 }
 
+// URL of the scratch database: the same admin endpoint declared in
+// DATABASE_URL, with the database name swapped for the scratch one. Integration
+// tests point the API's DATABASE_URL at this so the real PrismaService boots
+// against an isolated, freshly migrated database.
+export function specDatabaseUrl(): string {
+  const target = new URL(databaseUrl())
+  target.pathname = `/${SCRATCH_DB}`
+  return target.toString()
+}
+
 function configFor(database: string): PgConfig {
   const parsed = new URL(databaseUrl())
   return {
