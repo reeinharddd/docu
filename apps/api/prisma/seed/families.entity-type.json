@@ -1,0 +1,35 @@
+{
+  "$comment": "Mapa canónico familia -> tipo de entidad (issue #135). Lo consume el seed de C1 (c1.sql) y debe coincidir con la semilla del dataset (dataset/config1/semilla/semilla.json, issue #61). Los códigos de entity_type van en inglés y ya existen en graph.entity_type: no se crean códigos nuevos por familia.",
+  "families": [
+    {
+      "familyCode": "excel_turno",
+      "name": "Excel de turno",
+      "entityType": "shift"
+    },
+    {
+      "familyCode": "recepcion_rollo",
+      "name": "Recepción de rollo",
+      "entityType": "goods_receipt"
+    },
+    {
+      "familyCode": "inventario",
+      "name": "Inventario",
+      "entityType": "material"
+    },
+    {
+      "familyCode": "correo_hermana",
+      "name": "Correo de planta hermana",
+      "entityType": "quality_release"
+    },
+    {
+      "familyCode": "escaneado",
+      "name": "Escaneado",
+      "entityType": "scan_record"
+    },
+    {
+      "familyCode": "programa_planeacion",
+      "name": "Programa de planeación",
+      "entityType": "production_order"
+    }
+  ]
+}

@@ -96,14 +96,24 @@ ON CONFLICT DO NOTHING;
 INSERT INTO "config"."family_config"
   ("id", "facility_id", "family_code", "name", "schema_definition",
    "parser_key", "is_ocr_required", "created_by_id", "updated_at")
+-- El tipo de entidad que la familia propone va en `schema_definition` (clave
+-- `entityType`, la que lee `ingest.processor.ts`). Sin él, la propuesta no se
+-- crea y nada llega a la bandeja (issue #135). El mapa canónico está en
+-- `families.entity-type.json` y lo verifica `scripts/seed-check.ts`.
 VALUES
-  ('c1000000-0000-4000-8000-000000000061', 'c1000000-0000-4000-8000-000000000001', 'excel_turno', 'Excel de turno', '{"fields":[]}', 'excel_turno.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
-  ('c1000000-0000-4000-8000-000000000062', 'c1000000-0000-4000-8000-000000000001', 'recepcion_rollo', 'Recepción de rollo', '{"fields":[]}', 'recepcion_rollo.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
-  ('c1000000-0000-4000-8000-000000000063', 'c1000000-0000-4000-8000-000000000001', 'inventario', 'Inventario', '{"fields":[]}', 'inventario.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
-  ('c1000000-0000-4000-8000-000000000064', 'c1000000-0000-4000-8000-000000000001', 'correo_hermana', 'Correo de planta hermana', '{"fields":[]}', 'correo_hermana.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
-  ('c1000000-0000-4000-8000-000000000065', 'c1000000-0000-4000-8000-000000000001', 'escaneado', 'Escaneado', '{"fields":[]}', 'escaneado.v1', true, 'c1000000-0000-4000-8000-000000000029', now()),
-  ('c1000000-0000-4000-8000-000000000066', 'c1000000-0000-4000-8000-000000000001', 'programa_planeacion', 'Programa de planeación', '{"fields":[]}', 'programa_planeacion.v1', false, 'c1000000-0000-4000-8000-000000000029', now())
-ON CONFLICT ("id") DO NOTHING;
+  ('c1000000-0000-4000-8000-000000000061', 'c1000000-0000-4000-8000-000000000001', 'excel_turno', 'Excel de turno', '{"entityType":"shift","fields":[]}', 'excel_turno.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
+  ('c1000000-0000-4000-8000-000000000062', 'c1000000-0000-4000-8000-000000000001', 'recepcion_rollo', 'Recepción de rollo', '{"entityType":"goods_receipt","fields":[]}', 'recepcion_rollo.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
+  ('c1000000-0000-4000-8000-000000000063', 'c1000000-0000-4000-8000-000000000001', 'inventario', 'Inventario', '{"entityType":"material","fields":[]}', 'inventario.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
+  ('c1000000-0000-4000-8000-000000000064', 'c1000000-0000-4000-8000-000000000001', 'correo_hermana', 'Correo de planta hermana', '{"entityType":"quality_release","fields":[]}', 'correo_hermana.v1', false, 'c1000000-0000-4000-8000-000000000029', now()),
+  ('c1000000-0000-4000-8000-000000000065', 'c1000000-0000-4000-8000-000000000001', 'escaneado', 'Escaneado', '{"entityType":"scan_record","fields":[]}', 'escaneado.v1', true, 'c1000000-0000-4000-8000-000000000029', now()),
+  ('c1000000-0000-4000-8000-000000000066', 'c1000000-0000-4000-8000-000000000001', 'programa_planeacion', 'Programa de planeación', '{"entityType":"production_order","fields":[]}', 'programa_planeacion.v1', false, 'c1000000-0000-4000-8000-000000000029', now())
+-- Convergencia: una familia sembrada sin tipo (el síntoma de #135) recibe el
+-- tipo canónico al resiembra. Una familia que ya declara su tipo no se toca:
+-- el esquema configurado por la instalación manda (ADR-0019).
+ON CONFLICT ("id") DO UPDATE
+  SET "schema_definition" = EXCLUDED."schema_definition",
+      "updated_at" = now()
+  WHERE NOT ("config"."family_config"."schema_definition" ? 'entityType');
 
 -- ── Reglas del caso como datos (ADR-0009, CASO.md §Reglas, 2026-10-12) ──────
 -- `expression` es la forma que evaluará el carril de backend (#12); la semilla

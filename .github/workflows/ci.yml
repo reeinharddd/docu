@@ -79,6 +79,7 @@ jobs:
       - run: bun run diagramas:check
       - run: bun run dataset:check
       - run: bun run prisma:check
+      - run: bun run seed:check
       - run: bash scripts/docs-linkcheck.sh
       - run: bash scripts/docs-briefcheck.sh
       - run: bash scripts/docs-tracecheck.sh
