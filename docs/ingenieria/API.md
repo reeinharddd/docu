@@ -12,7 +12,7 @@ archivo describe lo que **existe hoy**.
 
 | Método | Ruta | Qué hace | Acceso |
 |---|---|---|---|
-| `GET` | `/health` | `SELECT 1` en PostgreSQL, `PING` en Redis y el latido del worker. Responde `{ status, postgres, redis, worker }` | pública |
+| `GET` | `/health` | `SELECT 1` en PostgreSQL, `PING` en Redis y el latido del worker. Responde `{ status, postgres, redis, worker }`: `200` con `status: "ok"`, o `503` con `status: "degraded"` y el segmento caído (el cuerpo degradado **no** lleva el sobre `{code, message, details}`: es un reporte, no un error de negocio) | pública |
 | `POST` | `/v1/auth/login` | Inicia sesión; devuelve el token opaco + usuario | pública, con límite de intentos |
 | `POST` | `/v1/auth/logout` | Revoca la sesión actual (204) | sesión |
 | `GET` | `/v1/auth/me` | Perfil, roles, permisos y dominios de la sesión | sesión |
@@ -87,6 +87,37 @@ El bloque `worker` dice si el worker vive (publica su latido en Redis) y cómo
 están las colas: `worker.alive` y `worker.queues.<cola>` con `waiting`,
 `active`, `delayed`, `failed`, `completed` y `paused`. Sin worker, la API
 encola y nadie procesa: eso es degradado, no sano.
+
+## Rutas reales y rutas en demo (conexión web↔API, #132)
+
+La web (`apps/web`) habla siempre por `ApiClient` con la base `/v1`; las rutas
+demo viven en un interceptor desmontable
+(`apps/web/src/app/core/middleware/api/demo-backend.ts`). Cambiar fixture por
+API es **quitar una ruta del fixture**, no tocar la vista. Esta es la foto de
+qué está conectado y qué sigue en demo:
+
+| Ruta de la web | Método | Endpoint real | Estado | Lo que hay que traducir |
+|---|---|---|---|---|
+| `/files` | POST | `POST /v1/files` | **real** | El campo de la familia se llama `familyCode` (el fixture usaba `family`). Respuesta idéntica: `201 {sourceFileId, sha256}`; el `409` de duplicado trae `details.sourceFileId` |
+| `/files/:id/validation` | GET | — | demo | Sin endpoint (#12): la validación vive en el worker, no en la API |
+| `/inbox` | GET | `GET /v1/inbox` | **real** | La API devuelve `InboxProposalDto[]` (`id, code, status, version, data, entityType, source, updatedAt`) y pagina con `X-Total-Count`. La UI deriva `subject/field/value` de `data`; el `status` real es `pending_confirmation` (la UI usa `pending`) |
+| `/inbox/:id/confirm` | POST | `POST /v1/inbox/:id/confirm` | **real** | `Disposition` `{id, status: "official", version, confirmedAt}`; el "quién" sale de `confirmedAt` + `GET /v1/auth/me`. `409` si ya fue disposeada |
+| `/inbox/:id/reject` | POST | `POST /v1/inbox/:id/reject` | **real** | `Disposition` `{id, status: "quarantine", version}`; el motivo es obligatorio (`422` sin él) |
+| `/quarantine` | GET | — | demo | Sin endpoint (#12): la cuarentena se ve en la bandeja del worker, no hay ruta propia |
+| `/official-records` | GET | `GET /v1/official-records` | **real** | `OfficialRecordDto` (`id, code, entityType, data, version, confirmedBy, confirmedAt, sourceFileId, updatedAt`) y pagina con `X-Total-Count`. Búsqueda y Programa derivan `label/value/unit/area/keys` de `data` + `entityType` |
+| `/lineage/:id` | GET | — | demo | Sin endpoint (#12): el linaje está en `truth.origin_history`, sin ruta todavía |
+| `/reports/day` | GET | — | demo | Sin endpoint (#39): la cola `reports` no tiene procesador |
+| `/sources/:id/sync` | POST | — | demo | Sin endpoint (#12): la sincronización de fuentes es de la instalación |
+
+La sesión también es real: `POST /v1/auth/login` (`{username, password,
+facilityCode}` → `{token, expiresAt, user}`), `GET /v1/auth/me` (`id, username,
+fullName, facilityId, facilityCode, roles, permissions, domains`) y
+`POST /v1/auth/logout` (204). Los permisos pasan a venir del backend, así que
+un `confirm` sin permiso se ve como `403` en pantalla.
+
+Dos endpoints del contrato que la web todavía no reclama:
+`GET /v1/families` y `GET /v1/families/{familyCode}` (el catálogo de familias
+que `POST /v1/files` exige como `familyCode`).
 
 ## Seguridad en la entrada
 
