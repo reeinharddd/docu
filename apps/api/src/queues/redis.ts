@@ -15,3 +15,12 @@ export function redisUrl(
 export function createRedisConnection(url: string = redisUrl()): Redis {
   return new Redis(url, { maxRetriesPerRequest: null })
 }
+
+/**
+ * Conexión para sondas: falla rápido. La de BullMQ reintenta sin parar, y una
+ * sonda que reintenta para siempre dejaría la puerta de salud colgada cuando
+ * Redis no responde.
+ */
+export function createProbeConnection(url: string = redisUrl()): Redis {
+  return new Redis(url, { lazyConnect: true, maxRetriesPerRequest: 1 })
+}

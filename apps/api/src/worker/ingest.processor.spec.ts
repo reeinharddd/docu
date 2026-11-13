@@ -1,7 +1,7 @@
 // Spec del pipeline de ingesta (BRIEF #3): qué decide el worker con la
 // propuesta del modelo. Nada de base real aquí: los dobles son el punto.
 import { describe, expect, it } from 'bun:test'
-import type { IngestJob } from '../files/ingest-queue.store.js'
+import type { IngestPayload } from '../queues/ingest-payload.js'
 import {
   type IngestOutcome,
   IngestProcessor,
@@ -20,8 +20,7 @@ import type {
 import type { OriginalsReader } from './originals-reader.js'
 import type { ProposalEngine } from './proposal-engine.js'
 
-const JOB: IngestJob = {
-  jobId: 'ingest:file-1',
+const JOB: IngestPayload = {
   sourceFileId: 'file-1',
   sha256: 'a'.repeat(64),
   familyCode: 'excel_turno',
@@ -94,6 +93,7 @@ function fakeStore(state: FakeState): IngestPipelineStore {
       state.quarantines.push(input)
       return { id: `quarantine-${state.quarantines.length}` }
     },
+    markParsedRecordQuarantined: async () => undefined,
     markJobRunning: async (jobId) => {
       state.jobs.push({ jobId, status: 'running', attempt: 1 })
     },
@@ -140,7 +140,7 @@ describe('IngestProcessor', () => {
   it('propone el dato: la propuesta llega a la bandeja en pending_confirmation', async () => {
     const state = makeState()
 
-    const outcome = await processor(state).process(JOB)
+    const outcome = await processor(state).process('file-1', JOB)
 
     expect(outcome.outcome).toBe('proposed')
     expect(state.entities).toHaveLength(1)
@@ -160,6 +160,7 @@ describe('IngestProcessor', () => {
     })
 
     const outcome = (await processor(state, engine).process(
+      'file-1',
       JOB,
     )) as IngestOutcome & {
       outcome: 'quarantined'
@@ -182,6 +183,7 @@ describe('IngestProcessor', () => {
     })
 
     const outcome = (await processor(state, engine).process(
+      'file-1',
       JOB,
     )) as IngestOutcome & {
       outcome: 'quarantined'
@@ -200,7 +202,7 @@ describe('IngestProcessor', () => {
       source: { ...SOURCE, familySchema: { fields: [] } },
     })
 
-    const outcome = await processor(state).process(JOB)
+    const outcome = await processor(state).process('file-1', JOB)
 
     expect(outcome.outcome).toBe('proposed')
     expect(state.entities).toHaveLength(0)
@@ -216,7 +218,7 @@ describe('IngestProcessor', () => {
     })
 
     const error = await processor(state, engine)
-      .process(JOB)
+      .process('file-1', JOB)
       .catch((caught: unknown) => caught)
 
     expect(error).toBeInstanceOf(Error)
@@ -228,7 +230,7 @@ describe('IngestProcessor', () => {
     const state = makeState({ source: null })
 
     const error = await processor(state)
-      .process(JOB)
+      .process('file-1', JOB)
       .catch((caught: unknown) => caught)
 
     expect(error).toBeInstanceOf(Error)

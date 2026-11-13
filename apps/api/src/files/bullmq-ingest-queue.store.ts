@@ -35,14 +35,28 @@ export class BullMqIngestQueue implements IngestQueue, OnModuleDestroy {
 
   async enqueue(job: IngestJob): Promise<void> {
     const settings = queueSettingsFromEnv()
-    await this.getQueue().add('ingest', job, {
-      jobId: job.jobId,
-      attempts: settings.attempts,
-      backoff: { type: 'exponential', delay: settings.backoffMs },
-      // La corrida terminada no ocupa Redis; la fallida se queda para mirar.
-      removeOnComplete: true,
-      removeOnFail: false,
-    })
+    await this.getQueue().add(
+      'ingest',
+      {
+        sourceFileId: job.sourceFileId,
+        sha256: job.sha256,
+        familyCode: job.familyCode,
+      },
+      {
+        jobId: job.jobId,
+        attempts: settings.attempts,
+        // El jitter dispersa los reintentos: sin él, todos los jobs que
+        // fallan juntos vuelven a fallar juntos (BRIEF #46).
+        backoff: {
+          type: 'exponential',
+          delay: settings.backoffMs,
+          jitter: settings.backoffJitter,
+        },
+        // La corrida terminada no ocupa Redis; la fallida se queda para mirar.
+        removeOnComplete: true,
+        removeOnFail: false,
+      },
+    )
   }
 
   async onModuleDestroy(): Promise<void> {

@@ -80,6 +80,8 @@ export interface IngestPipelineStore {
   createOcrResult(input: NewOcrResult): Promise<{ id: string }>
   createEntityProposal(input: NewEntityProposal): Promise<{ id: string }>
   createQuarantine(input: NewQuarantine): Promise<{ id: string }>
+  /** Deja el registro extraído en cuarentena (si el job se detuvo). */
+  markParsedRecordQuarantined(sourceFileId: string): Promise<void>
   markJobRunning(jobId: string): Promise<void>
   finishJob(jobId: string, outcome: JobOutcome): Promise<void>
 }

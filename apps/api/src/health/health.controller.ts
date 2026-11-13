@@ -1,5 +1,10 @@
 import { Controller, Get, HttpException } from '@nestjs/common'
-import { healthReport, probePostgres, probeRedis } from './probes.js'
+import {
+  healthReport,
+  probePostgres,
+  probeRedis,
+  probeWorker,
+} from './probes.js'
 
 /**
  * Operational gate (ARQUITECTURA.md §1): reports each segment honestly.
@@ -12,7 +17,11 @@ import { healthReport, probePostgres, probeRedis } from './probes.js'
 export class HealthController {
   @Get()
   async check() {
-    const report = healthReport(await probePostgres(), await probeRedis())
+    const report = healthReport(
+      await probePostgres(),
+      await probeRedis(),
+      await probeWorker(),
+    )
     if (report.status === 'degraded') throw new HttpException(report, 503)
     return report
   }
