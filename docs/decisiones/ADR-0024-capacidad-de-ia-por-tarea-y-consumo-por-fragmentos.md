@@ -6,7 +6,7 @@
 
 # ADR 0024 — La capacidad de IA se decide por tarea y el documento se consume por fragmentos
 
-Fecha: 2026-11-13 · Estado: Propuesta
+Fecha: 2026-11-13 · Estado: Aceptada (2026-11-13)
 Decide: Erik Beltrán (`reeinharddd`) · Revisa: Emmanuel Valenzuela Cruz (`Agent3835`)
 
 ## Contexto

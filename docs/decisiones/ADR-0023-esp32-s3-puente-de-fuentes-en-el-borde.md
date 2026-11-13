@@ -1,6 +1,6 @@
 # ADR 0023 — El ESP32-S3 es un puente de fuentes en el borde: consume, no genera
 
-Fecha: 2026-11-13 · Estado: Propuesta
+Fecha: 2026-11-13 · Estado: Aceptada (2026-11-13)
 Decide: Erik Beltrán (`reeinharddd`) · Revisa: Emmanuel Valenzuela Cruz (`Agent3835`)
 
 ## Contexto
@@ -81,6 +81,13 @@ Consecuencias directas que se aceptan de entrada:
 - El flashing manual queda registrado como límite del entorno: el shell del
   agente corre con namespaces propios y no ve `/dev/ttyUSB*` ni
   `/dev/ttyACM*`.
+
+## Tareas derivadas
+
+- #130 — Puente de borde ESP32-S3: consume fuentes y entrega al pipeline de
+  ingesta (firmeware manual, ocho perfiles, contrato `POST /v1/files`).
+  Emmanuel revisa la parte que toca el backend (validación de `familyCode`,
+  aislamiento por instalación y cola).
 
 ## Qué nos haría revertirla
 
