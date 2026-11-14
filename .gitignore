@@ -54,3 +54,6 @@ originales/
 # Memory exports: personal review in /tmp, never to the repo
 engram-export.json
 memory-review-*.json
+
+# Backups: the dump holds the data of the plant; it never enters the repo
+backups/
