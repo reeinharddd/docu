@@ -1,0 +1,26 @@
+$ bun --filter @docu/api test:e2e
+@docu/api test:e2e: bun test v1.4.3 (c6da4a4d3)
+@docu/api test:e2e: 
+@docu/api test:e2e: test/e2e/login.persistence.spec.ts:
+@docu/api test:e2e: (pass) POST /v1/auth/login (persistencia) > autentica y escribe la sesión en platform.session [170.89ms]
+@docu/api test:e2e: (pass) POST /v1/auth/login (persistencia) > rechaza una contraseña incorrecta con 401 [46.08ms]
+@docu/api test:e2e: 
+@docu/api test:e2e: test/e2e/worker.ingest.spec.ts:
+@docu/api test:e2e: (pass) salud del worker > /health dice que el worker vive y muestra la profundidad por cola [24.56ms]
+@docu/api test:e2e: (pass) pipeline de ingesta > sube, encola, propone, manda a la bandeja y publica con confirmación humana [159.89ms]
+@docu/api test:e2e: (pass) cuarentena al agotar los reintentos > un job que falla deja el archivo en cuarentena con motivo visible [260.10ms]
+@docu/api test:e2e: 
+@docu/api test:e2e: test/e2e/inbox.confirm.spec.ts:
+@docu/api test:e2e: (pass) GET /v1/inbox > lista la propuesta en revisión de la instalación [44.06ms]
+@docu/api test:e2e: (pass) POST /v1/inbox/:id/confirm > confirma el dato y deja origen, responsable y bitácora [26.89ms]
+@docu/api test:e2e: (pass) POST /v1/inbox/:id/confirm > choca con 409 si la propuesta ya está disposeada [15.63ms]
+@docu/api test:e2e: (pass) POST /v1/inbox/:id/confirm > devuelve 404 si la propuesta no existe en la instalación [11.89ms]
+@docu/api test:e2e: (pass) POST /v1/inbox/:id/confirm > exige el permiso confirm (403 sin él) [29.51ms]
+@docu/api test:e2e: (pass) POST /v1/inbox/:id/confirm > bajo doble envío concurrente solo una confirmación gana [26.40ms]
+@docu/api test:e2e: (pass) GET /v1/official-records > devuelve el dato confirmado con su responsable [15.20ms]
+@docu/api test:e2e: 
+@docu/api test:e2e:  12 pass
+@docu/api test:e2e:  0 fail
+@docu/api test:e2e:  65 expect() calls
+@docu/api test:e2e: Ran 12 tests across 3 files. [3.12s]
+@docu/api test:e2e: Exited with code 0

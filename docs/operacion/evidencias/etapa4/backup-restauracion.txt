@@ -1,0 +1,29 @@
+$ bash scripts/backup.sh --label etapa4
+backup: written to /home/reeinharrrd/projects/personal/docu-wt/repo/backups/20261114T035547Z
+backup_at_utc=20261114T035547Z
+label=etapa4
+database=docu
+commit=c2b062e3184cff36f94da784be3d4698ad566e31
+tree=ac930aa15f1283fc2ae3b75ec5c9d4197b1dcd28
+db_file=db.dump
+db_sha256=801ce087f593d6a36f0398472753e366d3fbf0d6859c5aae143d34fdb8256b9c
+db_bytes=118772
+app_file=app.bundle
+app_sha256=8f80c401cb2848454a714728e8de50acec14ee92ff0881d1139ed3caa9ba0c30
+app_bytes=17108692
+
+$ bash scripts/restore-check.sh --backup <backup>
+restore-check: backup backups/20261114T035547Z
+restore-check: manifest commit=c2b062e3184cff36f94da784be3d4698ad566e31 tree=ac930aa15f1283fc2ae3b75ec5c9d4197b1dcd28
+restore-check: sha256 ok — db.dump
+restore-check: sha256 ok — app.bundle
+restore-check: code restored — tree ac930aa15f1283fc2ae3b75ec5c9d4197b1dcd28 matches the manifest
+restore-check: database restored — 26 tables with identical row counts
+restore-check:   config.family_config=6
+restore-check:   config.validation_rule=7
+restore-check:   core.access_grant=0
+restore-check:   core.app_user=9
+restore-check:   core.department=6
+restore-check: OK — app and database restore and match
+
+duracion backup+restauracion: 14 s

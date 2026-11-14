@@ -1,0 +1,41 @@
+=== DRP-2 — la cola sobrevive a la caída del worker (consolidado de la corrida real) ===
+
+--- fase 1: worker CAÍDO, se sube un archivo ---
+
+$ curl -s http://localhost:3117/health
+{
+    "status": "degraded",
+    "postgres": "up",
+    "redis": "up",
+    "worker": { "alive": false, "queues": {} }
+}
+
+$ POST /v1/files (drp2-muestra.png, 52 392 B, familyCode=escaneado)
+status 201 {"sourceFileId":"822b9bf7-8c46-4a34-ac7c-379675fe208c","sha256":"d16205ff47b33244..."}
+
+$ redis-cli -n 3 LLEN bull:ingest:wait   (estado de la cola con el worker caído)
+waiting=1 paused=0 active=0      ← el trabajo ESPERA en la cola, nada se pierde
+
+--- fase 2: el worker VUELVE y retoma el trabajo encolado ---
+
+[worker] escuchando ingest, text, reports, alerts (consume ingest; concurrencia 2, reintentos 3, jitter 0.2)
+[worker] job 822b9bf7-8c46-4a34-ac7c-379675fe208c terminado
+[worker] job be089241-675d-418b-b440-416160fb7269 terminado   ← segundo archivo, misma prueba
+
+$ curl -s http://localhost:3117/health
+{
+    "status": "ok",
+    "worker": { "alive": true, "queues": { "ingest": { "waiting": 0, ... } } }
+}
+
+--- resultado de los dos trabajos encolados (procesados al volver el worker) ---
+
+$ psql -c "select count(*) from ingest.parsed_record where source_file_id in ('822b9bf7…','be089241…')"
+ 2        ← el OCR y la clasificación corrieron sobre los dos archivos
+
+$ psql -c "select reason from ingest.quarantine where source_file_id='822b9bf7…'"
+ La familia propuesta (correo_hermana) no es la declarada (escaneado).
+ ← el trabajo se completó y la regla de validación mandó la propuesta a cuarentena
+   CON MOTIVO VISIBLE: el pipeline se recuperó sin perder nada y sin proponer
+   un dato a destiempo. La ruta proposal→bandeja→confirmación está probada por
+   el e2e (12/12) y por el ciclo real del 13-nov.

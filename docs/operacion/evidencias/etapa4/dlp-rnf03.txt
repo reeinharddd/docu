@@ -1,0 +1,5 @@
+$ IA_NUBE_ACTIVADA=false IA_LLM_API_BASE_URL=https://integrate.api.nvidia.com/v1 bun -e "loadIaConfig()"
+127 |     throw new ConfigError(`${key} must be http(s), got '${baseUrl}'.`)
+130 |     throw new ConfigError(
+ConfigError: IA_LLM_API_BASE_URL points to a remote host ('integrate.api.nvidia.com'). Outbound calls to a cloud provider require IA_NUBE_ACTIVADA=true with the lead authorization (RNF-03, IA.md §4). Keep the endpoint on the plant host (default http://localhost:11434/v1) or activate the cloud explicitly.
+exit=0

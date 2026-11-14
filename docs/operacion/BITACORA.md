@@ -529,3 +529,68 @@ REDIS_URL=redis://localhost:6381/14 IA_BUDGET_MAX_TOKENS=200000 \
   IA_BUDGET_MAX_MS=300000 bun --env-file ../../.env src/worker/worker.ts &
 ```
 
+## 2026-11-14 — Etapa 4 completa: 5 tablas con evidencia, respaldos restaurables y clon fresco corriendo (#161)
+
+**Quién:** Erik (`reeinharddd`) con el agente.
+**Qué:** el entregable de la Etapa 4 quedó en `main`
+([PR #161](https://github.com/reeinharddd/docu/pull/161),
+`docs/operacion/ETAPA-4-PRUEBAS-Y-DESPLIEGUE.md`): las cinco tablas con su
+captura cada una, medidas contra la instalación real, y la evaluación del
+emulador de AWS (no aplica — DOCU no consume ningún servicio de AWS; el
+motivo y el disparador quedaron en
+`docs/ingenieria/EVALUACION-EMULADOR-AWS.md`).
+
+### Lo que se midió (13–14 nov)
+
+| Tabla | Resultado |
+|---|---|
+| 1 · Navegadores / SSL-TLS / redireccionamiento | Chromium 159, Firefox 159 y WebKit 27.2 (motor de Safari): 200 OK y 5/5 checks cada uno; HTTP→HTTPS 301; TLSv1.3; la API sólo por el proxy TLS |
+| 2 · Multidispositivo | Desktop 1920, Laptop 1440, Tablet 820, Smartphone 390: 5/5 checks; el layout responde |
+| 3 · Funcionales | e2e 12/12 (65 asertos) · navegador automatizado 15/15 (Playwright, 3 motores) · IA en vivo 27/27 · verify verde |
+| 4 · Backups | `scripts/backup.sh` + `scripts/restore-check.sh` (nuevos): bundle git + pg_dump + manifiesto, restauración verificada en 14 s |
+| 5 · DLP y DRP | RNF-03 bloquea arranque remoto sin autorización · OCR/embeddings/scoring locales · gitleaks limpio · la cola sobrevive a la caída del worker |
+
+### La prueba que faltaba: un respaldo restaurable
+
+El repo no tenía ni un script de respaldo. Ahora el procedimiento es
+repetible: `backup.sh` produce bundle + dump + manifiesto (SHA-256, commit y
+tree), y `restore-check.sh` restaura **ambos** a un scratch y compara el tree
+del código y el conteo de filas de las 26 tablas. Medido: 14 s ida y vuelta.
+`backups/` está git-ignored (el dump lleva datos de la planta).
+
+### El clon fresco corre de cero (14-nov)
+
+Clon limpio de `main` (`2eef34e`), BD nueva (`docu_clean`): `bun install`
+(767 paquetes, 2,75 s) → migración base → seed (6 familias, 11 tipos de
+entidad) → API `:3120` + worker con Redis en `/5` → health `ok` → login 200
+→ **ciclo de negocio completo con motores 100% locales** (llama3.2 + glm-ocr
++ qwen3-embedding + scoring): propuesta en bandeja con su `entityType` →
+confirmación 200 `official` → registro con `confirmedBy: marta`. La corrida
+completa (con los dos comportamientos de cuarentena esperados) está en
+`docs/operacion/evidencias/etapa4/clon-fresco-corrida.txt`.
+
+### Notas de operación
+
+- La semilla no asigna contraseñas: el primer login de un usuario sembrado
+  exige fijar `core.app_user.password_hash` (bcrypt). Quedó registrado aquí;
+  si la demo lo necesita como flujo, es un issue nuevo.
+- El presupuesto por llamada con el default (4 000 tokens) manda a cuarentena
+  un PNG real de 13 087 tokens con motivo accionable (límite conocido de
+  #136); el workaround documentado es `IA_BUDGET_MAX_TOKENS=200000`.
+- El escaneo de gitleaks del directorio marca el `.env` local (que NO está
+  versionado); contra el árbol versionado es `no leaks found`.
+
+**Cómo verificarlo:**
+```bash
+# el entregable y su evidencia
+ls docs/operacion/ETAPA-4-PRUEBAS-Y-DESPLIEGUE.md docs/operacion/evidencias/etapa4/
+
+# el procedimiento de respaldo contra la instalación viva
+bash scripts/backup.sh --label verificacion
+bash scripts/restore-check.sh --backup "$(ls -d backups/* | tail -1)"
+
+# el clon fresco
+git clone ssh://git@github.com/reeinharddd/docu.git docu && cd docu && bun install
+bash scripts/bootstrap-backend.sh   # requiere Docker visible en la terminal
+```
+

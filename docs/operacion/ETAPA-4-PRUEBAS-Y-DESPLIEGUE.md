@@ -133,13 +133,13 @@ críticas — los datos y el worker.
 
 | # | Tipo | Control probado | Evidencia | Resultado |
 |---|---|---|---|---|
-| D1 | DLP | **RNF-03 forzado en código**: un endpoint remoto sin `IA_NUBE_ACTIVADA=true` impide arrancar, nombrando la variable | `dlp-rnf03.log` | `ConfigError: IA_LLM_API_BASE_URL points to a remote host ('integrate.api.nvidia.com'). Outbound calls to a cloud provider require IA_NUBE_ACTIVADA=true…` |
-| D2 | DLP | **El documento no sale de la planta**: OCR (GLM-OCR), embeddings (qwen3-embedding) y scoring (Laya) corren en `localhost`; el único trabajo que sale es el modelo central (NIM), decisión documentada de #141 | `ia-live.log` (encabezado con los endpoints reales) | los tres motores locales responden en `localhost:11434` y `localhost:8000` |
-| D3 | DLP | **Tránsito cifrado**: la app y la API sólo se sirven por TLS; HTTP responde 301 | `tls-redireccion.log` | 301 → HTTPS · TLSv1.3 · API 200 sólo por `:8445` |
-| D4 | DLP | **Sin secretos versionados**: escaneo del árbol versionado (sin `.env`, que está git-ignored) | `gitleaks-versionado.log` | **`no leaks found`** (3.02 MB escaneados) |
-| R1 | DRP | **Restauración verificada** de app + BD (el mismo procedimiento de la tabla 4) | `backup-restauracion.log` | **OK: código y 26 tablas restaurados y verificados, 14 s** |
-| R2 | DRP | **La cola sobrevive a la caída del worker**: con el worker muerto se sube un archivo; el trabajo espera; el worker vuelve y lo procesa; el resultado queda registrado con motivo visible | `drp2-consolidado.log` | worker caído: health `degraded` + `waiting=1` → worker de vuelta: health `ok`, job `terminado`, resultado en cuarentena **con motivo legible** ("la familia propuesta no es la declarada") — nada se pierde y nada se propone a destiempo |
-| R3 | DRP | **La app se reconstruye desde el respaldo**: el bundle restituye el árbol exacto | `backup-restauracion.log` | tree `ac930aa` restaurado idéntico al manifiesto |
+| D1 | DLP | **RNF-03 forzado en código**: un endpoint remoto sin `IA_NUBE_ACTIVADA=true` impide arrancar, nombrando la variable | `dlp-rnf03.txt` | `ConfigError: IA_LLM_API_BASE_URL points to a remote host ('integrate.api.nvidia.com'). Outbound calls to a cloud provider require IA_NUBE_ACTIVADA=true…` |
+| D2 | DLP | **El documento no sale de la planta**: OCR (GLM-OCR), embeddings (qwen3-embedding) y scoring (Laya) corren en `localhost`; el único trabajo que sale es el modelo central (NIM), decisión documentada de #141 | `ia-live.txt` (encabezado con los endpoints reales) | los tres motores locales responden en `localhost:11434` y `localhost:8000` |
+| D3 | DLP | **Tránsito cifrado**: la app y la API sólo se sirven por TLS; HTTP responde 301 | `tls-redireccion.txt` | 301 → HTTPS · TLSv1.3 · API 200 sólo por `:8445` |
+| D4 | DLP | **Sin secretos versionados**: escaneo del árbol versionado (sin `.env`, que está git-ignored) | `gitleaks-versionado.txt` | **`no leaks found`** (3.02 MB escaneados) |
+| R1 | DRP | **Restauración verificada** de app + BD (el mismo procedimiento de la tabla 4) | `backup-restauracion.txt` | **OK: código y 26 tablas restaurados y verificados, 14 s** |
+| R2 | DRP | **La cola sobrevive a la caída del worker**: con el worker muerto se sube un archivo; el trabajo espera; el worker vuelve y lo procesa; el resultado queda registrado con motivo visible | `drp2-consolidado.txt` | worker caído: health `degraded` + `waiting=1` → worker de vuelta: health `ok`, job `terminado`, resultado en cuarentena **con motivo legible** ("la familia propuesta no es la declarada") — nada se pierde y nada se propone a destiempo |
+| R3 | DRP | **La app se reconstruye desde el respaldo**: el bundle restituye el árbol exacto | `backup-restauracion.txt` | tree `ac930aa` restaurado idéntico al manifiesto |
 
 La regla de D2 es la decisión de infraestructura de #141: la planta no puede
 correr un modelo central suficientemente bueno, así que **sólo el modelo
@@ -218,14 +218,14 @@ afinará los umbrales de la cascada (0.90/0.60) contra el corpus real. (3) El
 | Archivo | Contenido |
 |---|---|
 | `evidencias/etapa4/tabla1…tabla5*.png` | las 5 capturas de este documento |
-| `evidencias/etapa4/e2e-run.log` | suite e2e completa (F1) |
-| `evidencias/etapa4/navegador-funcional.log` | los 15 checks de navegador (F2) |
-| `evidencias/etapa4/ia-live.log` | batería de IA con motores reales (F3, D2) |
-| `evidencias/etapa4/tls-redireccion.log` | TLS, certificado y 301 (tabla 1, D3) |
-| `evidencias/etapa4/backup-restauracion.log` | respaldo + restauración (tabla 4, R1) |
-| `evidencias/etapa4/dlp-rnf03.log` | el arranque bloqueado sin autorización (D1) |
-| `evidencias/etapa4/gitleaks-versionado.log` | escaneo del árbol versionado (D4) |
-| `evidencias/etapa4/drp2-consolidado.log` | la cola tras la caída del worker (R2) |
+| `evidencias/etapa4/e2e-run.txt` | suite e2e completa (F1) |
+| `evidencias/etapa4/navegador-funcional.txt` | los 15 checks de navegador (F2) |
+| `evidencias/etapa4/ia-live.txt` | batería de IA con motores reales (F3, D2) |
+| `evidencias/etapa4/tls-redireccion.txt` | TLS, certificado y 301 (tabla 1, D3) |
+| `evidencias/etapa4/backup-restauracion.txt` | respaldo + restauración (tabla 4, R1) |
+| `evidencias/etapa4/dlp-rnf03.txt` | el arranque bloqueado sin autorización (D1) |
+| `evidencias/etapa4/gitleaks-versionado.txt` | escaneo del árbol versionado (D4) |
+| `evidencias/etapa4/drp2-consolidado.txt` | la cola tras la caída del worker (R2) |
 
 La evaluación del emulador de AWS pedido para esta etapa está en
 [`docs/ingenieria/EVALUACION-EMULADOR-AWS.md`](../ingenieria/EVALUACION-EMULADOR-AWS.md):

@@ -1,0 +1,24 @@
+=== 1. HTTP -> HTTPS (redireccionamiento 301) ===
+$ curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}" http://localhost:8095/
+301 -> https://localhost:8445/
+
+=== 2. Detalle de la sesion TLS ===
+$ openssl s_client -connect localhost:8445 -servername localhost
+subject=CN=localhost, O=DOCU, OU=Etapa 4
+issuer=CN=localhost, O=DOCU, OU=Etapa 4
+Protocol: TLSv1.3
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Protocol  : TLSv1.3
+
+=== 3. Certificado ===
+$ openssl x509 -in docu.crt -noout -subject -dates -ext subjectAltName
+subject=CN=localhost, O=DOCU, OU=Etapa 4
+notBefore=Nov 14 00:09:11 2026 GMT
+notAfter=Nov 14 00:09:11 2027 GMT
+X509v3 Subject Alternative Name: 
+    DNS:localhost, IP Address:127.0.0.1
+
+=== 4. La API no escucha en claro por fuera del proxy ===
+$ curl -s -o /dev/null -w "%{http_code}" https://localhost:8445/v1/auth/login (por TLS)
+200

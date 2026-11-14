@@ -1,0 +1,43 @@
+=== Clon fresco de main (2eef34e) corriendo de cero — 14-nov ===
+
+$ git clone ssh://git@github.com/reeinharddd/docu.git docu && cd docu && bun install
+767 packages installed [2.75s]
+
+$ bun run db:generate && prisma migrate deploy        # BD nueva docu_clean
+All migrations have been successfully applied. (1 migration: 0_baseline)
+
+$ bun run db:seed
+families 6 · rules 7 · entity_types 11 · machines 5 · seed C1 aplicado (idempotente)
+
+$ PORT_API=3120 bun --env-file ../../.env src/main.ts     # API del clon fresco
+$ REDIS_URL=redis://localhost:6381/5 bun --env-file ../../.env src/worker/worker.ts
+
+$ curl :3120/health
+{"status":"ok","postgres":"up","redis":"up","worker":{"alive":true,"queues":{...}}}
+
+$ curl -X POST :3120/v1/auth/login (marta, C1)  ->  200 + token
+(nota: la semilla no asigna contrasenas; se fijaron con bcrypt en el arranque)
+
+=== ciclo de negocio completo con motores 100% locales (llama3.2 + glm-ocr + qwen3 + scoring) ===
+
+=== 3. subir PNG (multipart) ===
+status 201 {"sourceFileId":"31f16e07-e59b-4d58-b875-d20dac4bf9cb","sha256":"3353c7e4..."}
+=== 4. esperar propuesta en bandeja ===
+intento 72: propuesta de este archivo en la bandeja
+  {"id":"34c9c0b5-334f-44dd-a345-3ca7adbca64e","status":"pending_confirmation","entityType":{"code":"quality_release","name":"Liberación de calidad"}}
+=== 5. confirmar ===
+status 200 {"id":"34c9c0b5-...","status":"official","version":2,"confirmedAt":"2026-11-14T11:29:31.377Z"}
+=== 6. oficial ===
+status 200 [{"id":"34c9c0b5-...","confirmedBy":{"username":"marta","fullName":"Marta"},...}]
+=== 7. health final ===
+status 200 {"status":"ok","worker":{"alive":true,...}}
+
+=== comportamiento esperado tambien verificado ===
+- Con el presupuesto por defecto (4000 tokens) el PNG real (13 097 tokens) agota
+  reintentos y va a CUARENTENA con motivo accionable (limite conocido de #136).
+- La IA proponiendo una familia distinta a la declarada va a CUARENTENA con motivo
+  ("La familia propuesta (correo_hermana) no es la declarada (escaneado)").
+- Con IA_BUDGET_MAX_TOKENS=200000 (workaround documentado de #136) el ciclo pasa.
+
+El bootstrap aislado completo (compose con sus propios contenedores) queda como
+scripts/bootstrap-backend.sh para correrlo desde una terminal con Docker visible.
