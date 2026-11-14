@@ -1,0 +1,21 @@
+=== chromium (1440×900) ===
+PASS carga por HTTPS — status 200
+PASS TLS sin contenido mixto — título "Acceso · DOCU"
+PASS sesión iniciada y vista con contenido — 746 caracteres visibles
+PASS la SPA enruta dentro de sí misma — https://localhost:8445/capture
+PASS sin errores de página (pageerror)
+captura: evid/funcional-chromium.png
+=== firefox (1440×900) ===
+PASS carga por HTTPS — status 200
+PASS TLS sin contenido mixto — título "Acceso · DOCU"
+PASS sesión iniciada y vista con contenido — 609 caracteres visibles
+PASS la SPA enruta dentro de sí misma — https://localhost:8445/capture
+PASS sin errores de página (pageerror)
+captura: evid/funcional-firefox.png
+=== webkit (1440×900) ===
+PASS carga por HTTPS — status 200
+PASS TLS sin contenido mixto — título "Acceso · DOCU"
+PASS sesión iniciada y vista con contenido — 609 caracteres visibles
+PASS la SPA enruta dentro de sí misma — https://localhost:8445/capture
+PASS sin errores de página (pageerror)
+captura: evid/funcional-webkit.png

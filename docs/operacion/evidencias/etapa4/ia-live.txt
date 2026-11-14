@@ -1,0 +1,40 @@
+Proveedor del modelo central: https://integrate.api.nvidia.com/v1
+Modelo central: nvidia/nemotron-3-nano-omni-30b-a3b-reasoning
+OCR: glm-ocr en http://localhost:11434/v1 · embeddings: qwen3-embedding:0.6b
+
+bun test v1.4.3 (c6da4a4d3)
+
+src/ia/ia.spec.ts:
+(pass) IA configuration > defaults are local and offline-safe [2.16ms]
+(pass) IA configuration > remote endpoint without IA_NUBE_ACTIVADA=true fails at startup (RNF-03) [5.57ms]
+(pass) IA configuration > remote endpoint with IA_NUBE_ACTIVADA=true is allowed [0.29ms]
+(pass) IA configuration > malformed integers fail naming the variable [0.15ms]
+(pass) IA configuration > malformed booleans fail naming the variable [0.10ms]
+(pass) IA provider per capability > a capability can point to its own provider, the others keep the default [0.17ms]
+(pass) IA provider per capability > a remote capability without IA_NUBE_ACTIVADA=true fails at startup (RNF-03) [0.12ms]
+(pass) IA provider per capability > the central model goes to its provider while the OCR stays on the plant host [6.54ms]
+(pass) IA provider per capability > the embedding engine sends the configured input_type only when there is one [0.71ms]
+(pass) IA provider per capability > a symmetric provider does not receive input_type [0.36ms]
+(pass) IA provider per capability > the cache does not serve one provider the answer of another [7.03ms]
+(pass) IA transport and engines > llm builds a structured-output chat request with credentials [0.73ms]
+(pass) IA transport and engines > retries a 500 and succeeds within maxRetries [204.14ms]
+(pass) IA transport and engines > does not retry a contract rejection (4xx) [0.75ms]
+(pass) IA transport and engines > caches by content hash: the second identical call pays nothing [0.51ms]
+(pass) IA transport and engines > budget cuts an oversized call before it reaches the provider [0.41ms]
+(pass) IA transport and engines > embedding dimension contract is enforced (vector(768)) [0.49ms]
+(pass) IA transport and engines > embedding request asks the provider for the contracted dimension [0.51ms]
+(pass) IA transport and engines > ocr sends the page as a base64 data URI and rejects empty input [0.61ms]
+(pass) IA transport and engines > non-JSON llm output is an engine error, not a silent pass [3.34ms]
+(pass) IA scoring (SystemOne / Laya) > sends input and labels to the SystemOne endpoint and maps the verdict [2.29ms]
+(pass) IA scoring (SystemOne / Laya) > rejects a label outside the candidate set (no invented families) [0.36ms]
+(pass) IA scoring (SystemOne / Laya) > rejects a verdict without a calibrated shape [0.25ms]
+(pass) IA scoring (SystemOne / Laya) > thresholds classify the cascade (IA.md §3) [0.14ms]
+(pass) IA live integration (IA_LIVE_TEST=1) > embeds a real text at the configured endpoint within the 768 contract [2165.40ms]
+(pass) IA live integration (IA_LIVE_TEST=1) > reads a real page with the configured vision model [102144.73ms]
+(pass) IA live integration (IA_LIVE_TEST=1) > answers with the configured chat model in the requested JSON shape [2463.28ms]
+
+ 27 pass
+ 0 fail
+ 71 expect() calls
+Ran 27 tests across 1 file. [107.05s]
+exit=0
