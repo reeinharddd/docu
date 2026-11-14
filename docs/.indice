@@ -76,6 +76,7 @@ docs/ingenieria/DIAGRAMAS.md
 docs/ingenieria/EMBEDDINGS.md
 docs/ingenieria/EMBEDDINGS-MERCADO.md
 docs/ingenieria/ENTORNO.md
+docs/ingenieria/EVALUACION-EMULADOR-AWS.md
 docs/ingenieria/fichas/CONTRATO.md
 docs/ingenieria/fichas/FICHA-CORREO-HERMANA.md
 docs/ingenieria/fichas/FICHA-ESCANEADO.md
@@ -103,6 +104,7 @@ docs/integraciones/INVESTIGACION-HERRAMIENTAS.md
 docs/integraciones/MCP.md
 docs/operacion/BITACORA.md
 docs/operacion/BOOTSTRAP.md
+docs/operacion/ETAPA-4-PRUEBAS-Y-DESPLIEGUE.md
 docs/plantillas/ADR.md
 docs/plantillas/AGENTS.md
 docs/plantillas/BRIEF.md
